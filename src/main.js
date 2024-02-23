@@ -8,9 +8,8 @@ async function getQuoteData() {
   return await response.json();
 }
 
-document.querySelector('button').addEventListener('click', () => {
+ document.getElementById('quote__btn').addEventListener('click', () => {
   getQuoteData()
     .then(data => console.log(data))
     .catch(err => console.err(err));
-
-});
+}); 
