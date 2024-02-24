@@ -1,6 +1,4 @@
-body {
-  font-family: sans-serif;
-}
+/* RESET */
 
 body, h1, h2, h3, h4, h5, h6, p, ul {
   margin: 0;
@@ -9,6 +7,15 @@ body, h1, h2, h3, h4, h5, h6, p, ul {
 
 button {
   all: unset;
+  cursor: pointer;
+}
+
+button:hover, a:hover {
+  opacity: 0.8;
+}
+
+button:focus { 
+  outline: revert;
 }
 
 * {
@@ -19,34 +26,50 @@ html {
   font-size: 16px;
 }
 
-/* MAIN */
+/* END OF RESET */
+
+/* MATERIAL ICONS */
+
+.material-symbols-outlined {
+  font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* END OF MATERIAL ICONS */
+
+/* BODY AND MAIN */
+
+body {
+  font-family: sans-serif;
+}
 
 main {
   display: flex;
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  gap: 400px;
+  gap: 100px;
+  background-color: #9b59b6;
+  padding: 30px;
+  background-image: url(img/purple-background.jpg);
 }
 
 /* END OF MAIN */
 
-header h1 {
-  position: absolute;
-}
-
 /* QUOTE */
 
 .quote {
-  border: 2px solid grey;
   padding: 40px 50px;
   border-radius: 3px;
   max-width: 600px;
+  background-color: #fff;
 }
 
-.quote__text i {
-  margin: 0 15px 0 0;
-  font-size: 2.25rem;
+.quote__text, .quote__author {
+  color: #593e7f;
+}
+
+.quote__text svg {
+  width: 30px;
   vertical-align: bottom;
 }
 
@@ -65,6 +88,7 @@ header h1 {
 .quote__buttons {
   display: flex;
   justify-content: space-between;
+  color: #fff;
 }
 
 .quote__social {
@@ -77,20 +101,26 @@ header h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
   text-decoration: none;
   width: 40px;
   height: 40px;
   border-radius: 3px;
-  background-color: grey;
-  color: #fff;
+  background-color: #593e7f;
+  color: inherit;
+}
+
+.quote__social-twitter {
+  width: 20px;
+}
+
+.quote__social-tumblr {
+  width: 13px;
 }
 
 .quote__buttons > button {
-  background-color: grey;
+  background-color: #593e7f;
   padding: 0 15px;
   border-radius: 3px;
-  color: #fff;
 }
 
 /* END OF QUOTE */
@@ -98,19 +128,24 @@ header h1 {
 /* _TODO */
 
 .todo {
-  border: 2px solid grey;
   font-size: 1.35rem;
   max-width: 600px;
   width: 100%;
   border-radius: 3px;
-  display: none;
+  background-color: #fff;
+  padding: 30px;
+  max-height: 800px;
+  overflow-y: scroll;
 }
 
 .todo__intro {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 20px;
-  padding: 30px;
+  background-color: #ecdeff;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0 0 20px 0;
 }
 
 .todo__intro-buttons {
@@ -121,7 +156,7 @@ header h1 {
 }
 
 .todo__intro-buttons > button {
-  background-color: grey;
+  background-color: #593e7f;
   border-radius: 5px;
   color: #fff;
   padding: 10px;
@@ -129,7 +164,14 @@ header h1 {
 
 .todo__intro-buttons > button:nth-of-type(1) {
   grid-row: span 2;
-  font-size: 1.15em;
+}
+
+.todo__intro-buttons svg {
+  width: 1.3em;
+}
+
+.todo__intro-buttons > button:nth-of-type(1) > svg {
+  width: 1.6em;
 }
 
 .todo__info {
@@ -137,6 +179,7 @@ header h1 {
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .todo__info > p:first-child {
@@ -144,8 +187,7 @@ header h1 {
 }
 
 .todo__sections {
-  background-color: #f9617a;
-  padding: 10px;
+  margin: 0 0 40px 0;
 }
 
 .todo__sections > button {
@@ -166,26 +208,28 @@ header h1 {
 
 .todo__todos-container {
   list-style-type: none;
-  padding: 30px;
 }
 
 .todo__todos-container > li {
-  border: 2px solid grey;
+  background-color: #593e7f;
   padding: 20px;
-  border-radius: 3px;
+  border-radius: 5px;
+  color: #fff;
+  margin: 0 0 20px 0;
 }
 
-.todo__todos-container h3 {
-  margin: 0 0 10px 0;
+.todo__task-name {
+  margin: 0 0 5px 0;
 }
 
-.todo__todos-container p:nth-of-type(1) {
+.todo__task-date {
   opacity: 0.8;
-  margin: 0 0 5px;
+  margin: 0 0 15px;
+  color: #ecdeff;
 }
 
-.todo__todos-container p:nth-of-type(2) {
-  margin: 0 0 25px;
+.todo__task-desc {
+  margin: 0 0 25px 0;
 }
 
 .todo__edit-buttons {
@@ -194,9 +238,38 @@ header h1 {
   justify-content: space-between;
 }
 
-.todo__edit-buttons > div > button:first-child {
-  margin: 0 10px 0 0;
+.todo__edit-buttons span {
+  font-size: 1.45em;
+}
+
+.todo__edit-buttons div button:nth-of-type(2) span {
+  font-size: 1.5em;
+}
+
+.todo__edit-buttons div {
+  letter-spacing: 5px;
 }
 
 /* END OF TODO*/
 
+
+.test-colors {
+  color: #16a085;
+  color: #27ae60;
+  color: #2c3e50;
+  color: #f39c12;
+  color: #e74c3c;
+  color: #9b59b6;
+  color: #FB6964;
+  color: #342224;
+  color: #472E32;
+  color: #BDBB99;
+  color: #77B1A9;
+  color: #73A857;
+}
+
+@media screen and (max-width: 1000px) {
+  main {
+    flex-flow: column;
+  }
+}
