@@ -6,16 +6,23 @@ body, h1, h2, h3, h4, h5, h6, p, ul {
 }
 
 button {
-  all: unset;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+button, input, textarea {
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
   cursor: pointer;
 }
 
 button:hover, a:hover {
   opacity: 0.8;
-}
-
-button:focus { 
-  outline: revert;
 }
 
 * {
@@ -76,13 +83,13 @@ main {
 .quote__text {
   display: flex;
   font-size: 1.75rem;
-  margin: 0 0 25px 0;
+  margin: 0 0 25px;
   text-align: center;
 }
 
 .quote__author {
   text-align: end;
-  margin: 0 0 40px 0;
+  margin: 0 0 40px;
 }
 
 .quote__buttons {
@@ -145,7 +152,9 @@ main {
   background-color: #ecdeff;
   padding: 10px;
   border-radius: 5px;
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .todo__intro-buttons {
@@ -187,7 +196,7 @@ main {
 }
 
 .todo__sections {
-  margin: 0 0 40px 0;
+  margin: 0 0 40px;
 }
 
 .todo__sections > button {
@@ -215,11 +224,11 @@ main {
   padding: 20px;
   border-radius: 5px;
   color: #fff;
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
 }
 
 .todo__task-name {
-  margin: 0 0 5px 0;
+  margin: 0 0 5px;
 }
 
 .todo__task-date {
@@ -229,7 +238,7 @@ main {
 }
 
 .todo__task-desc {
-  margin: 0 0 25px 0;
+  margin: 0 0 25px;
 }
 
 .todo__edit-buttons {
@@ -249,6 +258,81 @@ main {
 .todo__edit-buttons div {
   letter-spacing: 5px;
 }
+
+/* ADD TODO PROMPT */
+
+.todo__add-todo-prompt {
+  position: relative;
+  background-color: #593e7f;
+  border-radius: 5px;
+  margin: 0 0 20px;
+  overflow: hidden;
+  max-height: 0;
+  transform: translateY(-150px);
+  transition: max-height 1.5s, transform .5s;
+}
+
+.todo__add-todo-prompt form {
+  padding: 30px;
+}
+
+.todo__add-todo-prompt label {
+  display: block;
+  color: #fff;
+  margin: 0 0 10px;
+}
+
+.todo__add-todo-prompt input, .todo__add-todo-prompt textarea {
+  border: none;
+  padding: 10px;
+}
+
+.todo__add-todo-prompt input {
+  width: 100%;
+  border-radius: 3px;
+  margin: 0 0 25px;
+  background-color: #ecdeff;
+}
+
+.todo__add-todo-prompt textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+  max-height: 250px;
+  border-radius: 3px;
+  margin: 0 0 25px;
+}
+
+.todo__add-todo-prompt__cancel-btn {
+  position: absolute;
+  color: #fff;
+  top: 10px;
+  right: 10px;
+  line-height: 0;
+}
+
+.todo__add-todo-prompt__cancel-btn span {
+  font-size: 1.5em;
+}
+
+.todo__add-todo-prompt__cancel-btn:hover {
+  opacity: 1;
+}
+
+.todo__add-todo-prompt__cancel-btn:hover span {
+  font-variation-settings:'FILL' 1;
+}
+
+.todo__add-todo-prompt__submit-btn {
+  background-color: #b259b6;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  width: 100%;
+}
+
+/* END OF ADD TODO PROMPT*/
 
 /* END OF TODO*/
 
