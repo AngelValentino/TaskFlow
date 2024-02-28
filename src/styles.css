@@ -1,8 +1,9 @@
 /* RESET */
 
-body, h1, h2, h3, h4, h5, h6, p, ul {
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 button {
@@ -23,10 +24,6 @@ button {
 
 button:hover, a:hover {
   opacity: 0.8;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 html {
@@ -132,9 +129,9 @@ main {
 
 /* END OF QUOTE */
 
-/* _TODO */
+/* _TODO APP */
 
-.todo {
+.todo-app {
   font-size: 1.35rem;
   max-width: 600px;
   width: 100%;
@@ -145,7 +142,9 @@ main {
   overflow-y: scroll;
 }
 
-.todo__intro {
+/* _TODO APP INTRO */
+
+.todo-app-intro {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 20px;
@@ -157,33 +156,35 @@ main {
   z-index: 1;
 }
 
-.todo__intro-buttons {
+.todo-app-intro__buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   text-align: center;
 }
 
-.todo__intro-buttons > button {
+.todo-app-intro__add-btn, 
+.todo-app-intro__search-btn,
+.todo-app-intro__clear-btn {
   background-color: #593e7f;
   border-radius: 5px;
   color: #fff;
   padding: 10px;
 }
 
-.todo__intro-buttons > button:nth-of-type(1) {
+.todo-app-intro__add-btn {
   grid-row: span 2;
 }
 
-.todo__intro-buttons svg {
+.todo-app-intro__buttons svg {
   width: 1.3em;
 }
 
-.todo__intro-buttons > button:nth-of-type(1) > svg {
+.todo-app-intro__add-btn > svg {
   width: 1.6em;
 }
 
-.todo__info {
+.todo-app-intro__info {
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -191,35 +192,43 @@ main {
   text-align: center;
 }
 
-.todo__info > p:first-child {
+.todo-app-intro__info > p:first-child {
   font-weight: bold;
 }
 
-.todo__sections {
+/* END OF TODO APP INTRO*/
+
+/* _TODO APP SECTIONS */
+
+.todo-sections {
   margin: 0 0 40px;
 }
 
-.todo__sections > button {
+.todo-sections > button {
   background-color: #efefef;
   padding: 12px;
   border-radius: 50px;
   font-size: 0.67em;
 }
 
-.todo__sections h2 {
+.todo-sections h2 {
   font-weight: normal;
 }
 
-.todo__sections > button:first-child {
+.todo-sections > button:first-child {
   background-color: #000;
   color: #fff;
 }
 
-.todo__todos-container {
+/* END OF TODO APP SECTIONS*/
+
+/* START OF TODOS CONTAINER */
+
+.todos-container {
   list-style-type: none;
 }
 
-.todo__todos-container > li {
+.todos-container > li {
   background-color: #593e7f;
   padding: 20px;
   border-radius: 5px;
@@ -259,42 +268,43 @@ main {
   letter-spacing: 5px;
 }
 
+/* END OF TODOS CONTAINER */
+
 /* ADD TODO PROMPT */
 
-.todo__add-todo-prompt {
+.todo-app-prompt {
   position: relative;
   background-color: #593e7f;
   border-radius: 5px;
-  margin: 0 0 20px;
   overflow: hidden;
   max-height: 0;
   transform: translateY(-150px);
-  transition: max-height 1.5s, transform .5s;
+  transition: max-height 1.5s, transform .5s, margin 0.5s;
 }
 
-.todo__add-todo-prompt form {
-  padding: 30px;
+.todo-app-prompt form {
+  padding: 35px 30px;
 }
 
-.todo__add-todo-prompt label {
+.todo-app-prompt label {
   display: block;
   color: #fff;
   margin: 0 0 10px;
 }
 
-.todo__add-todo-prompt input, .todo__add-todo-prompt textarea {
+.todo-app-prompt input, .todo-app-prompt textarea {
   border: none;
   padding: 10px;
 }
 
-.todo__add-todo-prompt input {
+.todo-app-prompt input {
   width: 100%;
   border-radius: 3px;
   margin: 0 0 25px;
   background-color: #ecdeff;
 }
 
-.todo__add-todo-prompt textarea {
+.todo-app-prompt textarea {
   display: block;
   width: 100%;
   resize: vertical;
@@ -304,7 +314,7 @@ main {
   margin: 0 0 25px;
 }
 
-.todo__add-todo-prompt__cancel-btn {
+.todo-app-prompt__cancel-btn {
   position: absolute;
   color: #fff;
   top: 10px;
@@ -312,19 +322,19 @@ main {
   line-height: 0;
 }
 
-.todo__add-todo-prompt__cancel-btn span {
+.todo-app-prompt__cancel-btn span {
   font-size: 1.5em;
 }
 
-.todo__add-todo-prompt__cancel-btn:hover {
+.todo-app-prompt__cancel-btn:hover {
   opacity: 1;
 }
 
-.todo__add-todo-prompt__cancel-btn:hover span {
+.todo-app-prompt__cancel-btn:hover span {
   font-variation-settings:'FILL' 1;
 }
 
-.todo__add-todo-prompt__submit-btn {
+.todo-app-prompt__submit-btn {
   background-color: #b259b6;
   padding: 10px;
   border-radius: 5px;
@@ -332,11 +342,23 @@ main {
   width: 100%;
 }
 
-/* END OF ADD TODO PROMPT*/
+/* END OF ADD TODO PROMPT */
 
-/* END OF TODO*/
+/* END OF TODO APP */
 
+/* MODIFIERS */
 
+.todo-app-prompt--active {
+  max-height: 1000px;
+  transform: translateY(0px);
+  margin: 0 0 20px;
+}
+
+.btn--active {
+  background-color: #b259b6;
+}
+
+/* END MODIFIERS */
 .test-colors {
   color: #16a085;
   color: #27ae60;

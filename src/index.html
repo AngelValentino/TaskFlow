@@ -29,39 +29,42 @@
         <button id="quote__btn" type="button">New quote</button>
       </div>
     </article>
-    <article class="todo">
-      <div class="todo__intro">
-        <div class="todo__info">
+    <article class="todo-app">
+      <div class="todo-app-intro">
+        <div class="todo-app-intro__info">
           <p>4th March 2026</p>
           <p>0 tasks left</p>
         </div>
-        <div class="todo__intro-buttons">
-          <button id="todo__intro-add-btn" aria-label="Add new todo." type="button">
+        <div class="todo-app-intro__buttons">
+          <button class="todo-app-intro__add-btn" id="todo-app-intro__add-btn" type="button" aria-label="Add new todo." aria-controls="todo-app-prompt" aria-expanded="false">
             <svg aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
           </button>
-          <button id="todo__intro-search-btn" aria-label="Seach todo." type="button">
+          <button class="todo-app-intro__search-btn" id="todo-app-intro__search-btn" aria-label="Seach todo." type="button">
             <svg aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
           </button>
-          <button id="todo__intro-clear-btn" aria-label="Clear all todos." type="button">
+          <button class="todo-app-intro__clear-btn" id="todo-app-intro__clear-btn" aria-label="Clear all todos." type="button">
             <svg aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6v29.1L364.3 320h29.1c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z"/></svg>
           </button>
         </div>
       </div>
-      <div id="todo__add-todo-prompt" class="todo__add-todo-prompt">
+      <div id="todo-app-prompt" class="todo-app-prompt" role="region" aria-labelledby="todo-app-prompt__submit-btn" hidden>
         <form>
-          <button aria-label="Close add todo prompt." type="button" class="todo__add-todo-prompt__cancel-btn">
+          <button aria-label="Close add new todo prompt." type="button" class="todo-app-prompt__cancel-btn" id="todo-app-prompt__cancel-btn">
             <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
           </button>
-          <label for="todo__add-todo-prompt__task">Task*</label>
-          <input type="text" name="todo__add-todo-prompt__task" id="todo__add-todo-prompt__task"/>
-          <label for="todo__add-todo-prompt__date">Date</label>
-          <input type="date" name="todo__add-todo-prompt__date" id="todo__add-todo-prompt__date"/>
-          <label for="todo__add-todo-prompt__desc">Description</label>
-          <textarea name="todo__add-todo-prompt__desc" id="todo__add-todo-prompt__desc" rows="7"></textarea>
-          <button class="todo__add-todo-prompt__submit-btn" type="submit">Add new todo</button>
+          <label for="todo-app-prompt__task">
+            Task
+            <span aria-hidden="true">*</span>
+          </label>
+          <input required type="text" name="todo-app-prompt__task" id="todo-app-prompt__task" aria-required="true"/>
+          <label for="todo-app-prompt__date">Date</label>
+          <input type="date" name="todo-app-prompt__date" id="todo-app-prompt__date"/>   
+          <label for="todo-app-prompt__desc">Description</label>
+          <textarea name="todo-app-prompt__desc" id="todo-app-prompt__desc" rows="7"></textarea>
+          <button id="todo-app-prompt__submit-btn" class="todo-app-prompt__submit-btn" type="submit">Add new todo</button>
         </form>
       </div>
-      <div class="todo__sections">
+      <div class="todo-sections">
         <button type="button">
           <h2>All</h2>
         </button>
@@ -72,8 +75,8 @@
           <h2>Completed</h2>
         </button>
       </div>
-      <ul class="todo__todos-container">
-        <li>
+      <ul class="todos-container">
+        <li class="todo">
           <h3 class="todo__task-name">Task 1</h3>
           <p class="todo__task-date">09/03/2024</p>
           <p class="todo__task-desc">End the todo quotes project app.</p>
@@ -91,7 +94,7 @@
             </div>
           </div>
         </li>
-        <li>
+        <li class="todo">
           <h3 class="todo__task-name">Task 2</h3>
           <p class="todo__task-date">09/03/2024</p>
           <p class="todo__task-desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia fuga provident similique hic dolor sequi quibusdam fugit nostrum odio! Laudantium autem praesentium placeat aperiam. A suscipit mollitia quasi sit quibusdam, laborum laboriosam distinctio earum nisi! Atque sequi similique maiores! Voluptatum.</p>
@@ -109,7 +112,7 @@
             </div>
           </div>
         </li>
-        <li>
+        <li class="todo">
           <h3 class="todo__task-name">Task 3</h3>
           <p class="todo__task-date">09/03/2024</p>
           <p class="todo__task-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, facilis! Voluptatum officiis inventore, sequi natus expedita consequatur, minima aspernatur itaque dignissimos ad, porro suscipit qui eligendi vero eius a cum consequuntur harum enim cumque quia debitis et! Unde nemo temporibus nostrum aliquid doloribus aut minus, incidunt ducimus enim rerum iusto commodi deserunt est quidem in autem molestias quisquam tempore, debitis vitae obcaecati natus! Unde reiciendis quod ea voluptas, ad modi, exercitationem quam earum illo blanditiis distinctio. Et aperiam non amet.</p>

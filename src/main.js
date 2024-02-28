@@ -1,4 +1,4 @@
-const addTodoBtnLm = document.getElementById('todo__intro-add-btn');
+const addTodoBtnLm = document.getElementById('todo-app-intro__add-btn');
 const refreshQuoteBtn = document.getElementById('quote__btn');
 
 async function getQuoteData() {
@@ -11,32 +11,73 @@ async function getQuoteData() {
   return await response.json();
 }
 
-function addTodoPrompt() {
+function checkActiveBtn(e) {
+  e.currentTarget.classList.add('btn--active');
+};
 
-  //refactor this into proper code
-  //close icon closes prompt
-  //sbmit gets the info and closes prompt
-  //form validation
-  const addTodoPromptLm = document.getElementById('todo__add-todo-prompt');
+function uncheckActiveBtn(e) {
+  console.log(e.currentTarget)
+  e.currentTarget.classList.remove('btn--active');
+}
 
-  addTodoPromptLm.classList.toggle('todo__add-todo-prompt--active');
+function showPrompt(hideTmId, promptLm, btnLm) {
+  clearTimeout(hideTmId);
+  promptLm.removeAttribute('hidden');
+  btnLm.setAttribute('aria-expanded', true);
+  setTimeout(() => {
+    promptLm.classList.add('todo-app-prompt--active');
+  }, 0);
+}
 
-  if (addTodoPromptLm.matches('.todo__add-todo-prompt--active')) {
-    addTodoPromptLm.style.maxHeight = '1000px';
-    addTodoBtnLm.style.backgroundColor = "#b259b6";
-    addTodoPromptLm.style.transform = 'translateY(0px)';
+function hidePrompt(promptLm, btnLm) {
+  promptHideTmId = setTimeout(() => {
+    promptLm.setAttribute('hidden', '');
+  }, 1500);
+  btnLm.setAttribute('aria-expanded', false);
+  promptLm.classList.remove('todo-app-prompt--active');
+}
+
+let promptHideTmId;
+let promptHideTmId2;
+
+
+function addTodoPrompt(e) {
+
+  console.log(promptHideTmId, promptHideTmId2)
+  const todoAppPromptLm = document.getElementById('todo-app-prompt');
+  const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
+  
+  //add a click event to close icon everytime prompt button is clicked
+  //hide prompt when close icon is clicked
+  //remove click event when prompt is hidden
+
+  closePromptBtn.addEventListener('click', () => {
+    promptHideTmId2 = setTimeout(() => {
+      todoAppPromptLm.setAttribute('hidden', '');
+    }, 1500);
+    closePromptBtn.setAttribute('aria-expanded', false);
+    todoAppPromptLm.classList.remove('todo-app-prompt--active');
+
+  });
+
+  if (todoAppPromptLm.matches('.todo-app-prompt--active')) {
+    hidePrompt(todoAppPromptLm, addTodoBtnLm);
+    uncheckActiveBtn(e);
   } 
   else {
-    addTodoPromptLm.style.maxHeight = 0;
-    addTodoBtnLm.style.backgroundColor = "#593e7f";
-    addTodoPromptLm.style.transform = 'translateY(-150px)';
+    showPrompt(promptHideTmId, todoAppPromptLm, addTodoBtnLm);
+    checkActiveBtn(e);
+    clearTimeout(promptHideTmId2);
   }
 }
 
-addTodoBtnLm.addEventListener('click', addTodoPrompt);
+addTodoBtnLm.addEventListener('click', (e) => {
+  addTodoPrompt(e);
+});
 
 refreshQuoteBtn.addEventListener('click', () => {
   getQuoteData()
     .then(data => console.log(data))
     .catch(err => console.err(err));
 }); 
+
