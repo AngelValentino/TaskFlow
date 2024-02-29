@@ -37,9 +37,18 @@ function hidePrompt(promptLm, btnLm) {
   promptLm.classList.remove('todo-app-prompt--active');
 }
 
+function hidePromptTest(promptLm, closePromptBtn, wrappingFunction) {
+  closePromptBtn.removeEventListener('click', wrappingFunction);
+  promptHideTmId2 = setTimeout(() => {
+    promptLm.setAttribute('hidden', '');
+  }, 1500);
+  promptLm.classList.remove('todo-app-prompt--active');
+  clearTimeout(promptHideTmId2);
+  addTodoBtnLm.classList.remove('btn--active');
+}
+
 let promptHideTmId;
 let promptHideTmId2;
-
 
 function addTodoPrompt(e) {
 
@@ -47,24 +56,25 @@ function addTodoPrompt(e) {
   const todoAppPromptLm = document.getElementById('todo-app-prompt');
   const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
   
-  //add a click event to close icon everytime prompt button is clicked
-  //hide prompt when close icon is clicked
-  //remove click event when prompt is hidden
+  function wrappingFunction() {
+    hidePromptTest(todoAppPromptLm, closePromptBtn, wrappingFunction)
+  }
+  
 
-  closePromptBtn.addEventListener('click', () => {
-    promptHideTmId2 = setTimeout(() => {
-      todoAppPromptLm.setAttribute('hidden', '');
-    }, 1500);
-    closePromptBtn.setAttribute('aria-expanded', false);
-    todoAppPromptLm.classList.remove('todo-app-prompt--active');
+  //Refactor functions into cleaner reusable code.
+  //Add form validation.
+  //Add search prompt.
+  //Add clear modal.
+  //Add todos data.
 
-  });
 
   if (todoAppPromptLm.matches('.todo-app-prompt--active')) {
     hidePrompt(todoAppPromptLm, addTodoBtnLm);
     uncheckActiveBtn(e);
+    closePromptBtn.removeEventListener('click', wrappingFunction);
   } 
   else {
+    closePromptBtn.addEventListener('click', wrappingFunction);
     showPrompt(promptHideTmId, todoAppPromptLm, addTodoBtnLm);
     checkActiveBtn(e);
     clearTimeout(promptHideTmId2);
