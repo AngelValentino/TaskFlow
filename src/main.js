@@ -1,24 +1,28 @@
 const addTodoBtnLm = document.getElementById('todo-app-intro__add-btn');
 const refreshQuoteBtn = document.getElementById('quote__btn');
+const timsIntroBtns = {};
+
+  //Add form validation.
+  //Add search prompt.
+  //Add clear modal.
+  //Add todos data.
 
 async function getQuoteData() {
   const response = await  fetch('/.netlify/functions/fetch-data');
-
   if (response.status !== 200) {
     throw new Error("Could't fetch the data");
   }
-
   return await response.json();
 }
 
-function checkActiveBtn(e) {
-  e.currentTarget.classList.add('btn--active');
+function checkActiveBtn(btnLm) {
+  if (btnLm.getAttribute('aria-expanded') === 'false') {
+    btnLm.classList.add('btn--active');
+  } 
+  else {  
+    btnLm.classList.remove('btn--active');
+  }
 };
-
-function uncheckActiveBtn(e) {
-  console.log(e.currentTarget)
-  e.currentTarget.classList.remove('btn--active');
-}
 
 function showPrompt(hideTmId, promptLm, btnLm) {
   clearTimeout(hideTmId);
@@ -29,60 +33,45 @@ function showPrompt(hideTmId, promptLm, btnLm) {
   }, 0);
 }
 
-function hidePrompt(promptLm, btnLm) {
-  promptHideTmId = setTimeout(() => {
+function setHideTim(timeoutId, promptLm) {
+  timsIntroBtns[timeoutId] = setTimeout(() => {
     promptLm.setAttribute('hidden', '');
   }, 1500);
+}
+
+function hidePrompt(promptLm, btnLm, closeBtnLm, wrappingFunction) {
+  closeBtnLm.removeEventListener('click', wrappingFunction);
   btnLm.setAttribute('aria-expanded', false);
   promptLm.classList.remove('todo-app-prompt--active');
 }
 
-function hidePromptTest(promptLm, closePromptBtn, wrappingFunction) {
-  closePromptBtn.removeEventListener('click', wrappingFunction);
-  promptHideTmId2 = setTimeout(() => {
-    promptLm.setAttribute('hidden', '');
-  }, 1500);
-  promptLm.classList.remove('todo-app-prompt--active');
-  clearTimeout(promptHideTmId2);
-  addTodoBtnLm.classList.remove('btn--active');
-}
-
-let promptHideTmId;
-let promptHideTmId2;
-
-function addTodoPrompt(e) {
-
-  console.log(promptHideTmId, promptHideTmId2)
+function addTodoPrompt() {
+  //animations broken
   const todoAppPromptLm = document.getElementById('todo-app-prompt');
   const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
-  
+
   function wrappingFunction() {
-    hidePromptTest(todoAppPromptLm, closePromptBtn, wrappingFunction)
+    console.log('wrapper')
+    checkActiveBtn(addTodoBtnLm);
+    setHideTim('promptHideTmId2', todoAppPromptLm)
+    hidePrompt(todoAppPromptLm, addTodoBtnLm, closePromptBtn, wrappingFunction);
   }
-  
 
-  //Refactor functions into cleaner reusable code.
-  //Add form validation.
-  //Add search prompt.
-  //Add clear modal.
-  //Add todos data.
-
+  checkActiveBtn(addTodoBtnLm);
 
   if (todoAppPromptLm.matches('.todo-app-prompt--active')) {
-    hidePrompt(todoAppPromptLm, addTodoBtnLm);
-    uncheckActiveBtn(e);
-    closePromptBtn.removeEventListener('click', wrappingFunction);
+    setHideTim('promptHideTmId', todoAppPromptLm)
+    hidePrompt(todoAppPromptLm, addTodoBtnLm, closePromptBtn, wrappingFunction);
   } 
   else {
+    showPrompt(timsIntroBtns.promptHideTmId, todoAppPromptLm, addTodoBtnLm);
+    clearTimeout(timsIntroBtns.promptHideTmId2);
     closePromptBtn.addEventListener('click', wrappingFunction);
-    showPrompt(promptHideTmId, todoAppPromptLm, addTodoBtnLm);
-    checkActiveBtn(e);
-    clearTimeout(promptHideTmId2);
   }
 }
 
-addTodoBtnLm.addEventListener('click', (e) => {
-  addTodoPrompt(e);
+addTodoBtnLm.addEventListener('click', () => {
+  addTodoPrompt();
 });
 
 refreshQuoteBtn.addEventListener('click', () => {
