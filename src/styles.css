@@ -344,6 +344,43 @@ main {
 
 /* END OF ADD TODO PROMPT */
 
+/* SEARCH TODO PROMPT */
+
+.search-todo-prompt {
+  border-radius: 5px;
+  overflow: hidden;
+  transform: translateX(-600px);
+  max-height: 0;
+  transition: max-height 1.25s , transform 1.25s;
+}
+
+.search-todo-prompt__form {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 10px;
+  padding: 15px 50px 30px;
+}
+
+.search-todo-prompt__form button {
+  background-color: #593e7f;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.search-todo-prompt__form svg {
+  width: 30px;
+}
+
+.search-todo-prompt__form input {
+  width: 100%;
+  border: 2px solid #9b59b6;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+/* END OF ADD TODO PROMPT */
+
 /* END OF TODO APP */
 
 /* MODIFIERS */
@@ -356,6 +393,11 @@ main {
 
 .btn--active {
   background-color: #b259b6;
+}
+
+.search-todo-prompt--active {
+  max-height: 1000px;
+  transform: translateX(0px);
 }
 
 /* END MODIFIERS */
@@ -377,5 +419,12 @@ main {
 @media screen and (max-width: 1000px) {
   main {
     flex-flow: column;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .search-todo-prompt__form {
+    grid-template-columns: 1fr;
+    padding: 15px 25px 30px;
   }
 }

@@ -1,9 +1,11 @@
 const addTodoBtnLm = document.getElementById('todo-app-intro__add-btn');
+const searchTodoBtnLm = document.getElementById('todo-app-intro__search-btn');
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const timsIntroBtns = {};
+let clicks = 0;
 
-  //Add form validation.
   //Add search prompt.
+  //Add form validation.
   //Add clear modal.
   //Add todos data.
 
@@ -44,10 +46,8 @@ function hidePrompt(promptLm, btnLm) {
   promptLm.classList.remove('todo-app-prompt--active');
 }
 
-let clicks = 0;
-
 function showTodoPrompt() {
-  clicks++
+  clicks++;
   const todoAppPromptLm = document.getElementById('todo-app-prompt');
   const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
 
@@ -60,20 +60,29 @@ function showTodoPrompt() {
   else {
     showPrompt(timsIntroBtns.promptHideTmId, todoAppPromptLm, addTodoBtnLm);
     clearTimeout(timsIntroBtns.promptHideTmId2);
-    if (clicks <= 1) {
+    if (clicks === 1) {
       closePromptBtn.addEventListener('click', () => {
         clicks = 0;
         checkActiveBtn(addTodoBtnLm);
         setHideTim('promptHideTmId2', todoAppPromptLm)
         hidePrompt(todoAppPromptLm, addTodoBtnLm);
-      }, {capture: true, once: true});
+      }, {once: true});
     }
   }
 }
 
-addTodoBtnLm.addEventListener('click', () => {
-  showTodoPrompt();
-});
+function showTodoSearchPrompt() {
+  const searchTodoPromptLm = document.getElementById('search-todo-prompt');
+  
+  searchTodoPromptLm.classList.toggle('search-todo-prompt--active')
+
+  // conect animation to add todo prompt
+  // add accessibility
+}
+
+addTodoBtnLm.addEventListener('click', showTodoPrompt);
+
+searchTodoBtnLm.addEventListener('click', showTodoSearchPrompt);
 
 refreshQuoteBtn.addEventListener('click', () => {
   getQuoteData()
