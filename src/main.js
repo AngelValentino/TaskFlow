@@ -39,39 +39,40 @@ function setHideTim(timeoutId, promptLm) {
   }, 1500);
 }
 
-function hidePrompt(promptLm, btnLm, closeBtnLm, wrappingFunction) {
-  closeBtnLm.removeEventListener('click', wrappingFunction);
+function hidePrompt(promptLm, btnLm) {
   btnLm.setAttribute('aria-expanded', false);
   promptLm.classList.remove('todo-app-prompt--active');
 }
 
-function addTodoPrompt() {
-  //animations broken
+let clicks = 0;
+
+function showTodoPrompt() {
+  clicks++
   const todoAppPromptLm = document.getElementById('todo-app-prompt');
   const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
-
-  function wrappingFunction() {
-    console.log('wrapper')
-    checkActiveBtn(addTodoBtnLm);
-    setHideTim('promptHideTmId2', todoAppPromptLm)
-    hidePrompt(todoAppPromptLm, addTodoBtnLm, closePromptBtn, wrappingFunction);
-  }
 
   checkActiveBtn(addTodoBtnLm);
 
   if (todoAppPromptLm.matches('.todo-app-prompt--active')) {
-    setHideTim('promptHideTmId', todoAppPromptLm)
-    hidePrompt(todoAppPromptLm, addTodoBtnLm, closePromptBtn, wrappingFunction);
+    setHideTim('promptHideTmId', todoAppPromptLm);
+    hidePrompt(todoAppPromptLm, addTodoBtnLm);
   } 
   else {
     showPrompt(timsIntroBtns.promptHideTmId, todoAppPromptLm, addTodoBtnLm);
     clearTimeout(timsIntroBtns.promptHideTmId2);
-    closePromptBtn.addEventListener('click', wrappingFunction);
+    if (clicks <= 1) {
+      closePromptBtn.addEventListener('click', () => {
+        clicks = 0;
+        checkActiveBtn(addTodoBtnLm);
+        setHideTim('promptHideTmId2', todoAppPromptLm)
+        hidePrompt(todoAppPromptLm, addTodoBtnLm);
+      }, {capture: true, once: true});
+    }
   }
 }
 
 addTodoBtnLm.addEventListener('click', () => {
-  addTodoPrompt();
+  showTodoPrompt();
 });
 
 refreshQuoteBtn.addEventListener('click', () => {
