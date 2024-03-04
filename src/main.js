@@ -1,13 +1,38 @@
-const addTodoBtnLm = document.getElementById('todo-app-intro__add-btn');
-const searchTodoBtnLm = document.getElementById('todo-app-intro__search-btn');
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const timsIntroBtns = {};
-let clicks = 0;
+let addTodoBtnClicks = 0;
+
+const introPrompts = {
+  addTodoPrompt: {
+    btnLm: document.getElementById('todo-app-intro__add-btn'),
+    promptLm: document.getElementById('todo-app-prompt'),
+    closeBtn: document.getElementById('todo-app-prompt__cancel-btn'),
+    activeClass: 'todo-app-prompt--active',
+    timeout: {
+      lastPromptTim: 'promptToSearchTim',
+      currentTim: 'addTodoTim',
+      time: 1500
+    }
+  }, 
+  searchTodoPrompt: {
+    btnLm: document.getElementById('todo-app-intro__search-btn'),
+    promptLm: document.getElementById('search-todo-prompt'),
+    activeClass: 'search-todo-prompt--active',
+    timeout: {
+      lastPromptTim: 'searchToPromptTim',
+      currentTim: 'searchTim',
+      time: 1250
+    }
+  }
+};
 
 // Todo next week
 
-  // Refactor the showPrompt and hidePrompt into togglePrompt to achieve reusability with all the todo-intro__buttons prompts.
-  // Connect showAddPrompt and showSearchPrompt animations so only one prompt can be shown at once.
+
+/* Completed interlinked prompt animations.
+  //Refactor the showPrompt and hidePrompt into togglePrompt to achieve reusability with all the todo-intro__buttons prompts.
+  //Connect showAddPrompt and showSearchPrompt animations so only one prompt can be shown at once. 
+*/
 
   // Form validation; There must be at least a title to send the form.
   // If information is added to the add todo prompt and is closed, a confirmation modal will appear to make sure if the user wants to discard the changes. This also has to work interchangeably with the search prompt, as the animations will be interlinked.
@@ -27,6 +52,7 @@ let clicks = 0;
 
   // Implement remove task and render HTML seamlessly
 
+
 // Todo next week
 
 async function getQuoteData() {
@@ -40,114 +66,92 @@ async function getQuoteData() {
 function checkActiveBtn(btnLm) {
   if (btnLm.getAttribute('aria-expanded') === 'false') {
     btnLm.classList.add('btn--active');
-    console.log('if')
   } 
   else {  
     btnLm.classList.remove('btn--active');
-    console.log('else')
   }
 };
 
-function showPrompt(hideTmId, promptLm, btnLm) {
-  clearTimeout(hideTmId);
+function showPrompt(promptLm, btnLm, classToAdd) {
   promptLm.removeAttribute('hidden');
   btnLm.setAttribute('aria-expanded', true);
   setTimeout(() => {
-    promptLm.classList.add('todo-app-prompt--active');
-  }, 0);
+    promptLm.classList.add(classToAdd);
+  });
 }
 
-function setHideTim(timeoutId, promptLm) {
+function setHideTim(timeoutId, promptLm, time) {
   timsIntroBtns[timeoutId] = setTimeout(() => {
     promptLm.setAttribute('hidden', '');
-  }, 1500);
+  }, time);
 }
 
-function hidePrompt(promptLm, btnLm) {
+function hidePrompt(promptLm, btnLm, classToRemove) {
   btnLm.setAttribute('aria-expanded', false);
-  promptLm.classList.remove('todo-app-prompt--active');
+  promptLm.classList.remove(classToRemove);
 }
 
-//refactor all of this into togglePrompt
-
-let promptToSearchTim;
-let searchToPromptTim;
-const todoAppPromptLm = document.getElementById('todo-app-prompt');
-const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
-const searchTodoPromptLm = document.getElementById('search-todo-prompt');
-
-function showTodoPrompt() {
-  clicks++;
-
-  checkActiveBtn(addTodoBtnLm);
-
-  if (searchTodoBtnLm.matches('.btn--active')) {
-    promptToSearchTim = setTimeout(() => {
-      searchTodoPromptLm.setAttribute('hidden', '');
-    }, 1500);
-    checkActiveBtn(searchTodoBtnLm);
-    searchTodoBtnLm.setAttribute('aria-expanded', false);
-    searchTodoPromptLm.classList.remove('search-todo-prompt--active');
-    //addTodoBtnLm.classList.remove('btn--active');
-  }
-
-  if (todoAppPromptLm.matches('.todo-app-prompt--active')) {
-    setHideTim('promptHideTmId', todoAppPromptLm);
-    hidePrompt(todoAppPromptLm, addTodoBtnLm);
-  } 
-  else {
-    showPrompt(timsIntroBtns.promptHideTmId, todoAppPromptLm, addTodoBtnLm);
-    clearTimeout(searchToPromptTim);
-    clearTimeout(timsIntroBtns.promptHideTmId2);
-    if (clicks === 1) {
-      closePromptBtn.addEventListener('click', () => {
-        clicks = 0;
-        checkActiveBtn(addTodoBtnLm);
-        setHideTim('promptHideTmId2', todoAppPromptLm)
-        hidePrompt(todoAppPromptLm, addTodoBtnLm);
-      }, {once: true});
+function clearAllIntroBtnsTims(lastActiveTim) {
+  for (const timKey in timsIntroBtns) {
+    if (timKey !== lastActiveTim) {
+      clearTimeout(timsIntroBtns[timKey]);
     }
   }
 }
 
-let searchTim;
-
-function showTodoSearchPrompt() {
-  
-  checkActiveBtn(searchTodoBtnLm)
-
-  if (addTodoBtnLm.matches('.btn--active')) {
-    searchToPromptTim = setTimeout(() => {
-      todoAppPromptLm.setAttribute('hidden', '');
-    }, 1500);
-    checkActiveBtn(addTodoBtnLm);
-    hidePrompt(todoAppPromptLm, addTodoBtnLm);
-    //addTodoBtnLm.classList.remove('btn--active');
-  }
-
-  if (searchTodoPromptLm.matches('.search-todo-prompt--active')) {
-    //close the modal
-    searchTodoPromptLm.classList.remove('search-todo-prompt--active');
-    searchTodoBtnLm.setAttribute('aria-expanded', false);
-    searchTim = setTimeout(() => {
-      searchTodoPromptLm.setAttribute('hidden', '');
-    }, 1250); 
-
-  } else {
-    //open the modal
-    clearTimeout(searchTim);
-    clearInterval(promptToSearchTim)
-    searchTodoPromptLm.removeAttribute('hidden');
-    searchTodoBtnLm.setAttribute('aria-expanded', true);
-    setTimeout(() => {
-      searchTodoPromptLm.classList.add('search-todo-prompt--active');
-    });
+function removeLastActivePrompt({promptLm, timeout: {lastPromptTim, time}, btnLm, activeClass}) {
+  if (btnLm.matches('.btn--active')) {
+    checkActiveBtn(btnLm);
+    hidePrompt(promptLm, btnLm, activeClass);
+    setHideTim(lastPromptTim, promptLm, time);
   }
 }
 
-addTodoBtnLm.addEventListener('click', showTodoPrompt);
+function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}}, {timeout: {lastPromptTim}}) {
+  if (promptLm.matches('.' + activeClass)) {
+    //close the prompt
+    hidePrompt(promptLm, btnLm, activeClass);
+    setHideTim(currentTim, promptLm, time);
+  } 
+  else {
+    //open the prompt
+    clearAllIntroBtnsTims(lastPromptTim)
+    showPrompt(promptLm, btnLm, activeClass);
+  }
+} 
 
-searchTodoBtnLm.addEventListener('click', showTodoSearchPrompt);
+function addEventToCloseBtn({closeBtn, btnLm, promptLm, activeClass, timeout: {time}}, closePromptTim) {
+  addTodoBtnClicks++;
+  if (addTodoBtnClicks === 1) {
+    closeBtn.addEventListener('click', () => {
+      addTodoBtnClicks = 0;
+      checkActiveBtn(btnLm);
+      hidePrompt(promptLm, btnLm, activeClass);
+      setHideTim(closePromptTim, promptLm, time);
+    }, {once: true});
+  }
+}
+
+function showAddTodoPrompt() {
+  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
+  const addTodoBtnLm = addTodoPrompt.btnLm;
+  checkActiveBtn(addTodoBtnLm);
+  removeLastActivePrompt(searchTodoPrompt);
+  addEventToCloseBtn(addTodoPrompt, 'closeAddTodoPromptTim');
+  togglePrompt(addTodoPrompt, searchTodoPrompt);
+}
+
+function showSearchTodoPrompt() {
+  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
+  const searchBtnLm = searchTodoPrompt.btnLm;
+  checkActiveBtn(searchBtnLm);
+  removeLastActivePrompt(addTodoPrompt);
+  togglePrompt(searchTodoPrompt, addTodoPrompt);
+}
+
+introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
+
+introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
 
 refreshQuoteBtn.addEventListener('click', () => {
   getQuoteData()
