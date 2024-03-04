@@ -40,9 +40,11 @@ async function getQuoteData() {
 function checkActiveBtn(btnLm) {
   if (btnLm.getAttribute('aria-expanded') === 'false') {
     btnLm.classList.add('btn--active');
+    console.log('if')
   } 
   else {  
     btnLm.classList.remove('btn--active');
+    console.log('else')
   }
 };
 
@@ -66,12 +68,28 @@ function hidePrompt(promptLm, btnLm) {
   promptLm.classList.remove('todo-app-prompt--active');
 }
 
+//refactor all of this into togglePrompt
+
+let promptToSearchTim;
+let searchToPromptTim;
+const todoAppPromptLm = document.getElementById('todo-app-prompt');
+const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
+const searchTodoPromptLm = document.getElementById('search-todo-prompt');
+
 function showTodoPrompt() {
   clicks++;
-  const todoAppPromptLm = document.getElementById('todo-app-prompt');
-  const closePromptBtn = document.getElementById('todo-app-prompt__cancel-btn');
 
   checkActiveBtn(addTodoBtnLm);
+
+  if (searchTodoBtnLm.matches('.btn--active')) {
+    promptToSearchTim = setTimeout(() => {
+      searchTodoPromptLm.setAttribute('hidden', '');
+    }, 1500);
+    checkActiveBtn(searchTodoBtnLm);
+    searchTodoBtnLm.setAttribute('aria-expanded', false);
+    searchTodoPromptLm.classList.remove('search-todo-prompt--active');
+    //addTodoBtnLm.classList.remove('btn--active');
+  }
 
   if (todoAppPromptLm.matches('.todo-app-prompt--active')) {
     setHideTim('promptHideTmId', todoAppPromptLm);
@@ -79,6 +97,7 @@ function showTodoPrompt() {
   } 
   else {
     showPrompt(timsIntroBtns.promptHideTmId, todoAppPromptLm, addTodoBtnLm);
+    clearTimeout(searchToPromptTim);
     clearTimeout(timsIntroBtns.promptHideTmId2);
     if (clicks === 1) {
       closePromptBtn.addEventListener('click', () => {
@@ -94,9 +113,17 @@ function showTodoPrompt() {
 let searchTim;
 
 function showTodoSearchPrompt() {
-  const searchTodoPromptLm = document.getElementById('search-todo-prompt');
   
   checkActiveBtn(searchTodoBtnLm)
+
+  if (addTodoBtnLm.matches('.btn--active')) {
+    searchToPromptTim = setTimeout(() => {
+      todoAppPromptLm.setAttribute('hidden', '');
+    }, 1500);
+    checkActiveBtn(addTodoBtnLm);
+    hidePrompt(todoAppPromptLm, addTodoBtnLm);
+    //addTodoBtnLm.classList.remove('btn--active');
+  }
 
   if (searchTodoPromptLm.matches('.search-todo-prompt--active')) {
     //close the modal
@@ -109,6 +136,7 @@ function showTodoSearchPrompt() {
   } else {
     //open the modal
     clearTimeout(searchTim);
+    clearInterval(promptToSearchTim)
     searchTodoPromptLm.removeAttribute('hidden');
     searchTodoBtnLm.setAttribute('aria-expanded', true);
     setTimeout(() => {
