@@ -48,7 +48,7 @@
         </div>
       </div>
       <div id="todo-app-prompt" class="todo-app-prompt" role="region" aria-labelledby="todo-app-prompt__submit-btn" hidden>
-        <form>
+        <form id="todo-app-prompt__form">
           <button aria-label="Close add new todo prompt." type="button" class="todo-app-prompt__cancel-btn" id="todo-app-prompt__cancel-btn">
             <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
           </button>
@@ -56,11 +56,11 @@
             Task
             <span aria-hidden="true">*</span>
           </label>
-          <input required type="text" name="todo-app-prompt__task" id="todo-app-prompt__task" aria-required="true"/>
+          <input required type="text" name="task" id="todo-app-prompt__task" aria-required="true"/>
           <label for="todo-app-prompt__date">Date</label>
-          <input type="date" name="todo-app-prompt__date" id="todo-app-prompt__date"/>   
+          <input type="date" name="date" id="todo-app-prompt__date"/>   
           <label for="todo-app-prompt__desc">Description</label>
-          <textarea name="todo-app-prompt__desc" id="todo-app-prompt__desc" rows="7"></textarea>
+          <textarea name="description" id="todo-app-prompt__desc" rows="7"></textarea>
           <button id="todo-app-prompt__submit-btn" class="todo-app-prompt__submit-btn" type="submit">Add new todo</button>
         </form>
       </div>
