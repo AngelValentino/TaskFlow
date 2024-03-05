@@ -1,6 +1,5 @@
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const timsIntroBtns = {};
-let submitPromptTim;
 let clicksCloseEvent = 0;
 let clickSubmitEvent = 0;
 const todos = JSON.parse(localStorage.getItem('todos')) || [];
@@ -88,23 +87,36 @@ function hidePrompt(promptLm, btnLm, classToRemove, timeoutId, time) {
   btnLm.setAttribute('aria-expanded', false);
   promptLm.classList.remove(classToRemove);
 
-  if (timeoutId === 'submitPromptTim') {
-    submitPromptTim = setTimeout(() => {
-      promptLm.setAttribute('hidden', '');
-    }, time);
-    return;
-  }
-
   timsIntroBtns[timeoutId] = setTimeout(() => {
     promptLm.setAttribute('hidden', '');
   }, time);
 }
 
-function clearAllIntroBtnsTims(lastActiveTim) {
-  for (const timKey in timsIntroBtns) {
-    if (timKey !== lastActiveTim) {
-      clearTimeout(timsIntroBtns[timKey]);
-    }
+
+function checkLastBtnTim(e, key, classToMatch, timToMatch) {
+  if (e.currentTarget.matches('.' + classToMatch) && key === timToMatch) {
+    return 1;
+  } 
+  else {
+    return 0;
+  }
+}
+
+function clearAllIntroBtnsTims(lastActiveTim, e) {
+  for (const key in timsIntroBtns) {
+    if (key !== lastActiveTim) {
+      if (
+        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'addTodoTim') || 
+        checkLastBtnTim(e, key, 'todo-app-intro__add-btn', 'searchTim') || 
+        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'submitPromptTim')
+        ) {
+        // if e.target is searchBtn and tim === 'addTodoTim' skip clear
+        // if e.target is addBtn and tim === 'searchTim' skip clear
+        // if e.target is searchBtn and tim === submitPromptTim skip clear
+        continue;
+      }
+      clearTimeout(timsIntroBtns[key]);
+    } 
   }
 }
 
@@ -115,12 +127,12 @@ function removeLastActivePrompt({promptLm, timeout: {lastPromptTim, time}, btnLm
   }
 }
 
-function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}}, {timeout: {lastPromptTim}}) {
+function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}}, {timeout: {lastPromptTim}}, e) {
   if (promptLm.matches('.' + activeClass)) {
     hidePrompt(promptLm, btnLm, activeClass, currentTim, time);
   } 
   else {
-    clearAllIntroBtnsTims(lastPromptTim)
+    clearAllIntroBtnsTims(lastPromptTim, e)
     showPrompt(promptLm, btnLm, activeClass);
   }
 } 
@@ -130,14 +142,18 @@ function addEventToCloseBtn({closeBtn, btnLm, promptLm, activeClass, timeout: {t
     closeBtn.addEventListener('click', () => {
       clicksCloseEvent = 0;
       checkActiveBtn(btnLm);
+      
       hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
     }, {once: true});
   }
 }
 
-function getFormEntries(form) {
+function getFormData(form) {
   const data = new FormData(form);
-  return (Object.fromEntries(data.entries()));
+  const todoData = (Object.fromEntries(data.entries()));
+  todoData.id = `task-${todoId}`;
+  todoData.completed = false;
+  return todoData;
 }
 
 // Implement a confirmational modal that checks if the user has closed the submit prompt with typed data inside.
@@ -153,9 +169,7 @@ function addEventToPromptForm({promptLm, btnLm, activeClass, timeout: {time}}) {
       todoId++;
       localStorage.setItem('todo-id', todoId);
 
-      const todoData = getFormEntries(addTodoPromptFormLm);
-      todoData.id = `task-${todoId}`;
-      todoData.completed = false;
+      const todoData = getFormData(addTodoPromptFormLm);
       todos.push(todoData);
       console.log(todos);
       localStorage.setItem('todos', JSON.stringify(todos));
@@ -167,27 +181,24 @@ function addEventToPromptForm({promptLm, btnLm, activeClass, timeout: {time}}) {
   }
 }
 
-function showAddTodoPrompt() {
+function showAddTodoPrompt(e) {
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
   const addTodoBtnLm = addTodoPrompt.btnLm;
-  
   clicksCloseEvent++;
   clickSubmitEvent++;
-
   checkActiveBtn(addTodoBtnLm);
   removeLastActivePrompt(searchTodoPrompt);
   addEventToCloseBtn(addTodoPrompt);
   addEventToPromptForm(addTodoPrompt);
-  clearTimeout(submitPromptTim);
-  togglePrompt(addTodoPrompt, searchTodoPrompt);
+  togglePrompt(addTodoPrompt, searchTodoPrompt, e);
 }
 
-function showSearchTodoPrompt() {
+function showSearchTodoPrompt(e) {
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
   const searchBtnLm = searchTodoPrompt.btnLm;
   checkActiveBtn(searchBtnLm);
   removeLastActivePrompt(addTodoPrompt);
-  togglePrompt(searchTodoPrompt, addTodoPrompt);
+  togglePrompt(searchTodoPrompt, addTodoPrompt, e);
 }
 
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
