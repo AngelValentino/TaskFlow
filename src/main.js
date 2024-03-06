@@ -1,7 +1,7 @@
 const refreshQuoteBtn = document.getElementById('quote__btn');
+const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
+const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
 const timsIntroBtns = {};
-let clicksCloseEvent = 0;
-let clickSubmitEvent = 0;
 const todos = JSON.parse(localStorage.getItem('todos')) || [];
 let todoId = JSON.parse(localStorage.getItem('todo-id')) || 0;
 
@@ -9,7 +9,7 @@ const introPrompts = {
   addTodoPrompt: {
     btnLm: document.getElementById('todo-app-intro__add-btn'),
     promptLm: document.getElementById('todo-app-prompt'),
-    closeBtn: document.getElementById('todo-app-prompt__cancel-btn'),
+
     activeClass: 'todo-app-prompt--active',
     timeout: {
       lastPromptTim: 'promptToSearchTim',
@@ -110,9 +110,6 @@ function clearAllIntroBtnsTims(lastActiveTim, e) {
         checkLastBtnTim(e, key, 'todo-app-intro__add-btn', 'searchTim') || 
         checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'submitPromptTim')
         ) {
-        // if e.target is searchBtn and tim === 'addTodoTim' skip clear
-        // if e.target is addBtn and tim === 'searchTim' skip clear
-        // if e.target is searchBtn and tim === submitPromptTim skip clear
         continue;
       }
       clearTimeout(timsIntroBtns[key]);
@@ -132,21 +129,10 @@ function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}
     hidePrompt(promptLm, btnLm, activeClass, currentTim, time);
   } 
   else {
-    clearAllIntroBtnsTims(lastPromptTim, e)
+    clearAllIntroBtnsTims(lastPromptTim, e);
     showPrompt(promptLm, btnLm, activeClass);
   }
 } 
-
-function addEventToCloseBtn({closeBtn, btnLm, promptLm, activeClass, timeout: {time}}) {
-  if (clicksCloseEvent === 1) {
-    closeBtn.addEventListener('click', () => {
-      clicksCloseEvent = 0;
-      checkActiveBtn(btnLm);
-      
-      hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
-    }, {once: true});
-  }
-}
 
 function getFormData(form) {
   const data = new FormData(form);
@@ -156,40 +142,20 @@ function getFormData(form) {
   return todoData;
 }
 
-// Implement a confirmational modal that checks if the user has closed the submit prompt with typed data inside.
+// Todo today
 
-function addEventToPromptForm({promptLm, btnLm, activeClass, timeout: {time}}) {
-  if (clickSubmitEvent === 1) {
-    const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
-    addTodoPromptFormLm.addEventListener('submit', (e) => {
-      if (addTodoPromptFormLm.checkValidity()) {
-        e.preventDefault();
-      }
-      clickSubmitEvent = 0;
-      todoId++;
-      localStorage.setItem('todo-id', todoId);
+// Implement a confirmational modal that checks if the user has closed the submit prompt with typed data inside. HTML dialog
+// Make sure the user can only add 100 incompleted todos
+// Generate HTML
+// Separate todo.js from main.js. todo.js will contain all the necessary code to modify the todos data.
 
-      const todoData = getFormData(addTodoPromptFormLm);
-      todos.push(todoData);
-      console.log(todos);
-      localStorage.setItem('todos', JSON.stringify(todos));
-
-      checkActiveBtn(btnLm);
-      hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
-      addTodoPromptFormLm.reset();
-    }, {once: true});
-  }
-}
+// Todo today
 
 function showAddTodoPrompt(e) {
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
   const addTodoBtnLm = addTodoPrompt.btnLm;
-  clicksCloseEvent++;
-  clickSubmitEvent++;
   checkActiveBtn(addTodoBtnLm);
   removeLastActivePrompt(searchTodoPrompt);
-  addEventToCloseBtn(addTodoPrompt);
-  addEventToPromptForm(addTodoPrompt);
   togglePrompt(addTodoPrompt, searchTodoPrompt, e);
 }
 
@@ -204,6 +170,31 @@ function showSearchTodoPrompt(e) {
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 
 introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
+
+addTodoPromptFormLm.addEventListener('submit', (e) => {
+  if (addTodoPromptFormLm.checkValidity()) {
+    e.preventDefault();
+  }
+  const {promptLm, btnLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
+  todoId++;
+  localStorage.setItem('todo-id', todoId);
+
+  const todoData = getFormData(addTodoPromptFormLm);
+  todos.push(todoData);
+  console.log(todos);
+  localStorage.setItem('todos', JSON.stringify(todos));
+
+  checkActiveBtn(btnLm);
+  hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
+  addTodoPromptFormLm.reset();
+} );
+
+addTodoPromptCloseBtn.addEventListener('click', () => {
+  const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
+  checkActiveBtn(btnLm);
+  hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
+});
+
 
 refreshQuoteBtn.addEventListener('click', () => {
   getQuoteData()
