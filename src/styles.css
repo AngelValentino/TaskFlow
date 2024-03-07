@@ -63,6 +63,68 @@ main {
 
 /* END OF MAIN */
 
+/* ALERT DIALOG */
+
+#test-open-modal {
+  background-color: tomato;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.dialog-backdrop { 
+  font-size: 1.4rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.alert-dialog {
+  position: relative;
+  max-width: 400px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  text-align: center;
+  transform: scale(0);
+  transition: transform 0.25s;
+}
+
+.alert-dialog img {
+  width: 100px;
+}
+
+.alert-dialog__cancel-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  line-height: 0;
+}
+
+.alert-dialog__desc {
+  margin: 0 0 30px;
+} 
+
+.alert-dialog > div button {
+  background-color: #77B1A9;
+  padding: 10px;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.alert-dialog__cancel-btn span {
+  font-size: 1.4em;
+}
+
+/* END OF ALERT DIALOG */
+
 /* QUOTE */
 
 .quote {
@@ -403,6 +465,15 @@ main {
 .search-todo-prompt--active {
   max-height: 1000px;
   transform: translateX(0px);
+}
+
+.alert-dialog-backdrop--active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.alert-dialog--active {
+  transform: scale(1);;
 }
 
 /* END MODIFIERS */

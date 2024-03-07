@@ -9,7 +9,6 @@ const introPrompts = {
   addTodoPrompt: {
     btnLm: document.getElementById('todo-app-intro__add-btn'),
     promptLm: document.getElementById('todo-app-prompt'),
-
     activeClass: 'todo-app-prompt--active',
     timeout: {
       lastPromptTim: 'promptToSearchTim',
@@ -108,7 +107,8 @@ function clearAllIntroBtnsTims(lastActiveTim, e) {
       if (
         checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'addTodoTim') || 
         checkLastBtnTim(e, key, 'todo-app-intro__add-btn', 'searchTim') || 
-        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'submitPromptTim')
+        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'submitPromptTim') ||
+        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'alertDialogDiscardChangesTim')
         ) {
         continue;
       }
@@ -141,15 +141,6 @@ function getFormData(form) {
   todoData.completed = false;
   return todoData;
 }
-
-// Todo today
-
-// Implement a confirmational modal that checks if the user has closed the submit prompt with typed data inside. HTML dialog
-// Make sure the user can only add 100 incompleted todos
-// Generate HTML
-// Separate todo.js from main.js. todo.js will contain all the necessary code to modify the todos data.
-
-// Todo today
 
 function showAddTodoPrompt(e) {
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
@@ -190,11 +181,16 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 } );
 
 addTodoPromptCloseBtn.addEventListener('click', () => {
-  const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
-  checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
+  const todoData = Object.values(getFormData(addTodoPromptFormLm));
+  if(todoData[0] || todoData[1] || todoData[2]) {
+    openModal();
+  } 
+  else {
+    const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
+    checkActiveBtn(btnLm);
+    hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
+  }
 });
-
 
 refreshQuoteBtn.addEventListener('click', () => {
   getQuoteData()
@@ -202,3 +198,89 @@ refreshQuoteBtn.addEventListener('click', () => {
     .catch(err => console.err(err));
 }); 
 
+
+// Refactor into more simpler and reusable code, maybe add event listener with openModal() and remove events with closeModal().
+
+const dialogBackdropLm = document.getElementById('dialog-backdrop');
+const closeDialogBtn = document.getElementById('alert-dialog__cancel-btn');
+const confirmationBtn = document.getElementById('alert-dialog__confirmation-btn');
+const discardBtn = document.getElementById('alert-dialog__discard-btn');
+const alertDialogLm = document.getElementById('alert-dialog');
+let lastFocusLmBeforeAlertDialog;
+
+function openModal() {
+  lastFocusLmBeforeAlertDialog = document.activeElement;
+  dialogBackdropLm.style.display = 'flex';
+  discardBtn.focus();
+  setTimeout(() => {
+    dialogBackdropLm.classList.add('alert-dialog-backdrop--active');
+    alertDialogLm.classList.add('alert-dialog--active');
+  });
+}
+
+function closeModal() {
+  dialogBackdropLm.classList.remove('alert-dialog-backdrop--active')
+  alertDialogLm.classList.remove('alert-dialog--active');
+  setTimeout(() => {
+    dialogBackdropLm.style.display = 'none';
+  }, 250);
+  lastFocusLmBeforeAlertDialog.focus();
+}
+
+function trapFocus(element) {
+  const focusableLms = element.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
+  console.log(focusableLms);
+  const firstFocusableLm = focusableLms[0]; 
+  const lastFocusableLm = focusableLms[focusableLms.length - 1];
+
+  element.addEventListener('keydown', (e) => {
+    const isTabPressed = (e.key === 'Tab');
+    
+    if (!isTabPressed) { 
+      return; 
+    }
+
+    if (e.shiftKey) /* shift + tab */ {
+      if (document.activeElement === firstFocusableLm ) {
+        lastFocusableLm.focus();
+        e.preventDefault();
+      }
+    } 
+    else /* tab */ {
+      if (document.activeElement === lastFocusableLm) {
+        firstFocusableLm.focus();
+        e.preventDefault();
+      }
+    }
+  });
+}
+
+trapFocus(alertDialogLm);
+
+dialogBackdropLm.addEventListener('click', (e) => {
+  if (!e.target.matches('.dialog-backdrop')) {
+    return;
+  } 
+  closeModal();
+});
+
+closeDialogBtn.addEventListener('click', closeModal);
+
+confirmationBtn.addEventListener('click', () => {
+  closeModal();
+  addTodoPromptFormLm.reset();
+  const {promptLm, btnLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
+  checkActiveBtn(btnLm);
+
+  // if searchBtn is clicked and alertDialogDiscardChangesTim skip clear interval
+  hidePrompt(promptLm, btnLm, activeClass, 'alertDialogDiscardChangesTim', time)
+
+});
+
+discardBtn.addEventListener('click', closeModal);
+
+discardBtn.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal();
+  }
+});
