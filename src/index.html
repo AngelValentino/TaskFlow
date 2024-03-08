@@ -71,9 +71,9 @@
           </label>
           <input required type="text" name="task" id="todo-app-prompt__task" aria-required="true"/>
           <label for="todo-app-prompt__date">Date</label>
-          <input type="date" name="date" id="todo-app-prompt__date"/>   
+          <input required type="date" name="date" id="todo-app-prompt__date" aria-required="true"/>   
           <label for="todo-app-prompt__desc">Description</label>
-          <textarea name="description" id="todo-app-prompt__desc" rows="7"></textarea>
+          <textarea required name="description" id="todo-app-prompt__desc" rows="7" aria-required="true"></textarea>
           <button id="todo-app-prompt__submit-btn" class="todo-app-prompt__submit-btn" type="submit">Add new todo</button>
         </form>
       </div>
@@ -99,62 +99,7 @@
           <h2>Completed</h2>
         </button>
       </div>
-      <ul class="todos-container">
-        <li class="todo">
-          <h3 class="todo__task-name">Task 1</h3>
-          <p class="todo__task-date">31/03/2024</p>
-          <p class="todo__task-desc">End the todo quotes project app.</p>
-          <div class="todo__edit-buttons">
-            <button aria-label="Complete todo." type="button">
-              <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
-            </button>
-            <div>
-              <button aria-label="Edit todo." type="button">
-                <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
-              </button>
-              <button aria-label="Delete todo." type="button">
-                <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
-              </button>
-            </div>
-          </div>
-        </li>
-        <li class="todo">
-          <h3 class="todo__task-name">Task 2</h3>
-          <p class="todo__task-date">09/03/2024</p>
-          <p class="todo__task-desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia fuga provident similique hic dolor sequi quibusdam fugit nostrum odio! Laudantium autem praesentium placeat aperiam. A suscipit mollitia quasi sit quibusdam, laborum laboriosam distinctio earum nisi! Atque sequi similique maiores! Voluptatum.</p>
-          <div class="todo__edit-buttons">
-            <button aria-label="Complete todo." type="button">
-              <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
-            </button>
-            <div>
-              <button aria-label="Edit todo." type="button">
-                <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
-              </button>
-              <button aria-label="Delete todo." type="button">
-                <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
-              </button>
-            </div>
-          </div>
-        </li>
-        <li class="todo">
-          <h3 class="todo__task-name">Task 3</h3>
-          <p class="todo__task-date">09/03/2024</p>
-          <p class="todo__task-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, facilis! Voluptatum officiis inventore, sequi natus expedita consequatur, minima aspernatur itaque dignissimos ad, porro suscipit qui eligendi vero eius a cum consequuntur harum enim cumque quia debitis et! Unde nemo temporibus nostrum aliquid doloribus aut minus, incidunt ducimus enim rerum iusto commodi deserunt est quidem in autem molestias quisquam tempore, debitis vitae obcaecati natus! Unde reiciendis quod ea voluptas, ad modi, exercitationem quam earum illo blanditiis distinctio. Et aperiam non amet.</p>
-          <div class="todo__edit-buttons">
-            <button aria-label="Complete todo." type="button">
-              <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
-            </button>
-            <div>
-              <button aria-label="Edit todo." type="button">
-                <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
-              </button>
-              <button aria-label="Delete todo." type="button">
-                <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
-              </button>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <ul id="todos-container" class="todos-container"></ul>
     </article>
   </main>
   <script type="module" src="scripts/main.js"></script>

@@ -170,6 +170,36 @@ function resetForm() {
   hidePrompt(promptLm, btnLm, activeClass, 'alertDialogDiscardChangesTim', time);
 }
 
+function generateTodosHTML() {
+  const todosContainerLm = document.getElementById('todos-container');
+  const generetedHTML = todos
+    .map((todo) => `
+    <li class="todo">
+    <h3 class="todo__task-name">${todo.task}</h3>
+    <p class="todo__task-date">${todo.date}</p>
+    <p class="todo__task-desc">${todo.description}</p>
+    <div class="todo__edit-buttons">
+      <button aria-label="Complete todo." type="button">
+        <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
+      </button>
+      <div>
+        <button aria-label="Edit todo." type="button">
+          <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
+        </button>
+        <button aria-label="Delete todo." type="button">
+          <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+        </button>
+      </div>
+    </div>
+  </li>
+    `)
+    .join('');
+
+  todosContainerLm.innerHTML = generetedHTML;
+}
+
+generateTodosHTML();
+
 addEventsToAlertDialogBtns(resetForm);
 
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
@@ -188,11 +218,12 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
   todos.push(todoData);
   console.log(todos);
   localStorage.setItem('todos', JSON.stringify(todos));
+  generateTodosHTML()
 
   checkActiveBtn(btnLm);
   hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
   addTodoPromptFormLm.reset();
-} );
+});
 
 addTodoPromptCloseBtn.addEventListener('click', () => {
   const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;

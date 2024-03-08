@@ -203,7 +203,7 @@ main {
   border-radius: 3px;
   background-color: #fff;
   padding: 30px;
-  max-height: 800px;
+  height: 800px;
   overflow-y: scroll;
 }
 
