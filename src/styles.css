@@ -124,6 +124,12 @@ main {
 
 /* END OF ALERT DIALOG */
 
+/* EDIT TODO FORM DIALOG */
+
+
+
+/* END OF EDIT TODO FROM DIALOG */
+
 /* QUOTE */
 
 .quote {
@@ -293,11 +299,11 @@ main {
   list-style-type: none;
 }
 
-.todos-container > li {
+.todo {
+  color: #fff;
   background-color: #593e7f;
   padding: 20px;
   border-radius: 5px;
-  color: #fff;
   margin: 0 0 20px;
 }
 

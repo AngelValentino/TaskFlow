@@ -30,37 +30,62 @@ const introPrompts = {
   }
 };
 
-// Todo next week
+// Todo 20/03/2024
 
-/* Completed interlinked prompt animations.
-  //Refactor the showPrompt and hidePrompt into togglePrompt to achieve reusability with all the todo-intro__buttons prompts.
-  //Connect showAddPrompt and showSearchPrompt animations so only one prompt can be shown at once. 
-*/
-
-/* Completed form validation and todo data object.
-  // Form validation; There must be at least a title to send the form.
-  // If information is added to the add todo prompt and is closed, a confirmation modal will appear to make sure if the user wants to discard the changes. This also has to work interchangeably with the search prompt, as the animations will be interlinked.
-  
-  // Add a form submit to get the todo data and send it to and array of objects. The maximum incompleted tasks are 100.
-  
-  // {
-  //   id: 'task-[1-100]',
-  //   title: '',
-  //   date: ''/null,
-  //   description: ''/null,
-  //   completed: true/false
-  // } 
-*/
-
-/*  Completed generateHTML and remove task.
-  // generateHTML 
-  // Implement remove task and generateHTML seamlessly
-  // Refactor remove task
-*/
+  // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog.
 
   // Implement edit Todo
+    // Open a form dialog with the task values typed in
+    //  if (user doesn't change anything and closes modal) {
+    //   close dialog.
+    // }
+    //  else if (user changes anything and closes the prompt) {
+    //   change the dialog to display a confirmational message, yes and no restore the form dialog. Yes closes the prompt.
+    // } 
+    //  else if (user changes something and submits the form) {
+    //   get the values changed and replace the former todo with the current one
+    // } 
+    // generateHTML
+    // add to storage
 
-// Todo next week
+  // Add max incompleted todos limit = 100;
+    // if (user tries to submit todoData and there already are 100 incompleted todos) {
+    //   show informational dialog = there are already 100 incompleted todos, you've reached the allowed task limit.
+    //   then close dialog and close and reset addTodoPrompt.
+    // }
+
+  // Make new todos start from the beginning of the array insted of the end.
+
+  // Add deleteTodo confirmational dialog
+
+  // Implement complete todo
+    // if (user clicks complete) {
+    //   show and alert modal to confrm if they want to complete it
+    // } else {
+    //   change todo complete = true
+    // }
+
+    // in genereateHTML before generating the todo check 
+    // if (todo.complete === true) {
+    //   generate a HTML template for the completed todo
+    //     add only a delete button
+    //     make the todo grey
+    //     send todo to the bottom of the list
+    // }
+
+  // Make todo section functional 
+    // generate HTML depending on if the task is completed or not.
+    // All => genereateTodosHTML()
+    // Tasks => completed = false; generateTasksHTML()
+    // Completed => completed = true; generateCompletedTasksHTML();
+
+  // Implement clear all todos and confirmationa modal
+  
+  // Implement search todos
+
+  // Place todo data code in its own file, todo.js.
+
+// Todo 20/03/2024
 
 async function getQuoteData() {
   const response = await fetch('/.netlify/functions/fetch-data');
@@ -187,24 +212,24 @@ function resetForm() {
 function generateTodosHTML() {
   const generetedHTML = todos
     .map((todo) => `
-    <li id="${todo.id}" class="todo">
-    <h3 class="todo__task-name">${todo.task}</h3>
-    <p class="todo__task-date">${todo.date}</p>
-    <p class="todo__task-desc">${todo.description}</p>
-    <div class="todo__edit-buttons">
-      <button id="todo__complete-btn" class="todo__complete-btn" aria-label="Complete todo." type="button">
-        <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
-      </button>
-      <div>
-        <button id="todo__edit-btn" class="todo__edit-btn" aria-label="Edit todo." type="button">
-          <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
-        </button>
-        <button id="todo__delete-btn" class="todo__delete-btn" aria-label="Delete todo." type="button">
-          <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
-        </button>
-      </div>
-    </div>
-  </li>
+      <li id="${todo.id}" class="todo">
+        <h3 class="todo__task-name">${todo.task}</h3>
+        <p class="todo__task-date">${todo.date}</p>
+        <p class="todo__task-desc">${todo.description}</p>
+        <div class="todo__edit-buttons">
+          <button class="todo__complete-btn" aria-label="Complete todo." type="button">
+            <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
+          </button>
+          <div>
+            <button class="todo__edit-btn" aria-label="Edit todo." type="button">
+              <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
+            </button>
+            <button class="todo__delete-btn" aria-label="Delete todo." type="button">
+              <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </div>
+      </li>
     `)
     .join('');
 
@@ -262,14 +287,13 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
 
 todosContainerLm.addEventListener('click', (e) => {
   console.log(e.target)
-  if (e.target.closest('#todo__complete-btn')) {
+  if (e.target.closest('.todo__complete-btn')) {
     //complete todo
   } 
-  else if (e.target.closest('#todo__edit-btn')) {
+  else if (e.target.closest('.todo__edit-btn')) {
     //edit todo
   } 
-  else if (e.target.closest('#todo__delete-btn')) {
-    //delete todo
+  else if (e.target.closest('.todo__delete-btn')) {
     const targetId = e.target.closest('li').id;
     deleteTodo(targetId);
   }
