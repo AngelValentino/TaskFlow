@@ -312,25 +312,31 @@ main {
 }
 
 .todo__task-desc {
-  margin: 0 0 25px;
+  margin: 0 0 22px;
 }
 
 .todo__edit-buttons {
   display: flex;
-  line-height: 0;
   justify-content: space-between;
+  align-items: center;
+}
+
+.todo__edit-buttons button {
+  line-height: 0;
+}
+
+.todo__edit-buttons > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .todo__edit-buttons span {
   font-size: 1.45em;
 }
 
-.todo__edit-buttons div button:nth-of-type(2) span {
+.todo__delete-btn > span {
   font-size: 1.5em;
-}
-
-.todo__edit-buttons div {
-  letter-spacing: 5px;
 }
 
 /* END OF TODOS CONTAINER */

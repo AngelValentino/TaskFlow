@@ -3,9 +3,9 @@ import {openModal, addEventsToAlertDialogBtns} from './alertDialog.js';
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
+const todosContainerLm = document.getElementById('todos-container');
 const timsIntroBtns = {};
 const todos = JSON.parse(localStorage.getItem('todos')) || [];
-let todoId = JSON.parse(localStorage.getItem('todo-id')) || 0;
 
 const introPrompts = {
   addTodoPrompt: {
@@ -32,7 +32,6 @@ const introPrompts = {
 
 // Todo next week
 
-
 /* Completed interlinked prompt animations.
   //Refactor the showPrompt and hidePrompt into togglePrompt to achieve reusability with all the todo-intro__buttons prompts.
   //Connect showAddPrompt and showSearchPrompt animations so only one prompt can be shown at once. 
@@ -53,12 +52,13 @@ const introPrompts = {
   // } 
 */
 
-  // generateHTML
-  
-  // Show dialog if the user wants to add a todo and there are more than 100 incompleted tasks. Max tasks limit reached, close message and reset form.
-
+/*  Completed generateHTML and remove task.
+  // generateHTML 
   // Implement remove task and generateHTML seamlessly
+  // Refactor remove task
+*/
 
+  // Implement edit Todo
 
 // Todo next week
 
@@ -139,11 +139,25 @@ function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}
   }
 } 
 
-function getFormData(form) {
-  const data = new FormData(form);
-  const todoData = (Object.fromEntries(data.entries()));
-  todoData.id = `task-${todoId}`;
+function getFormData() {
+  const todoData = {};
+  const allFormInputs = [...addTodoPromptFormLm.querySelectorAll('input, textarea')];
+  
+  allFormInputs.forEach((input) => {
+    if ((input.name) === 'date') {
+      todoData[input.name] = input.value
+        .split('-')
+        .reverse()
+        .join('-');
+    }   
+    else {
+      todoData[input.name] = input.value.trim();
+    }
+  });
+
+  todoData.id = `task-${Date.now()}`;
   todoData.completed = false;
+  console.log(todoData);
   return todoData;
 }
 
@@ -171,22 +185,21 @@ function resetForm() {
 }
 
 function generateTodosHTML() {
-  const todosContainerLm = document.getElementById('todos-container');
   const generetedHTML = todos
     .map((todo) => `
-    <li class="todo">
+    <li id="${todo.id}" class="todo">
     <h3 class="todo__task-name">${todo.task}</h3>
     <p class="todo__task-date">${todo.date}</p>
     <p class="todo__task-desc">${todo.description}</p>
     <div class="todo__edit-buttons">
-      <button aria-label="Complete todo." type="button">
+      <button id="todo__complete-btn" class="todo__complete-btn" aria-label="Complete todo." type="button">
         <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
       </button>
       <div>
-        <button aria-label="Edit todo." type="button">
+        <button id="todo__edit-btn" class="todo__edit-btn" aria-label="Edit todo." type="button">
           <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
         </button>
-        <button aria-label="Delete todo." type="button">
+        <button id="todo__delete-btn" class="todo__delete-btn" aria-label="Delete todo." type="button">
           <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
         </button>
       </div>
@@ -196,6 +209,23 @@ function generateTodosHTML() {
     .join('');
 
   todosContainerLm.innerHTML = generetedHTML;
+}
+
+function addTodo() {
+  const todoData = getFormData();
+  todos.push(todoData);
+  localStorage.setItem('todos', JSON.stringify(todos));
+  generateTodosHTML();
+}
+
+function deleteTodo(targetId) {
+  todos.forEach((todo) => {
+    if (todo.id === targetId) {
+      todos.splice(todos.indexOf(todo), 1);
+    }
+  })
+  generateTodosHTML();
+  localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 generateTodosHTML();
@@ -211,15 +241,8 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
     e.preventDefault();
   }
   const {promptLm, btnLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
-  todoId++;
-  localStorage.setItem('todo-id', todoId);
 
-  const todoData = getFormData(addTodoPromptFormLm);
-  todos.push(todoData);
-  console.log(todos);
-  localStorage.setItem('todos', JSON.stringify(todos));
-  generateTodosHTML()
-
+  addTodo();
   checkActiveBtn(btnLm);
   hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
   addTodoPromptFormLm.reset();
@@ -234,6 +257,21 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
   else {
     checkActiveBtn(btnLm);
     hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
+  }
+});
+
+todosContainerLm.addEventListener('click', (e) => {
+  console.log(e.target)
+  if (e.target.closest('#todo__complete-btn')) {
+    //complete todo
+  } 
+  else if (e.target.closest('#todo__edit-btn')) {
+    //edit todo
+  } 
+  else if (e.target.closest('#todo__delete-btn')) {
+    //delete todo
+    const targetId = e.target.closest('li').id;
+    deleteTodo(targetId);
   }
 });
 
