@@ -1,4 +1,4 @@
-import {openModal, addEventsToAlertDialogBtns} from './alertDialog.js';
+import { openModal } from './dialog.js';
 
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
@@ -30,7 +30,7 @@ const introPrompts = {
   }
 };
 
-// Todo 20/03/2024
+// Todo 20/03/2024: Complete todo app widget.
 
   // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog.
 
@@ -85,7 +85,7 @@ const introPrompts = {
 
   // Place todo data code in its own file, todo.js.
 
-// Todo 20/03/2024
+// Todo 20/03/2024: Complete todo app widget.
 
 async function getQuoteData() {
   const response = await fetch('/.netlify/functions/fetch-data');
@@ -182,7 +182,7 @@ function getFormData() {
 
   todoData.id = `task-${Date.now()}`;
   todoData.completed = false;
-  console.log(todoData);
+  //console.log(todoData);
   return todoData;
 }
 
@@ -255,8 +255,6 @@ function deleteTodo(targetId) {
 
 generateTodosHTML();
 
-addEventsToAlertDialogBtns(resetForm);
-
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 
 introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
@@ -274,12 +272,15 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 });
 
 addTodoPromptCloseBtn.addEventListener('click', () => {
-  const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
   const todoData = Object.values(getFormData(addTodoPromptFormLm));
   if(todoData[0] || todoData[1] || todoData[2]) {
-    openModal();
+    const closeLms = document.querySelectorAll('#alert-dialog__discard-btn, #alert-dialog__cancel-btn');
+    const confirmationLm = document.getElementById('alert-dialog__confirmation-btn');
+    const discardBtn = document.getElementById('alert-dialog__discard-btn');
+    openModal(closeLms, discardBtn, confirmationLm, resetForm);
   } 
   else {
+    const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
     checkActiveBtn(btnLm);
     hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
   }

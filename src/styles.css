@@ -56,7 +56,6 @@ main {
   align-items: center;
   justify-content: center;
   gap: 100px;
-  background-color: #9b59b6;
   padding: 30px;
   background-image: url(img/purple-background.jpg);
 }
