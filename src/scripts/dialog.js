@@ -1,8 +1,28 @@
+const dialogBackdropLm = document.getElementById('dialog-backdrop');
 let closeAlertDialogTim;
+
+export function generateConfirmAddPromptDialogHTML() {
+  dialogBackdropLm.innerHTML = `
+    <div class="alert-dialog" id="alert-dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="alert-dialog__desc">
+      <img src="img/garbage-collector-2.jpg" alt=""/>
+      <button aria-label="Close dialog." type="button" class="alert-dialog__cancel-btn" id="alert-dialog__cancel-btn">
+        <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+      </button>
+      <p class="alert-dialog__desc" id="alert-dialog__desc">Are you sure you want to discard all changes made in form?</p>
+      <div>
+        <button class="alert-dialog__confirmation-btn" id="alert-dialog__confirmation-btn" type="button">Yes</button>
+        <button class="alert-dialog__discard-btn" id="alert-dialog__discard-btn" type="button">No</button>
+      </div>
+    </div>
+  `;
+}
+
+function generateEditTodoDialogHTML() {
+
+}
 
 export function openModal(closeLms, firstLmToFocus, confirmationLm, confirmFunction) {
   const alertDialogLm = document.getElementById('alert-dialog');
-  const dialogBackdropLm = document.getElementById('dialog-backdrop');
   const lastFocusLmBeforeAlertDialog = document.activeElement;
 
   clearTimeout(closeAlertDialogTim);
@@ -35,7 +55,7 @@ export function openModal(closeLms, firstLmToFocus, confirmationLm, confirmFunct
     const focusableLms = alertDialogLm.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
     const firstFocusableLm = focusableLms[0]; 
     const lastFocusableLm = focusableLms[focusableLms.length - 1];
-    
+
     const isTabPressed = (e.key === 'Tab');
     
     if (!isTabPressed) { 

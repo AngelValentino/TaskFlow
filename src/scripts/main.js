@@ -1,4 +1,4 @@
-import { openModal } from './dialog.js';
+import { openModal, generateConfirmAddPromptDialogHTML } from './dialog.js';
 
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
@@ -32,7 +32,9 @@ const introPrompts = {
 
 // Todo 20/03/2024: Complete todo app widget.
 
-  // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog.
+  /*  Completed dialog modularity.
+    // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog. 
+  */
 
   // Implement edit Todo
     // Open a form dialog with the task values typed in
@@ -274,6 +276,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 addTodoPromptCloseBtn.addEventListener('click', () => {
   const todoData = Object.values(getFormData(addTodoPromptFormLm));
   if(todoData[0] || todoData[1] || todoData[2]) {
+    generateConfirmAddPromptDialogHTML();
     const closeLms = document.querySelectorAll('#alert-dialog__discard-btn, #alert-dialog__cancel-btn');
     const confirmationLm = document.getElementById('alert-dialog__confirmation-btn');
     const discardBtn = document.getElementById('alert-dialog__discard-btn');
