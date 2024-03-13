@@ -1,11 +1,16 @@
-import { openModal, generateConfirmAddPromptDialogHTML } from './dialog.js';
+import { 
+  openModal, 
+  generateConfirmAddPromptDialogHTML, 
+  generateEditTodoDialogHTML 
+} from './dialog.js';
+
+import { todos, addTodo, deleteTodo } from './data/todo.js';
 
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
 const todosContainerLm = document.getElementById('todos-container');
 const timsIntroBtns = {};
-const todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 const introPrompts = {
   addTodoPrompt: {
@@ -38,17 +43,10 @@ const introPrompts = {
 
   // Implement edit Todo
     // Open a form dialog with the task values typed in
-    //  if (user doesn't change anything and closes modal) {
-    //   close dialog.
-    // }
-    //  else if (user changes anything and closes the prompt) {
-    //   change the dialog to display a confirmational message, yes and no restore the form dialog. Yes closes the prompt.
-    // } 
-    //  else if (user changes something and submits the form) {
-    //   get the values changed and replace the former todo with the current one
-    // } 
-    // generateHTML
-    // add to storage
+    // check if the use has changed anything and send confirmational modal
+    // Submit data and unshift to todos array
+
+  // fix add todo prompt focus bug
 
   // Add max incompleted todos limit = 100;
     // if (user tries to submit todoData and there already are 100 incompleted todos) {
@@ -111,13 +109,12 @@ function showPrompt(promptLm, btnLm, classToAdd) {
   btnLm.setAttribute('aria-expanded', true);
   setTimeout(() => {
     promptLm.classList.add(classToAdd);
-  });
+  }, 10);
 }
 
 function hidePrompt(promptLm, btnLm, classToRemove, timeoutId, time) {
   btnLm.setAttribute('aria-expanded', false);
   promptLm.classList.remove(classToRemove);
-
   timsIntroBtns[timeoutId] = setTimeout(() => {
     promptLm.setAttribute('hidden', '');
   }, time);
@@ -166,16 +163,15 @@ function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}
   }
 } 
 
-function getFormData() {
+const formatDate = (value) => value.split('-').reverse().join('-');
+
+export function getFormData(form) {
   const todoData = {};
-  const allFormInputs = [...addTodoPromptFormLm.querySelectorAll('input, textarea')];
+  const allFormInputs = [...form.querySelectorAll('input, textarea')];
   
   allFormInputs.forEach((input) => {
     if ((input.name) === 'date') {
-      todoData[input.name] = input.value
-        .split('-')
-        .reverse()
-        .join('-');
+      todoData[input.name] = formatDate(input.value)
     }   
     else {
       todoData[input.name] = input.value.trim();
@@ -184,9 +180,10 @@ function getFormData() {
 
   todoData.id = `task-${Date.now()}`;
   todoData.completed = false;
-  //console.log(todoData);
   return todoData;
 }
+
+// add focus to close btn
 
 function showAddTodoPrompt(e) {
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
@@ -211,7 +208,7 @@ function resetForm() {
   hidePrompt(promptLm, btnLm, activeClass, 'alertDialogDiscardChangesTim', time);
 }
 
-function generateTodosHTML() {
+export function generateTodosHTML() {
   const generetedHTML = todos
     .map((todo) => `
       <li id="${todo.id}" class="todo">
@@ -238,23 +235,6 @@ function generateTodosHTML() {
   todosContainerLm.innerHTML = generetedHTML;
 }
 
-function addTodo() {
-  const todoData = getFormData();
-  todos.push(todoData);
-  localStorage.setItem('todos', JSON.stringify(todos));
-  generateTodosHTML();
-}
-
-function deleteTodo(targetId) {
-  todos.forEach((todo) => {
-    if (todo.id === targetId) {
-      todos.splice(todos.indexOf(todo), 1);
-    }
-  })
-  generateTodosHTML();
-  localStorage.setItem('todos', JSON.stringify(todos));
-}
-
 generateTodosHTML();
 
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
@@ -262,12 +242,10 @@ introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
 
 addTodoPromptFormLm.addEventListener('submit', (e) => {
-  if (addTodoPromptFormLm.checkValidity()) {
-    e.preventDefault();
-  }
+  e.preventDefault();
   const {promptLm, btnLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
 
-  addTodo();
+  addTodo('push', addTodoPromptFormLm);
   checkActiveBtn(btnLm);
   hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
   addTodoPromptFormLm.reset();
@@ -277,17 +255,34 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
   const todoData = Object.values(getFormData(addTodoPromptFormLm));
   if(todoData[0] || todoData[1] || todoData[2]) {
     generateConfirmAddPromptDialogHTML();
-    const closeLms = document.querySelectorAll('#alert-dialog__discard-btn, #alert-dialog__cancel-btn');
-    const confirmationLm = document.getElementById('alert-dialog__confirmation-btn');
-    const discardBtn = document.getElementById('alert-dialog__discard-btn');
-    openModal(closeLms, discardBtn, confirmationLm, resetForm);
+    const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
+    const confirmationLm = document.getElementById('dialog__confirmation-btn');
+    const discardBtn = document.getElementById('dialog__discard-btn');
+    openModal(null, closeLms, discardBtn, confirmationLm, resetForm);
+    // add focus at form close
   } 
   else {
     const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
     checkActiveBtn(btnLm);
     hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
+    // add focus at form close
   }
 });
+
+function addTodoInfoToEditForm(targetId, formInputs) {
+  todos.forEach((todo) => {
+    if (todo.id === targetId) {
+      formInputs.forEach((input) => {
+        if (input.name === 'date') {
+          input.value = formatDate(todo[input.name]);
+        } 
+        else {
+          input.value = todo[input.name];
+        }
+      });
+    }
+  });
+}
 
 todosContainerLm.addEventListener('click', (e) => {
   console.log(e.target)
@@ -295,7 +290,13 @@ todosContainerLm.addEventListener('click', (e) => {
     //complete todo
   } 
   else if (e.target.closest('.todo__edit-btn')) {
-    //edit todo
+    generateEditTodoDialogHTML();
+    const closeBtn = document.getElementById('form-dialog__cancel-btn');
+    const targetId = e.target.closest('li').id;
+    const formDialogLm = document.getElementById('form-dialog');
+    const formInputs = formDialogLm.querySelectorAll('input, textarea');
+    addTodoInfoToEditForm(targetId, formInputs)
+    openModal(targetId, closeBtn, closeBtn);
   } 
   else if (e.target.closest('.todo__delete-btn')) {
     const targetId = e.target.closest('li').id;

@@ -1,0 +1,108 @@
+/* ALERT DIALOG */
+
+#test-open-modal {
+  background-color: tomato;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.dialog-backdrop { 
+  font-size: 1.4rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  /**/
+  display: none;
+  align-items: center;
+  justify-content: center;
+  /**/
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.dialog {
+  position: relative;
+  /**/
+  max-width: 400px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  /**/
+  text-align: center;
+  /**/
+  transform: scale(0);
+  transition: transform 0.25s;
+}
+
+.dialog img {
+  width: 100px;
+}
+
+.dialog__cancel-btn, .form-dialog__cancel-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  line-height: 0;
+}
+
+.dialog__desc {
+  margin: 0 0 30px;
+} 
+
+.dialog > div button {
+  background-color: #77B1A9;
+  padding: 10px;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.dialog__cancel-btn span, .form-dialog__cancel-btn span {
+  font-size: 1.4em;
+}
+
+/* END OF ALERT DIALOG */
+
+/* DIALOG */
+
+/* END OF DIALOG */
+
+/* FORM DIALOG */
+
+.form-dialog__task, 
+.form-dialog__date,
+.form-dialog__desc {
+  width: 100%;
+  border-radius: 3px;
+  margin: 0 0 25px;
+  padding: 10px;
+  border: 2px dashed #593e7f;
+}
+
+.form-dialog__task, 
+.form-dialog__date {
+  background-color: #ecdeff;
+}
+
+.dialog > form > label {
+  display: block;
+  margin: 0 0 10px;
+}
+
+.form-dialog__desc {
+  resize: vertical;
+  max-height: 250px;
+  min-height: 100px
+}
+
+.form-dialog__submit-btn {
+  background-color: #b259b6;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  width: 100%;
+}
+
+/* END OF FORM DIALOG */

@@ -57,77 +57,10 @@ main {
   justify-content: center;
   gap: 100px;
   padding: 30px;
-  background-image: url(img/purple-background.jpg);
+  background-image: url(../img/purple-background.jpg);
 }
 
 /* END OF MAIN */
-
-/* ALERT DIALOG */
-
-#test-open-modal {
-  background-color: tomato;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
-
-.dialog-backdrop { 
-  font-size: 1.4rem;
-  background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-
-.alert-dialog {
-  position: relative;
-  max-width: 400px;
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 5px;
-  text-align: center;
-  transform: scale(0);
-  transition: transform 0.25s;
-}
-
-.alert-dialog img {
-  width: 100px;
-}
-
-.alert-dialog__cancel-btn {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  line-height: 0;
-}
-
-.alert-dialog__desc {
-  margin: 0 0 30px;
-} 
-
-.alert-dialog > div button {
-  background-color: #77B1A9;
-  padding: 10px;
-  color: #fff;
-  border-radius: 3px;
-}
-
-.alert-dialog__cancel-btn span {
-  font-size: 1.4em;
-}
-
-/* END OF ALERT DIALOG */
-
-/* EDIT TODO FORM DIALOG */
-
-
-
-/* END OF EDIT TODO FROM DIALOG */
 
 /* QUOTE */
 
@@ -477,12 +410,18 @@ main {
   transform: translateX(0px);
 }
 
-.alert-dialog-backdrop--active {
+.dialog-backdrop--active {
   opacity: 1;
 }
 
-.alert-dialog--active {
-  transform: scale(1);;
+.dialog--active {
+  transform: scale(1);
+}
+
+.form-dialog--active {
+  max-width: 500px;
+  text-align: start;
+  padding: 30px 50px;
 }
 
 /* END MODIFIERS */

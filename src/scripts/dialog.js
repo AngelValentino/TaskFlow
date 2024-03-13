@@ -1,44 +1,69 @@
+import { addTodo, deleteTodo } from './data/todo.js';
+
 const dialogBackdropLm = document.getElementById('dialog-backdrop');
 let closeAlertDialogTim;
 
 export function generateConfirmAddPromptDialogHTML() {
   dialogBackdropLm.innerHTML = `
-    <div class="alert-dialog" id="alert-dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="alert-dialog__desc">
+    <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
       <img src="img/garbage-collector-2.jpg" alt=""/>
-      <button aria-label="Close dialog." type="button" class="alert-dialog__cancel-btn" id="alert-dialog__cancel-btn">
+      <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
         <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
       </button>
-      <p class="alert-dialog__desc" id="alert-dialog__desc">Are you sure you want to discard all changes made in form?</p>
+      <p class="dialog__desc" id="dialog__desc">Are you sure you want to discard all changes made in form?</p>
       <div>
-        <button class="alert-dialog__confirmation-btn" id="alert-dialog__confirmation-btn" type="button">Yes</button>
-        <button class="alert-dialog__discard-btn" id="alert-dialog__discard-btn" type="button">No</button>
+        <button class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Yes</button>
+        <button class="dialog__discard-btn" id="dialog__discard-btn" type="button">No</button>
       </div>
     </div>
   `;
 }
 
-function generateEditTodoDialogHTML() {
-
+export function generateEditTodoDialogHTML() {
+  dialogBackdropLm.innerHTML = `
+    <div class="dialog" id="dialog" role="dialog" aria-label="Edit dialog.">
+      <form class="form-dialog" id="form-dialog">
+        <button aria-label="Close dialog." type="button" class="form-dialog__cancel-btn" id="form-dialog__cancel-btn">
+          <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+        </button>
+        <label for="form-dialog__task">Task</label>
+        <input class="form-dialog__task" id="form-dialog__task" type="text" name="task">
+        <label for="form-dialog__date">Date</label>
+        <input class="form-dialog__date" id="form-dialog__date" type="date" name="date">
+        <label for="form-dialog__desc">Description</label>
+        <textarea class="form-dialog__desc" id="form-dialog__desc" name="description" rows="7"></textarea>
+        <button class="form-dialog__submit-btn" type="submit">Edit todo</button>
+      </form>
+    </div>
+  `;
 }
 
-export function openModal(closeLms, firstLmToFocus, confirmationLm, confirmFunction) {
-  const alertDialogLm = document.getElementById('alert-dialog');
+export function openModal(targetId, closeLms, firstLmToFocus, confirmationLm, confirmFunction) {
+  const formDialogLm = document.getElementById('form-dialog');
+  const alertDialogLm = document.getElementById('dialog');
   const lastFocusLmBeforeAlertDialog = document.activeElement;
 
+  document.body.style.overflow = 'hidden';
   clearTimeout(closeAlertDialogTim);
   dialogBackdropLm.style.display = 'flex';
   firstLmToFocus.focus();
+  // The timeout isn't really necessary, as the import delay is enough to activate transitions.
   setTimeout(() => {
-    dialogBackdropLm.classList.add('alert-dialog-backdrop--active');
-    alertDialogLm.classList.add('alert-dialog--active');
+    dialogBackdropLm.classList.add('dialog-backdrop--active');
+    alertDialogLm.classList.add('dialog--active');
   });
 
   function closeModal() {
-    firstLmToFocus.removeEventListener('keydown', closeModalWithEscKey);
+    if (formDialogLm) {
+      formDialogLm.removeEventListener('submit', editTodo);
+      alertDialogLm.classList.remove('form-dialog--active');
+    }
+    document.body.style.overflow = 'initial';
+    document.body.removeEventListener('keydown', closeModalWithEscKey);
     alertDialogLm.removeEventListener('keydown', trapFocus)
     dialogBackdropLm.removeEventListener('click', addFunctionsWF);
-    dialogBackdropLm.classList.remove('alert-dialog-backdrop--active')
-    alertDialogLm.classList.remove('alert-dialog--active');
+    dialogBackdropLm.classList.remove('dialog-backdrop--active')
+    alertDialogLm.classList.remove('dialog--active');
     closeAlertDialogTim = setTimeout(() => {
       dialogBackdropLm.style.display = 'none';
     }, 250);
@@ -86,8 +111,10 @@ export function openModal(closeLms, firstLmToFocus, confirmationLm, confirmFunct
       confirmFunction();
       return;
     }
-    for (let i = 0; i < closeLms.length; i++) {
-      if (e.target.closest('#' + closeLms[i].id)) {
+    const fmtdCloseLms = closeLms.length ? closeLms : [closeLms];
+
+    for (let i = 0; i < fmtdCloseLms.length; i++) {
+      if (e.target.closest('#' + fmtdCloseLms[i].id)) {
         closeModal();
         break;
       }
@@ -98,13 +125,20 @@ export function openModal(closeLms, firstLmToFocus, confirmationLm, confirmFunct
     addFunctions(e, closeLms, confirmationLm, confirmFunction);
   }
 
-  // if (form exist) {
-  //   add submit event {
-  //     closeModal();
-  //     submitData();
-  //   }
+  function editTodo(e) {
+    e.preventDefault();
+    //check if user has changed anything
+    closeModal();
+    deleteTodo(targetId) 
+    addTodo('unshift', formDialogLm);
+  }
+
+  if (formDialogLm) {
+    formDialogLm.addEventListener('submit', editTodo);
+    alertDialogLm.classList.add('form-dialog--active');
+  }
 
   dialogBackdropLm.addEventListener('click', addFunctionsWF);
   alertDialogLm.addEventListener('keydown', trapFocus);
-  firstLmToFocus.addEventListener('keydown', closeModalWithEscKey);
+  document.body.addEventListener('keydown', closeModalWithEscKey);
 }
