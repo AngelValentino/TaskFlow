@@ -1,9 +1,10 @@
 import { addTodo, deleteTodo } from './data/todo.js';
+import { getTodoInfo } from './main.js';
 
 const dialogBackdropLm = document.getElementById('dialog-backdrop');
 let closeAlertDialogTim;
 
-export function generateConfirmAddPromptDialogHTML() {
+export function generateConfirmDialogHTML() {
   dialogBackdropLm.innerHTML = `
     <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
       <img src="img/garbage-collector-2.jpg" alt=""/>
@@ -38,41 +39,114 @@ export function generateEditTodoDialogHTML() {
   `;
 }
 
-export function openModal(targetId, closeLms, firstLmToFocus, confirmationLm, confirmFunction) {
+export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirmationLm, confirmFunction) {
   const formDialogLm = document.getElementById('form-dialog');
   const alertDialogLm = document.getElementById('dialog');
   const lastFocusLmBeforeAlertDialog = document.activeElement;
+
+  console.log(lastFocusLmBeforeAlertDialog);
 
   document.body.style.overflow = 'hidden';
   clearTimeout(closeAlertDialogTim);
   dialogBackdropLm.style.display = 'flex';
   firstLmToFocus.focus();
+  if (formDialogLm) {
+    alertDialogLm.classList.add('form-dialog--active');
+  }
   // The timeout isn't really necessary, as the import delay is enough to activate transitions.
   setTimeout(() => {
     dialogBackdropLm.classList.add('dialog-backdrop--active');
     alertDialogLm.classList.add('dialog--active');
   });
 
-  function closeModal() {
+  function addEventsListeners() {
+    if (formDialogLm) {
+      formDialogLm.addEventListener('submit', editTodo);
+    }
+    document.body.addEventListener('keydown', closeModalWithEscKey);
+    dialogBackdropLm.addEventListener('click', addFunctionsWF);
+    alertDialogLm.addEventListener('keydown', trapFocus);
+  }
+
+  function removeEventsListeners() {
     if (formDialogLm) {
       formDialogLm.removeEventListener('submit', editTodo);
-      alertDialogLm.classList.remove('form-dialog--active');
     }
-    document.body.style.overflow = 'initial';
     document.body.removeEventListener('keydown', closeModalWithEscKey);
     alertDialogLm.removeEventListener('keydown', trapFocus)
     dialogBackdropLm.removeEventListener('click', addFunctionsWF);
-    dialogBackdropLm.classList.remove('dialog-backdrop--active')
+  }
+
+  function closeModal() {
+ 
+    removeEventsListeners();
+    document.body.style.overflow = 'initial';
+    dialogBackdropLm.classList.remove('dialog-backdrop--active');
     alertDialogLm.classList.remove('dialog--active');
     closeAlertDialogTim = setTimeout(() => {
+      alertDialogLm.classList.remove('form-dialog--active');
       dialogBackdropLm.style.display = 'none';
     }, 250);
-    lastFocusLmBeforeAlertDialog.focus();
+    // Once the confirm edit modal appears. Focus moves to the body, so the if statement tells the browser to focus back the buttonLm.
+    // We need to get the element again because it has just been generated and lastFocusLmBeforeAlertDialog can't target it anymore.
+    if (lastFocusLmBeforeAlertDialog.matches('body') || lastFocusLmBeforeAlertDialog.matches(`#todo__edit-btn-${targetId}`)) {
+      const editTodoBtnLm = document.getElementById(`todo__edit-btn-${targetId}`);
+      editTodoBtnLm.focus();
+    } 
+    else {
+      lastFocusLmBeforeAlertDialog.focus();
+    }
+  }
+
+  function closeEditDialog() {
+    setTimeout(() => {
+      alertDialogLm.classList.remove('form-dialog--active');
+    }, 250)
+    removeEventsListeners();
+    alertDialogLm.classList.remove('dialog--active');
+    // Calling generateEditTodoDialogHTML() alredy removes the class.
+    alertDialogLm.classList.remove('dialog--edit');
+  }
+
+  function openConfirmEditDialog() {
+    closeEditDialog()
+    setTimeout(() => {
+      generateConfirmDialogHTML();
+      const alertDialogLm = document.getElementById('dialog');
+      const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
+      const confirmationLm = document.getElementById('dialog__confirmation-btn');
+      const discardBtn = document.getElementById('dialog__discard-btn');
+      alertDialogLm.classList.add('dialog--edit');
+      openModal(targetId, {formerEdit: todoInfo.formerEdit, currentEdit: getTodoInfo(formDialogLm)}, closeLms, discardBtn, confirmationLm);
+    }, 400)
+  }
+
+  function closeConfirmEditDialog() {
+    closeEditDialog();
+    setTimeout(() => {
+      generateEditTodoDialogHTML();
+      const closeBtn = document.getElementById('form-dialog__cancel-btn');
+      const formDialogLm = document.getElementById('form-dialog');
+      const formInputs = formDialogLm.querySelectorAll('input, textarea');
+      formInputs.forEach((input) => {
+        input.value = todoInfo.currentEdit[input.name];
+      })
+      openModal(targetId, todoInfo, closeBtn, closeBtn);
+    }, 400)
   }
 
   function closeModalWithEscKey(e) {
     if (e.key === 'Escape') {
-      closeModal();
+      if (isFormEdited()) {
+        openConfirmEditDialog();
+        return;
+      } 
+      if (alertDialogLm.matches('.dialog--edit')) {
+        closeConfirmEditDialog();
+      } 
+      else {
+        closeModal();
+      }
     }
   }
 
@@ -101,21 +175,61 @@ export function openModal(targetId, closeLms, firstLmToFocus, confirmationLm, co
     }
   }
 
+  function isFormEdited() {
+    if (!formDialogLm) {
+      return 0;
+    }
+    const currentTodoInfo = getTodoInfo(formDialogLm);
+    if (
+      currentTodoInfo.task !== todoInfo.formerEdit.task || 
+      currentTodoInfo.date !== todoInfo.formerEdit.date || 
+      currentTodoInfo.description !== todoInfo.formerEdit.description
+      ) {
+      return true;
+    } 
+    else {
+      return false;
+    }
+  }
+
   function addFunctions(e, closeLms, confirmationLm = 1, confirmFunction) {
     if (e.target.matches('#dialog-backdrop')) {
-      closeModal();
+      if (isFormEdited()) {
+        openConfirmEditDialog();
+      } 
+      else if (alertDialogLm.matches('.dialog--edit')) {
+        closeConfirmEditDialog();
+      } 
+      else {
+        closeModal();
+      }
       return;
-    }
-    if (e.target.closest('#' + confirmationLm.id)) {
+    } 
+    else if (e.target.closest('#' + confirmationLm.id)) {
       closeModal();
-      confirmFunction();
+      if (!alertDialogLm.matches('.dialog--edit')) {
+        confirmFunction();
+      }
       return;
-    }
+    } 
+
     const fmtdCloseLms = closeLms.length ? closeLms : [closeLms];
 
     for (let i = 0; i < fmtdCloseLms.length; i++) {
       if (e.target.closest('#' + fmtdCloseLms[i].id)) {
-        closeModal();
+        if (isFormEdited()) {
+          openConfirmEditDialog();
+          break;
+        } 
+        else {
+          if (alertDialogLm.matches('.dialog--edit')) {
+            closeConfirmEditDialog();
+          } 
+          else {
+            console.log('banana');
+            closeModal();
+          }
+        }
         break;
       }
     }
@@ -127,18 +241,16 @@ export function openModal(targetId, closeLms, firstLmToFocus, confirmationLm, co
 
   function editTodo(e) {
     e.preventDefault();
-    //check if user has changed anything
+    if (!isFormEdited()) {
+      // form has not been edited
+      closeModal();
+      return;
+    }
+    // form has been edited
+    deleteTodo(targetId);
+    addTodo('unshift', formDialogLm, targetId);
     closeModal();
-    deleteTodo(targetId) 
-    addTodo('unshift', formDialogLm);
   }
 
-  if (formDialogLm) {
-    formDialogLm.addEventListener('submit', editTodo);
-    alertDialogLm.classList.add('form-dialog--active');
-  }
-
-  dialogBackdropLm.addEventListener('click', addFunctionsWF);
-  alertDialogLm.addEventListener('keydown', trapFocus);
-  document.body.addEventListener('keydown', closeModalWithEscKey);
+  addEventsListeners();
 }

@@ -1,6 +1,6 @@
 import { 
   openModal, 
-  generateConfirmAddPromptDialogHTML, 
+  generateConfirmDialogHTML, 
   generateEditTodoDialogHTML 
 } from './dialog.js';
 
@@ -35,17 +35,18 @@ const introPrompts = {
   }
 };
 
-// Todo 20/03/2024: Complete todo app widget.
+// Todo 23/03/2024: Complete todo app widget.
 
-  /*  Completed dialog modularity.
-    // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog. 
+  /*  Completed - Dialog modularity.
+        // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog. 
   */
 
-  // Implement edit Todo
-    // Open a form dialog with the task values typed in
-    // check if the use has changed anything and send confirmational modal
-    // Submit data and unshift to todos array
-
+  /*  Completed - implement edit Todo
+        // Open a form dialog with the task values typed in
+        // Check if the user has changed anything and send a confirmational modal
+        // Submit data and unshift to todos array
+  */
+  
   // fix add todo prompt focus bug
 
   // Add max incompleted todos limit = 100;
@@ -85,7 +86,7 @@ const introPrompts = {
 
   // Place todo data code in its own file, todo.js.
 
-// Todo 20/03/2024: Complete todo app widget.
+// Todo 23/03/2024: Complete todo app widget.
 
 async function getQuoteData() {
   const response = await fetch('/.netlify/functions/fetch-data');
@@ -165,12 +166,12 @@ function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}
 
 const formatDate = (value) => value.split('-').reverse().join('-');
 
-export function getFormData(form) {
+export function getFormData(form, formatDateBoolean, id) {
   const todoData = {};
   const allFormInputs = [...form.querySelectorAll('input, textarea')];
   
   allFormInputs.forEach((input) => {
-    if ((input.name) === 'date') {
+    if ((input.name  === 'date' && formatDateBoolean)) {
       todoData[input.name] = formatDate(input.value)
     }   
     else {
@@ -178,7 +179,13 @@ export function getFormData(form) {
     }
   });
 
-  todoData.id = `task-${Date.now()}`;
+  if (id) {
+    todoData.id = id;
+  } 
+  else {
+    todoData.id = `task-${Date.now()}`;
+  }
+
   todoData.completed = false;
   return todoData;
 }
@@ -220,7 +227,7 @@ export function generateTodosHTML() {
             <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
           </button>
           <div>
-            <button class="todo__edit-btn" aria-label="Edit todo." type="button">
+            <button class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
               <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
             </button>
             <button class="todo__delete-btn" aria-label="Delete todo." type="button">
@@ -252,13 +259,13 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 });
 
 addTodoPromptCloseBtn.addEventListener('click', () => {
-  const todoData = Object.values(getFormData(addTodoPromptFormLm));
+  const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
   if(todoData[0] || todoData[1] || todoData[2]) {
-    generateConfirmAddPromptDialogHTML();
+    generateConfirmDialogHTML();
     const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
     const confirmationLm = document.getElementById('dialog__confirmation-btn');
     const discardBtn = document.getElementById('dialog__discard-btn');
-    openModal(null, closeLms, discardBtn, confirmationLm, resetForm);
+    openModal(null, null, closeLms, discardBtn, confirmationLm, resetForm);
     // add focus at form close
   } 
   else {
@@ -284,8 +291,16 @@ function addTodoInfoToEditForm(targetId, formInputs) {
   });
 }
 
+export function getTodoInfo(formDialogLm) {
+  const formInputs = formDialogLm.querySelectorAll('input, textarea');
+  const todoInfo = {};
+  formInputs.forEach((input) => {
+    todoInfo[input.name] = input.value;
+  })
+  return todoInfo;
+}
+
 todosContainerLm.addEventListener('click', (e) => {
-  console.log(e.target)
   if (e.target.closest('.todo__complete-btn')) {
     //complete todo
   } 
@@ -295,8 +310,8 @@ todosContainerLm.addEventListener('click', (e) => {
     const targetId = e.target.closest('li').id;
     const formDialogLm = document.getElementById('form-dialog');
     const formInputs = formDialogLm.querySelectorAll('input, textarea');
-    addTodoInfoToEditForm(targetId, formInputs)
-    openModal(targetId, closeBtn, closeBtn);
+    addTodoInfoToEditForm(targetId, formInputs);
+    openModal(targetId, {formerEdit: getTodoInfo(formDialogLm)}, closeBtn, closeBtn);
   } 
   else if (e.target.closest('.todo__delete-btn')) {
     const targetId = e.target.closest('li').id;
