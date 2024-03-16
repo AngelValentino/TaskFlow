@@ -41,23 +41,26 @@ const introPrompts = {
         // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog. 
   */
 
-  /*  Completed - implement edit Todo
+  /*  Completed - Implement edit Todo.
         // Open a form dialog with the task values typed in
         // Check if the user has changed anything and send a confirmational modal
         // Submit data and unshift to todos array
   */
   
-  // fix add todo prompt focus bug
 
-  // Add max incompleted todos limit = 100;
+  /*  Completed - Fix add todo prompt focus bug.
+        // fix add todo prompt focus bug 
+  */
+
+  // todo staurday - Add max incompleted todos limit = 100;
     // if (user tries to submit todoData and there already are 100 incompleted todos) {
     //   show informational dialog = there are already 100 incompleted todos, you've reached the allowed task limit.
     //   then close dialog and close and reset addTodoPrompt.
     // }
 
-  // Make new todos start from the beginning of the array insted of the end.
+  // todo saturday - Make new todos start from the beginning of the array insted of the end.
 
-  // Add deleteTodo confirmational dialog
+  // todo saturday - Add deleteTodo confirmational dialog
 
   // Implement complete todo
     // if (user clicks complete) {
@@ -108,12 +111,25 @@ function checkActiveBtn(btnLm) {
 function showPrompt(promptLm, btnLm, classToAdd) {
   promptLm.removeAttribute('hidden');
   btnLm.setAttribute('aria-expanded', true);
+  // It needs a bigger delay, 20ms, than usual. Probably due to the complexity of the timeouts and animations interlinked all together.
   setTimeout(() => {
     promptLm.classList.add(classToAdd);
-  }, 10);
+  }, 20);
+  // For an element to focus it needs to be called after hidden goes away.
+  // Without a timeout it adds lag to the showPromptAnimation.
+  // Check if closePromptBtn is hidden else focus it.
+  if (btnLm.matches('#todo-app-intro__search-btn')) {
+    btnLm.focus();
+  } 
+  else {
+    setTimeout(() => {
+      addTodoPromptCloseBtn.focus();
+    }, 125)
+  }
 }
 
 function hidePrompt(promptLm, btnLm, classToRemove, timeoutId, time) {
+  btnLm.focus();
   btnLm.setAttribute('aria-expanded', false);
   promptLm.classList.remove(classToRemove);
   timsIntroBtns[timeoutId] = setTimeout(() => {
@@ -131,6 +147,10 @@ function checkLastBtnTim(e, key, classToMatch, timToMatch) {
   }
 }
 
+
+// Check if a timeout exists and skip clear if another button is clicked to avoid animation break
+// Needs refactor for sure
+
 function clearAllIntroBtnsTims(lastActiveTim, e) {
   for (const key in timsIntroBtns) {
     if (key !== lastActiveTim) {
@@ -138,7 +158,8 @@ function clearAllIntroBtnsTims(lastActiveTim, e) {
         checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'addTodoTim') || 
         checkLastBtnTim(e, key, 'todo-app-intro__add-btn', 'searchTim') || 
         checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'submitPromptTim') ||
-        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'alertDialogDiscardChangesTim')
+        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'alertDialogDiscardChangesTim') || 
+        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'closeAddTodoPromptTim')
         ) {
         continue;
       }
@@ -189,8 +210,6 @@ export function getFormData(form, formatDateBoolean, id) {
   todoData.completed = false;
   return todoData;
 }
-
-// add focus to close btn
 
 function showAddTodoPrompt(e) {
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
