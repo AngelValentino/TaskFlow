@@ -13,25 +13,20 @@
   position: fixed;
   inset: 0;
   z-index: 10;
-  /**/
   display: none;
   align-items: center;
   justify-content: center;
-  /**/
   opacity: 0;
   transition: opacity 0.25s;
 }
 
 .dialog {
   position: relative;
-  /**/
   max-width: 400px;
   background-color: #fff;
   padding: 30px;
   border-radius: 5px;
-  /**/
   text-align: center;
-  /**/
   transform: scale(0);
   transition: transform 0.25s;
 }
@@ -51,9 +46,9 @@
   margin: 0 0 30px;
 } 
 
-.dialog > div button {
+.dialog__btns button {
   background-color: #77B1A9;
-  padding: 10px;
+  padding: 12px 18px;
   color: #fff;
   border-radius: 3px;
 }

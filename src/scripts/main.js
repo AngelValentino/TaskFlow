@@ -1,7 +1,8 @@
 import { 
   openModal, 
   generateConfirmDialogHTML, 
-  generateEditTodoDialogHTML 
+  generateEditTodoDialogHTML,
+  initializateConfirmLimitDialog
 } from './dialog.js';
 
 import { todos, addTodo, deleteTodo } from './data/todo.js';
@@ -52,12 +53,13 @@ const introPrompts = {
         // fix add todo prompt focus bug 
   */
 
-  // todo staurday - Add max incompleted todos limit = 100;
-    // if (user tries to submit todoData and there already are 100 incompleted todos) {
-    //   show informational dialog = there are already 100 incompleted todos, you've reached the allowed task limit.
-    //   then close dialog and close and reset addTodoPrompt.
-    // }
-
+  /*  Completed - Add max incompleted todos; limit = 100.
+        // if (user tries to submit todoData and there already are 100 incompleted todos) {
+        //   show informational dialog = there are already 100 incompleted todos, you've reached the allowed task limit.
+        //   then close dialog and close and reset addTodoPrompt.
+        // }
+  */
+ 
   // todo saturday - Make new todos start from the beginning of the array insted of the end.
 
   // todo saturday - Add deleteTodo confirmational dialog
@@ -124,7 +126,7 @@ function showPrompt(promptLm, btnLm, classToAdd) {
   else {
     setTimeout(() => {
       addTodoPromptCloseBtn.focus();
-    }, 125)
+    }, 135)
   }
 }
 
@@ -147,10 +149,8 @@ function checkLastBtnTim(e, key, classToMatch, timToMatch) {
   }
 }
 
-
 // Check if a timeout exists and skip clear if another button is clicked to avoid animation break
 // Needs refactor for sure
-
 function clearAllIntroBtnsTims(lastActiveTim, e) {
   for (const key in timsIntroBtns) {
     if (key !== lastActiveTim) {
@@ -234,6 +234,28 @@ function resetForm() {
   hidePrompt(promptLm, btnLm, activeClass, 'alertDialogDiscardChangesTim', time);
 }
 
+function isTodosLimitReached() {
+  let incompletedTodosCounter = 1;
+  todos.forEach(({completed}) => {
+    if (!completed) {
+      incompletedTodosCounter++;
+    }
+  });
+  console.log(incompletedTodosCounter);
+  if (incompletedTodosCounter > 100) {
+    return 1;
+  } 
+  else {
+    return 0;
+  }
+}
+
+function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, time) {
+  checkActiveBtn(btnLm);
+  hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
+  addTodoPromptFormLm.reset();
+} 
+
 export function generateTodosHTML() {
   const generetedHTML = todos
     .map((todo) => `
@@ -271,10 +293,19 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
   e.preventDefault();
   const {promptLm, btnLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
 
-  addTodo('push', addTodoPromptFormLm);
-  checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
-  addTodoPromptFormLm.reset();
+  if (isTodosLimitReached()) {
+    generateConfirmDialogHTML();
+    initializateConfirmLimitDialog();
+    const closeLm = document.getElementById('dialog__cancel-btn');
+    const confirmationLm = document.getElementById('dialog__confirmation-btn');
+    openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, time));
+  } 
+  else {
+    addTodo('push', addTodoPromptFormLm);
+    checkActiveBtn(btnLm);
+    hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
+    addTodoPromptFormLm.reset();
+  }
 });
 
 addTodoPromptCloseBtn.addEventListener('click', () => {
@@ -285,13 +316,11 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
     const confirmationLm = document.getElementById('dialog__confirmation-btn');
     const discardBtn = document.getElementById('dialog__discard-btn');
     openModal(null, null, closeLms, discardBtn, confirmationLm, resetForm);
-    // add focus at form close
   } 
   else {
     const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
     checkActiveBtn(btnLm);
     hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
-    // add focus at form close
   }
 });
 

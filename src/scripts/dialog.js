@@ -4,6 +4,16 @@ import { getTodoInfo } from './main.js';
 const dialogBackdropLm = document.getElementById('dialog-backdrop');
 let closeAlertDialogTim;
 
+export function initializateConfirmLimitDialog() {
+  //change image
+  const dialogBtnsLm = document.getElementById('dialog__btns');
+  const dialogDescLm = document.getElementById('dialog__desc');
+  dialogBtnsLm.innerHTML = `
+    <button style="padding: 12px 20px" class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Ok</button>
+  `; 
+  dialogDescLm.innerText = 'You have reached the maximum, 100 todos, allowed limit.';
+}
+
 export function generateConfirmDialogHTML() {
   dialogBackdropLm.innerHTML = `
     <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
@@ -12,7 +22,7 @@ export function generateConfirmDialogHTML() {
         <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
       </button>
       <p class="dialog__desc" id="dialog__desc">Are you sure you want to discard all changes made in form?</p>
-      <div>
+      <div class="dialog__btns" id="dialog__btns">
         <button class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Yes</button>
         <button class="dialog__discard-btn" id="dialog__discard-btn" type="button">No</button>
       </div>
