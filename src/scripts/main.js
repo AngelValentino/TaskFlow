@@ -59,9 +59,11 @@ const introPrompts = {
         //   then close dialog and close and reset addTodoPrompt.
         // }
   */
- 
-  // todo saturday - Make new todos start from the beginning of the array insted of the end.
 
+  /*  Completed - Make new todos start from the beginning of the array insted of the end of it.       
+      // todo saturday - Make new todos start from the beginning of the array insted of the end.
+  */
+ 
   // todo saturday - Add deleteTodo confirmational dialog
 
   // Implement complete todo
@@ -301,7 +303,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
     openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, time));
   } 
   else {
-    addTodo('push', addTodoPromptFormLm);
+    addTodo('unshift', addTodoPromptFormLm);
     checkActiveBtn(btnLm);
     hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
     addTodoPromptFormLm.reset();
