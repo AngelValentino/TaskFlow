@@ -2,7 +2,7 @@ import {
   openModal, 
   generateConfirmDialogHTML, 
   generateEditTodoDialogHTML,
-  initializateConfirmLimitDialog
+  initializeConfirmLimitDialog
 } from './dialog.js';
 
 import { todos, addTodo, deleteTodo } from './data/todo.js';
@@ -47,8 +47,11 @@ const introPrompts = {
         // Check if the user has changed anything and send a confirmational modal
         // Submit data and unshift to todos array
   */
-  
 
+  /*  Completed - Place todo data code in its own file, todo.js.        
+      // Place todo data code in its own file, todo.js. 
+  */
+  
   /*  Completed - Fix add todo prompt focus bug.
         // fix add todo prompt focus bug 
   */
@@ -63,10 +66,12 @@ const introPrompts = {
   /*  Completed - Make new todos start from the beginning of the array insted of the end of it.       
       // todo saturday - Make new todos start from the beginning of the array insted of the end.
   */
- 
-  // todo saturday - Add deleteTodo confirmational dialog
 
-  // Implement complete todo
+  /*  Completed - Add deleteTodo confirmational dialog.     
+      // todo saturday - Add deleteTodo confirmational dialog 
+  */
+
+  // Todo Saturday - Implement complete todo.
     // if (user clicks complete) {
     //   show and alert modal to confrm if they want to complete it
     // } else {
@@ -81,17 +86,17 @@ const introPrompts = {
     //     send todo to the bottom of the list
     // }
 
-  // Make todo section functional 
+  // Todo Saturday - Make todo section functional .
     // generate HTML depending on if the task is completed or not.
     // All => genereateTodosHTML()
     // Tasks => completed = false; generateTasksHTML()
     // Completed => completed = true; generateCompletedTasksHTML();
 
-  // Implement clear all todos and confirmationa modal
+  // Todo Saturday - Implement clear all todos and confirmationa modal.
   
-  // Implement search todos
+  // Todo Saturday - Implement search todos.
 
-  // Place todo data code in its own file, todo.js.
+  // Todo Saturday - Refactor initialize elements before generateDialogHTML to be modular.
 
 // Todo 23/03/2024: Complete todo app widget.
 
@@ -297,7 +302,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 
   if (isTodosLimitReached()) {
     generateConfirmDialogHTML();
-    initializateConfirmLimitDialog();
+    initializeConfirmLimitDialog();
     const closeLm = document.getElementById('dialog__cancel-btn');
     const confirmationLm = document.getElementById('dialog__confirmation-btn');
     openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, time));
@@ -350,11 +355,13 @@ export function getTodoInfo(formDialogLm) {
   return todoInfo;
 }
 
+// Add events listeners to todo buttons.
 todosContainerLm.addEventListener('click', (e) => {
   if (e.target.closest('.todo__complete-btn')) {
-    //complete todo
+    // Complete Todo.
   } 
   else if (e.target.closest('.todo__edit-btn')) {
+    // Edit Todo.
     generateEditTodoDialogHTML();
     const closeBtn = document.getElementById('form-dialog__cancel-btn');
     const targetId = e.target.closest('li').id;
@@ -364,8 +371,17 @@ todosContainerLm.addEventListener('click', (e) => {
     openModal(targetId, {formerEdit: getTodoInfo(formDialogLm)}, closeBtn, closeBtn);
   } 
   else if (e.target.closest('.todo__delete-btn')) {
+    // Delete todo.
     const targetId = e.target.closest('li').id;
-    deleteTodo(targetId);
+    generateConfirmDialogHTML();
+    const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
+    const confirmationLm = document.getElementById('dialog__confirmation-btn');
+    const discardBtn = document.getElementById('dialog__discard-btn');
+
+    const dialogDescLm = document.getElementById('dialog__desc');
+    dialogDescLm.innerText = 'Are you sure that you want to delete this task?';
+
+    openModal(null, null, closeLms, discardBtn, confirmationLm, deleteTodo.bind(null, targetId));
   }
 });
 

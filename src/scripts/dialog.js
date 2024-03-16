@@ -4,7 +4,7 @@ import { getTodoInfo } from './main.js';
 const dialogBackdropLm = document.getElementById('dialog-backdrop');
 let closeAlertDialogTim;
 
-export function initializateConfirmLimitDialog() {
+export function initializeConfirmLimitDialog() {
   //change image
   const dialogBtnsLm = document.getElementById('dialog__btns');
   const dialogDescLm = document.getElementById('dialog__desc');
@@ -114,7 +114,7 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
     }, 250)
     removeEventsListeners();
     alertDialogLm.classList.remove('dialog--active');
-    // Calling generateEditTodoDialogHTML() alredy removes the class.
+    // Calling generateEditTodoDialogHTML() already removes the class.
     alertDialogLm.classList.remove('dialog--edit');
   }
 
@@ -236,7 +236,6 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
             closeConfirmEditDialog();
           } 
           else {
-            console.log('banana');
             closeModal();
           }
         }
