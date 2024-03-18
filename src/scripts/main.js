@@ -95,6 +95,9 @@ const introPrompts = {
     // Tasks => completed = false; generateTasksHTML()
     // Completed => completed = true; generateCompletedTasksHTML();
 
+    //if todo section is empty generate frog chilling in pool.
+    //remember the section clicked when the page loads.
+
   // Todo Saturday - Implement clear all todos and confirmationaL modal.
   
   // Todo Saturday - Implement search todos.

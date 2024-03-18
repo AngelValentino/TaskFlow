@@ -57,7 +57,7 @@ main {
   justify-content: center;
   gap: 100px;
   padding: 30px;
-  background-image: url(../img/purple-background.jpg);
+  background-image: url(../img/app-background/purple-background.jpg);
 }
 
 /* END OF MAIN */

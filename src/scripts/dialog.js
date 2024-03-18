@@ -17,7 +17,7 @@ export function initializeConfirmLimitDialog() {
 export function generateConfirmDialogHTML() {
   dialogBackdropLm.innerHTML = `
     <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
-      <img src="img/garbage-collector-2.jpg" alt=""/>
+      <img src="img/recycle-icons/garbage-collector-2.jpg" alt=""/>
       <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
         <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
       </button>
