@@ -10,6 +10,8 @@ import { todos, addTodo, deleteTodo } from './data/todo.js';
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
+const todosSectionsContainerLm = document.getElementById('todo-sections');
+const allBtnLm = document.getElementById('todo-sections__all-btn');
 const todosContainerLm = document.getElementById('todos-container');
 const timsIntroBtns = {};
 
@@ -49,7 +51,7 @@ const introPrompts = {
   */
 
   /*  Completed - Place todo data code in its own file, todo.js.        
-      // Place todo data code in its own file, todo.js. 
+        // Place todo data code in its own file, todo.js. 
   */
   
   /*  Completed - Fix add todo prompt focus bug.
@@ -64,27 +66,28 @@ const introPrompts = {
   */
 
   /*  Completed - Make new todos start from the beginning of the array insted of the end of it.       
-      // todo saturday - Make new todos start from the beginning of the array insted of the end.
+        // todo saturday - Make new todos start from the beginning of the array insted of the end.
   */
 
   /*  Completed - Add deleteTodo confirmational dialog.     
-      // todo saturday - Add deleteTodo confirmational dialog 
+        // todo saturday - Add deleteTodo confirmational dialog 
   */
 
-  // Todo Saturday - Implement complete todo.
-    // if (user clicks complete) {
-    //   show and alert modal to confrm if they want to complete it
-    // } else {
-    //   change todo complete = true
-    // }
+  /*  Completed - Implement complete todo.
+        // if (user clicks complete) {
+        //   show and alert modal to confrm if they want to complete it
+        // } else {
+        //   change todo complete = true
+        // }
 
-    // in genereateHTML before generating the todo check 
-    // if (todo.complete === true) {
-    //   generate a HTML template for the completed todo
-    //     add only a delete button
-    //     make the todo grey
-    //     send todo to the bottom of the list
-    // }
+        // in genereateHTML before generating the todo check 
+        // if (todo.complete === true) {
+        //   generate a HTML template for the completed todo
+        //     add only a delete button
+        //     make the todo grey
+        //     send todo to the bottom of the list
+        // } 
+  */
 
   // Todo Saturday - Make todo section functional.
     // generate HTML depending on if the task is completed or not.
@@ -287,47 +290,89 @@ export function getTodoInfo(formDialogLm) {
   return todoInfo;
 }
 
+function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
+  sectionBtnLms.forEach((sectionBtn) => {
+    if (!sectionBtn.matches(btnToAddId)) {
+      sectionBtn.classList.remove('todo-sections--active-btn');
+    } 
+    else {
+      sectionBtn.classList.add('todo-sections--active-btn')
+    }
+  }); 
+}
+
 export function generateTodosHTML() {
-  const generatedHTML = todos
+  const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
+  const completedBtnLm = document.getElementById('todo-sections__completed-btn');
+  let generatedHTML;
+
+  function generateTaskHTML(todo) {
+    return `
+    <li id="${todo.id}" class="todo">
+      <h3 class="todo__task-name">${todo.task}</h3>
+      <p class="todo__task-date">${todo.date}</p>
+      <p class="todo__task-desc">${todo.description}</p>
+      <div class="todo__edit-buttons">
+        <button class="todo__complete-btn" aria-label="Complete todo." type="button">
+          <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
+        </button>
+        <div>
+          <button class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
+            <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
+          </button>
+          <button class="todo__delete-btn" aria-label="Delete todo." type="button">
+            <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+          </button>
+        </div>
+      </div>
+    </li>
+  `;
+  }
+
+  function genereateCompletedTaskHTML(todo) {
+    return `
+    <li id="${todo.id}" class="todo todo--completed">
+      <h3 class="todo__task-name">${todo.task}</h3>
+      <p class="todo__task-date todo__task-date--completed">${todo.date}</p>
+      <p class="todo__task-desc">${todo.description}</p>
+      <div class="todo__edit-buttons todo__edit-buttons--completed">
+        <button class="todo__delete-btn" aria-label="Delete todo." type="button">
+          <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+        </button>
+      </div>
+    </li>
+  `;
+  }
+  
+  if (allBtnLm.matches('.todo-sections--active-btn')) {
+    // All section HTML
+    generatedHTML = todos
     .map((todo) => {
       if (todo.completed) {
-        return `
-        <li id="${todo.id}" class="todo todo--completed">
-          <h3 class="todo__task-name">${todo.task}</h3>
-          <p class="todo__task-date todo__task-date--completed">${todo.date}</p>
-          <p class="todo__task-desc">${todo.description}</p>
-          <div class="todo__edit-buttons todo__edit-buttons--completed">
-            <button class="todo__delete-btn" aria-label="Delete todo." type="button">
-              <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
-            </button>
-          </div>
-        </li>
-      `;
+        return genereateCompletedTaskHTML(todo);
       }
-      return `
-        <li id="${todo.id}" class="todo">
-          <h3 class="todo__task-name">${todo.task}</h3>
-          <p class="todo__task-date">${todo.date}</p>
-          <p class="todo__task-desc">${todo.description}</p>
-          <div class="todo__edit-buttons">
-            <button class="todo__complete-btn" aria-label="Complete todo." type="button">
-              <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
-            </button>
-            <div>
-              <button class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
-                <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
-              </button>
-              <button class="todo__delete-btn" aria-label="Delete todo." type="button">
-                <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
-              </button>
-            </div>
-          </div>
-        </li>
-      `
-    }
-    )
+      return generateTaskHTML(todo);
+    })
     .join('');
-
+  } 
+  else if (tasksBtnLm.matches('.todo-sections--active-btn')) {
+    // Tasks section HTML
+    generatedHTML = todos
+    .filter((todo) => {
+      return !todo.completed;
+    })
+    .map((todo) => generateTaskHTML(todo))
+    .join('');
+  } 
+  else if (completedBtnLm.matches('.todo-sections--active-btn')) {
+    // Completed Section HTML
+    generatedHTML = todos
+    .filter((todo) => {
+      return todo.completed;
+    })
+    .map((todo) => genereateCompletedTaskHTML(todo))
+    .join('');
+  }
   todosContainerLm.innerHTML = generatedHTML;
 }
 
@@ -342,6 +387,8 @@ function completeTodo(targetId) {
     }
   }
 }
+
+allBtnLm.classList.add('todo-sections--active-btn');
 
 generateTodosHTML();
 
@@ -381,7 +428,26 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
   }
 });
 
-console.log(todos);
+todosSectionsContainerLm.addEventListener('click', (e) => {
+  const sectionBtnLms = document.querySelectorAll('#todo-sections button');
+  if (e.target.closest('#todo-sections__all-btn')) {
+    // All
+    changeActiveSectionBtn(sectionBtnLms, '#todo-sections__all-btn');
+    generateTodosHTML();
+  } 
+  else if (e.target.closest('#todo-sections__tasks-btn')) {
+    // Tasks
+    changeActiveSectionBtn(sectionBtnLms, '#todo-sections__tasks-btn');
+    generateTodosHTML();
+  } 
+  else if (e.target.closest('#todo-sections__completed-btn')) {
+    // Completed
+    changeActiveSectionBtn(sectionBtnLms, '#todo-sections__completed-btn');
+    generateTodosHTML();
+  }
+});
+
+
 
 // Add events listeners to todo buttons.
 todosContainerLm.addEventListener('click', (e) => {

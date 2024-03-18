@@ -207,7 +207,9 @@ main {
   margin: 0 0 40px;
 }
 
-.todo-sections > button {
+.todo-sections__all-btn,
+.todo-sections__tasks-btn,
+.todo-sections__completed-btn {
   background-color: #efefef;
   padding: 12px;
   border-radius: 50px;
@@ -216,11 +218,6 @@ main {
 
 .todo-sections h2 {
   font-weight: normal;
-}
-
-.todo-sections > button:first-child {
-  background-color: #000;
-  color: #fff;
 }
 
 /* END OF TODO APP SECTIONS*/
@@ -436,6 +433,11 @@ main {
 
 .todo__task-date--completed {
   color: #000;
+}
+
+.todo-sections--active-btn {
+  background-color: #000;
+  color: #fff;
 }
 
 /* END MODIFIERS */
