@@ -424,6 +424,20 @@ main {
   padding: 30px 50px;
 }
 
+.todo__edit-buttons--completed {
+  justify-content: end;
+}
+
+.todo--completed {
+  background-color: #dfd684;
+  color: #000;
+  text-decoration: line-through;
+}
+
+.todo__task-date--completed {
+  color: #000;
+}
+
 /* END MODIFIERS */
 .test-colors {
   color: #16a085;

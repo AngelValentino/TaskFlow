@@ -1,4 +1,4 @@
-/* ALERT DIALOG */
+/* DIALOG */
 
 #test-open-modal {
   background-color: tomato;
@@ -46,7 +46,7 @@
   margin: 0 0 30px;
 } 
 
-.dialog__btns button {
+.dialog__btns > button {
   background-color: #77B1A9;
   padding: 12px 18px;
   color: #fff;
@@ -56,10 +56,6 @@
 .dialog__cancel-btn span, .form-dialog__cancel-btn span {
   font-size: 1.4em;
 }
-
-/* END OF ALERT DIALOG */
-
-/* DIALOG */
 
 /* END OF DIALOG */
 

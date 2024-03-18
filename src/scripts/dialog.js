@@ -28,6 +28,10 @@ export function generateConfirmDialogHTML() {
       </div>
     </div>
   `;
+  const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
+  const confirmationLm = document.getElementById('dialog__confirmation-btn');
+  const discardBtn = document.getElementById('dialog__discard-btn');
+  return {closeLms, confirmationLm, discardBtn};
 }
 
 export function generateEditTodoDialogHTML() {

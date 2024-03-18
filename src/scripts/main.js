@@ -86,17 +86,17 @@ const introPrompts = {
     //     send todo to the bottom of the list
     // }
 
-  // Todo Saturday - Make todo section functional .
+  // Todo Saturday - Make todo section functional.
     // generate HTML depending on if the task is completed or not.
     // All => genereateTodosHTML()
     // Tasks => completed = false; generateTasksHTML()
     // Completed => completed = true; generateCompletedTasksHTML();
 
-  // Todo Saturday - Implement clear all todos and confirmationa modal.
+  // Todo Saturday - Implement clear all todos and confirmationaL modal.
   
   // Todo Saturday - Implement search todos.
 
-  // Todo Saturday - Refactor initialize elements before generateDialogHTML to be modular.
+  // Todo Saturday - Refactor initialize elements before generateDialogHTML to become modular.
 
 // Todo 23/03/2024: Complete todo app widget.
 
@@ -263,31 +263,84 @@ function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, time) {
   addTodoPromptFormLm.reset();
 } 
 
+function addTodoInfoToEditForm(targetId, formInputs) {
+  todos.forEach((todo) => {
+    if (todo.id === targetId) {
+      formInputs.forEach((input) => {
+        if (input.name === 'date') {
+          input.value = formatDate(todo[input.name]);
+        } 
+        else {
+          input.value = todo[input.name];
+        }
+      });
+    }
+  });
+}
+
+export function getTodoInfo(formDialogLm) {
+  const formInputs = formDialogLm.querySelectorAll('input, textarea');
+  const todoInfo = {};
+  formInputs.forEach((input) => {
+    todoInfo[input.name] = input.value;
+  })
+  return todoInfo;
+}
+
 export function generateTodosHTML() {
-  const generetedHTML = todos
-    .map((todo) => `
-      <li id="${todo.id}" class="todo">
-        <h3 class="todo__task-name">${todo.task}</h3>
-        <p class="todo__task-date">${todo.date}</p>
-        <p class="todo__task-desc">${todo.description}</p>
-        <div class="todo__edit-buttons">
-          <button class="todo__complete-btn" aria-label="Complete todo." type="button">
-            <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
-          </button>
-          <div>
-            <button class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
-              <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
-            </button>
+  const generatedHTML = todos
+    .map((todo) => {
+      if (todo.completed) {
+        return `
+        <li id="${todo.id}" class="todo todo--completed">
+          <h3 class="todo__task-name">${todo.task}</h3>
+          <p class="todo__task-date todo__task-date--completed">${todo.date}</p>
+          <p class="todo__task-desc">${todo.description}</p>
+          <div class="todo__edit-buttons todo__edit-buttons--completed">
             <button class="todo__delete-btn" aria-label="Delete todo." type="button">
               <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
             </button>
           </div>
-        </div>
-      </li>
-    `)
+        </li>
+      `;
+      }
+      return `
+        <li id="${todo.id}" class="todo">
+          <h3 class="todo__task-name">${todo.task}</h3>
+          <p class="todo__task-date">${todo.date}</p>
+          <p class="todo__task-desc">${todo.description}</p>
+          <div class="todo__edit-buttons">
+            <button class="todo__complete-btn" aria-label="Complete todo." type="button">
+              <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
+            </button>
+            <div>
+              <button class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
+                <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
+              </button>
+              <button class="todo__delete-btn" aria-label="Delete todo." type="button">
+                <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </div>
+        </li>
+      `
+    }
+    )
     .join('');
 
-  todosContainerLm.innerHTML = generetedHTML;
+  todosContainerLm.innerHTML = generatedHTML;
+}
+
+function completeTodo(targetId) {
+  for (let i = 0; i < todos.length; i++) {
+    if (todos[i].id === targetId) {
+      const currentTodo = todos[i];
+      currentTodo.completed = true;
+      deleteTodo(currentTodo.id)
+      addTodo('push', null, null, currentTodo)
+      break;
+    }
+  }
 }
 
 generateTodosHTML();
@@ -318,10 +371,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 addTodoPromptCloseBtn.addEventListener('click', () => {
   const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
   if(todoData[0] || todoData[1] || todoData[2]) {
-    generateConfirmDialogHTML();
-    const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
-    const confirmationLm = document.getElementById('dialog__confirmation-btn');
-    const discardBtn = document.getElementById('dialog__discard-btn');
+    const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
     openModal(null, null, closeLms, discardBtn, confirmationLm, resetForm);
   } 
   else {
@@ -331,40 +381,24 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
   }
 });
 
-function addTodoInfoToEditForm(targetId, formInputs) {
-  todos.forEach((todo) => {
-    if (todo.id === targetId) {
-      formInputs.forEach((input) => {
-        if (input.name === 'date') {
-          input.value = formatDate(todo[input.name]);
-        } 
-        else {
-          input.value = todo[input.name];
-        }
-      });
-    }
-  });
-}
-
-export function getTodoInfo(formDialogLm) {
-  const formInputs = formDialogLm.querySelectorAll('input, textarea');
-  const todoInfo = {};
-  formInputs.forEach((input) => {
-    todoInfo[input.name] = input.value;
-  })
-  return todoInfo;
-}
+console.log(todos);
 
 // Add events listeners to todo buttons.
 todosContainerLm.addEventListener('click', (e) => {
   if (e.target.closest('.todo__complete-btn')) {
     // Complete Todo.
+    const targetId = e.target.closest('li').id;
+    const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
+    const dialogDescLm = document.getElementById('dialog__desc');
+    dialogDescLm.innerText = 'Are you sure that you want to complete this task?';
+    openModal(null, null, closeLms, discardBtn, confirmationLm, completeTodo.bind(null, targetId));    
   } 
   else if (e.target.closest('.todo__edit-btn')) {
     // Edit Todo.
-    generateEditTodoDialogHTML();
-    const closeBtn = document.getElementById('form-dialog__cancel-btn');
     const targetId = e.target.closest('li').id;
+    generateEditTodoDialogHTML();
+    //refactor this
+    const closeBtn = document.getElementById('form-dialog__cancel-btn');
     const formDialogLm = document.getElementById('form-dialog');
     const formInputs = formDialogLm.querySelectorAll('input, textarea');
     addTodoInfoToEditForm(targetId, formInputs);
@@ -373,14 +407,9 @@ todosContainerLm.addEventListener('click', (e) => {
   else if (e.target.closest('.todo__delete-btn')) {
     // Delete todo.
     const targetId = e.target.closest('li').id;
-    generateConfirmDialogHTML();
-    const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
-    const confirmationLm = document.getElementById('dialog__confirmation-btn');
-    const discardBtn = document.getElementById('dialog__discard-btn');
-
+    const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
     const dialogDescLm = document.getElementById('dialog__desc');
     dialogDescLm.innerText = 'Are you sure that you want to delete this task?';
-
     openModal(null, null, closeLms, discardBtn, confirmationLm, deleteTodo.bind(null, targetId));
   }
 });
