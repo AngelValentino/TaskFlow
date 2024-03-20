@@ -18,24 +18,18 @@ const timsIntroBtns = {};
 
 const introPrompts = {
   addTodoPrompt: {
+    timId: 'addTodoTim',
     btnLm: document.getElementById('todo-app-intro__add-btn'),
     promptLm: document.getElementById('todo-app-prompt'),
     activeClass: 'todo-app-prompt--active',
-    timeout: {
-      lastPromptTim: 'promptToSearchTim',
-      currentTim: 'addTodoTim',
-      time: 1500
-    }
+    time: 1500
   }, 
   searchTodoPrompt: {
+    timId: 'searchTodoTim',
     btnLm: document.getElementById('todo-app-intro__search-btn'),
     promptLm: document.getElementById('search-todo-prompt'),
     activeClass: 'search-todo-prompt--active',
-    timeout: {
-      lastPromptTim: 'searchToPromptTim',
-      currentTim: 'searchTim',
-      time: 1250
-    }
+    time: 1250
   }
 };
 
@@ -108,7 +102,9 @@ const introPrompts = {
         // Todo Wednesday - Refactor initialize elements before generateDialogHTML to become modular. 
   */
 
-  // Todo Wednesday - Refactor clear intro buttons timeouts.
+  /*  Completed - Refactor clear intro buttons timeouts. 
+        // Todo Wednesday - Refactor clear intro buttons timeouts. 
+  */
 
   // Todo Friday - Count all incompleted todos, display current date.
   
@@ -166,7 +162,6 @@ function hidePrompt(promptLm, btnLm, classToRemove, timeoutId, time) {
   }, time);
 }
 
-
 function checkLastBtnTim(e, key, classToMatch, timToMatch) {
   if (e.currentTarget.matches('.' + classToMatch) && key === timToMatch) {
     return 1;
@@ -176,38 +171,33 @@ function checkLastBtnTim(e, key, classToMatch, timToMatch) {
   }
 }
 
-// Check if a timeout exists and skip clear if another button is clicked to avoid animation break
-// Needs refactor for sure
-function clearAllIntroBtnsTims(lastActiveTim, e) {
+// Clear all timeouts expect the neighbour prompt timeouts.
+function clearAllIntroBtnsTims(e) {
   for (const key in timsIntroBtns) {
-    if (key !== lastActiveTim) {
-      if (
-        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'addTodoTim') || 
-        checkLastBtnTim(e, key, 'todo-app-intro__add-btn', 'searchTim') || 
-        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'submitPromptTim') ||
-        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'alertDialogDiscardChangesTim') || 
-        checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'closeAddTodoPromptTim')
-        ) {
+    if (
+      checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'addTodoTim') || 
+      checkLastBtnTim(e, key, 'todo-app-intro__add-btn', 'searchTodoTim') 
+      ) {
         continue;
       }
       clearTimeout(timsIntroBtns[key]);
-    } 
   }
 }
 
-function removeLastActivePrompt({promptLm, timeout: {lastPromptTim, time}, btnLm, activeClass}) {
+function removeLastActivePrompt({promptLm, time, btnLm, activeClass, timId}) {
   if (btnLm.matches('.btn--active')) {
     checkActiveBtn(btnLm);
-    hidePrompt(promptLm, btnLm, activeClass, lastPromptTim, time);
+    hidePrompt(promptLm, btnLm, activeClass, timId, time);
   }
 }
 
-function togglePrompt({btnLm, promptLm, activeClass, timeout: {currentTim, time}}, {timeout: {lastPromptTim}}, e) {
+function togglePrompt({btnLm, promptLm, activeClass, time, timId}, e) {
   if (promptLm.matches('.' + activeClass)) {
-    hidePrompt(promptLm, btnLm, activeClass, currentTim, time);
+    hidePrompt(promptLm, btnLm, activeClass, timId, time);
   } 
   else {
-    clearAllIntroBtnsTims(lastPromptTim, e);
+    // Clear all timeouts expect the neighbour prompt timeouts. If it wouldn't do that, the neighbour intro prompt would not be set to hidden and would be visible in the accessibility tree.
+    clearAllIntroBtnsTims(e)
     showPrompt(promptLm, btnLm, activeClass);
   }
 } 
@@ -243,7 +233,7 @@ function showAddTodoPrompt(e) {
   const addTodoBtnLm = addTodoPrompt.btnLm;
   checkActiveBtn(addTodoBtnLm);
   removeLastActivePrompt(searchTodoPrompt);
-  togglePrompt(addTodoPrompt, searchTodoPrompt, e);
+  togglePrompt(addTodoPrompt, e);
 }
 
 function showSearchTodoPrompt(e) {
@@ -251,14 +241,14 @@ function showSearchTodoPrompt(e) {
   const searchBtnLm = searchTodoPrompt.btnLm;
   checkActiveBtn(searchBtnLm);
   removeLastActivePrompt(addTodoPrompt);
-  togglePrompt(searchTodoPrompt, addTodoPrompt, e);
+  togglePrompt(searchTodoPrompt, e);
 }
 
 function resetForm() {
-  const {promptLm, btnLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
+  const { promptLm, btnLm, activeClass, timId, time} = introPrompts.addTodoPrompt;
   addTodoPromptFormLm.reset();
   checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, 'alertDialogDiscardChangesTim', time);
+  hidePrompt(promptLm, btnLm, activeClass, timId, time);
 }
 
 function isTodosLimitReached() {
@@ -277,9 +267,9 @@ function isTodosLimitReached() {
   }
 }
 
-function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, time) {
+function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, timId, time) {
   checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
+  hidePrompt(promptLm, btnLm, activeClass, timId, time);
   addTodoPromptFormLm.reset();
 } 
 
@@ -318,20 +308,20 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
   }); 
 }
 
-function isSectionEmpty() {
-  if (todosContainerLm.innerHTML === '') {
-    todosContainerLm.innerHTML = `
-      <div class="todos-container__img-container">
-        <img class="todos-container__empty-section-image" src="img/cute-animals-drawings/croco-capybara.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
-      </div>
-    `;
-  }
-}
-
 export function generateTodosHTML() {
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
   let generatedHTML;
+
+  function isSectionEmpty() {
+    if (todosContainerLm.innerHTML === '') {
+      todosContainerLm.innerHTML = `
+        <div class="todos-container__img-container">
+          <img class="todos-container__empty-section-image" src="img/cute-animals-drawings/croco-capybara.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
+        </div>
+      `;
+    }
+  }
 
   function generateTaskHTML(todo) {
     return `
@@ -428,7 +418,7 @@ function resetTodos() {
 }
 
 function openConfirmDailog(confirmFunction, descText) {
-  const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
+  const { closeLms, confirmationLm, discardBtn } = generateConfirmDialogHTML();
   const dialogDescLm = document.getElementById('dialog__desc');
   dialogDescLm.innerText = descText;
   openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);
@@ -450,19 +440,19 @@ clearAllTodosBtn.addEventListener('click', clearAllTodos);
 
 addTodoPromptFormLm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const {promptLm, btnLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
+  const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
 
   if (isTodosLimitReached()) {
     generateConfirmDialogHTML();
     initializeConfirmLimitDialog();
     const closeLm = document.getElementById('dialog__cancel-btn');
     const confirmationLm = document.getElementById('dialog__confirmation-btn');
-    openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, time));
+    openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
   } 
   else {
     addTodo('unshift', addTodoPromptFormLm);
     checkActiveBtn(btnLm);
-    hidePrompt(promptLm, btnLm, activeClass, 'submitPromptTim', time);
+    hidePrompt(promptLm, btnLm, activeClass, timId, time);
     addTodoPromptFormLm.reset();
   }
 });
@@ -473,9 +463,9 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
     openConfirmDailog(resetForm, 'Are you sure you want to discard all changes made in form?')
   } 
   else {
-    const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
+    const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
     checkActiveBtn(btnLm);
-    hidePrompt(promptLm, btnLm, activeClass, 'closeAddTodoPromptTim', time);
+    hidePrompt(promptLm, btnLm, activeClass, timId, time);
   }
 });
 
@@ -508,7 +498,7 @@ todosContainerLm.addEventListener('click', (e) => {
   else if (e.target.closest('.todo__edit-btn')) {
     // Edit Todo.
     const targetId = e.target.closest('li').id;
-    const {closeBtn, formDialogLm, formInputs} = generateEditTodoDialogHTML();
+    const { closeBtn, formDialogLm, formInputs } = generateEditTodoDialogHTML();
     addTodoInfoToEditForm(targetId, formInputs);
     openModal(targetId, {formerEdit: getTodoInfo(formDialogLm)}, closeBtn, closeBtn);
   } 
