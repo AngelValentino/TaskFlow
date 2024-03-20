@@ -104,8 +104,8 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
     // Once the confirm edit modal appears. Focus moves to the body, so the if statement tells the browser to focus back the buttonLm.
     // We need to get the element again because it has just been generated and lastFocusLmBeforeAlertDialog can't target it anymore.
     if (lastFocusLmBeforeAlertDialog.matches('body') || lastFocusLmBeforeAlertDialog.matches(`#todo__edit-btn-${targetId}`)) {
-      const editTodoBtnLm = document.getElementById(`todo__edit-btn-${targetId}`);
-      editTodoBtnLm.focus();
+      const editTodoBtn = document.getElementById(`todo__edit-btn-${targetId}`);
+      editTodoBtn.focus();
     } 
     else {
       lastFocusLmBeforeAlertDialog.focus();

@@ -10,6 +10,7 @@ import { todos, addTodo, deleteTodo } from './data/todo.js';
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
+const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 const todosSectionsContainerLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
 const todosContainerLm = document.getElementById('todos-container');
@@ -99,13 +100,15 @@ const introPrompts = {
         //remember the section clicked when the page loads. 
   */
 
-  // Todo Wednesday - Implement clear all todos and confirmationaL modal.
+  /*  Completed - Implement clear all todos and confirmationaL modal.
+        // Todo Wednesday - Implement clear all todos and confirmationaL modal. 
+  */
 
   // Todo Wednesday - Refactor initialize elements before generateDialogHTML to become modular.
-  
-  // Todo Friday - Implement search todos.
 
   // Todo Friday - Count all incompleted todos, display current date.
+  
+  // Todo Friday - Implement search todos.
 
   // Todo Saturday - Generate new quote when the new quote button is clicked.
 
@@ -410,6 +413,25 @@ function completeTodo(targetId) {
   }
 }
 
+function resetTodos() {
+  todos.length = 0;
+  generateTodosHTML();
+  localStorage.setItem('todos', JSON.stringify(todos));
+  //hide add prompt or search prompt
+  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
+  removeLastActivePrompt(searchTodoPrompt);
+  removeLastActivePrompt(addTodoPrompt);
+}
+
+function clearAllTodos() {
+  const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
+  
+  const dialogDescLm = document.getElementById('dialog__desc');
+  dialogDescLm.innerText = 'Are you sure that you want to delete all tasks?';
+
+  openModal(null, null, closeLms, discardBtn, confirmationLm, resetTodos);
+}
+
 allBtnLm.classList.add('todo-sections--active-btn');
 
 generateTodosHTML();
@@ -417,6 +439,8 @@ generateTodosHTML();
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 
 introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
+
+clearAllTodosBtn.addEventListener('click', clearAllTodos);
 
 addTodoPromptFormLm.addEventListener('submit', (e) => {
   e.preventDefault();

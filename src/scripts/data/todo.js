@@ -10,8 +10,8 @@ export function addTodo(method, form, id, todoData) {
   else {
     todos[method](todoData);
   }
-  localStorage.setItem('todos', JSON.stringify(todos));
   generateTodosHTML();
+  localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 export function deleteTodo(targetId) {
