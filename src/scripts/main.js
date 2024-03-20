@@ -38,7 +38,7 @@ const introPrompts = {
   }
 };
 
-// Todo 23/03/2024: Complete todo app widget.
+// Todo 23/03/2024: Complete todo and quote widget.
 
   /*  Completed - Dialog modularity.
         // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog. 
@@ -89,27 +89,34 @@ const introPrompts = {
         // } 
   */
 
-  // Todo Saturday - Make todo section functional.
-    // generate HTML depending on if the task is completed or not.
-    // All => genereateTodosHTML()
-    // Tasks => completed = false; generateTasksHTML()
-    // Completed => completed = true; generateCompletedTasksHTML();
+  /*  Completed - Make todo section functional.
+        // generate HTML depending on if the task is completed or not.
+        // All => genereateTodosHTML()
+        // Tasks => completed = false; generateTasksHTML()
+        // Completed => completed = true; generateCompletedTasksHTML();
 
-    //if todo section is empty generate frog chilling in pool.
-    //remember the section clicked when the page loads.
+        //if todo section is empty generate a cute image.
+        //remember the section clicked when the page loads. 
+  */
 
-  // Todo Saturday - Implement clear all todos and confirmationaL modal.
+  // Todo Wednesday - Implement clear all todos and confirmationaL modal.
+
+  // Todo Wednesday - Refactor initialize elements before generateDialogHTML to become modular.
   
-  // Todo Saturday - Implement search todos.
+  // Todo Friday - Implement search todos.
 
-  // Todo Saturday - Refactor initialize elements before generateDialogHTML to become modular.
+  // Todo Friday - Count all incompleted todos, display current date.
 
-// Todo 23/03/2024: Complete todo app widget.
+  // Todo Saturday - Generate new quote when the new quote button is clicked.
+
+  // Todo Saturady - Share with twitter and tumblr.
+
+// Todo 23/03/2024: Complete todo and quote widget.
 
 async function getQuoteData() {
   const response = await fetch('/.netlify/functions/fetch-data');
   if (response.status !== 200) {
-    throw new Error("Could't fetch the data");
+    throw new Error("Couldn't fetch the data");
   }
   return await response.json();
 }
@@ -304,6 +311,16 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
   }); 
 }
 
+function isSectionEmpty() {
+  if (todosContainerLm.innerHTML === '') {
+    todosContainerLm.innerHTML = `
+      <div class="todos-container__img-container">
+        <img class="todos-container__empty-section-image" src="img/cute-animals-drawings/croco-capybara.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
+      </div>
+    `;
+  }
+}
+
 export function generateTodosHTML() {
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
@@ -376,7 +393,9 @@ export function generateTodosHTML() {
     .map((todo) => genereateCompletedTaskHTML(todo))
     .join('');
   }
+
   todosContainerLm.innerHTML = generatedHTML;
+  isSectionEmpty();
 }
 
 function completeTodo(targetId) {
@@ -449,6 +468,8 @@ todosSectionsContainerLm.addEventListener('click', (e) => {
     generateTodosHTML();
   }
 });
+
+
 
 
 
