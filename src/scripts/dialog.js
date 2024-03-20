@@ -51,6 +51,10 @@ export function generateEditTodoDialogHTML() {
       </form>
     </div>
   `;
+  const closeBtn = document.getElementById('form-dialog__cancel-btn');
+  const formDialogLm = document.getElementById('form-dialog');
+  const formInputs = formDialogLm.querySelectorAll('input, textarea');
+  return {closeBtn, formDialogLm, formInputs};
 }
 
 export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirmationLm, confirmFunction) {

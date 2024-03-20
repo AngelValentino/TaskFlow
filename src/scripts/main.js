@@ -104,7 +104,11 @@ const introPrompts = {
         // Todo Wednesday - Implement clear all todos and confirmationaL modal. 
   */
 
-  // Todo Wednesday - Refactor initialize elements before generateDialogHTML to become modular.
+  /*  Completed - Refactor initialize elements before generateDialogHTML to become modular. 
+        // Todo Wednesday - Refactor initialize elements before generateDialogHTML to become modular. 
+  */
+
+  // Todo Wednesday - Refactor clear intro buttons timeouts.
 
   // Todo Friday - Count all incompleted todos, display current date.
   
@@ -417,19 +421,21 @@ function resetTodos() {
   todos.length = 0;
   generateTodosHTML();
   localStorage.setItem('todos', JSON.stringify(todos));
-  //hide add prompt or search prompt
+  // Hide add prompt or search prompt.
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
   removeLastActivePrompt(searchTodoPrompt);
   removeLastActivePrompt(addTodoPrompt);
 }
 
-function clearAllTodos() {
+function openConfirmDailog(confirmFunction, descText) {
   const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
-  
   const dialogDescLm = document.getElementById('dialog__desc');
-  dialogDescLm.innerText = 'Are you sure that you want to delete all tasks?';
+  dialogDescLm.innerText = descText;
+  openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);
+}
 
-  openModal(null, null, closeLms, discardBtn, confirmationLm, resetTodos);
+function clearAllTodos() {
+  openConfirmDailog(resetTodos, 'Are you sure that you want to delete all tasks?')
 }
 
 allBtnLm.classList.add('todo-sections--active-btn');
@@ -464,8 +470,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 addTodoPromptCloseBtn.addEventListener('click', () => {
   const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
   if(todoData[0] || todoData[1] || todoData[2]) {
-    const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
-    openModal(null, null, closeLms, discardBtn, confirmationLm, resetForm);
+    openConfirmDailog(resetForm, 'Are you sure you want to discard all changes made in form?')
   } 
   else {
     const {btnLm, promptLm, activeClass, timeout: {time}} = introPrompts.addTodoPrompt;
@@ -493,38 +498,24 @@ todosSectionsContainerLm.addEventListener('click', (e) => {
   }
 });
 
-
-
-
-
 // Add events listeners to todo buttons.
 todosContainerLm.addEventListener('click', (e) => {
   if (e.target.closest('.todo__complete-btn')) {
     // Complete Todo.
     const targetId = e.target.closest('li').id;
-    const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
-    const dialogDescLm = document.getElementById('dialog__desc');
-    dialogDescLm.innerText = 'Are you sure that you want to complete this task?';
-    openModal(null, null, closeLms, discardBtn, confirmationLm, completeTodo.bind(null, targetId));    
+    openConfirmDailog(completeTodo.bind(null, targetId), 'Are you sure that you want to complete this task?'); 
   } 
   else if (e.target.closest('.todo__edit-btn')) {
     // Edit Todo.
     const targetId = e.target.closest('li').id;
-    generateEditTodoDialogHTML();
-    //refactor this
-    const closeBtn = document.getElementById('form-dialog__cancel-btn');
-    const formDialogLm = document.getElementById('form-dialog');
-    const formInputs = formDialogLm.querySelectorAll('input, textarea');
+    const {closeBtn, formDialogLm, formInputs} = generateEditTodoDialogHTML();
     addTodoInfoToEditForm(targetId, formInputs);
     openModal(targetId, {formerEdit: getTodoInfo(formDialogLm)}, closeBtn, closeBtn);
   } 
   else if (e.target.closest('.todo__delete-btn')) {
     // Delete todo.
     const targetId = e.target.closest('li').id;
-    const {closeLms, confirmationLm, discardBtn} = generateConfirmDialogHTML();
-    const dialogDescLm = document.getElementById('dialog__desc');
-    dialogDescLm.innerText = 'Are you sure that you want to delete this task?';
-    openModal(null, null, closeLms, discardBtn, confirmationLm, deleteTodo.bind(null, targetId));
+    openConfirmDailog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
   }
 });
 
