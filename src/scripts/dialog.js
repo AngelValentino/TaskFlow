@@ -62,8 +62,6 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   const alertDialogLm = document.getElementById('dialog');
   const lastFocusLmBeforeAlertDialog = document.activeElement;
 
-  console.log(lastFocusLmBeforeAlertDialog);
-
   document.body.style.overflow = 'hidden';
   clearTimeout(closeAlertDialogTim);
   dialogBackdropLm.style.display = 'flex';
@@ -77,15 +75,6 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
     alertDialogLm.classList.add('dialog--active');
   });
 
-  function addEventsListeners() {
-    if (formDialogLm) {
-      formDialogLm.addEventListener('submit', editTodo);
-    }
-    document.body.addEventListener('keydown', closeModalWithEscKey);
-    dialogBackdropLm.addEventListener('click', addFunctionsWF);
-    alertDialogLm.addEventListener('keydown', trapFocus);
-  }
-
   function removeEventsListeners() {
     if (formDialogLm) {
       formDialogLm.removeEventListener('submit', editTodo);
@@ -96,7 +85,6 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   }
 
   function closeModal() {
- 
     removeEventsListeners();
     document.body.style.overflow = 'initial';
     dialogBackdropLm.classList.remove('dialog-backdrop--active');
@@ -267,6 +255,15 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
     deleteTodo(targetId);
     addTodo('unshift', formDialogLm, targetId);
     closeModal();
+  }
+
+  function addEventsListeners() {
+    if (formDialogLm) {
+      formDialogLm.addEventListener('submit', editTodo);
+    }
+    document.body.addEventListener('keydown', closeModalWithEscKey);
+    dialogBackdropLm.addEventListener('click', addFunctionsWF);
+    alertDialogLm.addEventListener('keydown', trapFocus);
   }
 
   addEventsListeners();

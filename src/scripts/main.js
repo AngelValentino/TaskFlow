@@ -7,6 +7,8 @@ import {
 
 import { todos, addTodo, deleteTodo } from './data/todo.js';
 
+const currentDateLm = document.getElementById('todo-app-intro__current-date');
+const currDate = new Date();
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
@@ -106,7 +108,9 @@ const introPrompts = {
         // Todo Wednesday - Refactor clear intro buttons timeouts. 
   */
 
-  // Todo Friday - Count all incompleted todos, display current date.
+  /*  Completed - Count all incompleted todos, display current date.
+        // Todo Friday - Count all incompleted todos, display current date. 
+  */
   
   // Todo Friday - Implement search todos.
 
@@ -202,6 +206,8 @@ function togglePrompt({btnLm, promptLm, activeClass, time, timId}, e) {
   }
 } 
 
+const formatCurrentDate = (date) => date.toLocaleDateString('en-US', {dateStyle: 'long'});
+
 const formatDate = (value) => value.split('-').reverse().join('-');
 
 export function getFormData(form, formatDateBoolean, id) {
@@ -251,15 +257,20 @@ function resetForm() {
   hidePrompt(promptLm, btnLm, activeClass, timId, time);
 }
 
-function isTodosLimitReached() {
-  let incompletedTodosCounter = 1;
+function countIncompletedTodos() {
+  let incompletedTodosCounter = 0;
   todos.forEach(({completed}) => {
     if (!completed) {
       incompletedTodosCounter++;
     }
   });
-  console.log(incompletedTodosCounter);
-  if (incompletedTodosCounter > 100) {
+  return incompletedTodosCounter;
+}
+
+function isTodosLimitReached() {
+  const incompletedTodosCounter = countIncompletedTodos();
+  // The code checks the todos count before generating the first one, it's needed for the submit limit validation. So we have to check if it is equal to 100 because it will begin with 0 when we already have one task. If we wouldnt't do that the limit will go up to 101, not 100.
+  if (incompletedTodosCounter >= 100) {
     return 1;
   } 
   else {
@@ -309,8 +320,10 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
 }
 
 export function generateTodosHTML() {
+  const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
+  const incompletedTodosCount = countIncompletedTodos();
   let generatedHTML;
 
   function isSectionEmpty() {
@@ -360,7 +373,15 @@ export function generateTodosHTML() {
     </li>
   `;
   }
+
+  // Display incompleted tasks count.
+  if (incompletedTodosCount === 1) {
+    tasksLeftLm.innerText = `${incompletedTodosCount} task left`
+  } else {
+    tasksLeftLm.innerText = `${incompletedTodosCount} tasks left`
+  }
   
+  // Display Todos.
   if (allBtnLm.matches('.todo-sections--active-btn')) {
     // All section HTML
     generatedHTML = todos
@@ -427,6 +448,8 @@ function openConfirmDailog(confirmFunction, descText) {
 function clearAllTodos() {
   openConfirmDailog(resetTodos, 'Are you sure that you want to delete all tasks?')
 }
+
+currentDateLm.innerText = formatCurrentDate(currDate);
 
 allBtnLm.classList.add('todo-sections--active-btn');
 
