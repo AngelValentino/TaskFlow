@@ -4,15 +4,20 @@ import { getTodoInfo } from './main.js';
 const dialogBackdropLm = document.getElementById('dialog-backdrop');
 let closeAlertDialogTim;
 
-export function initializeConfirmLimitDialog() {
+export function initializeConfirmDialog(descText) {
   //change image
   const dialogBtnsLm = document.getElementById('dialog__btns');
   const dialogDescLm = document.getElementById('dialog__desc');
   dialogBtnsLm.innerHTML = `
     <button style="padding: 12px 20px" class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Ok</button>
   `; 
-  dialogDescLm.innerText = 'You have reached the maximum, 100 todos, allowed limit.';
+  dialogDescLm.innerText = descText;
+  const closeLm = document.getElementById('dialog__cancel-btn');
+  const confirmationLm = document.getElementById('dialog__confirmation-btn');
+  return {closeLm, confirmationLm};
 }
+
+
 
 export function generateConfirmDialogHTML() {
   dialogBackdropLm.innerHTML = `
@@ -42,11 +47,11 @@ export function generateEditTodoDialogHTML() {
           <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
         </button>
         <label for="form-dialog__task">Task</label>
-        <input class="form-dialog__task" id="form-dialog__task" type="text" name="task">
+        <input required class="form-dialog__task" id="form-dialog__task" type="text" name="task">
         <label for="form-dialog__date">Date</label>
-        <input class="form-dialog__date" id="form-dialog__date" type="date" name="date">
+        <input required class="form-dialog__date" id="form-dialog__date" type="date" name="date">
         <label for="form-dialog__desc">Description</label>
-        <textarea class="form-dialog__desc" id="form-dialog__desc" name="description" rows="7"></textarea>
+        <textarea required class="form-dialog__desc" id="form-dialog__desc" name="description" rows="7"></textarea>
         <button class="form-dialog__submit-btn" type="submit">Edit todo</button>
       </form>
     </div>

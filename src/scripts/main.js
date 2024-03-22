@@ -2,7 +2,7 @@ import {
   openModal, 
   generateConfirmDialogHTML, 
   generateEditTodoDialogHTML,
-  initializeConfirmLimitDialog
+  initializeConfirmDialog
 } from './dialog.js';
 
 import { todos, addTodo, deleteTodo } from './data/todo.js';
@@ -12,6 +12,8 @@ const currDate = new Date();
 const refreshQuoteBtn = document.getElementById('quote__btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
+const searchTodoFormLm = document.getElementById('search-todo-prompt__form');
+const searchInputLm = document.getElementById('search-todo-prompt__search-input');
 const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 const todosSectionsContainerLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
@@ -113,6 +115,7 @@ const introPrompts = {
   */
   
   // Todo Friday - Implement search todos.
+  // Todo Saturday - Try to refactor search todos, implement focus functionality.
 
   // Todo Saturday - Generate new quote when the new quote button is clicked.
 
@@ -248,6 +251,9 @@ function showSearchTodoPrompt(e) {
   checkActiveBtn(searchBtnLm);
   removeLastActivePrompt(addTodoPrompt);
   togglePrompt(searchTodoPrompt, e);
+  // Provisional maybe
+  searchTodoFormLm.reset();
+  generateTodosHTML(todos)
 }
 
 function resetForm() {
@@ -319,7 +325,9 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
   }); 
 }
 
-export function generateTodosHTML() {
+let filteredTodos = [];
+
+export function generateTodosHTML(todos, isSearchActive) {
   const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
@@ -385,34 +393,35 @@ export function generateTodosHTML() {
   if (allBtnLm.matches('.todo-sections--active-btn')) {
     // All section HTML
     generatedHTML = todos
-    .map((todo) => {
-      if (todo.completed) {
-        return genereateCompletedTaskHTML(todo);
-      }
-      return generateTaskHTML(todo);
-    })
+    .map((todo) => todo.completed ? genereateCompletedTaskHTML(todo) : generateTaskHTML(todo))
     .join('');
   } 
   else if (tasksBtnLm.matches('.todo-sections--active-btn')) {
     // Tasks section HTML
     generatedHTML = todos
-    .filter((todo) => {
-      return !todo.completed;
-    })
+    .filter((todo) => !todo.completed)
     .map((todo) => generateTaskHTML(todo))
     .join('');
   } 
   else if (completedBtnLm.matches('.todo-sections--active-btn')) {
     // Completed Section HTML
     generatedHTML = todos
-    .filter((todo) => {
-      return todo.completed;
-    })
+    .filter((todo) =>  todo.completed)
     .map((todo) => genereateCompletedTaskHTML(todo))
     .join('');
   }
 
   todosContainerLm.innerHTML = generatedHTML;
+
+  if (todosContainerLm.innerHTML === '' && isSearchActive) {
+    todosContainerLm.innerHTML = `
+        <div class="todos-container__img-container">
+          <img class="todos-container__empty-section-image" src="img/cute-animals-drawings/croco-capybara-todos.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
+        </div>
+      `;
+    return;
+  }
+
   isSectionEmpty();
 }
 
@@ -430,7 +439,7 @@ function completeTodo(targetId) {
 
 function resetTodos() {
   todos.length = 0;
-  generateTodosHTML();
+  generateTodosHTML(todos);
   localStorage.setItem('todos', JSON.stringify(todos));
   // Hide add prompt or search prompt.
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
@@ -449,15 +458,75 @@ function clearAllTodos() {
   openConfirmDailog(resetTodos, 'Are you sure that you want to delete all tasks?')
 }
 
+const filterTodos = (todos, input) => todos.filter((todo) => todo.task.toLowerCase().includes(input.value.toLowerCase()));
+
+function confrimCloseSearch() {
+  const { promptLm, btnLm, activeClass, timId, time} = introPrompts.searchTodoPrompt;
+  checkActiveBtn(btnLm);
+  hidePrompt(promptLm, btnLm, activeClass, timId, time);
+  generateTodosHTML(todos);
+  searchTodoFormLm.reset();
+}
+
+function isFilteredTodosEmpty() {
+  const btnLm = document.getElementById('todo-app-intro__search-btn')
+  if (!filteredTodos.length && btnLm.getAttribute('aria-expanded') === 'false') {
+    generateTodosHTML(todos);
+  } 
+  else {
+    filteredTodos = filterTodos(todos, searchInputLm);
+    generateTodosHTML(filteredTodos, true);
+  }
+}
+
 currentDateLm.innerText = formatCurrentDate(currDate);
 
 allBtnLm.classList.add('todo-sections--active-btn');
 
-generateTodosHTML();
+generateTodosHTML(todos);
 
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 
 introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
+
+searchInputLm.addEventListener('keyup', (e) => {
+  if (e.key === 'Enter') {
+    return;
+  }
+  filteredTodos = filterTodos(todos, e.target);
+  generateTodosHTML(filteredTodos, true);
+});
+
+searchTodoFormLm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  let filteredTodosSections = [];
+  const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
+  const completedBtnLm = document.getElementById('todo-sections__completed-btn');
+  
+  // Check todos section before submit
+  if (allBtnLm.matches('.todo-sections--active-btn')) {
+    // All
+    filteredTodosSections = todos;
+  } 
+  else if (tasksBtnLm.matches('.todo-sections--active-btn')) {
+    // Tasks
+    filteredTodosSections = todos.filter((todo) => !todo.completed);
+  } 
+  else if (completedBtnLm.matches('.todo-sections--active-btn')) {
+    // Completed
+    filteredTodosSections = todos.filter((todo) =>  todo.completed);
+  }
+
+  filteredTodos = filterTodos(filteredTodosSections, searchInputLm);
+  generateTodosHTML(filteredTodos, true);
+  
+  // No todos have been found
+  if (!filteredTodos.length) {
+    generateConfirmDialogHTML();
+    const { closeLm, confirmationLm } = initializeConfirmDialog('No todos have been found');
+    openModal(null, null, closeLm, confirmationLm, confirmationLm, confrimCloseSearch);
+  }
+});
 
 clearAllTodosBtn.addEventListener('click', clearAllTodos);
 
@@ -467,9 +536,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 
   if (isTodosLimitReached()) {
     generateConfirmDialogHTML();
-    initializeConfirmLimitDialog();
-    const closeLm = document.getElementById('dialog__cancel-btn');
-    const confirmationLm = document.getElementById('dialog__confirmation-btn');
+    const { closeLm, confirmationLm } = initializeConfirmDialog('You have reached the maximum, 100 todos, allowed limit.');
     openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
   } 
   else {
@@ -497,17 +564,17 @@ todosSectionsContainerLm.addEventListener('click', (e) => {
   if (e.target.closest('#todo-sections__all-btn')) {
     // All
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__all-btn');
-    generateTodosHTML();
+    isFilteredTodosEmpty();
   } 
   else if (e.target.closest('#todo-sections__tasks-btn')) {
     // Tasks
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__tasks-btn');
-    generateTodosHTML();
+    isFilteredTodosEmpty();
   } 
   else if (e.target.closest('#todo-sections__completed-btn')) {
     // Completed
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__completed-btn');
-    generateTodosHTML();
+    isFilteredTodosEmpty();
   }
 });
 

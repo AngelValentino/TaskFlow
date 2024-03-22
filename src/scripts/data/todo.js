@@ -10,7 +10,7 @@ export function addTodo(method, form, id, todoData) {
   else {
     todos[method](todoData);
   }
-  generateTodosHTML();
+  generateTodosHTML(todos);
   localStorage.setItem('todos', JSON.stringify(todos));
 }
 
@@ -20,6 +20,6 @@ export function deleteTodo(targetId) {
       todos.splice(todos.indexOf(todo), 1);
     }
   })
-  generateTodosHTML();
+  generateTodosHTML(todos);
   localStorage.setItem('todos', JSON.stringify(todos));
 }
