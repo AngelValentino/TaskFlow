@@ -29,6 +29,7 @@ const todosSectionsContainerLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
 const todosContainerLm = document.getElementById('todos-container');
 const timsIntroBtns = {};
+const focusTimsIntroBtns = [];
 let filteredTodos = [];
 
 export const introPrompts = {
@@ -162,13 +163,16 @@ function showPrompt(promptLm, btnLm, classToAdd) {
     promptLm.classList.add(classToAdd);
   }, 20);
   // For an element to focus it needs to be called after hidden goes away.
-  // Without a timeout it adds lag to the showPromptAnimation.
   // Check which add prompt button is active and focus the selected element.
   if (btnLm.matches('#todo-app-intro__search-btn')) {
-    searchInputLm.focus();
+    // It needs a timeout to focus. Because without it, it breaks addTodoPrompt to searchTodoPrompt animation.
+    focusTimsIntroBtns[0] = setTimeout(() => {
+      searchInputLm.focus();
+    }, 500);
   } 
   else {
-    setTimeout(() => {
+    // Without a timeout it adds lag to the showPromptAnimation.
+    focusTimsIntroBtns[1] = setTimeout(() => {
       addTodoPromptCloseBtn.focus();
     }, 135)
   }
@@ -190,6 +194,12 @@ function checkLastBtnTim(e, key, classToMatch, timToMatch) {
   else {
     return 0;
   }
+}
+
+function clearIntroBtnsFocusTims() {
+  focusTimsIntroBtns.forEach((focusTim) => {
+    clearTimeout(focusTim);
+  });
 }
 
 // Clear all timeouts expect the neighbour prompt timeouts.
@@ -214,6 +224,7 @@ export function removeLastActivePrompt({promptLm, time, btnLm, activeClass, timI
 
 function togglePrompt({btnLm, promptLm, activeClass, time, timId}, e) {
   if (promptLm.matches('.' + activeClass)) {
+    clearIntroBtnsFocusTims();
     hidePrompt(promptLm, btnLm, activeClass, timId, time);
   } 
   else {
@@ -492,8 +503,6 @@ searchTodoFormLm.addEventListener('submit', (e) => {
   // Checks active section and filters from the specific section todos instead of all todos.
   filteredTodos = filterTodos(filteredTodosSections, searchInputLm);
   generateTodosHTML(filteredTodos, true);
-
-  console.log(filteredTodos.length)
   
   // No todos have been found.
   if (!filteredTodos.length) {
