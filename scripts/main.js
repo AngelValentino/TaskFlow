@@ -1,4 +1,12 @@
 import { 
+  quotesData, 
+  getQuoteData, 
+  getRandomQuote, 
+  generateQuote, 
+  setQuoteCache
+} from './quote.js';
+
+import { 
   openModal, 
   generateConfirmDialogHTML, 
   generateEditTodoDialogHTML,
@@ -19,7 +27,7 @@ import {
 
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const currDate = new Date();
-const refreshQuoteBtn = document.getElementById('quote__btn');
+const refreshQuoteBtn = document.getElementById('quote__new-quote-btn');
 const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
 const searchTodoFormLm = document.getElementById('search-todo-prompt__form');
@@ -132,20 +140,14 @@ export const introPrompts = {
         // Todo Saturday - Add close at escape key functionality to add todo prompt and search todo. 
   */
 
-  // Todo Saturday - Generate new quote when the new quote button is clicked.
+  /*  Completed - Generate new quote when the new quote button is clicked. 
+        // Todo Saturday - Generate new quote when the new quote button is clicked. 
+  */
 
   // Todo Saturady - Share with twitter and tumblr.
 
 // Todo 23/03/2024: Complete todo and quote widget.
-
-async function getQuoteData() {
-  const response = await fetch('/.netlify/functions/fetch-data');
-  if (response.status !== 200) {
-    throw new Error("Couldn't fetch the data");
-  }
-  return await response.json();
-}
-
+  
 function checkActiveBtn(btnLm) {
   if (btnLm.getAttribute('aria-expanded') === 'false') {
     btnLm.classList.add('btn--active');
@@ -174,7 +176,7 @@ function showPrompt(promptLm, btnLm, classToAdd) {
     // Without a timeout it adds lag to the showPromptAnimation.
     focusTimsIntroBtns[1] = setTimeout(() => {
       addTodoPromptCloseBtn.focus();
-    }, 135)
+    }, 150)
   }
 }
 
@@ -460,11 +462,26 @@ function generateSpecificSectionHTML() {
   }
 }
 
+if (!quotesData) {
+  getQuoteData()
+  .then((data) =>{
+    setQuoteCache(data.quotes)
+    generateQuote(quotesData[getRandomQuote(quotesData)])
+  })
+  .catch((err) => console.err(err));
+}
+
 currentDateLm.innerText = formatCurrentDate(currDate);
 
 allBtnLm.classList.add('todo-sections--active-btn');
 
 generateTodosHTML(todos);
+
+refreshQuoteBtn.addEventListener('click', () => {
+  if (quotesData) {
+    generateQuote(quotesData[getRandomQuote(quotesData)])
+  }
+}); 
 
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 
@@ -588,9 +605,3 @@ todosContainerLm.addEventListener('click', (e) => {
     openConfirmDailog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
   }
 });
-
-refreshQuoteBtn.addEventListener('click', () => {
-  getQuoteData()
-    .then(data => console.log(data))
-    .catch(err => console.err(err));
-}); 
