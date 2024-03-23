@@ -264,7 +264,10 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
     if (formDialogLm) {
       formDialogLm.addEventListener('submit', editTodo);
     }
-    document.body.addEventListener('keydown', closeModalWithEscKey);
+    // It needs the timeout because the user can also close the addTodoPrompt with 'Escape'. And if there's info in it, it opens the confirmational modal it detects the 'Escape' key pressed and instantly closes the modal.
+    setTimeout(() => {
+      document.body.addEventListener('keydown', closeModalWithEscKey);
+    });
     dialogBackdropLm.addEventListener('click', addFunctionsWF);
     alertDialogLm.addEventListener('keydown', trapFocus);
   }

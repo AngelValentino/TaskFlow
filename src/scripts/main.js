@@ -125,9 +125,11 @@ export const introPrompts = {
         // Todo Friday - Count all incompleted todos, display current date. 
   */
   
-  // Todo Friday - Implement search todos.
-  // Todo Saturday - Try to refactor search todos, implement focus functionality.
-  // Todo Saturday - Add close at escape key functionality to add todo prompt and search todo.
+  /*  Completed - Implemented search todo functionality and close with 'Escape' key accesibility.
+        // Todo Friday - Implement search todos.
+        // Todo Saturday - Try to refactor search todos, implement focus functionality.
+        // Todo Saturday - Add close at escape key functionality to add todo prompt and search todo. 
+  */
 
   // Todo Saturday - Generate new quote when the new quote button is clicked.
 
@@ -257,17 +259,6 @@ function showAddTodoPrompt(e) {
   togglePrompt(addTodoPrompt, e);
 }
 
-function showSearchTodoPrompt(e) {
-  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-  const searchBtnLm = searchTodoPrompt.btnLm;
-  checkActiveBtn(searchBtnLm);
-  removeLastActivePrompt(addTodoPrompt);
-  togglePrompt(searchTodoPrompt, e);
-  // Provisional maybe
-  searchTodoFormLm.reset();
-  generateTodosHTML(todos)
-}
-
 function resetForm() {
   const { promptLm, btnLm, activeClass, timId, time} = introPrompts.addTodoPrompt;
   addTodoPromptFormLm.reset();
@@ -280,6 +271,18 @@ function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, timId, time)
   hidePrompt(promptLm, btnLm, activeClass, timId, time);
   addTodoPromptFormLm.reset();
 } 
+
+function confirmDiscardAddPromptTypedData() {
+  const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
+  if(todoData[0] || todoData[1] || todoData[2]) {
+    openConfirmDailog(resetForm, 'Are you sure you want to discard all changes made in form?')
+  } 
+  else {
+    const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
+    checkActiveBtn(btnLm);
+    hidePrompt(promptLm, btnLm, activeClass, timId, time);
+  }
+}
 
 function addTodoInfoToEditForm(targetId, formInputs) {
   todos.forEach((todo) => {
@@ -409,21 +412,34 @@ export function generateTodosHTML(todos, isSearchActive) {
   }
 }
 
-function clearAllTodos() {
-  openConfirmDailog(resetTodos, 'Are you sure that you want to delete all tasks?')
-}
-
-function confrimCloseSearch() {
-  const { promptLm, btnLm, activeClass, timId, time} = introPrompts.searchTodoPrompt;
-  checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, timId, time);
+function resetSearch() {
   generateTodosHTML(todos);
   searchTodoFormLm.reset();
 }
 
+function showSearchTodoPrompt(e) {
+  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
+  const searchBtnLm = searchTodoPrompt.btnLm;
+  checkActiveBtn(searchBtnLm);
+  removeLastActivePrompt(addTodoPrompt);
+  togglePrompt(searchTodoPrompt, e);
+  resetSearch();
+}
+
+function clearAllTodos() {
+  openConfirmDailog(resetTodos, 'Are you sure that you want to delete all tasks?')
+}
+
+function closeSearchPrompt() {
+  const { promptLm, btnLm, activeClass, timId, time} = introPrompts.searchTodoPrompt;
+  checkActiveBtn(btnLm);
+  hidePrompt(promptLm, btnLm, activeClass, timId, time);
+  resetSearch();
+}
+
 // Checks if search is active and generates its specific empty section placeholder image.
 function generateSpecificSectionHTML() {
-  const btnLm = document.getElementById('todo-app-intro__search-btn')
+  const { btnLm } = introPrompts.searchTodoPrompt;
   if (!filteredTodos.length && btnLm.getAttribute('aria-expanded') === 'false') {
     generateTodosHTML(todos);
   } 
@@ -476,12 +492,20 @@ searchTodoFormLm.addEventListener('submit', (e) => {
   // Checks active section and filters from the specific section todos instead of all todos.
   filteredTodos = filterTodos(filteredTodosSections, searchInputLm);
   generateTodosHTML(filteredTodos, true);
+
+  console.log(filteredTodos.length)
   
   // No todos have been found.
   if (!filteredTodos.length) {
     generateConfirmDialogHTML();
     const { closeLm, confirmationLm } = initializeConfirmDialog('No todos have been found');
-    openModal(null, null, closeLm, confirmationLm, confirmationLm, confrimCloseSearch);
+    openModal(null, null, closeLm, confirmationLm, confirmationLm, closeSearchPrompt);
+  }
+});
+
+searchTodoFormLm.addEventListener('keyup', (e) => {
+  if (e.key === 'Escape') {
+    closeSearchPrompt();
   }
 });
 
@@ -506,14 +530,12 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 });
 
 addTodoPromptCloseBtn.addEventListener('click', () => {
-  const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
-  if(todoData[0] || todoData[1] || todoData[2]) {
-    openConfirmDailog(resetForm, 'Are you sure you want to discard all changes made in form?')
-  } 
-  else {
-    const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
-    checkActiveBtn(btnLm);
-    hidePrompt(promptLm, btnLm, activeClass, timId, time);
+  confirmDiscardAddPromptTypedData()
+});
+
+addTodoPromptFormLm.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    confirmDiscardAddPromptTypedData()
   }
 });
 
