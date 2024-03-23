@@ -27,3 +27,13 @@ export function generateQuote(data) {
 export function setQuoteCache(value) {
   quotesData = value;
 }
+
+export function setShareBtnsHrefAtr(randomCurrentQuote) {
+  const shareWithTwitterBtn = document.getElementById('quote__share-with-twitter-btn');
+  const shareWithTumblrBtn = document.getElementById('quote__share-with-tumblr-btn');
+  const msg = encodeURIComponent(`"${randomCurrentQuote.quote}" - ${randomCurrentQuote.author}`)
+  const quote = encodeURIComponent(randomCurrentQuote.quote);
+  const author = encodeURIComponent(randomCurrentQuote.author);
+  shareWithTwitterBtn.href = `https://twitter.com/intent/tweet?hashtags=quotes,inspirational,success&text=${msg}`;
+  shareWithTumblrBtn.href = `https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes&caption=${author}&content=${quote}&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button`;
+}

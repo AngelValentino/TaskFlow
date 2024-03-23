@@ -3,7 +3,8 @@ import {
   getQuoteData, 
   getRandomQuote, 
   generateQuote, 
-  setQuoteCache
+  setQuoteCache,
+  setShareBtnsHrefAtr
 } from './quote.js';
 
 import { 
@@ -56,97 +57,6 @@ export const introPrompts = {
     time: 1250
   }
 };
-
-// Todo 23/03/2024: Complete todo and quote widget.
-
-  /*  Completed - Dialog modularity.
-        // editTodo, deleteTodo, limit100, cancelAddTodoPrompt, completeTodo will share the same custom dialog. 
-  */
-
-  /*  Completed - Implement edit Todo.
-        // Open a form dialog with the task values typed in
-        // Check if the user has changed anything and send a confirmational modal
-        // Submit data and unshift to todos array
-  */
-
-  /*  Completed - Place todo data code in its own file, todo.js.        
-        // Place todo data code in its own file, todo.js. 
-  */
-  
-  /*  Completed - Fix add todo prompt focus bug.
-        // fix add todo prompt focus bug 
-  */
-
-  /*  Completed - Add max incompleted todos; limit = 100.
-        // if (user tries to submit todoData and there already are 100 incompleted todos) {
-        //   show informational dialog = there are already 100 incompleted todos, you've reached the allowed task limit.
-        //   then close dialog and close and reset addTodoPrompt.
-        // }
-  */
-
-  /*  Completed - Make new todos start from the beginning of the array insted of the end of it.       
-        // todo saturday - Make new todos start from the beginning of the array insted of the end.
-  */
-
-  /*  Completed - Add deleteTodo confirmational dialog.     
-        // todo saturday - Add deleteTodo confirmational dialog 
-  */
-
-  /*  Completed - Implement complete todo.
-        // if (user clicks complete) {
-        //   show and alert modal to confrm if they want to complete it
-        // } else {
-        //   change todo complete = true
-        // }
-
-        // in genereateHTML before generating the todo check 
-        // if (todo.complete === true) {
-        //   generate a HTML template for the completed todo
-        //     add only a delete button
-        //     make the todo grey
-        //     send todo to the bottom of the list
-        // } 
-  */
-
-  /*  Completed - Make todo section functional.
-        // generate HTML depending on if the task is completed or not.
-        // All => genereateTodosHTML()
-        // Tasks => completed = false; generateTasksHTML()
-        // Completed => completed = true; generateCompletedTasksHTML();
-
-        //if todo section is empty generate a cute image.
-        //remember the section clicked when the page loads. 
-  */
-
-  /*  Completed - Implement clear all todos and confirmationaL modal.
-        // Todo Wednesday - Implement clear all todos and confirmationaL modal. 
-  */
-
-  /*  Completed - Refactor initialize elements before generateDialogHTML to become modular. 
-        // Todo Wednesday - Refactor initialize elements before generateDialogHTML to become modular. 
-  */
-
-  /*  Completed - Refactor clear intro buttons timeouts. 
-        // Todo Wednesday - Refactor clear intro buttons timeouts. 
-  */
-
-  /*  Completed - Count all incompleted todos, display current date.
-        // Todo Friday - Count all incompleted todos, display current date. 
-  */
-  
-  /*  Completed - Implemented search todo functionality and close with 'Escape' key accesibility.
-        // Todo Friday - Implement search todos.
-        // Todo Saturday - Try to refactor search todos, implement focus functionality.
-        // Todo Saturday - Add close at escape key functionality to add todo prompt and search todo. 
-  */
-
-  /*  Completed - Generate new quote when the new quote button is clicked. 
-        // Todo Saturday - Generate new quote when the new quote button is clicked. 
-  */
-
-  // Todo Saturady - Share with twitter and tumblr.
-
-// Todo 23/03/2024: Complete todo and quote widget.
   
 function checkActiveBtn(btnLm) {
   if (btnLm.getAttribute('aria-expanded') === 'false') {
@@ -155,7 +65,7 @@ function checkActiveBtn(btnLm) {
   else {  
     btnLm.classList.remove('btn--active');
   }
-};
+}
 
 function showPrompt(promptLm, btnLm, classToAdd) {
   promptLm.removeAttribute('hidden');
@@ -176,7 +86,7 @@ function showPrompt(promptLm, btnLm, classToAdd) {
     // Without a timeout it adds lag to the showPromptAnimation.
     focusTimsIntroBtns[1] = setTimeout(() => {
       addTodoPromptCloseBtn.focus();
-    }, 150)
+    }, 250)
   }
 }
 
@@ -465,8 +375,10 @@ function generateSpecificSectionHTML() {
 if (!quotesData) {
   getQuoteData()
   .then((data) =>{
-    setQuoteCache(data.quotes)
-    generateQuote(quotesData[getRandomQuote(quotesData)])
+    setQuoteCache(data.quotes);
+    const randomCurrentQuote = quotesData[getRandomQuote(quotesData)];
+    generateQuote(randomCurrentQuote);
+    setShareBtnsHrefAtr(randomCurrentQuote);
   })
   .catch((err) => console.err(err));
 }
@@ -479,7 +391,9 @@ generateTodosHTML(todos);
 
 refreshQuoteBtn.addEventListener('click', () => {
   if (quotesData) {
-    generateQuote(quotesData[getRandomQuote(quotesData)])
+    const randomCurrentQuote = quotesData[getRandomQuote(quotesData)];
+    generateQuote(randomCurrentQuote);
+    setShareBtnsHrefAtr(randomCurrentQuote);
   }
 }); 
 
@@ -530,7 +444,10 @@ searchTodoFormLm.addEventListener('submit', (e) => {
 });
 
 searchTodoFormLm.addEventListener('keyup', (e) => {
-  if (e.key === 'Escape') {
+  const alertDialogLm = document.getElementById('dialog');
+  // Checks if the modal is not open. If it would be open, at closing it with 'Escape' it would also close the search prompt.
+  // Probably because it focuses instantly back to the search input.
+  if (e.key === 'Escape' && !alertDialogLm) {
     closeSearchPrompt();
   }
 });

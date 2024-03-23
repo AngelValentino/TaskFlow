@@ -98,13 +98,13 @@ main {
   color: #fff;
 }
 
-.quote__social {
+.quote__buttons > div {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.quote__social > a {
+.quote__buttons a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,11 +116,11 @@ main {
   color: inherit;
 }
 
-.quote__social-twitter {
+.quote__share-with-twitter-btn > svg {
   width: 20px;
 }
 
-.quote__social-tumblr {
+.quote__share-with-tumblr-btn > svg {
   width: 13px;
 }
 
