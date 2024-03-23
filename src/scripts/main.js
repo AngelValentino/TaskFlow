@@ -2,10 +2,20 @@ import {
   openModal, 
   generateConfirmDialogHTML, 
   generateEditTodoDialogHTML,
-  initializeConfirmDialog
+  initializeConfirmDialog,
+  openConfirmDailog
 } from './dialog.js';
 
-import { todos, addTodo, deleteTodo } from './data/todo.js';
+import { 
+  todos, 
+  addTodo, 
+  deleteTodo, 
+  completeTodo, 
+  resetTodos, 
+  filterTodos, 
+  countIncompletedTodos, 
+  isTodosLimitReached, 
+} from './data/todo.js';
 
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const currDate = new Date();
@@ -19,8 +29,9 @@ const todosSectionsContainerLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
 const todosContainerLm = document.getElementById('todos-container');
 const timsIntroBtns = {};
+let filteredTodos = [];
 
-const introPrompts = {
+export const introPrompts = {
   addTodoPrompt: {
     timId: 'addTodoTim',
     btnLm: document.getElementById('todo-app-intro__add-btn'),
@@ -116,6 +127,7 @@ const introPrompts = {
   
   // Todo Friday - Implement search todos.
   // Todo Saturday - Try to refactor search todos, implement focus functionality.
+  // Todo Saturday - Add close at escape key functionality to add todo prompt and search todo.
 
   // Todo Saturday - Generate new quote when the new quote button is clicked.
 
@@ -149,9 +161,9 @@ function showPrompt(promptLm, btnLm, classToAdd) {
   }, 20);
   // For an element to focus it needs to be called after hidden goes away.
   // Without a timeout it adds lag to the showPromptAnimation.
-  // Check if closePromptBtn is hidden else focus it.
+  // Check which add prompt button is active and focus the selected element.
   if (btnLm.matches('#todo-app-intro__search-btn')) {
-    btnLm.focus();
+    searchInputLm.focus();
   } 
   else {
     setTimeout(() => {
@@ -191,7 +203,7 @@ function clearAllIntroBtnsTims(e) {
   }
 }
 
-function removeLastActivePrompt({promptLm, time, btnLm, activeClass, timId}) {
+export function removeLastActivePrompt({promptLm, time, btnLm, activeClass, timId}) {
   if (btnLm.matches('.btn--active')) {
     checkActiveBtn(btnLm);
     hidePrompt(promptLm, btnLm, activeClass, timId, time);
@@ -263,27 +275,6 @@ function resetForm() {
   hidePrompt(promptLm, btnLm, activeClass, timId, time);
 }
 
-function countIncompletedTodos() {
-  let incompletedTodosCounter = 0;
-  todos.forEach(({completed}) => {
-    if (!completed) {
-      incompletedTodosCounter++;
-    }
-  });
-  return incompletedTodosCounter;
-}
-
-function isTodosLimitReached() {
-  const incompletedTodosCounter = countIncompletedTodos();
-  // The code checks the todos count before generating the first one, it's needed for the submit limit validation. So we have to check if it is equal to 100 because it will begin with 0 when we already have one task. If we wouldnt't do that the limit will go up to 101, not 100.
-  if (incompletedTodosCounter >= 100) {
-    return 1;
-  } 
-  else {
-    return 0;
-  }
-}
-
 function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, timId, time) {
   checkActiveBtn(btnLm);
   hidePrompt(promptLm, btnLm, activeClass, timId, time);
@@ -325,8 +316,6 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
   }); 
 }
 
-let filteredTodos = [];
-
 export function generateTodosHTML(todos, isSearchActive) {
   const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
@@ -334,14 +323,12 @@ export function generateTodosHTML(todos, isSearchActive) {
   const incompletedTodosCount = countIncompletedTodos();
   let generatedHTML;
 
-  function isSectionEmpty() {
-    if (todosContainerLm.innerHTML === '') {
-      todosContainerLm.innerHTML = `
-        <div class="todos-container__img-container">
-          <img class="todos-container__empty-section-image" src="img/cute-animals-drawings/croco-capybara.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
-        </div>
-      `;
-    }
+  function generatePlaceholderImageHTML(imgUrl) {
+    todosContainerLm.innerHTML = `
+    <div class="todos-container__img-container">
+      <img class="todos-container__empty-section-image" src=${imgUrl} alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
+    </div>
+  `;
   }
 
   function generateTaskHTML(todo) {
@@ -385,7 +372,8 @@ export function generateTodosHTML(todos, isSearchActive) {
   // Display incompleted tasks count.
   if (incompletedTodosCount === 1) {
     tasksLeftLm.innerText = `${incompletedTodosCount} task left`
-  } else {
+  } 
+  else {
     tasksLeftLm.innerText = `${incompletedTodosCount} tasks left`
   }
   
@@ -414,51 +402,16 @@ export function generateTodosHTML(todos, isSearchActive) {
   todosContainerLm.innerHTML = generatedHTML;
 
   if (todosContainerLm.innerHTML === '' && isSearchActive) {
-    todosContainerLm.innerHTML = `
-        <div class="todos-container__img-container">
-          <img class="todos-container__empty-section-image" src="img/cute-animals-drawings/croco-capybara-todos.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
-        </div>
-      `;
-    return;
+    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara-todos.png")
+  } 
+  else if (todosContainerLm.innerHTML === '') {
+    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara.png")
   }
-
-  isSectionEmpty();
-}
-
-function completeTodo(targetId) {
-  for (let i = 0; i < todos.length; i++) {
-    if (todos[i].id === targetId) {
-      const currentTodo = todos[i];
-      currentTodo.completed = true;
-      deleteTodo(currentTodo.id)
-      addTodo('push', null, null, currentTodo)
-      break;
-    }
-  }
-}
-
-function resetTodos() {
-  todos.length = 0;
-  generateTodosHTML(todos);
-  localStorage.setItem('todos', JSON.stringify(todos));
-  // Hide add prompt or search prompt.
-  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-  removeLastActivePrompt(searchTodoPrompt);
-  removeLastActivePrompt(addTodoPrompt);
-}
-
-function openConfirmDailog(confirmFunction, descText) {
-  const { closeLms, confirmationLm, discardBtn } = generateConfirmDialogHTML();
-  const dialogDescLm = document.getElementById('dialog__desc');
-  dialogDescLm.innerText = descText;
-  openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);
 }
 
 function clearAllTodos() {
   openConfirmDailog(resetTodos, 'Are you sure that you want to delete all tasks?')
 }
-
-const filterTodos = (todos, input) => todos.filter((todo) => todo.task.toLowerCase().includes(input.value.toLowerCase()));
 
 function confrimCloseSearch() {
   const { promptLm, btnLm, activeClass, timId, time} = introPrompts.searchTodoPrompt;
@@ -468,7 +421,8 @@ function confrimCloseSearch() {
   searchTodoFormLm.reset();
 }
 
-function isFilteredTodosEmpty() {
+// Checks if search is active and generates its specific empty section placeholder image.
+function generateSpecificSectionHTML() {
   const btnLm = document.getElementById('todo-app-intro__search-btn')
   if (!filteredTodos.length && btnLm.getAttribute('aria-expanded') === 'false') {
     generateTodosHTML(todos);
@@ -489,6 +443,7 @@ introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 
 introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
 
+// Search todos at keyup.
 searchInputLm.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
     return;
@@ -497,13 +452,14 @@ searchInputLm.addEventListener('keyup', (e) => {
   generateTodosHTML(filteredTodos, true);
 });
 
+// Search todos at submit.
 searchTodoFormLm.addEventListener('submit', (e) => {
   e.preventDefault();
   let filteredTodosSections = [];
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
   
-  // Check todos section before submit
+  // Checks active section before submit and returns the filtered todos.
   if (allBtnLm.matches('.todo-sections--active-btn')) {
     // All
     filteredTodosSections = todos;
@@ -517,10 +473,11 @@ searchTodoFormLm.addEventListener('submit', (e) => {
     filteredTodosSections = todos.filter((todo) =>  todo.completed);
   }
 
+  // Checks active section and filters from the specific section todos instead of all todos.
   filteredTodos = filterTodos(filteredTodosSections, searchInputLm);
   generateTodosHTML(filteredTodos, true);
   
-  // No todos have been found
+  // No todos have been found.
   if (!filteredTodos.length) {
     generateConfirmDialogHTML();
     const { closeLm, confirmationLm } = initializeConfirmDialog('No todos have been found');
@@ -530,6 +487,7 @@ searchTodoFormLm.addEventListener('submit', (e) => {
 
 clearAllTodosBtn.addEventListener('click', clearAllTodos);
 
+// Add todo.
 addTodoPromptFormLm.addEventListener('submit', (e) => {
   e.preventDefault();
   const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
@@ -559,26 +517,27 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
   }
 });
 
+// Check active section and generates the specific todos HTML needed.
 todosSectionsContainerLm.addEventListener('click', (e) => {
   const sectionBtnLms = document.querySelectorAll('#todo-sections button');
   if (e.target.closest('#todo-sections__all-btn')) {
     // All
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__all-btn');
-    isFilteredTodosEmpty();
+    generateSpecificSectionHTML();
   } 
   else if (e.target.closest('#todo-sections__tasks-btn')) {
     // Tasks
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__tasks-btn');
-    isFilteredTodosEmpty();
+    generateSpecificSectionHTML();
   } 
   else if (e.target.closest('#todo-sections__completed-btn')) {
     // Completed
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__completed-btn');
-    isFilteredTodosEmpty();
+    generateSpecificSectionHTML();
   }
 });
 
-// Add events listeners to todo buttons.
+// Add events listener functionality to todo buttons.
 todosContainerLm.addEventListener('click', (e) => {
   if (e.target.closest('.todo__complete-btn')) {
     // Complete Todo.

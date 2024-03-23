@@ -146,6 +146,7 @@ main {
   padding: 30px 25px;
   height: 83.75vh;
   min-height: 620px;
+  max-height: 800px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable both-edges;

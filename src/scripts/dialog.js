@@ -17,8 +17,6 @@ export function initializeConfirmDialog(descText) {
   return {closeLm, confirmationLm};
 }
 
-
-
 export function generateConfirmDialogHTML() {
   dialogBackdropLm.innerHTML = `
     <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
@@ -272,4 +270,11 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   }
 
   addEventsListeners();
+}
+
+export function openConfirmDailog(confirmFunction, descText) {
+  const { closeLms, confirmationLm, discardBtn } = generateConfirmDialogHTML();
+  const dialogDescLm = document.getElementById('dialog__desc');
+  dialogDescLm.innerText = descText;
+  openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);
 }
