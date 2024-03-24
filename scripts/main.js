@@ -443,11 +443,8 @@ searchTodoFormLm.addEventListener('submit', (e) => {
   }
 });
 
-searchTodoFormLm.addEventListener('keyup', (e) => {
-  const alertDialogLm = document.getElementById('dialog');
-  // Checks if the modal is not open. If it would be open, at closing it with 'Escape' it would also close the search prompt.
-  // Probably because it focuses instantly back to the search input.
-  if (e.key === 'Escape' && !alertDialogLm) {
+searchTodoFormLm.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
     closeSearchPrompt();
   }
 });
