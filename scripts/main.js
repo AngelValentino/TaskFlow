@@ -410,11 +410,114 @@ allBtnLm.classList.add('todo-sections--active-btn');
 
 generateTodosHTML(todos);
 
+
+// set all theme colors
+// change theme also on load
+const themes = [
+  {
+    darkAccent: '#593e7f',
+    mediumToDarkAccent: '#9b59b6',
+    mediumAccent: '#b259b6',
+    ligthAccent: '#ecdeff',
+    contrast: '#dfd684',
+    backgroundImage: 'url(../img/app-background/purple-background.jpg)'
+  },
+  {
+    darkAccent: '#2e6881',
+    mediumToDarkAccent: '#427db8',
+    mediumAccent: '#4d57b8',
+    ligthAccent: '#d6f3ff',
+    contrast: '#fd94ce',
+    backgroundImage: 'url(../img/app-background/blue-background.jpg)'
+  },
+  {
+    darkAccent: '#51763d',
+    mediumToDarkAccent: '#73A857',
+    mediumAccent: '#57a871',
+    ligthAccent: '#d8ffc2',
+    contrast: '#6ecab9',
+    backgroundImage: 'url(../img/app-background/green-background.jpg)'
+  },
+  {
+    darkAccent: '#55373d',
+    mediumToDarkAccent: '#7a4f54',
+    mediumAccent: '#d8085f',
+    ligthAccent: '#ffe9ed',
+    contrast: '#91c989',
+    backgroundImage: 'url(../img/app-background/chocolate-background.jpg)'
+  },
+  {
+    darkAccent: '#aa61a6',
+    mediumToDarkAccent: '#f38bd4',
+    mediumAccent: '#bc8bf3',
+    ligthAccent: '#ffe4fd',
+    contrast: '#daf38b',
+    backgroundImage: 'url(../img/app-background/pink-background.jpg)'
+  },
+  {
+    darkAccent: '#793735',
+    mediumToDarkAccent: '#FB6964',
+    mediumAccent: '#fba264',
+    ligthAccent: '#ffdad9',
+    contrast: '#ff5b9f',
+    backgroundImage: 'url(../img/app-background/red-background.jpg)'
+  }
+  
+];
+
+let randomThemes = [];
+
+function getRandomTheme(themes) {
+  return Math.floor(Math.random() * themes.length);
+}
+
+function checkIfThemeExists() {
+  let currentRandomTheme = themes[getRandomTheme(themes)];
+  if (randomThemes.length === themes.length) {
+    randomThemes.length = 0;
+  }
+  randomThemes.forEach((theme) => {
+    // fix this to be unique
+    if (theme.contrast === currentRandomTheme.contrast) {
+      currentRandomTheme = themes[getRandomTheme(themes)];
+    }
+
+
+  });
+  return currentRandomTheme;
+}
+
+console.log(getRandomTheme(themes))
+console.log(themes[0])
+
+
 refreshQuoteBtn.addEventListener('click', () => {
-  if (quotesData) {
+  if (quotesData && !document.body.matches('.change-theme-active')) {
     const randomCurrentQuote = quotesData[getRandomQuote(quotesData)];
     generateQuote(randomCurrentQuote);
     setShareBtnsHrefAtr(randomCurrentQuote);
+    const currentRandomTheme = checkIfThemeExists();
+
+    randomThemes.push(currentRandomTheme);
+    console.log(randomThemes);
+
+    document.body.classList.add('change-theme-active');
+    setTimeout(() => {
+      document.body.classList.remove('change-theme-active');
+    }, 1000);
+
+    const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
+    console.log(backgroundImage);
+    const rootLm = document.documentElement;
+      rootLm.style = `
+      --dark-accent-color: ${darkAccent};
+      --dark-to-medium-accent-color: ${mediumToDarkAccent};
+      --medium-accent-color: ${mediumAccent};
+      --light-accent-color: ${ligthAccent};
+      --contrast-color: ${contrast};
+      --background-image: ${backgroundImage};
+      `;
+
   }
 }); 
 

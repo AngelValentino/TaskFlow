@@ -36,6 +36,35 @@ html {
 
 /* END OF RESET */
 
+/* ROOT var(--dark-accent-color) */
+
+:root {
+  --dark-accent-color: #793735;
+  --dark-to-medium-accent-color: #FB6964;
+  --medium-accent-color: #fba264;
+  --light-accent-color: #ffdad9;
+  --contrast-color: #ff5b9f;
+  --background-image: url(../img/app-background/red-background.jpg);
+  --theme-transition-delay: 1s;
+}
+
+.test {
+  color: #16a085;
+  color: #27ae60;
+  color: #427db8;
+  color: #f39c12;
+  color: #e74c3c;
+/*  purple-base-color: #9b59b6; */
+  color: #FB6964;
+  color: #7a4f54;
+  color: #472E32;
+  color: #BDBB99;
+  color: #77B1A9;
+  color: #f38bd4;
+}
+
+/* END OF ROOT*/
+
 /* MATERIAL ICONS */
 
 .material-symbols-outlined {
@@ -48,16 +77,19 @@ html {
 
 body {
   font-family: sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
+  background-image: var(--background-image);
+  transition: background-image var(--theme-transition-delay);
 }
 
 main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
+  place-items: center;
+  gap: 10%;
   padding: 30px;
-  background-image: url(../img/app-background/purple-background.jpg);
 }
 
 /* END OF MAIN */
@@ -72,7 +104,8 @@ main {
 }
 
 .quote__text, .quote__author {
-  color: #593e7f;
+  color: var(--dark-accent-color);
+  transition: color var(--theme-transition-delay);
 }
 
 .quote__text svg {
@@ -112,8 +145,9 @@ main {
   width: 40px;
   height: 40px;
   border-radius: 3px;
-  background-color: #593e7f;
+  background-color: var(--dark-accent-color);
   color: inherit;
+  transition: background-color var(--theme-transition-delay);
 }
 
 .quote__share-with-twitter-btn > svg {
@@ -125,9 +159,10 @@ main {
 }
 
 .quote__buttons > button {
-  background-color: #593e7f;
+  background-color: var(--dark-accent-color);
   padding: 0 15px;
   border-radius: 3px;
+  transition: background-color var(--theme-transition-delay);
 }
 
 /* END OF QUOTE */
@@ -158,12 +193,13 @@ main {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 20px;
-  background-color: #ecdeff;
+  background-color: var(--light-accent-color);
   padding: 10px;
   border-radius: 5px;
   margin: 0 0 20px;
   position: relative;
   z-index: 1;
+  transition: background-color var(--theme-transition-delay);
 }
 
 .todo-app-intro__buttons {
@@ -176,10 +212,11 @@ main {
 .todo-app-intro__add-btn, 
 .todo-app-intro__search-btn,
 .todo-app-intro__clear-btn {
-  background-color: #593e7f;
+  background-color: var(--dark-accent-color);
   border-radius: 5px;
   color: #fff;
   padding: 10px;
+  transition: background-color var(--theme-transition-delay);
 }
 
 .todo-app-intro__add-btn {
@@ -253,10 +290,11 @@ main {
 
 .todo {
   color: #fff;
-  background-color: #593e7f;
+  background-color: var(--dark-accent-color);
   padding: 20px;
   border-radius: 5px;
   margin: 0 0 20px;
+  transition: background-color var(--theme-transition-delay);
 }
 
 .todo__task-name {
@@ -266,7 +304,8 @@ main {
 .todo__task-date {
   opacity: 0.8;
   margin: 0 0 15px;
-  color: #ecdeff;
+  color: var(--light-accent-color);
+  transition: color var(--theme-transition-delay);
 }
 
 .todo__task-desc {
@@ -303,12 +342,12 @@ main {
 
 .todo-app-prompt {
   position: relative;
-  background-color: #593e7f;
+  background-color: var(--dark-accent-color);
   border-radius: 5px;
   overflow: hidden;
   max-height: 0;
   transform: translateY(-150px);
-  transition: max-height 1.5s, transform .5s, margin 0.5s;
+  transition: max-height 1.5s, transform .5s, margin 0.5s, background-color var(--theme-transition-delay);
 }
 
 .todo-app-prompt form {
@@ -330,7 +369,8 @@ main {
   width: 100%;
   border-radius: 3px;
   margin: 0 0 25px;
-  background-color: #ecdeff;
+  background-color: var(--light-accent-color);
+  transition: background-color var(--theme-transition-delay);
 }
 
 .todo-app-prompt textarea {
@@ -364,11 +404,12 @@ main {
 }
 
 .todo-app-prompt__submit-btn {
-  background-color: #b259b6;
+  background-color: var(--medium-accent-color);
   padding: 10px;
   border-radius: 5px;
   color: #fff;
   width: 100%;
+  transition: background-color var(--theme-transition-delay);
 }
 
 /* END OF ADD TODO PROMPT */
@@ -391,10 +432,11 @@ main {
 }
 
 .search-todo-prompt__form button {
-  background-color: #593e7f;
+  background-color: var(--dark-accent-color);
   padding: 10px;
   border-radius: 5px;
   color: #fff;
+  transition: background-color var(--theme-transition-delay);
 }
 
 .search-todo-prompt__form svg {
@@ -404,9 +446,10 @@ main {
 .search-todo-prompt__form input {
   width: 100%;
   height: 100%;
-  border: 2px solid #9b59b6;
+  border: 2px solid var(--dark-to-medium-accent-color);
   padding: 10px;
   border-radius: 3px;
+  transition: border var(--theme-transition-delay);
 }
 
 /* END OF ADD TODO PROMPT */
@@ -422,7 +465,8 @@ main {
 }
 
 .btn--active {
-  background-color: #b259b6;
+  background-color: var(--medium-accent-color);
+  transition: background-color var(--theme-transition-delay);
 }
 
 .search-todo-prompt--active {
@@ -449,9 +493,10 @@ main {
 }
 
 .todo--completed {
-  background-color: #dfd684;
+  background-color: var(--contrast-color);
   color: #000;
   text-decoration: line-through;
+  transition: background-color var(--theme-transition-delay);
 }
 
 .todo__task-date--completed {
@@ -464,24 +509,10 @@ main {
 }
 
 /* END MODIFIERS */
-.test-colors {
-  color: #16a085;
-  color: #27ae60;
-  color: #2c3e50;
-  color: #f39c12;
-  color: #e74c3c;
-  color: #9b59b6;
-  color: #FB6964;
-  color: #342224;
-  color: #472E32;
-  color: #BDBB99;
-  color: #77B1A9;
-  color: #73A857;
-}
 
 @media screen and (max-width: 1000px) {
   main {
-    flex-flow: column;
+    grid-template-columns: 1fr;
   }
 }
 
