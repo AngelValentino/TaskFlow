@@ -28,11 +28,12 @@ import {
 import {
   checkIfCurrentThemeIsRepeated, 
   changeTheme, 
-  setlastShuffledThemeToLocalStorage
+  setLastShuffledThemeToStorage
 } from './data/themes.js';
 
 import { getRandomIndex } from './utils.js';
 
+let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 const currentRandomTheme = checkIfCurrentThemeIsRepeated();
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const currDate = new Date();
@@ -68,14 +69,16 @@ export const introPrompts = {
 
 // Todo 30/03/2024 - Finish app.
 
-/* Completed - Implement change theme functionality
-  // Implement change theme functionality and animation.
-  // Add all the needed themes and colors. 
+/*  Completed - Implement change theme functionality
+      // Implement change theme functionality and animation.
+      // Add all the needed themes and colors. 
 */
 
-// Add localStorage to todos section to remember which was picked on page load.
+/* Completed - Add localStorage to todos section to remember which was picked on page load.
+     // Add localStorage to todos section to remember which was picked on page load. 
+*/
 
-// Add proper cache to quotes to load the cache on page load instead of again fetching the data.
+// Add proper cache to quotes. To load the cache on page load instead of again fetching the data.
 
 // Add load animation to quote text.
 
@@ -271,6 +274,15 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
   }); 
 }
 
+function setCurrentSectionToStorage(sectionId) {
+  lastPickedSection = sectionId;
+  localStorage.setItem('lastPickedSectionId', lastPickedSection)
+}
+
+function getLastActiveSection() {
+  document.getElementById(lastPickedSection).classList.add('todo-sections--active-btn');
+}
+
 export function generateTodosHTML(todos) {
   const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
@@ -413,12 +425,12 @@ if (!quotesData) {
   .catch((err) => console.err(err));
 }
 
-setlastShuffledThemeToLocalStorage(currentRandomTheme);
+setLastShuffledThemeToStorage(currentRandomTheme);
 changeTheme(currentRandomTheme);
 
 currentDateLm.innerText = formatCurrentDate(currDate);
 
-allBtnLm.classList.add('todo-sections--active-btn');
+getLastActiveSection();
 
 generateTodosHTML(todos);
 
@@ -426,7 +438,7 @@ refreshQuoteBtn.addEventListener('click', () => {
   if (quotesData && !document.body.matches('.change-theme-active')) {
     const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];
     const currentRandomTheme = checkIfCurrentThemeIsRepeated();
-    setlastShuffledThemeToLocalStorage(currentRandomTheme);
+    setLastShuffledThemeToStorage(currentRandomTheme);
     generateQuote(randomCurrentQuote);
     setShareBtnsHrefAtr(randomCurrentQuote);
     changeTheme(currentRandomTheme);
@@ -503,16 +515,25 @@ todosSectionsContainerLm.addEventListener('click', (e) => {
     // All
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__all-btn');
     generateSpecificSectionHTML();
+    setCurrentSectionToStorage('todo-sections__all-btn');
+    // lastPickedSection = 'todo-sections__all-btn';
+    // localStorage.setItem('lastPickedSectionId', lastPickedSection)
   } 
   else if (e.target.closest('#todo-sections__tasks-btn')) {
     // Tasks
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__tasks-btn');
     generateSpecificSectionHTML();
+    setCurrentSectionToStorage('todo-sections__tasks-btn');
+    // lastPickedSection = 'todo-sections__tasks-btn';
+    // localStorage.setItem('lastPickedSectionId', lastPickedSection)
   } 
   else if (e.target.closest('#todo-sections__completed-btn')) {
     // Completed
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__completed-btn');
     generateSpecificSectionHTML();
+    setCurrentSectionToStorage('todo-sections__completed-btn');
+    // lastPickedSection = 'todo-sections__completed-btn';
+    // localStorage.setItem('lastPickedSectionId', lastPickedSection)
   }
 });
 

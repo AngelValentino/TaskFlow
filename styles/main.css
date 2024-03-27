@@ -47,7 +47,6 @@ html {
   --background-image: url(../img/app-background/grey-background.jpg);
   --theme-transition-delay: 0.5s;
 }
-
 /* END OF ROOT*/
 
 /* MATERIAL ICONS */
@@ -65,6 +64,8 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   background-image: var(--background-image);
+  background-repeat: no-repeat;
+  background-size: cover;
   transition: background-image var(--theme-transition-delay);
 }
 
@@ -498,8 +499,9 @@ main {
 
 @media screen and (max-width: 1000px) {
   main {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 2fr;
+    display: flex;
+    flex-flow: column;
+    gap: 7rem;
   }
 }
 

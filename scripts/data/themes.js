@@ -59,10 +59,10 @@ const themes = [
     backgroundImage: 'url(../img/app-background/sand-background.jpg)'
   },
   {
-    darkAccent: '#61a5a1',
+    darkAccent: '#4e817e',
     mediumToDarkAccent: '#8ba7ec',
-    mediumAccent: '#ecaf8b',
-    ligthAccent: '#cbfffc',
+    mediumAccent: '#e79049',
+    ligthAccent: '#c0f0ed',
     contrast: '#ec8bd6',
     backgroundImage: 'url(../img/app-background/cian-background.jpg)'
   }
@@ -98,7 +98,7 @@ export function changeTheme(currentRandomTheme) {
 
 }
 
-export function setlastShuffledThemeToLocalStorage(currentRandomTheme) {
+export function setLastShuffledThemeToStorage(currentRandomTheme) {
   lastShuffledTheme = currentRandomTheme;
   localStorage.setItem('lastShuffledTheme', JSON.stringify(currentRandomTheme))
 }
