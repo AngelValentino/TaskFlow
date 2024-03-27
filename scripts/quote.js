@@ -8,9 +8,9 @@ export async function getQuoteData() {
   return await response.json();
 }
 
-export function getRandomQuote(quotesData) {
-  return Math.floor(Math.random() * quotesData.length)
-}
+// export function getRandomQuote(quotesData) {
+//   return Math.floor(Math.random() * quotesData.length)
+// }
 
 export function generateQuote(data) {
   const quoteTextLm = document.getElementById('quote__text');

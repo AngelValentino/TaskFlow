@@ -1,12 +1,5 @@
 /* DIALOG */
 
-#test-open-modal {
-  background-color: tomato;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
-
 .dialog-backdrop { 
   font-size: 1.4rem;
   background-color: rgba(0, 0, 0, 0.4);
@@ -47,7 +40,7 @@
 } 
 
 .dialog__btns > button {
-  background-color: #77B1A9;
+  background-color: var(--dark-accent-color);
   padding: 12px 18px;
   color: #fff;
   border-radius: 3px;
@@ -68,12 +61,12 @@
   border-radius: 3px;
   margin: 0 0 25px;
   padding: 10px;
-  border: 2px dashed #593e7f;
+  border: 2px dashed var(--dark-accent-color);
 }
 
 .form-dialog__task, 
 .form-dialog__date {
-  background-color: #ecdeff;
+  background-color: var(--light--accent-color);
 }
 
 .dialog > form > label {
@@ -88,7 +81,7 @@
 }
 
 .form-dialog__submit-btn {
-  background-color: #b259b6;
+  background-color: var(--medium-accent-color);
   color: white;
   padding: 10px;
   border-radius: 5px;
