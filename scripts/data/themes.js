@@ -10,14 +10,14 @@ const themes = [
     contrast: '#dfd684',
     backgroundImage: 'url(../img/app-background/purple-background.jpg)'
   },
-/*   {
+  {
     darkAccent: '#2e6881',
     mediumToDarkAccent: '#427db8',
-    mediumAccent: '#4d57b8',
+    mediumAccent: '#da61a3',
     ligthAccent: '#d6f3ff',
     contrast: '#fd94ce',
     backgroundImage: 'url(../img/app-background/blue-background.jpg)'
-  }, */
+  },
   {
     darkAccent: '#51763d',
     mediumToDarkAccent: '#73A857',
@@ -49,6 +49,22 @@ const themes = [
     ligthAccent: '#ffdad9',
     contrast: '#ff5b9f',
     backgroundImage: 'url(../img/app-background/red-background.jpg)'
+  },
+  {
+    darkAccent: '#84846b',
+    mediumToDarkAccent: '#BDBB99',
+    mediumAccent: '#b0bd99',
+    ligthAccent: '#fff8d9',
+    contrast: '#b6c3e0',
+    backgroundImage: 'url(../img/app-background/sand-background.jpg)'
+  },
+  {
+    darkAccent: '#61a5a1',
+    mediumToDarkAccent: '#8ba7ec',
+    mediumAccent: '#ecaf8b',
+    ligthAccent: '#cbfffc',
+    contrast: '#ec8bd6',
+    backgroundImage: 'url(../img/app-background/cian-background.jpg)'
   }
 ];
 

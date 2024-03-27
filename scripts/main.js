@@ -68,9 +68,10 @@ export const introPrompts = {
 
 // Todo 30/03/2024 - Finish app.
 
-// Implement change theme functionality and animation.
-
-// Add all the needed themes and colors.
+/* Completed - Implement change theme functionality
+  // Implement change theme functionality and animation.
+  // Add all the needed themes and colors. 
+*/
 
 // Add localStorage to todos section to remember which was picked on page load.
 
