@@ -1,4 +1,6 @@
-export let quotesData;
+import { getRandomIndex } from './utils.js';
+
+export let quotesData = JSON.parse(localStorage.getItem('quotesData')) || null;
 
 export async function getQuoteData() {
   const response = await fetch('https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json');
@@ -7,10 +9,6 @@ export async function getQuoteData() {
   }
   return await response.json();
 }
-
-// export function getRandomQuote(quotesData) {
-//   return Math.floor(Math.random() * quotesData.length)
-// }
 
 export function generateQuote(data) {
   const quoteTextLm = document.getElementById('quote__text');
@@ -26,6 +24,7 @@ export function generateQuote(data) {
 
 export function setQuoteCache(value) {
   quotesData = value;
+  localStorage.setItem('quotesData', JSON.stringify(value));
 }
 
 export function setShareBtnsHrefAtr(randomCurrentQuote) {
@@ -36,4 +35,22 @@ export function setShareBtnsHrefAtr(randomCurrentQuote) {
   const author = encodeURIComponent(randomCurrentQuote.author);
   shareWithTwitterBtn.href = `https://twitter.com/intent/tweet?hashtags=quotes,inspirational,success&text=${msg}`;
   shareWithTumblrBtn.href = `https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes&caption=${author}&content=${quote}&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button`;
+}
+
+export function checkQuotesData() {
+  if (!quotesData) {
+    getQuoteData()
+    .then((data) =>{
+      setQuoteCache(data.quotes);
+      const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];
+      generateQuote(randomCurrentQuote);
+      setShareBtnsHrefAtr(randomCurrentQuote);
+    })
+    .catch((err) => console.err(err));
+  } 
+  else {
+    const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];
+    generateQuote(randomCurrentQuote);
+    setShareBtnsHrefAtr(randomCurrentQuote);
+  }
 }

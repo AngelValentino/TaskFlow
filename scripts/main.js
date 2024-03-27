@@ -1,8 +1,7 @@
 import { 
   quotesData, 
-  getQuoteData, 
+  checkQuotesData,
   generateQuote, 
-  setQuoteCache,
   setShareBtnsHrefAtr
 } from './quote.js';
 
@@ -78,11 +77,11 @@ export const introPrompts = {
      // Add localStorage to todos section to remember which was picked on page load. 
 */
 
-// Add proper cache to quotes. To load the cache on page load instead of again fetching the data.
+/*  Completed - Add proper cache to quotes. To load the cache on page load instead of again fetching the data.
+      // Add proper cache to quotes. To load the cache on page load instead of again fetching the data. 
+*/
 
-// Add load animation to quote text.
-
-// Add random recycle image to discard modal dialog.
+// Add random recycle image to discard modal dialog and implement infoDialog. Instead of generating html elements after confirmDialog.
 
 // Refactor and make an utility file with the most reusable functions around the project.
 
@@ -280,7 +279,12 @@ function setCurrentSectionToStorage(sectionId) {
 }
 
 function getLastActiveSection() {
-  document.getElementById(lastPickedSection).classList.add('todo-sections--active-btn');
+  if (!lastPickedSection) {
+    const allBtnLm = document.getElementById('todo-sections__all-btn');
+    allBtnLm.classList.add('todo-sections--active-btn');
+  } else {
+    document.getElementById(lastPickedSection).classList.add('todo-sections--active-btn');
+  }
 }
 
 export function generateTodosHTML(todos) {
@@ -414,16 +418,7 @@ function generateSpecificSectionHTML() {
   }
 }
 
-if (!quotesData) {
-  getQuoteData()
-  .then((data) =>{
-    setQuoteCache(data.quotes);
-    const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];
-    generateQuote(randomCurrentQuote);
-    setShareBtnsHrefAtr(randomCurrentQuote);
-  })
-  .catch((err) => console.err(err));
-}
+checkQuotesData();
 
 setLastShuffledThemeToStorage(currentRandomTheme);
 changeTheme(currentRandomTheme);
@@ -516,24 +511,18 @@ todosSectionsContainerLm.addEventListener('click', (e) => {
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__all-btn');
     generateSpecificSectionHTML();
     setCurrentSectionToStorage('todo-sections__all-btn');
-    // lastPickedSection = 'todo-sections__all-btn';
-    // localStorage.setItem('lastPickedSectionId', lastPickedSection)
   } 
   else if (e.target.closest('#todo-sections__tasks-btn')) {
     // Tasks
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__tasks-btn');
     generateSpecificSectionHTML();
     setCurrentSectionToStorage('todo-sections__tasks-btn');
-    // lastPickedSection = 'todo-sections__tasks-btn';
-    // localStorage.setItem('lastPickedSectionId', lastPickedSection)
   } 
   else if (e.target.closest('#todo-sections__completed-btn')) {
     // Completed
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__completed-btn');
     generateSpecificSectionHTML();
     setCurrentSectionToStorage('todo-sections__completed-btn');
-    // lastPickedSection = 'todo-sections__completed-btn';
-    // localStorage.setItem('lastPickedSectionId', lastPickedSection)
   }
 });
 
