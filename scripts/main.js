@@ -7,10 +7,9 @@ import {
 
 import { 
   openModal, 
-  generateConfirmDialogHTML, 
   generateEditTodoDialogHTML,
-  initializeConfirmDialog,
-  openConfirmDailog
+  generateInfoDialogHTML,
+  openConfirmDialog,
 } from './dialog.js';
 
 import { 
@@ -81,11 +80,17 @@ export const introPrompts = {
       // Add proper cache to quotes. To load the cache on page load instead of again fetching the data. 
 */
 
-// Add random recycle image to discard modal dialog and implement infoDialog. Instead of generating html elements after confirmDialog.
+/*  Completed - Refactored generate HTML for dialog and added random images to confirm dialog. Implementing generateInfoDialogHTML.
+    // Add random recycle image to discard modal dialog and implement infoDialog. Instead of generating html elements after confirmDialog. 
+*/
 
 // Refactor and make an utility file with the most reusable functions around the project.
 
 // Finish the app style and media queries.
+  // Review accessibilty, the todo sections need an aria-expanded atribute.
+  // Add delay to generate quote to prevent the html loading flickering, instead load quotes by default and after generate the quote and author.
+  // Add hover functionality to buttons
+  // Review intro prompts animation. When it goes away or shows, it doesn't fully hide in mobile.
 
 // Todo 30/03/2024 - Finish app.
   
@@ -229,7 +234,7 @@ function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, timId, time)
 function confirmDiscardAddPromptTypedData() {
   const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
   if(todoData[0] || todoData[1] || todoData[2]) {
-    openConfirmDailog(resetForm, 'Are you sure you want to discard all changes made in form?')
+    openConfirmDialog(resetForm, 'Are you sure you want to discard all changes made in form?')
   } 
   else {
     const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
@@ -396,7 +401,7 @@ function showSearchTodoPrompt(e) {
 }
 
 function clearAllTodos() {
-  openConfirmDailog(resetTodos, 'Are you sure that you want to delete all tasks?')
+  openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?')
 }
 
 function closeSearchPrompt() {
@@ -461,8 +466,7 @@ searchTodoFormLm.addEventListener('submit', (e) => {
   
   // No todos have been found.
   if (!filteredTodos.length) {
-    generateConfirmDialogHTML();
-    const { closeLm, confirmationLm } = initializeConfirmDialog('No todos have been found');
+    const { closeLm, confirmationLm } = generateInfoDialogHTML('No todos have been found.');
     openModal(null, null, closeLm, confirmationLm, confirmationLm, closeSearchPrompt);
   }
 });
@@ -481,8 +485,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
   const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
 
   if (isTodosLimitReached()) {
-    generateConfirmDialogHTML();
-    const { closeLm, confirmationLm } = initializeConfirmDialog('You have reached the maximum, 100 todos, allowed limit.');
+    const { closeLm, confirmationLm } = generateInfoDialogHTML('You have reached the maximum, 100 todos, allowed limit.');
     openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
   } 
   else {
@@ -494,12 +497,12 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
 });
 
 addTodoPromptCloseBtn.addEventListener('click', () => {
-  confirmDiscardAddPromptTypedData()
+  confirmDiscardAddPromptTypedData();
 });
 
 addTodoPromptFormLm.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    confirmDiscardAddPromptTypedData()
+    confirmDiscardAddPromptTypedData();
   }
 });
 
@@ -531,7 +534,7 @@ todosContainerLm.addEventListener('click', (e) => {
   if (e.target.closest('.todo__complete-btn')) {
     // Complete Todo.
     const targetId = e.target.closest('li').id;
-    openConfirmDailog(completeTodo.bind(null, targetId), 'Are you sure that you want to complete this task?'); 
+    openConfirmDialog(completeTodo.bind(null, targetId), 'Are you sure that you want to complete this task?', true); 
   } 
   else if (e.target.closest('.todo__edit-btn')) {
     // Edit Todo.
@@ -543,6 +546,6 @@ todosContainerLm.addEventListener('click', (e) => {
   else if (e.target.closest('.todo__delete-btn')) {
     // Delete todo.
     const targetId = e.target.closest('li').id;
-    openConfirmDailog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
+    openConfirmDialog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
   }
 });

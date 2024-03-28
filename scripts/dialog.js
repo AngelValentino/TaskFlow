@@ -1,17 +1,21 @@
 import { addTodo, deleteTodo } from './data/todo.js';
 import { getTodoInfo } from './main.js';
+import { getRandomNumber } from './utils.js';
 
 const dialogBackdropLm = document.getElementById('dialog-backdrop');
 let closeAlertDialogTim;
 
-export function initializeConfirmDialog(descText) {
-  //change image
-  const dialogBtnsLm = document.getElementById('dialog__btns');
-  const dialogDescLm = document.getElementById('dialog__desc');
-  dialogBtnsLm.innerHTML = `
-    <button style="padding: 12px 20px" class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Ok</button>
-  `; 
-  dialogDescLm.innerText = descText;
+export function generateInfoDialogHTML(descText) {
+  dialogBackdropLm.innerHTML = `
+    <div class="dialog" id="dialog" role="dialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
+      <img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.png" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>
+      <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
+        <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+      </button>
+      <p class="dialog__desc" id="dialog__desc">${descText}</p>
+      <button style="padding: 12px 20px" class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Ok</button>
+    </div>
+  `;
   const closeLm = document.getElementById('dialog__cancel-btn');
   const confirmationLm = document.getElementById('dialog__confirmation-btn');
   return {closeLm, confirmationLm};
@@ -20,7 +24,9 @@ export function initializeConfirmDialog(descText) {
 export function generateConfirmDialogHTML() {
   dialogBackdropLm.innerHTML = `
     <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
-      <img src="img/recycle-icons/garbage-collector-2.jpg" alt=""/>
+      <div id="dialog__image-container">
+        <img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>
+      </div>
       <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
         <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
       </button>
@@ -34,7 +40,9 @@ export function generateConfirmDialogHTML() {
   const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
   const confirmationLm = document.getElementById('dialog__confirmation-btn');
   const discardBtn = document.getElementById('dialog__discard-btn');
-  return {closeLms, confirmationLm, discardBtn};
+  const dialogDescLm = document.getElementById('dialog__desc');
+  const dialogImgContainer = document.getElementById('dialog__image-container');
+  return {closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer};
 }
 
 export function generateEditTodoDialogHTML() {
@@ -120,11 +128,8 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   function openConfirmEditDialog() {
     closeEditDialog()
     setTimeout(() => {
-      generateConfirmDialogHTML();
+      const { closeLms, confirmationLm, discardBtn } = generateConfirmDialogHTML();
       const alertDialogLm = document.getElementById('dialog');
-      const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
-      const confirmationLm = document.getElementById('dialog__confirmation-btn');
-      const discardBtn = document.getElementById('dialog__discard-btn');
       alertDialogLm.classList.add('dialog--edit');
       openModal(targetId, {formerEdit: todoInfo.formerEdit, currentEdit: getTodoInfo(formDialogLm)}, closeLms, discardBtn, confirmationLm);
     }, 400)
@@ -133,15 +138,12 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   function closeConfirmEditDialog() {
     closeEditDialog();
     setTimeout(() => {
-      generateEditTodoDialogHTML();
-      const closeBtn = document.getElementById('form-dialog__cancel-btn');
-      const formDialogLm = document.getElementById('form-dialog');
-      const formInputs = formDialogLm.querySelectorAll('input, textarea');
+      const { closeBtn, formInputs } = generateEditTodoDialogHTML();
       formInputs.forEach((input) => {
         input.value = todoInfo.currentEdit[input.name];
       })
       openModal(targetId, todoInfo, closeBtn, closeBtn);
-    }, 400)
+    }, 400);
   }
 
   function closeModalWithEscKey(e) {
@@ -275,9 +277,11 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   addEventsListeners();
 }
 
-export function openConfirmDailog(confirmFunction, descText) {
-  const { closeLms, confirmationLm, discardBtn } = generateConfirmDialogHTML();
-  const dialogDescLm = document.getElementById('dialog__desc');
+export function openConfirmDialog(confirmFunction, descText, changeImage) {
+  const { closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer } = generateConfirmDialogHTML();
+  if (changeImage) {
+    dialogImgContainer.innerHTML = '<img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.png" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
+  }
   dialogDescLm.innerText = descText;
   openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);
 }
