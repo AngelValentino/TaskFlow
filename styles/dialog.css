@@ -54,6 +54,7 @@
   padding: 12px 18px;
   color: #fff;
   border-radius: 3px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .dialog__cancel-btn span, .form-dialog__cancel-btn span {
@@ -97,6 +98,7 @@
   border-radius: 5px;
   color: #fff;
   width: 100%;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* END OF FORM DIALOG */

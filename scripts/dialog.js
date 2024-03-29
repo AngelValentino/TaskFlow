@@ -69,6 +69,7 @@ export function generateEditTodoDialogHTML() {
 }
 
 export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirmationLm, confirmFunction) {
+  const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
   const formDialogLm = document.getElementById('form-dialog');
   const alertDialogLm = document.getElementById('dialog');
   const lastFocusLmBeforeAlertDialog = document.activeElement;
@@ -97,6 +98,7 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
 
   function closeModal() {
     removeEventsListeners();
+    clearAllTodosBtn.classList.remove('todo-app-intro__clear-btn--active');
     document.body.style.overflow = 'initial';
     dialogBackdropLm.classList.remove('dialog-backdrop--active');
     alertDialogLm.classList.remove('dialog--active');

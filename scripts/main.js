@@ -89,8 +89,8 @@ export const introPrompts = {
 // Finish the app style and media queries.
   // Review accessibilty, the todo sections need an aria-expanded atribute.
   // Add delay to generate quote to prevent the html loading flickering, instead load quotes by default and after generate the quote and author.
-  // Add hover functionality to buttons
-  // Review intro prompts animation. When it goes away or shows, it doesn't fully hide in mobile. Maybe is a visual bug that just happens in the dev tools.
+  // Add hover functionality to buttons.
+  // Review intro prompts animation. When it goes away or shows, it doesn't fully hide in mobile. *Is a visual bug that just happens in the dev tools.
 
 // Todo 30/03/2024 - Finish app.
   
@@ -307,14 +307,14 @@ export function generateTodosHTML(todos) {
       <p class="todo__task-date">${todo.date}</p>
       <p class="todo__task-desc">${todo.description}</p>
       <div class="todo__edit-buttons">
-        <button class="todo__complete-btn" aria-label="Complete todo." type="button">
+        <button title="Complete task" class="todo__complete-btn" aria-label="Complete todo." type="button">
           <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
         </button>
         <div>
-          <button class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
+          <button title="Edit task" class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
             <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
           </button>
-          <button class="todo__delete-btn" aria-label="Delete todo." type="button">
+          <button title="Delete task" class="todo__delete-btn" aria-label="Delete todo." type="button">
             <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
           </button>
         </div>
@@ -330,7 +330,7 @@ export function generateTodosHTML(todos) {
       <p class="todo__task-date todo__task-date--completed">${todo.date}</p>
       <p class="todo__task-desc">${todo.description}</p>
       <div class="todo__edit-buttons todo__edit-buttons--completed">
-        <button class="todo__delete-btn" aria-label="Delete todo." type="button">
+        <button title="Delete completed task" class="todo__delete-btn" aria-label="Delete todo." type="button">
           <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
         </button>
       </div>
@@ -410,6 +410,7 @@ function showSearchTodoPrompt(e) {
 
 function clearAllTodos() {
   openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?');
+  clearAllTodosBtn.classList.add('todo-app-intro__clear-btn--active');
 }
 
 function closeSearchPrompt() {

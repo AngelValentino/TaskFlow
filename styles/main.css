@@ -26,9 +26,9 @@ fieldset {
   border: none;
 }
 
-button:hover, a:hover {
+/* button:hover, a:hover {
   opacity: 0.8;
-}
+} */
 
 html {
   font-size: 16px;
@@ -133,7 +133,7 @@ main {
   border-radius: 3px;
   background-color: var(--dark-accent-color);
   color: inherit;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
 }
 
 .quote__share-with-twitter-btn > svg {
@@ -202,7 +202,7 @@ main {
   border-radius: 5px;
   color: #fff;
   padding: 10px;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
 }
 
 .todo-app-intro__add-btn {
@@ -244,6 +244,7 @@ main {
   padding: 12px;
   border-radius: 50px;
   font-size: 0.67em;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .todo-sections h2 {
@@ -381,14 +382,6 @@ main {
   font-size: 1.5em;
 }
 
-.todo-app-prompt__cancel-btn:hover {
-  opacity: 1;
-}
-
-.todo-app-prompt__cancel-btn:hover span {
-  font-variation-settings:'FILL' 1;
-}
-
 .todo-app-prompt__submit-btn {
   font-weight: bold;
   background-color: var(--medium-accent-color);
@@ -396,7 +389,7 @@ main {
   border-radius: 5px;
   color: #fff;
   width: 100%;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
 }
 
 /* END OF ADD TODO PROMPT */
@@ -418,12 +411,18 @@ main {
   padding: 15px 50px 30px;
 }
 
-.search-todo-prompt__form button {
+.search-todo-prompt__form > button {
   background-color: var(--dark-accent-color);
   padding: 10px;
   border-radius: 5px;
   color: #fff;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
+}
+
+.search-todo-prompt__form > button:hover {
+  background-color: var(--medium-accent-color);
+  color: #000;
+  transition: background-color 0.15s, color 0.15s;
 }
 
 .search-todo-prompt__form svg {
@@ -495,6 +494,10 @@ main {
   color: #fff;
 }
 
+.todo-app-intro__clear-btn--active {
+  background-color: var(--medium-accent-color);
+}
+
 /* END MODIFIERS */
 
 @media screen and (max-width: 1000px) {
@@ -509,5 +512,119 @@ main {
   .search-todo-prompt__form {
     grid-template-columns: 1fr;
     padding: 15px 25px 30px;
+  }
+}
+
+@media screen and (hover: hover) {
+  .quote__buttons button:hover {
+    background-color: var(--medium-accent-color);
+    transition: background-color 0.15s;
+  }
+
+  .quote__buttons a:hover {
+    color: #000;
+    background-color: var(--contrast-color);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-app-intro__buttons > button:hover {
+    color: #000;
+    background-color: var(--medium-accent-color);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-app-prompt__cancel-btn:hover > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .todo-app-prompt__submit-btn:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-sections > button:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo__edit-buttons button:hover > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .dialog__confirmation-btn:hover, 
+  .dialog__discard-btn:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .dialog__cancel-btn:hover > span, 
+  .form-dialog__cancel-btn:hover > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .form-dialog__submit-btn:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+}
+
+@media screen and (hover: none) {
+  .quote__buttons button:active {
+    background-color: var(--medium-accent-color);
+    transition: background-color 0.15s;
+  }
+
+  .quote__buttons a:active {
+    color: #000;
+    background-color: var(--contrast-color);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-app-intro__buttons > button:active {
+    color: #000;
+    background-color: var(--medium-accent-color);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-app-prompt__cancel-btn:active > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .todo-app-prompt__submit-btn:active {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-sections > button:active {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo__edit-buttons button:active > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .dialog__confirmation-btn:active, 
+  .dialog__discard-btn:active {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .dialog__cancel-btn:active > span, 
+  .form-dialog__cancel-btn:active > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .form-dialog__submit-btn:active {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
   }
 }
