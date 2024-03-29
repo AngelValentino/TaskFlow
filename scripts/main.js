@@ -90,7 +90,7 @@ export const introPrompts = {
   // Review accessibilty, the todo sections need an aria-expanded atribute.
   // Add delay to generate quote to prevent the html loading flickering, instead load quotes by default and after generate the quote and author.
   // Add hover functionality to buttons
-  // Review intro prompts animation. When it goes away or shows, it doesn't fully hide in mobile.
+  // Review intro prompts animation. When it goes away or shows, it doesn't fully hide in mobile. Maybe is a visual bug that just happens in the dev tools.
 
 // Todo 30/03/2024 - Finish app.
   
