@@ -4,15 +4,17 @@ export const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - m
 
 const preloadImgs = []
 
-function preload_image(im_url) {
+function preloadImage(im_url) {
   const img = new Image();
   img.src = im_url;
   preloadImgs.push(img);
 }
 
 export function preloadDialogImages() {
-  preload_image('img/cute-animals-drawings/capybara.png');
+  preloadImage('img/cute-animals-drawings/croco-capybara.png');
+  preloadImage('img/cute-animals-drawings/croco-capybara-todos.png');
+  preloadImage('img/cute-animals-drawings/capybara.png');
   for (let i = 1; i <= 6; i++) {
-    preload_image(`img/recycle-icons/garbage-collector-${i}.jpg`);
+    preloadImage(`img/recycle-icons/garbage-collector-${i}.jpg`);
   }
 }

@@ -210,14 +210,6 @@ export function getFormData(form, formatDateBoolean, id) {
   return todoData;
 }
 
-function showAddTodoPrompt(e) {
-  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-  const addTodoBtnLm = addTodoPrompt.btnLm;
-  checkActiveBtn(addTodoBtnLm);
-  removeLastActivePrompt(searchTodoPrompt);
-  togglePrompt(addTodoPrompt, e);
-}
-
 function resetForm() {
   const { promptLm, btnLm, activeClass, timId, time} = introPrompts.addTodoPrompt;
   addTodoPromptFormLm.reset();
@@ -292,6 +284,14 @@ function getLastActiveSection() {
   }
 }
 
+function generatePlaceholderImageHTML(imgUrl, id) {
+  todosContainerLm.innerHTML = `
+  <div class="todos-container__img-container">
+    <img id=${id} class="todos-container__empty-section-image" src=${imgUrl} alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
+  </div>
+`;
+}
+
 export function generateTodosHTML(todos) {
   const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
@@ -300,14 +300,6 @@ export function generateTodosHTML(todos) {
   const { btnLm } = introPrompts.searchTodoPrompt;
   let generatedHTML = '';
   
-  function generatePlaceholderImageHTML(imgUrl) {
-    todosContainerLm.innerHTML = `
-    <div class="todos-container__img-container">
-      <img class="todos-container__empty-section-image" src=${imgUrl} alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
-    </div>
-  `;
-  }
-
   function generateTaskHTML(todo) {
     return `
     <li id="${todo.id}" class="todo">
@@ -379,16 +371,32 @@ export function generateTodosHTML(todos) {
   todosContainerLm.innerHTML = generatedHTML;
 
   if (todosContainerLm.innerHTML === '' && btnLm.getAttribute('aria-expanded') === 'true') {
-    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara-todos.png")
+    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara-todos.png", 'todos-container__empty-search-section-image');
   } 
   else if (todosContainerLm.innerHTML === '') {
-    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara.png")
+    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara.png", 'todos-container__empty-section-image');
+  }
+}
+
+function checkSearchTodosPlaceholder() {
+  const isSearchEmptyPlaceholder = todosContainerLm.querySelector('#todos-container__empty-search-section-image');
+  if (isSearchEmptyPlaceholder) {
+    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara.png", 'todos-container__empty-section-image');
   }
 }
 
 function resetSearch() {
   generateTodosHTML(todos);
   searchTodoFormLm.reset();
+}
+
+function showAddTodoPrompt(e) {
+  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
+  const addTodoBtnLm = addTodoPrompt.btnLm;
+  checkActiveBtn(addTodoBtnLm);
+  removeLastActivePrompt(searchTodoPrompt);
+  togglePrompt(addTodoPrompt, e);
+  checkSearchTodosPlaceholder();
 }
 
 function showSearchTodoPrompt(e) {
@@ -424,7 +432,6 @@ function generateSpecificSectionHTML() {
 }
 
 preloadDialogImages();
-
 
 checkQuotesData();
 

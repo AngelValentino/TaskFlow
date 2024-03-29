@@ -38,12 +38,13 @@ export function completeTodo(targetId) {
 
 export function resetTodos() {
   todos.length = 0;
-  generateTodosHTML(todos);
-  localStorage.setItem('todos', JSON.stringify(todos));
   // Hide add prompt or search prompt.
   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
   removeLastActivePrompt(searchTodoPrompt);
   removeLastActivePrompt(addTodoPrompt);
+  // Generate HTML
+  generateTodosHTML(todos);
+  localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 // Checks if a todo includes a specific value and returns the new array.
