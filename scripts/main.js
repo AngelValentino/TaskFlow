@@ -286,9 +286,9 @@ function getLastActiveSection() {
 
 function generatePlaceholderImageHTML(imgUrl, id) {
   todosContainerLm.innerHTML = `
-  <div class="todos-container__img-container">
+  <li class="todos-container__img-container">
     <img id=${id} class="todos-container__empty-section-image" src=${imgUrl} alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
-  </div>
+  </li>
 `;
 }
 
@@ -409,7 +409,7 @@ function showSearchTodoPrompt(e) {
 }
 
 function clearAllTodos() {
-  openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?')
+  openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?');
 }
 
 function closeSearchPrompt() {
@@ -433,7 +433,11 @@ function generateSpecificSectionHTML() {
 
 preloadDialogImages();
 
-checkQuotesData();
+addEventListener('load', () => {
+  setTimeout(() => {
+    checkQuotesData();
+  }, 500);
+});
 
 setLastShuffledThemeToStorage(currentRandomTheme);
 changeTheme(currentRandomTheme);
