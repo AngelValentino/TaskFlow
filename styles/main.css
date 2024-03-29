@@ -488,6 +488,12 @@ main {
   padding: 30px 50px;
 }
 
+@media screen and (max-width: 450px) {
+  .form-dialog--active {
+    padding: 30px;
+  }
+}
+
 .todo__edit-buttons--completed {
   justify-content: end;
 }

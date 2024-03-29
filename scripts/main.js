@@ -117,7 +117,7 @@ function showPrompt(promptLm, btnLm, classToAdd) {
     // It needs a timeout to focus. Because without it, it breaks addTodoPrompt to searchTodoPrompt animation.
     focusTimsIntroBtns[0] = setTimeout(() => {
       searchInputLm.focus();
-    }, 1000);
+    }, 1250);
   } 
   else {
     // Without a timeout it adds lag to the showPromptAnimation.
