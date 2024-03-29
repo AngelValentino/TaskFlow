@@ -319,10 +319,6 @@ main {
   font-size: 1.45em;
 }
 
-.todo__delete-btn > span {
-  font-size: 1.5em;
-}
-
 /* END OF TODOS CONTAINER */
 
 /* ADD TODO PROMPT */
@@ -566,63 +562,6 @@ main {
   }
 
   .form-dialog__submit-btn:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-}
-
-@media screen and (hover: none) {
-  .quote__buttons button:active {
-    background-color: var(--medium-accent-color);
-    transition: background-color 0.15s;
-  }
-
-  .quote__buttons a:active {
-    color: #000;
-    background-color: var(--contrast-color);
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo-app-intro__buttons > button:active {
-    color: #000;
-    background-color: var(--medium-accent-color);
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo-app-prompt__cancel-btn:active > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .todo-app-prompt__submit-btn:active {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo-sections > button:active {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo__edit-buttons button:active > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .dialog__confirmation-btn:active, 
-  .dialog__discard-btn:active {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .dialog__cancel-btn:active > span, 
-  .form-dialog__cancel-btn:active > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .form-dialog__submit-btn:active {
     background-color: var(--contrast-color);
     color: #000;
     transition: background-color 0.15s, color 0.15s;
