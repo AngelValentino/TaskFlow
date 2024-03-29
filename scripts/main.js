@@ -425,6 +425,7 @@ function generateSpecificSectionHTML() {
 
 preloadDialogImages();
 
+
 checkQuotesData();
 
 setLastShuffledThemeToStorage(currentRandomTheme);
