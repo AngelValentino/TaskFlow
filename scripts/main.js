@@ -435,7 +435,7 @@ preload_image("img/app-background/green-background.jpg")
 preload_image("img/app-background/pink-background.jpg")
 preload_image("img/app-background/purple-background.jpg")
 preload_image("img/app-background/red-background.jpg")
-preload_image("app-background/sand-background.jpg")
+preload_image("img/app-background/sand-background.jpg")
 preload_image("img/app-background/grey-background.jpg")
 
 
