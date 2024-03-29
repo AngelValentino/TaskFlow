@@ -439,6 +439,8 @@ function generateSpecificSectionHTML() {
 // preload_image("img/app-background/grey-background.jpg")
 
 
+console.log(document.readyState)
+
 
 checkQuotesData();
 
