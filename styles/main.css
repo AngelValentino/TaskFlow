@@ -26,10 +26,6 @@ fieldset {
   border: none;
 }
 
-/* button:hover, a:hover {
-  opacity: 0.8;
-} */
-
 html {
   font-size: 16px;
 }
@@ -47,6 +43,7 @@ html {
   --background-image: url(../img/app-background/grey-background.jpg);
   --theme-transition-delay: 0.5s;
 }
+
 /* END OF ROOT*/
 
 /* MATERIAL ICONS */
@@ -67,6 +64,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   transition: background-image var(--theme-transition-delay);
+  min-width: 360px;
 }
 
 main {
@@ -96,7 +94,7 @@ main {
 }
 
 .quote__text svg {
-  width: 30px;
+  width: 1.9rem;
   vertical-align: bottom;
 }
 
@@ -137,11 +135,11 @@ main {
 }
 
 .quote__share-with-twitter-btn > svg {
-  width: 20px;
+  width: 1.25rem;
 }
 
 .quote__share-with-tumblr-btn > svg {
-  width: 13px;
+  width: 0.82rem;
 }
 
 .quote__buttons > button {
@@ -321,122 +319,142 @@ main {
 
 /* END OF TODOS CONTAINER */
 
-/* ADD TODO PROMPT */
-
-.todo-app-prompt {
-  position: relative;
-  background-color: var(--dark-accent-color);
-  border-radius: 5px;
-  overflow: hidden;
-  max-height: 0;
-  transform: translateY(-150px);
-  transition: max-height 1.5s, transform .5s, margin 0.5s, background-color var(--theme-transition-delay);
-}
-
-.todo-app-prompt form {
-  padding: 35px 30px;
-}
-
-.todo-app-prompt label {
-  display: block;
-  color: #fff;
-  margin: 0 0 10px;
-}
-
-.todo-app-prompt input, .todo-app-prompt textarea {
-  border: none;
-  padding: 10px;
-}
-
-.todo-app-prompt input {
-  width: 100%;
-  border-radius: 3px;
-  margin: 0 0 25px;
-  background-color: var(--light-accent-color);
-  transition: background-color var(--theme-transition-delay);
-}
-
-.todo-app-prompt textarea {
-  display: block;
-  width: 100%;
-  resize: vertical;
-  min-height: 100px;
-  max-height: 250px;
-  border-radius: 3px;
-  margin: 0 0 25px;
-}
-
-.todo-app-prompt__cancel-btn {
-  position: absolute;
-  color: #fff;
-  top: 10px;
-  right: 10px;
-  line-height: 0;
-}
-
-.todo-app-prompt__cancel-btn span {
-  font-size: 1.5em;
-}
-
-.todo-app-prompt__submit-btn {
-  font-weight: bold;
-  background-color: var(--medium-accent-color);
-  padding: 10px;
-  border-radius: 5px;
-  color: #fff;
-  width: 100%;
-  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
-}
-
-/* END OF ADD TODO PROMPT */
-
-/* SEARCH TODO PROMPT */
-
-.search-todo-prompt {
-  border-radius: 5px;
-  overflow: hidden;
-  transform: translateX(-600px);
-  max-height: 0;
-  transition: max-height 1.25s , transform 1.25s;
-}
-
-.search-todo-prompt__form {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 10px;
-  padding: 15px 50px 30px;
-}
-
-.search-todo-prompt__form > button {
-  background-color: var(--dark-accent-color);
-  padding: 10px;
-  border-radius: 5px;
-  color: #fff;
-  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
-}
-
-.search-todo-prompt__form > button:hover {
-  background-color: var(--medium-accent-color);
-  color: #000;
-  transition: background-color 0.15s, color 0.15s;
-}
-
-.search-todo-prompt__form svg {
-  width: 30px;
-}
-
-.search-todo-prompt__form input {
-  width: 100%;
-  height: 100%;
-  border: 2px solid var(--dark-to-medium-accent-color);
-  padding: 10px;
-  border-radius: 3px;
-  transition: border var(--theme-transition-delay);
-}
-
-/* END OF ADD TODO PROMPT */
-
 /* END OF TODO APP */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 1200px) {
+  main {
+    display: flex;
+    flex-flow: column;
+    gap: 7rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .search-todo-prompt__form {
+    grid-template-columns: 1fr;
+    padding: 15px 25px 30px;
+  }
+
+  .todos-container__empty-section-image {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .search-todo-prompt__form {
+    padding: 15px 0 30px;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  .quote {
+    padding: 40rem 50px;
+    min-width: 300px;
+  }
+
+  .todo-app-prompt {
+    transform: translateY(-140px); 
+  }
+
+  .todo-app-prompt form {
+    padding: 25px;
+  }
+
+  main {
+    padding: 30px 15px;
+  }
+
+  .todo-app {
+    padding: 20px;
+  }
+
+  .quote {
+    padding: 30px 40px;
+  }
+
+  .todos-container__empty-section-image {
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .todos-container__empty-section-image {
+    width: 75%;
+  }
+}
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (hover: hover) {
+  .quote__buttons button:hover {
+    background-color: var(--medium-accent-color);
+    transition: background-color 0.15s;
+  }
+
+  .quote__buttons a:hover {
+    color: #000;
+    background-color: var(--contrast-color);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-app-intro__buttons > button:hover {
+    color: #000;
+    background-color: var(--medium-accent-color);
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-app-prompt__cancel-btn:hover > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .todo-app-prompt__submit-btn:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .search-todo-prompt__form > button:hover {
+    background-color: var(--medium-accent-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo-sections > button:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo__edit-buttons button:hover > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .dialog__confirmation-btn:hover, 
+  .dialog__discard-btn:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .dialog__cancel-btn:hover > span, 
+  .form-dialog__cancel-btn:hover > span {
+    font-variation-settings:'FILL' 1;
+  }
+
+  .form-dialog__submit-btn:hover {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* END OF MEDIA QUERIES*/
 
 /* MODIFIERS */
 
@@ -494,76 +512,4 @@ main {
   background-color: var(--medium-accent-color);
 }
 
-/* END MODIFIERS */
-
-@media screen and (max-width: 1000px) {
-  main {
-    display: flex;
-    flex-flow: column;
-    gap: 7rem;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .search-todo-prompt__form {
-    grid-template-columns: 1fr;
-    padding: 15px 25px 30px;
-  }
-}
-
-@media screen and (hover: hover) {
-  .quote__buttons button:hover {
-    background-color: var(--medium-accent-color);
-    transition: background-color 0.15s;
-  }
-
-  .quote__buttons a:hover {
-    color: #000;
-    background-color: var(--contrast-color);
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo-app-intro__buttons > button:hover {
-    color: #000;
-    background-color: var(--medium-accent-color);
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo-app-prompt__cancel-btn:hover > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .todo-app-prompt__submit-btn:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo-sections > button:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .todo__edit-buttons button:hover > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .dialog__confirmation-btn:hover, 
-  .dialog__discard-btn:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .dialog__cancel-btn:hover > span, 
-  .form-dialog__cancel-btn:hover > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .form-dialog__submit-btn:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-}
+/* END OF MODIFIERS */
