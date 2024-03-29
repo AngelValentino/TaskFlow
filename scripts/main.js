@@ -29,7 +29,7 @@ import {
   setLastShuffledThemeToStorage
 } from './data/themes.js';
 
-import { getRandomIndex } from './utils.js';
+import { getRandomIndex, preloadDialogImages } from './utils.js';
 
 let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 const currentRandomTheme = checkIfCurrentThemeIsRepeated();
@@ -423,26 +423,7 @@ function generateSpecificSectionHTML() {
   }
 }
 
-function preload_image(im_url) {
-  let img = new Image();
-  img.src = im_url;
-}
-
-
-
-
-if(document.readyState !== 'interactive') {
-  preload_image("img/app-background/blue-background.jpg")
-  preload_image("img/app-background/chocolate-background.jpg")
-  preload_image("img/app-background/cian-background.jpg")
-  preload_image("img/app-background/green-background.jpg")
-  preload_image("img/app-background/pink-background.jpg")
-  preload_image("img/app-background/purple-background.jpg")
-  preload_image("img/app-background/red-background.jpg")
-  preload_image("img/app-background/sand-background.jpg")
-  preload_image("img/app-background/grey-background.jpg")
-}
-
+preloadDialogImages();
 
 checkQuotesData();
 
