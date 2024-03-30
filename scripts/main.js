@@ -409,6 +409,11 @@ function generateSpecificSectionHTML() {
   }
 }
 
+// Removes black and white app background image from firefox to avoid image flickering on load.
+if (navigator.userAgent.indexOf("Firefox") > 0) {
+  document.documentElement.style = "--background-image: none;"
+}
+
 preloadDialogImages();
 
 addEventListener('load', () => {
