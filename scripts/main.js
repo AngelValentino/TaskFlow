@@ -64,36 +64,6 @@ export const introPrompts = {
     time: 1250
   }
 };
-
-// Todo 30/03/2024 - Finish app.
-
-/*  Completed - Implement change theme functionality
-      // Implement change theme functionality and animation.
-      // Add all the needed themes and colors. 
-*/
-
-/* Completed - Add localStorage to todos section to remember which was picked on page load.
-     // Add localStorage to todos section to remember which was picked on page load. 
-*/
-
-/*  Completed - Add proper cache to quotes. To load the cache on page load instead of again fetching the data.
-      // Add proper cache to quotes. To load the cache on page load instead of again fetching the data. 
-*/
-
-/*  Completed - Refactored generate HTML for dialog and added random images to confirm dialog. Implementing generateInfoDialogHTML.
-    // Add random recycle image to discard modal dialog and implement infoDialog. Instead of generating html elements after confirmDialog. 
-*/
-
-// Refactor and make an utility file with the most reusable functions around the project.
-
-// todo sunday - Finish the app style and media queries.
-  // Review accessibilty, the todo sections need an aria-expanded and an aria-controls atribute.
-  // Review app.
-  // //Add delay to generate quote to prevent the html loading flickering, instead load quotes by default and after generate the quote and author.
-  // //Add hover functionality to buttons.
-  // //Review intro prompts animation. When it goes away or shows, it doesn't fully hide in mobile. *Is a visual bug that just happens in the dev tools.
-
-// Todo 30/03/2024 - Finish app.
   
 function checkActiveBtn(btnLm) {
   if (btnLm.getAttribute('aria-expanded') === 'false') {

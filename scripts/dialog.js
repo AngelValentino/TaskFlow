@@ -74,6 +74,7 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   const alertDialogLm = document.getElementById('dialog');
   const lastFocusLmBeforeAlertDialog = document.activeElement;
 
+  document.body.children[2].inert = true;
   document.body.style.overflow = 'hidden';
   clearTimeout(closeAlertDialogTim);
   dialogBackdropLm.style.display = 'flex';
@@ -98,6 +99,7 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
 
   function closeModal() {
     removeEventsListeners();
+    document.body.children[2].inert = false;
     clearAllTodosBtn.classList.remove('todo-app-intro__clear-btn--active');
     document.body.style.overflow = 'initial';
     dialogBackdropLm.classList.remove('dialog-backdrop--active');
