@@ -294,7 +294,7 @@ function getLastActiveSection() {
 function generatePlaceholderImageHTML(imgUrl, id) {
   todosContainerLm.innerHTML = `
   <li class="todos-container__img-container">
-    <img id=${id} class="todos-container__empty-section-image" src=${imgUrl} alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
+    <img id="${id}" class="todos-container__empty-section-image" src="${imgUrl}" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
   </li>
 `;
 }
@@ -378,17 +378,17 @@ export function generateTodosHTML(todos) {
   todosContainerLm.innerHTML = generatedHTML;
 
   if (todosContainerLm.innerHTML === '' && btnLm.getAttribute('aria-expanded') === 'true') {
-    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara-todos.png", 'todos-container__empty-search-section-image');
+    generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara-todos.png', 'todos-container__empty-search-section-image');
   } 
   else if (todosContainerLm.innerHTML === '') {
-    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara.png", 'todos-container__empty-section-image');
+    generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
   }
 }
 
 function checkSearchTodosPlaceholder() {
   const isSearchEmptyPlaceholder = todosContainerLm.querySelector('#todos-container__empty-search-section-image');
   if (isSearchEmptyPlaceholder) {
-    generatePlaceholderImageHTML("img/cute-animals-drawings/croco-capybara.png", 'todos-container__empty-section-image');
+    generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
   }
 }
 
@@ -488,7 +488,7 @@ searchTodoFormLm.addEventListener('submit', (e) => {
   
   // No todos have been found.
   if (!filteredTodos.length) {
-    const { closeLm, confirmationLm } = generateInfoDialogHTML('No todos have been found.');
+    const { closeLm, confirmationLm } = generateInfoDialogHTML('No todos have been found.', 'Close search prompt.');
     openModal(null, null, closeLm, confirmationLm, confirmationLm, closeSearchPrompt);
   }
 });
@@ -507,7 +507,7 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
   const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
 
   if (isTodosLimitReached()) {
-    const { closeLm, confirmationLm } = generateInfoDialogHTML('You have reached the maximum, 100 todos, allowed limit.');
+    const { closeLm, confirmationLm } = generateInfoDialogHTML('You have reached the maximum, 100 todos, allowed limit.', 'Reached the todos limit.');
     openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
   } 
   else {
