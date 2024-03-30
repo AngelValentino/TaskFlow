@@ -5,7 +5,7 @@ export let quotesData = JSON.parse(localStorage.getItem('quotesData')) || null;
 export async function getQuoteData() {
   const response = await fetch('https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json');
   if (response.status !== 200) {
-    throw new Error("Couldn't fetch the data");
+    throw new Error("Couldn't fetch the quote data.");
   }
   return await response.json();
 }
@@ -46,7 +46,11 @@ export function checkQuotesData() {
       generateQuote(randomCurrentQuote);
       setShareBtnsHrefAtr(randomCurrentQuote);
     })
-    .catch((err) => console.err(err));
+    .catch((err) => {
+      const quoteTextLm = document.getElementById('quote__text');
+      quoteTextLm.innerHTML = `<p>Couldn't fetch the quote data.</p>`;
+      console.error(err);
+    });
   } 
   else {
     const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];

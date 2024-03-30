@@ -1,4 +1,4 @@
-import { getRandomIndex } from '../utils.js'
+import { getRandomIndex } from '../utils.js';
 
 let lastShuffledTheme = JSON.parse(localStorage.getItem('lastShuffledTheme')) || 0;
 const themes = [
@@ -94,11 +94,10 @@ export function changeTheme(currentRandomTheme) {
     --contrast-color: ${contrast};
     --background-image: ${backgroundImage};
     `;
-  })
-
+  });
 }
 
 export function setLastShuffledThemeToStorage(currentRandomTheme) {
   lastShuffledTheme = currentRandomTheme;
-  localStorage.setItem('lastShuffledTheme', JSON.stringify(currentRandomTheme))
+  localStorage.setItem('lastShuffledTheme', JSON.stringify(currentRandomTheme));
 }
