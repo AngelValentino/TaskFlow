@@ -121,7 +121,7 @@ function clearIntroBtnsFocusTims() {
   }
 }
 
-// Clear all timeouts expect the neighbour prompt timeouts.
+// Clear all timeouts except the neighbour prompt timeouts.
 function clearAllIntroBtnsTims(e) {
   for (const key in timsIntroBtns) {
     if (
@@ -148,7 +148,7 @@ function togglePrompt({btnLm, promptLm, activeClass, time, timId}, e) {
   } 
   else {
     clearIntroBtnsFocusTims(); // Clear intro buttons timeouts.
-    clearAllIntroBtnsTims(e) // Clear all timeouts expect the neighbour prompt timeouts. If it wouldn't do that, the neighbour intro prompt would not be set to hidden and would be visible in the accessibility tree.
+    clearAllIntroBtnsTims(e) // Clear all timeouts except the neighbour prompt timeouts. If it wouldn't do that, the neighbour intro prompt would not be set to hidden and would be visible in the accessibility tree.
     showPrompt(promptLm, btnLm, activeClass); // Start intro buttons timeouts.
   }
 } 
