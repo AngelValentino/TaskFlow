@@ -45,7 +45,7 @@ const todosSectionsContainerLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
 const todosContainerLm = document.getElementById('todos-container');
 const timsIntroBtns = {};
-const focusTimsIntroBtns = [];
+const focusTimsIntroBtns = {};
 let filteredTodos = [];
 
 export const introPrompts = {
@@ -85,13 +85,13 @@ function showPrompt(promptLm, btnLm, classToAdd) {
   // Check which add prompt button is active and focus the selected element.
   if (btnLm.matches('#todo-app-intro__search-btn')) {
     // It needs a timeout to focus. Because without it, it breaks addTodoPrompt to searchTodoPrompt animation.
-    focusTimsIntroBtns[0] = setTimeout(() => {
+    focusTimsIntroBtns.searchBtnFocusTimId = setTimeout(() => {
       searchInputLm.focus();
     }, 1250);
   } 
   else {
     // Without a timeout it adds lag to the showPromptAnimation.
-    focusTimsIntroBtns[1] = setTimeout(() => {
+    focusTimsIntroBtns.addTodoPromptFocusTimId = setTimeout(() => {
       addTodoPromptCloseBtn.focus();
     }, 250);
   }
@@ -116,9 +116,9 @@ function checkLastBtnTim(e, key, classToMatch, timToMatch) {
 }
 
 function clearIntroBtnsFocusTims() {
-  focusTimsIntroBtns.forEach((focusTim) => {
-    clearTimeout(focusTim);
-  });
+  for (const key in focusTimsIntroBtns) {
+    clearTimeout(focusTimsIntroBtns[key])
+  }
 }
 
 // Clear all timeouts expect the neighbour prompt timeouts.
@@ -143,13 +143,13 @@ export function removeLastActivePrompt({promptLm, time, btnLm, activeClass, timI
 
 function togglePrompt({btnLm, promptLm, activeClass, time, timId}, e) {
   if (promptLm.matches('.' + activeClass)) {
-    clearIntroBtnsFocusTims();
+    clearIntroBtnsFocusTims(); // Clear intro buttons timeouts.
     hidePrompt(promptLm, btnLm, activeClass, timId, time);
   } 
   else {
-    // Clear all timeouts expect the neighbour prompt timeouts. If it wouldn't do that, the neighbour intro prompt would not be set to hidden and would be visible in the accessibility tree.
-    clearAllIntroBtnsTims(e)
-    showPrompt(promptLm, btnLm, activeClass);
+    clearIntroBtnsFocusTims(); // Clear intro buttons timeouts.
+    clearAllIntroBtnsTims(e) // Clear all timeouts expect the neighbour prompt timeouts. If it wouldn't do that, the neighbour intro prompt would not be set to hidden and would be visible in the accessibility tree.
+    showPrompt(promptLm, btnLm, activeClass); // Start intro buttons timeouts.
   }
 } 
 
