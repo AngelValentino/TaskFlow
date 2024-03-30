@@ -457,7 +457,7 @@ getLastActiveSection();
 generateTodosHTML(todos);
 
 refreshQuoteBtn.addEventListener('click', () => {
-  if (quotesData && !document.body.matches('.change-theme-active')) {
+  if (quotesData && !document.body.matches('.change-theme--active')) {
     const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];
     const currentRandomTheme = checkIfCurrentThemeIsRepeated();
     setLastShuffledThemeToStorage(currentRandomTheme);

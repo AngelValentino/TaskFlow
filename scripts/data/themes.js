@@ -13,7 +13,7 @@ const themes = [
   {
     darkAccent: '#2e6881',
     mediumToDarkAccent: '#427db8',
-    mediumAccent: '#da61a3',
+    mediumAccent: '#6573eb',
     ligthAccent: '#d6f3ff',
     contrast: '#fd94ce',
     backgroundImage: 'url(../img/app-background/blue-background.jpg)'
@@ -35,7 +35,7 @@ const themes = [
     backgroundImage: 'url(../img/app-background/chocolate-background.jpg)'
   },
   {
-    darkAccent: '#aa61a6',
+    darkAccent: '#984a9b',
     mediumToDarkAccent: '#f38bd4',
     mediumAccent: '#bc8bf3',
     ligthAccent: '#ffe4fd',
@@ -79,22 +79,22 @@ export function checkIfCurrentThemeIsRepeated() {
 export function changeTheme(currentRandomTheme) {
   const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
   const rootLm = document.documentElement;
-  document.body.classList.add('change-theme-active');
-    setTimeout(() => {
-      document.body.classList.remove('change-theme-active');
-    }, 500);
+  document.body.classList.add('change-theme--active');
+  setTimeout(() => {
+    document.body.classList.remove('change-theme--active');
+  }, 500);
 
-    // Because the todos are generated after the page is loaded; a timeout is needed in order to transition from grey to color in the todos container.
-    setTimeout(() => {
-      rootLm.style = `
-      --dark-accent-color: ${darkAccent};
-      --dark-to-medium-accent-color: ${mediumToDarkAccent};
-      --medium-accent-color: ${mediumAccent};
-      --light-accent-color: ${ligthAccent};
-      --contrast-color: ${contrast};
-      --background-image: ${backgroundImage};
-      `;
-    })
+  // Because the todos are generated after the page is loaded; a timeout is needed in order to transition from grey to color in the todos container.
+  setTimeout(() => {
+    rootLm.style = `
+    --dark-accent-color: ${darkAccent};
+    --dark-to-medium-accent-color: ${mediumToDarkAccent};
+    --medium-accent-color: ${mediumAccent};
+    --light-accent-color: ${ligthAccent};
+    --contrast-color: ${contrast};
+    --background-image: ${backgroundImage};
+    `;
+  })
 
 }
 
