@@ -8,7 +8,7 @@ let closeAlertDialogTim;
 export function generateInfoDialogHTML(descText, ariaLabel) {
   dialogBackdropLm.innerHTML = `
     <div class="dialog" id="dialog" role="dialog" aria-label="${ariaLabel}" aria-describedby="dialog__desc">
-      <img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.png" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>
+      <img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>
       <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
         <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
       </button>
@@ -282,7 +282,7 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
 export function openConfirmDialog(confirmFunction, descText, changeImage) {
   const { closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer } = generateConfirmDialogHTML();
   if (changeImage) {
-    dialogImgContainer.innerHTML = '<img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.png" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
+    dialogImgContainer.innerHTML = '<img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
   }
   dialogDescLm.innerText = descText;
   openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);

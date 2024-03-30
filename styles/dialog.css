@@ -36,6 +36,7 @@
 
 .dialog__capybara-placeholder-img {
   width: 125px;
+  padding: 0 0 5px;
 }
 
 .dialog__cancel-btn, .form-dialog__cancel-btn {
