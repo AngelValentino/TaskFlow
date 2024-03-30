@@ -12,6 +12,17 @@ function preloadImage(im_url) {
 }
 
 export function preloadDialogImages() {
+  preloadImage('img/app-background/blue-background.jpg');
+  preloadImage('img/app-background/chocolate-background.jpg');
+  preloadImage('img/app-background/cian-background.jpg');
+  preloadImage('img/app-background/green-background.jpg');
+  preloadImage('img/app-background/pink-background.jpg');
+  preloadImage('img/app-background/purple-background.jpg');
+  preloadImage('img/app-background/red-background.jpg');
+  preloadImage('img/app-background/sand-background.jpg');
+  preloadImage('img/app-background/grey-background.jpg');
+
+
   preloadImage('img/cute-animals-drawings/croco-capybara.png');
   preloadImage('img/cute-animals-drawings/croco-capybara-todos.png');
   preloadImage('img/cute-animals-drawings/capybara.jpg');
