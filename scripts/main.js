@@ -262,13 +262,16 @@ export function getTodoInfo(formDialogLm) {
 
 function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
   sectionBtnLms.forEach((sectionBtn) => {
-    if (!sectionBtn.matches(btnToAddId)) {
-      sectionBtn.classList.remove('todo-sections--active-btn');
+    if (sectionBtn.matches(btnToAddId)) {
+      sectionBtn.classList.add('todo-sections--active-btn');
+      sectionBtn.setAttribute('aria-expanded', true);
     } 
     else {
-      sectionBtn.classList.add('todo-sections--active-btn')
+      sectionBtn.classList.remove('todo-sections--active-btn');
+      sectionBtn.setAttribute('aria-expanded', false);
     }
   }); 
+
 }
 
 function setCurrentSectionToStorage(sectionId) {
@@ -280,8 +283,11 @@ function getLastActiveSection() {
   if (!lastPickedSection) {
     const allBtnLm = document.getElementById('todo-sections__all-btn');
     allBtnLm.classList.add('todo-sections--active-btn');
+    allBtnLm.setAttribute('aria-expanded', true);
   } else {
-    document.getElementById(lastPickedSection).classList.add('todo-sections--active-btn');
+    const lastPickedSectionBtn =  document.getElementById(lastPickedSection);
+    lastPickedSectionBtn.classList.add('todo-sections--active-btn');
+    lastPickedSectionBtn.setAttribute('aria-expanded', true);
   }
 }
 
