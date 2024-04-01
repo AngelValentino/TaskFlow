@@ -100,13 +100,20 @@ main {
 
 .quote__text {
   font-size: 1.75rem;
+  font-weight: normal;
   margin: 0 0 25px;
   text-align: center;
 }
 
+.quote__text {
+  font-weight: normal;
+}
+
 .quote__author {
+  display: block;
   text-align: end;
   margin: 0 0 40px;
+  font-style: normal;
 }
 
 .quote__buttons {
@@ -186,6 +193,19 @@ main {
   transition: background-color var(--theme-transition-delay);
 }
 
+.todo-app-intro__info {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 0.75em;
+}
+
+.todo-app-intro__tasks-left{
+  font-weight: normal;
+}
+
 .todo-app-intro__buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -213,18 +233,6 @@ main {
 
 .todo-app-intro__add-btn > svg {
   width: 1.6em;
-}
-
-.todo-app-intro__info {
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.todo-app-intro__info > p:first-child {
-  font-weight: bold;
 }
 
 /* END OF TODO APP INTRO*/
@@ -339,6 +347,10 @@ main {
 
   .todos-container__empty-section-image {
     width: 60%;
+  }
+
+  .todo-app-intro__info {
+    font-size: 0.7em;
   }
 }
 
@@ -516,6 +528,19 @@ main {
 
 .todo-app-intro__clear-btn--active {
   background-color: var(--medium-accent-color);
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.load-quote {
+  animation: fade 1.5s ease-out infinite alternate;
 }
 
 /* END OF MODIFIERS */

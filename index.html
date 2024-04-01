@@ -8,15 +8,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
   <link rel="stylesheet" href="styles/dialog.css"/>
   <link rel="stylesheet" href="styles/main.css"/>
-  <link rel="preload" as="image" href="img/app-background/blue-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/chocolate-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/cian-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/green-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/pink-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/purple-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/red-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/sand-background.jpg"/>
-  <link rel="preload" as="image" href="img/app-background/grey-background.jpg"/>
 </head>
 <body>
   <!-- Reference to preloaded app background images -->
@@ -35,12 +26,12 @@
   <div id="dialog-backdrop" class="dialog-backdrop"></div>
   <main>
     <article class="quote">
-      <div id="quote__text" class="quote__text">
-        <p>
+      <blockquote>
+        <h1 id="quote__text" class="quote__text">
           <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M0 216C0 149.7 53.7 96 120 96h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V320 288 216zm256 0c0-66.3 53.7-120 120-120h8c17.7 0 32 14.3 32 32s-14.3 32-32 32h-8c-30.9 0-56 25.1-56 56v8h64c35.3 0 64 28.7 64 64v64c0 35.3-28.7 64-64 64H320c-35.3 0-64-28.7-64-64V320 288 216z"/></svg>
-        </p>
-      </div>
-      <p id="quote__author" class="quote__author">_</p>
+        </h1>
+        <cite id="quote__author" class="quote__author">_</cite>
+      </blockquote>
       <div class="quote__buttons">
         <div>
           <a title="Share with twitter" target="_blank" class="quote__share-with-twitter-btn" id="quote__share-with-twitter-btn" aria-label="Share with twitter." href="">
@@ -57,8 +48,8 @@
       <div class="todo-app-controls-container">
         <div class="todo-app-intro">
           <div class="todo-app-intro__info">
-            <p id="todo-app-intro__current-date"></p>
-            <p id="todo-app-intro__tasks-left"></p>
+            <h2 class="todo-app-intro__current-date" id="todo-app-intro__current-date"></h2>
+            <h2 class="todo-app-intro__tasks-left" id="todo-app-intro__tasks-left"></h2>
           </div>
           <div class="todo-app-intro__buttons">
             <button title="Add task" class="todo-app-intro__add-btn" id="todo-app-intro__add-btn" type="button" aria-label="Add new todo." aria-controls="todo-app-prompt" aria-expanded="false">
