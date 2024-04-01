@@ -161,9 +161,8 @@ main {
 /* _TODO APP */
 
 .todo-app {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 3fr;
+  display: flex;
+  flex-flow: column;
   font-size: 1.35rem;
   max-width: 600px;
   width: 100%;
@@ -173,7 +172,7 @@ main {
   height: 83.75vh;
   min-height: 620px;
   max-height: 800px;
-  overflow-y: auto;
+  overflow: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable both-edges;
 }
@@ -263,6 +262,7 @@ main {
 
 .todos-container {
   list-style-type: none;
+  flex: 1;
 }
 
 /* PLACEHOLDER IMAGE */
@@ -288,6 +288,7 @@ main {
   border-radius: 5px;
   margin: 0 0 20px;
   transition: background-color var(--theme-transition-delay);
+  word-wrap: break-word;
 }
 
 .todo__task-name {
