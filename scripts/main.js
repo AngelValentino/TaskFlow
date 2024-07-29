@@ -66,10 +66,13 @@ export const introPrompts = {
 };
   
 function checkActiveBtn(btnLm) {
+  // Check if the button's 'aria-expanded' attribute is set to 'false'
   if (btnLm.getAttribute('aria-expanded') === 'false') {
+    // If 'aria-expanded' attribute does not exist add the 'btn--active' class to the button
     btnLm.classList.add('btn--active');
   } 
   else {  
+    // If 'aria-expanded' attribute exists, remove the 'btn--active' class from the button
     btnLm.classList.remove('btn--active');
   }
 }
@@ -99,10 +102,13 @@ function showPrompt(promptLm, btnLm, classToAdd) {
 
 function hidePrompt(promptLm, btnLm, classToRemove, timeoutId, time) {
   btnLm.focus();
+  // Set the button's 'aria-expanded' attribute to 'false' to indicate that the related prompt is now collapsed.
   btnLm.setAttribute('aria-expanded', false);
+   // Remove the specified class from the prompt element to update its visibility
   promptLm.classList.remove(classToRemove);
+  // Delay the hiding of the prompt element
   timsIntroBtns[timeoutId] = setTimeout(() => {
-    promptLm.setAttribute('hidden', '');
+    promptLm.setAttribute('hidden', ''); // Add 'hidden' attribute to hide the prompt element
   }, time);
 }
 
@@ -134,9 +140,10 @@ function clearAllIntroBtnsTims(e) {
   }
 }
 
-export function removeLastActivePrompt({promptLm, time, btnLm, activeClass, timId}) {
+export function removeLastActivePrompt({ promptLm, time, btnLm, activeClass, timId }) {
+  // Check if the button element has the 'btn--active' class
   if (btnLm.matches('.btn--active')) {
-    checkActiveBtn(btnLm);
+    checkActiveBtn(btnLm); // If the button is active, remove 'btn--active' class
     hidePrompt(promptLm, btnLm, activeClass, timId, time);
   }
 }
@@ -196,7 +203,7 @@ function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, timId, time)
 
 function confirmDiscardAddPromptTypedData() {
   const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
-  if(todoData[0] || todoData[1] || todoData[2]) {
+  if (todoData[0] || todoData[1] || todoData[2]) {
     openConfirmDialog(resetForm, 'Are you sure you want to discard all changes made in form?')
   } 
   else {
@@ -241,7 +248,6 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
       sectionBtn.setAttribute('aria-expanded', false);
     }
   }); 
-
 }
 
 function setCurrentSectionToStorage(sectionId) {
@@ -327,14 +333,14 @@ export function generateTodosHTML(todos) {
   if (allBtnLm.matches('.todo-sections--active-btn')) {
     // All section HTML
     generatedHTML = todos
-    .map((todo) => todo.completed ? genereateCompletedTaskHTML(todo) : generateTaskHTML(todo))
+    .map(todo => todo.completed ? genereateCompletedTaskHTML(todo) : generateTaskHTML(todo))
     .join('');
   } 
   else if (tasksBtnLm.matches('.todo-sections--active-btn')) {
     // Tasks section HTML
     generatedHTML = todos
-    .filter((todo) => !todo.completed)
-    .map((todo) => generateTaskHTML(todo))
+    .filter(todo => !todo.completed)
+    .map(todo => generateTaskHTML(todo))
     .join('');
   } 
   else if (completedBtnLm.matches('.todo-sections--active-btn')) {
@@ -387,7 +393,7 @@ function showSearchTodoPrompt(e) {
 
 function clearAllTodos() {
   openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?');
-  clearAllTodosBtn.classList.add('todo-app-intro__clear-btn--active');
+  //clearAllTodosBtn.classList.add('todo-app-intro__clear-btn--active');
 }
 
 function closeSearchPrompt() {

@@ -42,7 +42,8 @@ export function generateConfirmDialogHTML() {
   const discardBtn = document.getElementById('dialog__discard-btn');
   const dialogDescLm = document.getElementById('dialog__desc');
   const dialogImgContainer = document.getElementById('dialog__image-container');
-  return {closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer};
+
+  return { closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer };
 }
 
 export function generateEditTodoDialogHTML() {
@@ -281,11 +282,143 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   addEventsListeners();
 }
 
+export function generateConfirmDialogHTML2() {
+  dialogBackdropLm.innerHTML = `
+    <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
+      <div id="dialog__image-container">
+        <img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>
+      </div>
+      <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
+        <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+      </button>
+      <p class="dialog__desc" id="dialog__desc">Are you sure you want to discard all changes made in form?</p>
+      <div class="dialog__btns" id="dialog__btns">
+        <button class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Yes</button>
+        <button class="dialog__discard-btn" id="dialog__discard-btn" type="button">No</button>
+      </div>
+    </div>
+  `;
+  const confirmationBtn = document.getElementById('dialog__confirmation-btn');
+  const closeBtn = document.getElementById('dialog__cancel-btn')
+  const noBtn = document.getElementById('dialog__discard-btn');
+  const dialogDescLm = document.getElementById('dialog__desc');
+  const dialogImgContainer = document.getElementById('dialog__image-container');
+
+  return { closeBtn, noBtn, confirmationBtn, dialogDescLm, dialogImgContainer };
+}
+
+const { closeBtn, noBtn, confirmationBtn, dialogDescLm, dialogImgContainer } = generateConfirmDialogHTML2();
+const alertDialogLm = document.getElementById('dialog');
+let lastActiveLm;
+
+//TODO: Refactor edit todo
+//TODO: Refactor info dialog
+//TODO: Add a toggleModal reusable function to add and remove dialog events
+
 export function openConfirmDialog(confirmFunction, descText, changeImage) {
-  const { closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer } = generateConfirmDialogHTML();
   if (changeImage) {
     dialogImgContainer.innerHTML = '<img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
+  } 
+  else {
+    dialogImgContainer.innerHTML = `<img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>`;
   }
   dialogDescLm.innerText = descText;
-  openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);
+
+  // open modal
+
+
+  dialogBackdropLm.style.display = 'flex';
+  lastActiveLm = document.activeElement;
+  closeBtn.focus();
+  setTimeout(() => {
+    dialogBackdropLm.classList.add('dialog-backdrop--active');
+    alertDialogLm.classList.add('dialog--active');
+  });
+  
+
+  function closeConfirmDialog() {
+    console.log('close confirm dialog')
+    dialogBackdropLm.classList.remove('dialog-backdrop--active');
+    alertDialogLm.classList.remove('dialog--active');
+    closeAlertDialogTim = setTimeout(() => {
+      dialogBackdropLm.style.display = 'none';
+      lastActiveLm.focus()
+    }, 250);
+
+
+    document.body.removeEventListener('keydown', closeDialogAtEsc);
+    alertDialogLm.removeEventListener('keydown', handleTrapFocus);
+    closeBtn.removeEventListener('click', closeConfirmDialog);
+    noBtn.removeEventListener('click', closeConfirmDialog);
+    confirmationBtn.removeEventListener('click', confirmCloseDialog);
+    dialogBackdropLm.removeEventListener('click', closeDialogAtOutsideClick);
+  }
+
+  function confirmCloseDialog() {
+    closeConfirmDialog();
+    confirmFunction();
+  }
+
+  function closeDialogAtEsc(e) {
+    if (e.key === 'Escape') closeConfirmDialog();
+  }
+
+  function closeDialogAtOutsideClick(e) {
+    if (e.target.matches('.dialog-backdrop')) {
+      closeConfirmDialog();
+    }
+  }
+
+  function handleTrapFocus(e) {
+    console.log('trap focus')
+    trapFocus(e, alertDialogLm);
+  }
+
+  // add events to close modal
+  console.log('confirm modal opened')
+
+  document.body.addEventListener('keydown', closeDialogAtEsc);
+  alertDialogLm.addEventListener('keydown', handleTrapFocus);
+  closeBtn.addEventListener('click', closeConfirmDialog);
+  noBtn.addEventListener('click', closeConfirmDialog);
+  confirmationBtn.addEventListener('click', confirmCloseDialog);
+  dialogBackdropLm.addEventListener('click', closeDialogAtOutsideClick);
+
+
+
+  // openModal(null, null, closeLms, discardBtn, confirmationLm, confirmFunction);
 }
+
+
+
+
+function trapFocus(e, element) {
+  const focusableLms = element.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
+  const firstFocusableLm = focusableLms[0]; 
+  const lastFocusableLm = focusableLms[focusableLms.length - 1];
+
+  const isTabPressed = (e.key === 'Tab');
+  
+  if (!isTabPressed) { 
+    return; 
+  }
+
+  if (e.shiftKey) /* shift + tab */ {
+    if (document.activeElement === firstFocusableLm ) {
+      lastFocusableLm.focus();
+      e.preventDefault();
+    }
+  } 
+  else /* tab */ {
+    if (document.activeElement === lastFocusableLm) {
+      firstFocusableLm.focus();
+      e.preventDefault();
+    }
+  }
+}
+
+
+
+
+
+
