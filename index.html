@@ -23,7 +23,41 @@
     <img src="img/app-background/sand-background.jpg" alt=""/>
   </div>
   <!-- End of reference to preloaded app background images -->
-  <div id="dialog-backdrop" class="dialog-backdrop"></div>
+  <!-- <div id="dialog-backdrop" class="dialog-backdrop"></div> -->
+  
+  <div id="confirm-dialog-backdrop" class="confirm-dialog-backdrop">
+    <div class="confirm-dialog" id="confirm-dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
+      <div id="confirm-dialog__image-container">
+        <img class="confirm-dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-1.jpg" alt="A drawing of a garbage collector taking out the trash." />
+      </div>
+      <button aria-label="Close dialog." type="button" class="confrim-dialog__close-btn" id="confirm-dialog__close-btn">
+        <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+      </button>
+      <p class="confirm-dialog__desc" id="confirm-dialog__desc">Are you sure you want to discard all changes made in form?</p>
+      <div class="confirm-dialog__btns">
+        <button class="confirm-dialog__accept-btn" id="confirm-dialog__accept-btn" type="button">Yes</button>
+        <button class="confirm-dialog__cancel-btn" id="confirm-dialog__cancel-btn" type="button">No</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="edit-dialog-backdrop" class="edit-dialog-backdrop">
+    <div class="edit-dialog" id="edit-dialog" role="dialog" aria-label="Edit dialog.">
+      <form class="edit-dialog__form" id="edit-dialog__form">
+        <button aria-label="Close dialog." type="button" class="edit-dialog__close-btn" id="edit-dialog__close-btn">
+          <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+        </button>
+        <label for="edit-dialog__task">Task</label>
+        <input required class="edit-dialog__task" id="edit-dialog__task" type="text" name="task">
+        <label for="edit-dialog__date">Date</label>
+        <input required class="edit-dialog__date" id="edit-dialog__date" type="date" name="date">
+        <label for="edit-dialog__desc">Description</label>
+        <textarea required class="edit-dialog__desc" id="edit-dialog__desc" name="description" rows="7"></textarea>
+        <button class="edit-dialog__submit-btn" type="submit">Edit todo</button>
+      </form>
+    </div>
+  </div>
+  
   <main>
     <article class="quote">
       <blockquote>

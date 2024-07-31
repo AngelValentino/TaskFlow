@@ -1,6 +1,7 @@
 /* DIALOG */
 
-.dialog-backdrop { 
+.confirm-dialog-backdrop,
+.edit-dialog-backdrop { 
   font-size: 1.4rem;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
@@ -13,7 +14,8 @@
   transition: opacity 0.25s;
 }
 
-.dialog {
+.confirm-dialog,
+.edit-dialog {
   position: relative;
   max-width: 400px;
   background-color: #fff;
@@ -25,12 +27,12 @@
   transition: transform 0.25s;
 }
 
-.dialog img {
+.confirm-dialog img {
   display: block;
   margin: 0 auto 10px;
 }
 
-.dialog__recycle-placeholder-img {
+.confirm-dialog__recycle-placeholder-img {
   width: 100px;
 }
 
@@ -39,19 +41,20 @@
   padding: 0 0 5px;
 }
 
-.dialog__cancel-btn, .form-dialog__cancel-btn {
+.edit-dialog__close-btn,
+.confrim-dialog__close-btn {
   position: absolute;
   right: 10px;
   top: 10px;
   line-height: 0;
 }
 
-.dialog__desc {
+.confirm-dialog__desc {
   margin: 0 0 30px;
 } 
 
-.dialog__confirmation-btn,
-.dialog__discard-btn {
+.confirm-dialog__accept-btn,
+.confirm-dialog__cancel-btn {
   background-color: var(--dark-accent-color);
   padding: 12px 18px;
   color: #fff;
@@ -59,17 +62,18 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.dialog__cancel-btn span, .form-dialog__cancel-btn span {
+.edit-dialog__close-btn span,
+.confrim-dialog__close-btn {
   font-size: 1.4em;
 }
 
 /* END OF DIALOG */
 
-/* FORM DIALOG */
+/* edit DIALOG */
 
-.form-dialog__task, 
-.form-dialog__date,
-.form-dialog__desc {
+.edit-dialog__task, 
+.edit-dialog__date,
+.edit-dialog__desc {
   width: 100%;
   border-radius: 3px;
   margin: 0 0 25px;
@@ -77,23 +81,23 @@
   border: 2px dashed var(--dark-accent-color);
 }
 
-.form-dialog__task, 
-.form-dialog__date {
+.edit-dialog__task, 
+.edit-dialog__date {
   background-color: var(--light--accent-color);
 }
 
-.dialog > form > label {
+.edit-dialog label {
   display: block;
   margin: 0 0 10px;
 }
 
-.form-dialog__desc {
+.edit-dialog__desc {
   resize: vertical;
   max-height: 250px;
   min-height: 100px
 }
 
-.form-dialog__submit-btn {
+.edit-dialog__submit-btn {
   background-color: var(--medium-accent-color);
   color: white;
   padding: 10px;

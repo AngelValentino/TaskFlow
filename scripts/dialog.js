@@ -1,4 +1,4 @@
-import { addTodo, deleteTodo } from './data/todo.js';
+import { addTodo, deleteTodo, todos } from './data/todo.js';
 import { getTodoInfo } from './main.js';
 import { getRandomNumber } from './utils.js';
 
@@ -21,30 +21,30 @@ export function generateInfoDialogHTML(descText, ariaLabel) {
   return {closeLm, confirmationLm};
 }
 
-export function generateConfirmDialogHTML() {
-  dialogBackdropLm.innerHTML = `
-    <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
-      <div id="dialog__image-container">
-        <img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>
-      </div>
-      <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
-        <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
-      </button>
-      <p class="dialog__desc" id="dialog__desc">Are you sure you want to discard all changes made in form?</p>
-      <div class="dialog__btns" id="dialog__btns">
-        <button class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Yes</button>
-        <button class="dialog__discard-btn" id="dialog__discard-btn" type="button">No</button>
-      </div>
-    </div>
-  `;
-  const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
-  const confirmationLm = document.getElementById('dialog__confirmation-btn');
-  const discardBtn = document.getElementById('dialog__discard-btn');
-  const dialogDescLm = document.getElementById('dialog__desc');
-  const dialogImgContainer = document.getElementById('dialog__image-container');
+// export function generateConfirmDialogHTML() {
+//   dialogBackdropLm.innerHTML = `
+//     <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
+//       <div id="dialog__image-container">
+//         <img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>
+//       </div>
+//       <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
+//         <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+//       </button>
+//       <p class="dialog__desc" id="dialog__desc">Are you sure you want to discard all changes made in form?</p>
+//       <div class="dialog__btns" id="dialog__btns">
+//         <button class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Yes</button>
+//         <button class="dialog__discard-btn" id="dialog__discard-btn" type="button">No</button>
+//       </div>
+//     </div>
+//   `;
+//   const closeLms = document.querySelectorAll('#dialog__discard-btn, #dialog__cancel-btn');
+//   const confirmationLm = document.getElementById('dialog__confirmation-btn');
+//   const discardBtn = document.getElementById('dialog__discard-btn');
+//   const dialogDescLm = document.getElementById('dialog__desc');
+//   const dialogImgContainer = document.getElementById('dialog__image-container');
 
-  return { closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer };
-}
+//   return { closeLms, confirmationLm, discardBtn, dialogDescLm, dialogImgContainer };
+// }
 
 export function generateEditTodoDialogHTML() {
   dialogBackdropLm.innerHTML = `
@@ -254,6 +254,21 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
     addFunctions(e, closeLms, confirmationLm, confirmFunction);
   }
 
+  function isFormEdited() {
+    const currentTodoInfo = getTodoInfo(formDialogLm);
+    
+    if (
+      currentTodoInfo.task !== todoInfo.formerEdit.task || 
+      currentTodoInfo.date !== todoInfo.formerEdit.date || 
+      currentTodoInfo.description !== todoInfo.formerEdit.description
+      ) {
+      return true;
+    } 
+    else {
+      return false;
+    }
+  }
+
   function editTodo(e) {
     e.preventDefault();
     if (!isFormEdited()) {
@@ -282,76 +297,209 @@ export function openModal(targetId, todoInfo, closeLms, firstLmToFocus, confirma
   addEventsListeners();
 }
 
-export function generateConfirmDialogHTML2() {
-  dialogBackdropLm.innerHTML = `
-    <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
-      <div id="dialog__image-container">
-        <img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>
-      </div>
-      <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
-        <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
-      </button>
-      <p class="dialog__desc" id="dialog__desc">Are you sure you want to discard all changes made in form?</p>
-      <div class="dialog__btns" id="dialog__btns">
-        <button class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Yes</button>
-        <button class="dialog__discard-btn" id="dialog__discard-btn" type="button">No</button>
-      </div>
-    </div>
-  `;
-  const confirmationBtn = document.getElementById('dialog__confirmation-btn');
-  const closeBtn = document.getElementById('dialog__cancel-btn')
-  const noBtn = document.getElementById('dialog__discard-btn');
-  const dialogDescLm = document.getElementById('dialog__desc');
-  const dialogImgContainer = document.getElementById('dialog__image-container');
+// export function generateConfirmDialogHTML2() {
+//   dialogBackdropLm.innerHTML = `
+//     <div class="dialog" id="dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
+//       <div id="dialog__image-container">
+//         <img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>
+//       </div>
+//       <button aria-label="Close dialog." type="button" class="dialog__cancel-btn" id="dialog__cancel-btn">
+//         <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+//       </button>
+//       <p class="dialog__desc" id="dialog__desc">Are you sure you want to discard all changes made in form?</p>
+//       <div class="dialog__btns" id="dialog__btns">
+//         <button class="dialog__confirmation-btn" id="dialog__confirmation-btn" type="button">Yes</button>
+//         <button class="dialog__discard-btn" id="dialog__discard-btn" type="button">No</button>
+//       </div>
+//     </div>
+//   `;
+//   const confirmationBtn = document.getElementById('dialog__confirmation-btn');
+//   const closeBtn = document.getElementById('dialog__cancel-btn')
+//   const noBtn = document.getElementById('dialog__discard-btn');
+//   const dialogDescLm = document.getElementById('dialog__desc');
+//   const dialogImgContainer = document.getElementById('dialog__image-container');
 
-  return { closeBtn, noBtn, confirmationBtn, dialogDescLm, dialogImgContainer };
-}
+//   return { closeBtn, noBtn, confirmationBtn, dialogDescLm, dialogImgContainer };
+// }
 
-const { closeBtn, noBtn, confirmationBtn, dialogDescLm, dialogImgContainer } = generateConfirmDialogHTML2();
-const alertDialogLm = document.getElementById('dialog');
+// const { closeBtn, noBtn, confirmationBtn, dialogDescLm, dialogImgContainer } = generateConfirmDialogHTML2();
+
+const confrimDialogBackdropLm = document.getElementById('confirm-dialog-backdrop');
+const confirmDialogLm = document.getElementById('confirm-dialog');
+const confirmDialogImgContainerLm = document.getElementById('confirm-dialog__image-container');
+const confirmDialogCloseBtn = document.getElementById('confirm-dialog__close-btn');
+const confirmDialogAcceptBtn = document.getElementById('confirm-dialog__accept-btn');
+const confirmDialogCancelBtn = document.getElementById('confirm-dialog__cancel-btn');
+const confrimDialogDescLm = document.getElementById('confirm-dialog__desc');
+
+const editDialogBackdropLm = document.getElementById('edit-dialog-backdrop');
+const editDialogLm = document.getElementById('edit-dialog');
+const editDialogCloseBtn = document.getElementById('edit-dialog__close-btn');
+const editDialogFormLm = document.getElementById('edit-dialog__form')
+const editDialogFormInputLms = editDialogFormLm.querySelectorAll('input, textarea');
+
 let lastActiveLm;
 
-//TODO: Refactor edit todo
 //TODO: Refactor info dialog
 //TODO: Add a toggleModal reusable function to add and remove dialog events
 
-export function openConfirmDialog(confirmFunction, descText, changeImage) {
+let closeEditDialogTimId;
+
+
+export function openEditDialog(targetId, todoInfo) {
+  clearTimeout(closeEditDialogTimId)
+
+  editDialogBackdropLm.style.display = 'flex';
+  lastActiveLm = document.activeElement;
+  editDialogCloseBtn.focus();
+
+  editDialogBackdropLm.style.opacity = 1;
+  editDialogLm.style.transform = 'scale(1)';
+
+  console.log('edit dialog opened')
+  console.log(targetId)
+
+  function closeEditDialog() {
+    editDialogBackdropLm.style.opacity = 0;
+    editDialogLm.style.transform = 'scale(0)';
+    closeEditDialogTimId = setTimeout(() => {
+      editDialogBackdropLm.style.display = 'none';
+      lastActiveLm.focus();
+    }, 250);
+
+    editDialogFormLm.removeEventListener('submit', editTodo);
+    editDialogBackdropLm.removeEventListener('click', closeDialogAtOutsideClick);
+    editDialogCloseBtn.removeEventListener('click', checkCloseEditDialog);
+  }
+
+
+
+  function closeConfirmEditDialog(targetId, todoInfo) {
+    console.log(targetId)
+    
+    setTimeout(() => {
+      openEditDialog(targetId, todoInfo)
+    }, 400);
+    
+    // add current info back again to inputs
+    editDialogFormInputLms.forEach(input => {
+      input.value = todoInfo.currentEdit[input.name];
+    })
+  }
+
+  function checkCloseEditDialog() {
+    console.log('edit dialog closed')
+    console.log(isFormEdited())
+
+    //if form has been edited open the confirm discard changes modal
+
+
+    if (isFormEdited()) {
+      console.log('form has been edited')
+      // close edit modal
+      closeEditDialog();
+      setTimeout(() => {
+        openConfirmDialog(closeConfirmEditDialog.bind(null, targetId, { formerEdit: todoInfo.formerEdit, currentEdit: getTodoInfo(editDialogFormLm) }), 'Are you sure that you want to discard the current changes made in form?', false, true)
+      }, 400)
+      // open confirm modal
+    } 
+    else {
+      closeEditDialog();
+    }
+    
+    //else just close the modal
+    
+  
+  }
+
+  function isFormEdited() {
+    const currentTodoInfo = getTodoInfo(editDialogFormLm);
+    
+    if (
+      currentTodoInfo.task !== todoInfo.formerEdit.task || 
+      currentTodoInfo.date !== todoInfo.formerEdit.date || 
+      currentTodoInfo.description !== todoInfo.formerEdit.description
+      ) {
+      return true;
+    } 
+    else {
+      return false;
+    }
+  }
+
+  function editTodo(e) {
+    e.preventDefault();
+
+    // form has been edited
+    if (isFormEdited()) {
+      console.log('form has been edited');
+      deleteTodo(targetId);
+      addTodo('unshift', editDialogFormLm, targetId);
+      closeEditDialog();
+    } 
+    // form has not been edited
+    else {
+      console.log('form has not been edited');
+      closeEditDialog();
+    }
+  }
+
+  function closeDialogAtOutsideClick(e) {
+    if (e.target.matches('.edit-dialog-backdrop')) {
+      checkCloseEditDialog();
+    }
+  }
+
+  editDialogFormLm.addEventListener('submit', editTodo);
+  editDialogBackdropLm.addEventListener('click', closeDialogAtOutsideClick);
+  editDialogCloseBtn.addEventListener('click', checkCloseEditDialog);
+
+}
+
+export function openConfirmDialog(confirmFunction, descText, changeImage, isForm) {
   if (changeImage) {
-    dialogImgContainer.innerHTML = '<img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
+    confirmDialogImgContainerLm.innerHTML = '<img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
   } 
   else {
-    dialogImgContainer.innerHTML = `<img class="dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>`;
+    confirmDialogImgContainerLm.innerHTML = `<img class="confirm-dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>`;
   }
-  dialogDescLm.innerText = descText;
+  confrimDialogDescLm.innerText = descText;
 
   // open modal
 
 
-  dialogBackdropLm.style.display = 'flex';
+  confrimDialogBackdropLm.style.display = 'flex';
   lastActiveLm = document.activeElement;
-  closeBtn.focus();
-  setTimeout(() => {
-    dialogBackdropLm.classList.add('dialog-backdrop--active');
-    alertDialogLm.classList.add('dialog--active');
-  });
+  confirmDialogCloseBtn.focus();
   
+  confrimDialogBackdropLm.style.opacity = 1;
+  confirmDialogLm.style.transform = 'scale(1)';
 
-  function closeConfirmDialog() {
-    console.log('close confirm dialog')
-    dialogBackdropLm.classList.remove('dialog-backdrop--active');
-    alertDialogLm.classList.remove('dialog--active');
-    closeAlertDialogTim = setTimeout(() => {
-      dialogBackdropLm.style.display = 'none';
+  let closeConfirmDialogTimId;
+
+
+  function closeConfirmDialog(e) {
+    clearTimeout(closeConfirmDialogTimId);
+
+    if (isForm && !e.target.matches('.confirm-dialog__accept-btn')) {
+      confirmFunction();
+    }
+
+    console.log('confirm dialog closed')
+    confrimDialogBackdropLm.style.opacity = 0;
+    confirmDialogLm.style.transform = 'scale(0)';
+    closeConfirmDialogTimId = setTimeout(() => {
+      confrimDialogBackdropLm.style.display = 'none';
       lastActiveLm.focus()
     }, 250);
 
 
     document.body.removeEventListener('keydown', closeDialogAtEsc);
-    alertDialogLm.removeEventListener('keydown', handleTrapFocus);
-    closeBtn.removeEventListener('click', closeConfirmDialog);
-    noBtn.removeEventListener('click', closeConfirmDialog);
-    confirmationBtn.removeEventListener('click', confirmCloseDialog);
-    dialogBackdropLm.removeEventListener('click', closeDialogAtOutsideClick);
+    confirmDialogLm.removeEventListener('keydown', handleTrapFocus);
+    confirmDialogCloseBtn.removeEventListener('click', closeConfirmDialog);
+    confirmDialogCancelBtn.removeEventListener('click', closeConfirmDialog);
+    isForm ? confirmDialogAcceptBtn.removeEventListener('click', closeConfirmDialog) : confirmDialogAcceptBtn.removeEventListener('click', confirmCloseDialog);
+    confrimDialogBackdropLm.removeEventListener('click', closeDialogAtOutsideClick);
   }
 
   function confirmCloseDialog() {
@@ -360,29 +508,29 @@ export function openConfirmDialog(confirmFunction, descText, changeImage) {
   }
 
   function closeDialogAtEsc(e) {
-    if (e.key === 'Escape') closeConfirmDialog();
+    if (e.key === 'Escape') closeConfirmDialog(e);
   }
 
   function closeDialogAtOutsideClick(e) {
-    if (e.target.matches('.dialog-backdrop')) {
-      closeConfirmDialog();
+    if (e.target.matches('.confirm-dialog-backdrop')) {
+      closeConfirmDialog(e);
     }
   }
 
   function handleTrapFocus(e) {
     console.log('trap focus')
-    trapFocus(e, alertDialogLm);
+    trapFocus(e, confirmDialogLm);
   }
 
   // add events to close modal
   console.log('confirm modal opened')
 
   document.body.addEventListener('keydown', closeDialogAtEsc);
-  alertDialogLm.addEventListener('keydown', handleTrapFocus);
-  closeBtn.addEventListener('click', closeConfirmDialog);
-  noBtn.addEventListener('click', closeConfirmDialog);
-  confirmationBtn.addEventListener('click', confirmCloseDialog);
-  dialogBackdropLm.addEventListener('click', closeDialogAtOutsideClick);
+  confirmDialogLm.addEventListener('keydown', handleTrapFocus);
+  confirmDialogCloseBtn.addEventListener('click', closeConfirmDialog);
+  confirmDialogCancelBtn.addEventListener('click', closeConfirmDialog);
+  isForm ? confirmDialogAcceptBtn.addEventListener('click', closeConfirmDialog) : confirmDialogAcceptBtn.addEventListener('click', confirmCloseDialog);
+  confrimDialogBackdropLm.addEventListener('click', closeDialogAtOutsideClick);
 
 
 

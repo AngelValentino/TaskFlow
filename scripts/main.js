@@ -10,6 +10,7 @@ import {
   generateEditTodoDialogHTML,
   generateInfoDialogHTML,
   openConfirmDialog,
+  openEditDialog
 } from './dialog.js';
 
 import { 
@@ -168,8 +169,8 @@ export function getFormData(form, formatDateBoolean, id) {
   const todoData = {};
   const allFormInputs = [...form.querySelectorAll('input, textarea')];
   
-  allFormInputs.forEach((input) => {
-    if ((input.name  === 'date' && formatDateBoolean)) {
+  allFormInputs.forEach(input => {
+    if ((input.name === 'date' && formatDateBoolean)) {
       todoData[input.name] = formatDate(input.value)
     }   
     else {
@@ -213,19 +214,31 @@ function confirmDiscardAddPromptTypedData() {
   }
 }
 
-function addTodoInfoToEditForm(targetId, formInputs) {
-  todos.forEach((todo) => {
-    if (todo.id === targetId) {
-      formInputs.forEach((input) => {
-        if (input.name === 'date') {
-          input.value = formatDate(todo[input.name]);
-        } 
-        else {
-          input.value = todo[input.name];
-        }
-      });
-    }
-  });
+function addTodoInfoToEditForm(targetId, formInputs, isCurrent, todoData) {
+  if (isCurrent) {
+    formInputs.forEach((input) => {
+      if (input.name === 'date') {
+        input.value = formatDate(todoData[input.name]);
+      } 
+      else {
+        input.value = todoData[input.name];
+      }
+    });
+  } 
+  else {
+    todos.forEach((todo) => {
+      if (todo.id === targetId) {
+        formInputs.forEach((input) => {
+          if (input.name === 'date') {
+            input.value = formatDate(todo[input.name]);
+          } 
+          else {
+            input.value = todo[input.name];
+          }
+        });
+      }
+    });
+  }
 }
 
 export function getTodoInfo(formDialogLm) {
@@ -537,9 +550,14 @@ todosContainerLm.addEventListener('click', (e) => {
   else if (e.target.closest('.todo__edit-btn')) {
     // Edit Todo.
     const targetId = e.target.closest('li').id;
-    const { closeBtn, formDialogLm, formInputs } = generateEditTodoDialogHTML();
-    addTodoInfoToEditForm(targetId, formInputs);
-    openModal(targetId, {formerEdit: getTodoInfo(formDialogLm)}, closeBtn, closeBtn);
+    // const { closeBtn, formDialogLm, formInputs } = generateEditTodoDialogHTML();
+    // addTodoInfoToEditForm(targetId, formInputs);
+    // openModal(targetId, {formerEdit: getTodoInfo(formDialogLm)}, closeBtn, closeBtn);
+
+    const editDialogFormLm = document.getElementById('edit-dialog__form')
+    const editDialogFormInputLms = editDialogFormLm.querySelectorAll('input, textarea');
+    addTodoInfoToEditForm(targetId, editDialogFormInputLms)
+    openEditDialog(targetId, { formerEdit: getTodoInfo(editDialogFormLm) });
   } 
   else if (e.target.closest('.todo__delete-btn')) {
     // Delete todo.

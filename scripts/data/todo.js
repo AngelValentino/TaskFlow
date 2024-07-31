@@ -15,7 +15,7 @@ export function addTodo(method, form, id, todoData) {
 }
 
 export function deleteTodo(targetId) {
-  todos.forEach((todo) => {
+  todos.forEach(todo => {
     if (todo.id === targetId) {
       todos.splice(todos.indexOf(todo), 1);
     }
