@@ -1,7 +1,8 @@
 /* DIALOG */
 
 .confirm-dialog-backdrop,
-.edit-dialog-backdrop { 
+.edit-dialog-backdrop,
+.info-dialog-backdrop { 
   font-size: 1.4rem;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
@@ -15,7 +16,8 @@
 }
 
 .confirm-dialog,
-.edit-dialog {
+.edit-dialog,
+.info-dialog {
   position: relative;
   max-width: 400px;
   background-color: #fff;
@@ -27,7 +29,8 @@
   transition: transform 0.25s;
 }
 
-.confirm-dialog img {
+.confirm-dialog img,
+.info-dialog img {
   display: block;
   margin: 0 auto 10px;
 }
@@ -42,19 +45,22 @@
 }
 
 .edit-dialog__close-btn,
-.confrim-dialog__close-btn {
+.confrim-dialog__close-btn,
+.info-dialog__close-btn {
   position: absolute;
   right: 10px;
   top: 10px;
   line-height: 0;
 }
 
-.confirm-dialog__desc {
+.confirm-dialog__desc,
+.info-dialog__desc {
   margin: 0 0 30px;
 } 
 
 .confirm-dialog__accept-btn,
-.confirm-dialog__cancel-btn {
+.confirm-dialog__cancel-btn,
+.info-dialog__accept-btn {
   background-color: var(--dark-accent-color);
   padding: 12px 18px;
   color: #fff;
@@ -63,7 +69,8 @@
 }
 
 .edit-dialog__close-btn span,
-.confrim-dialog__close-btn {
+.confrim-dialog__close-btn span,
+.info-dialog__close-btn span {
   font-size: 1.4em;
 }
 

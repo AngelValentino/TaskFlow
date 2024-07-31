@@ -6,11 +6,9 @@ import {
 } from './quote.js';
 
 import { 
-  openModal, 
-  generateEditTodoDialogHTML,
-  generateInfoDialogHTML,
   openConfirmDialog,
-  openEditDialog
+  openEditDialog,
+  openInfoDialog
 } from './dialog.js';
 
 import { 
@@ -405,7 +403,13 @@ function showSearchTodoPrompt(e) {
 }
 
 function clearAllTodos() {
-  openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?');
+  if (todos.length) {
+    openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?');
+  } 
+  else {
+    openInfoDialog('All tasks have been completed.');
+  }
+  
   //clearAllTodosBtn.classList.add('todo-app-intro__clear-btn--active');
 }
 
@@ -477,8 +481,8 @@ searchTodoFormLm.addEventListener('submit', (e) => {
   
   // No todos have been found.
   if (!filteredTodos.length) {
-    const { closeLm, confirmationLm } = generateInfoDialogHTML('No todos have been found.', 'Close search prompt.');
-    openModal(null, null, closeLm, confirmationLm, confirmationLm, closeSearchPrompt);
+    // const { closeLm, confirmationLm } = generateInfoDialogHTML('No todos have been found.', 'Close search prompt.');
+    // openModal(null, null, closeLm, confirmationLm, confirmationLm, closeSearchPrompt);
   }
 });
 
@@ -496,8 +500,8 @@ addTodoPromptFormLm.addEventListener('submit', (e) => {
   const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
 
   if (isTodosLimitReached()) {
-    const { closeLm, confirmationLm } = generateInfoDialogHTML('You have reached the maximum, 100 todos, allowed limit.', 'Reached the todos limit.');
-    openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
+    // const { closeLm, confirmationLm } = generateInfoDialogHTML('You have reached the maximum, 100 todos, allowed limit.', 'Reached the todos limit.');
+    // openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
   } 
   else {
     addTodo('unshift', addTodoPromptFormLm);

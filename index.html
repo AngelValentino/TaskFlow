@@ -25,6 +25,17 @@
   <!-- End of reference to preloaded app background images -->
   <!-- <div id="dialog-backdrop" class="dialog-backdrop"></div> -->
   
+  <div id="info-dialog-backdrop" class="info-dialog-backdrop">
+    <div class="info-dialog" id="info-dialog" role="dialog" aria-describedby="dialog__desc">
+      <img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>
+      <button aria-label="Close dialog." type="button" class="info-dialog__close-btn" id="info-dialog__close-btn">
+        <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
+      </button>
+      <p class="info-dialog__desc" id="info-dialog__desc"></p>
+      <button style="padding: 12px 20px" class="info-dialog__accept-btn" id="info-dialog__accept-btn">Ok</button>
+    </div>
+  </div>
+
   <div id="confirm-dialog-backdrop" class="confirm-dialog-backdrop">
     <div class="confirm-dialog" id="confirm-dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
       <div id="confirm-dialog__image-container">
@@ -35,8 +46,8 @@
       </button>
       <p class="confirm-dialog__desc" id="confirm-dialog__desc">Are you sure you want to discard all changes made in form?</p>
       <div class="confirm-dialog__btns">
-        <button class="confirm-dialog__accept-btn" id="confirm-dialog__accept-btn" type="button">Yes</button>
-        <button class="confirm-dialog__cancel-btn" id="confirm-dialog__cancel-btn" type="button">No</button>
+        <button class="confirm-dialog__accept-btn" id="confirm-dialog__accept-btn">Yes</button>
+        <button class="confirm-dialog__cancel-btn" id="confirm-dialog__cancel-btn">No</button>
       </div>
     </div>
   </div>
