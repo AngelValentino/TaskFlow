@@ -481,8 +481,7 @@ searchTodoFormLm.addEventListener('submit', (e) => {
   
   // No todos have been found.
   if (!filteredTodos.length) {
-    // const { closeLm, confirmationLm } = generateInfoDialogHTML('No todos have been found.', 'Close search prompt.');
-    // openModal(null, null, closeLm, confirmationLm, confirmationLm, closeSearchPrompt);
+    openInfoDialog('No todos have been found.', closeSearchPrompt);
   }
 });
 
@@ -495,13 +494,12 @@ searchTodoFormLm.addEventListener('keydown', (e) => {
 clearAllTodosBtn.addEventListener('click', clearAllTodos);
 
 // Add todo.
-addTodoPromptFormLm.addEventListener('submit', (e) => {
+addTodoPromptFormLm.addEventListener('submit', e => {
   e.preventDefault();
   const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
 
   if (isTodosLimitReached()) {
-    // const { closeLm, confirmationLm } = generateInfoDialogHTML('You have reached the maximum, 100 todos, allowed limit.', 'Reached the todos limit.');
-    // openModal(null, null, closeLm, closeLm, confirmationLm, resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
+    openInfoDialog('You have reached the maximum limit of 100 todos.',  resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
   } 
   else {
     addTodo('unshift', addTodoPromptFormLm);
@@ -545,26 +543,22 @@ todosSectionsContainerLm.addEventListener('click', (e) => {
 });
 
 // Add events listener functionality to todo buttons.
-todosContainerLm.addEventListener('click', (e) => {
+todosContainerLm.addEventListener('click', e => {
   if (e.target.closest('.todo__complete-btn')) {
-    // Complete Todo.
+    // Complete Todo
     const targetId = e.target.closest('li').id;
     openConfirmDialog(completeTodo.bind(null, targetId), 'Are you sure that you want to complete this task?', true); 
   } 
   else if (e.target.closest('.todo__edit-btn')) {
-    // Edit Todo.
+    // Edit Todo
     const targetId = e.target.closest('li').id;
-    // const { closeBtn, formDialogLm, formInputs } = generateEditTodoDialogHTML();
-    // addTodoInfoToEditForm(targetId, formInputs);
-    // openModal(targetId, {formerEdit: getTodoInfo(formDialogLm)}, closeBtn, closeBtn);
-
     const editDialogFormLm = document.getElementById('edit-dialog__form')
     const editDialogFormInputLms = editDialogFormLm.querySelectorAll('input, textarea');
-    addTodoInfoToEditForm(targetId, editDialogFormInputLms)
+    addTodoInfoToEditForm(targetId, editDialogFormInputLms);
     openEditDialog(targetId, { formerEdit: getTodoInfo(editDialogFormLm) });
   } 
   else if (e.target.closest('.todo__delete-btn')) {
-    // Delete todo.
+    // Delete todo
     const targetId = e.target.closest('li').id;
     openConfirmDialog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
   }

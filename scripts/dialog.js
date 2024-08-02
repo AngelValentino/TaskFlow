@@ -54,23 +54,35 @@ function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, m
   });
 }
 
-export function openInfoDialog(descText) {
+//TODO Refactor dialog css
+//TODO Fix edit todo horizontal screen overflow bug
+//TODO Add the last accessibility features to open and close dialog functions
+
+export function openInfoDialog(descText, confirmFun) {
   console.log('info dialog opened')
   const eventsHandler = {};
-  const closeLms = [ infoDialogCloseBtn, infoDialogAcceptBtn ];
   
   openDialog(closeInfoDialogTimId, infoDialogCloseBtn, infoDialogLm, infoDialogBackdropLm, infoDailogDescLm, descText);
+
+  const checkCloseLms = () => confirmFun ? infoDialogCloseBtn : [ infoDialogCloseBtn, infoDialogAcceptBtn ];
 
   function closeInfoDialog() {
     console.log('info dialog closed');
     closeDialog(infoDialogLm, infoDialogBackdropLm, closeInfoDialogTimId);
 
     // Remove event listeners
-    toggleModalEvents(eventsHandler, 'remove', null, closeLms, infoDialogLm, infoDialogBackdropLm);
+    toggleModalEvents(eventsHandler, 'remove', null, checkCloseLms(), infoDialogLm, infoDialogBackdropLm);
+    confirmFun && infoDialogAcceptBtn.removeEventListener('click', closeInfoDialogWithFun);
+  }
+
+  function closeInfoDialogWithFun() {
+    closeInfoDialog();
+    confirmFun();
   }
 
   // Add event listeners
-  toggleModalEvents(eventsHandler, 'add', closeInfoDialog, closeLms, infoDialogLm, infoDialogBackdropLm, '.info-dialog-backdrop');
+  toggleModalEvents(eventsHandler, 'add', closeInfoDialog, checkCloseLms(), infoDialogLm, infoDialogBackdropLm, '.info-dialog-backdrop');
+  confirmFun && infoDialogAcceptBtn.addEventListener('click', closeInfoDialogWithFun);
 }
 
 export function openEditDialog(targetId, todoInfo) {
