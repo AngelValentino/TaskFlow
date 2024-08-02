@@ -1,6 +1,6 @@
 import { addTodo, deleteTodo, todos } from './data/todo.js';
 import { getTodoInfo } from './main.js';
-import { getRandomNumber } from './utils.js';
+import { getRandomNumber, trapFocus, toggleModalFocus } from './utils.js';
 
 // const dialogBackdropLm = document.getElementById('dialog-backdrop');
 // let closeAlertDialogTim;
@@ -344,25 +344,13 @@ const infoDialogCloseBtn = document.getElementById('info-dialog__close-btn');
 const infoDialogAcceptBtn = document.getElementById('info-dialog__accept-btn');
 const infoDailogDescLm = document.getElementById('info-dialog__desc');
 
-//TODO Add trapFocus and close at 'Escape' key
-//TODO Add a toggleModalEvents that adds the most used modal events
-//TODO Refactor all modal to have reusable functions
+
+
+//TODO Refactor editDialog and confirm edit
 
 let closeEditDialogTimId;
 let closeInfoDialogTimId;
-
-let lastFocusedLmBeforeModalOpened;
-
-function toggleModalFocus(focusBehaviour, firstFocusableLm) {
-  if (focusBehaviour === 'addFocus') {
-    lastFocusedLmBeforeModalOpened = document.activeElement;
-    firstFocusableLm.focus();
-  } 
-  else if (focusBehaviour === 'returnFocus') {
-    lastFocusedLmBeforeModalOpened.focus();
-  }
-}
-
+let closeConfirmDialogTimId;
 
 // Event handler function for closing modal on Escape key
 const handleModalCloseAtEscapeKey = closeFun => e => {
@@ -396,7 +384,7 @@ export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, mod
     modalContainerLm?.addEventListener('click', outsideClickHandler);
     closeLms && closeLms.forEach(closeLm => {
       closeLm.addEventListener('click', closeFun);
-    })
+    });
 
     // Store handlers on the eventsHandler object to remove them later
     eventsHandler.escKeyHandler = escKeyHandler;
@@ -412,7 +400,7 @@ export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, mod
     modalContainerLm?.removeEventListener('click', eventsHandler.outsideClickHandler);
     closeLms && closeLms.forEach(closeLm => {
       closeLm.removeEventListener('click', eventsHandler.closeFun);
-    })
+    });
 
     // Clean up stored handlers
     delete eventsHandler.escKeyHandler;
@@ -429,66 +417,64 @@ export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, mod
   }
 }
 
+function closeDialog(modalContentLm, modalContainerLm, timId) {
+  modalContainerLm.style.opacity = 0;
+  modalContentLm.style.transform = 'scale(0)';
+  timId = setTimeout(() => {
+    modalContainerLm.style.display = 'none';
+    toggleModalFocus('returnFocus');
+  }, 250);
+}
+
+function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, modalDescLm, descText) {
+  clearTimeout(timId);
+  modalDescLm && (modalDescLm.innerText = descText);
+  modalContainerLm.style.display = 'flex';
+  toggleModalFocus('addFocus', firstFocusableLm);
+
+  // Added a timeout to ensure the animations always play 
+  setTimeout(() => {
+    modalContainerLm.style.opacity = 1;
+    modalContentLm.style.transform = 'scale(1)';
+  });
+}
 
 export function openInfoDialog(descText) {
   console.log('info dialog opened')
   const eventsHandler = {};
   const closeLms = [ infoDialogCloseBtn, infoDialogAcceptBtn ];
-  clearTimeout(closeInfoDialogTimId)
-
-  infoDailogDescLm.innerText = descText;
-  infoDialogBackdropLm.style.display = 'flex';
-  toggleModalFocus('addFocus', infoDialogCloseBtn);
-
-  infoDialogBackdropLm.style.opacity = 1;
-  infoDialogLm.style.transform = 'scale(1)';
+  
+  openDialog(closeInfoDialogTimId, infoDialogCloseBtn, infoDialogLm, infoDialogBackdropLm, infoDailogDescLm, descText)
 
   function closeInfoDialog() {
-    console.log('info dialog closed')
-    infoDialogBackdropLm.style.opacity = 0;
-    infoDialogLm.style.transform = 'scale(0)';
-    closeInfoDialogTimId = setTimeout(() => {
-      infoDialogBackdropLm.style.display = 'none';
-      toggleModalFocus('returnFocus');
-    }, 250);
+    console.log('info dialog closed');
+    closeDialog(infoDialogLm, infoDialogBackdropLm, closeInfoDialogTimId);
 
+    // Remove event listeners
     toggleModalEvents(eventsHandler, 'remove', null, closeLms, infoDialogLm, infoDialogBackdropLm);
   }
 
+  // Add event listeners
   toggleModalEvents(eventsHandler, 'add', closeInfoDialog, closeLms, infoDialogLm, infoDialogBackdropLm, '.info-dialog-backdrop');
 }
 
 export function openEditDialog(targetId, todoInfo) {
-  clearTimeout(closeEditDialogTimId)
-
-  editDialogBackdropLm.style.display = 'flex';
-  toggleModalFocus('addFocus', editDialogCloseBtn);
-
-  editDialogBackdropLm.style.opacity = 1;
-  editDialogLm.style.transform = 'scale(1)';
-
-  console.log('edit dialog opened')
+  console.log('edit dialog opened');
+  openDialog(closeEditDialogTimId, editDialogCloseBtn, editDialogLm, editDialogBackdropLm);
 
   function closeEditDialog() {
-    editDialogBackdropLm.style.opacity = 0;
-    editDialogLm.style.transform = 'scale(0)';
-    closeEditDialogTimId = setTimeout(() => {
-      editDialogBackdropLm.style.display = 'none';
-      toggleModalFocus('returnFocus');
-    }, 250);
+    closeDialog(editDialogLm, editDialogBackdropLm, closeEditDialogTimId);
 
     editDialogFormLm.removeEventListener('submit', editTodo);
     editDialogBackdropLm.removeEventListener('click', closeDialogAtOutsideClick);
     editDialogCloseBtn.removeEventListener('click', checkCloseEditDialog);
   }
 
-
-
   function closeConfirmEditDialog(targetId, todoInfo) {
-    console.log(targetId)
+    console.log(targetId);
     
     setTimeout(() => {
-      openEditDialog(targetId, todoInfo)
+      openEditDialog(targetId, todoInfo);
     }, 400);
     
     // add current info back again to inputs
@@ -564,6 +550,7 @@ export function openEditDialog(targetId, todoInfo) {
 }
 
 export function openConfirmDialog(confirmFunction, descText, changeImage) {
+  console.log('confirm modal opened')
   const eventHandler = {};
   const closeLms = [ confirmDialogCloseBtn, confirmDialogCancelBtn ];
   
@@ -573,79 +560,28 @@ export function openConfirmDialog(confirmFunction, descText, changeImage) {
   else {
     confirmDialogImgContainerLm.innerHTML = `<img class="confirm-dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>`;
   }
-  confrimDialogDescLm.innerText = descText;
 
-  // open modal
-
-  confrimDialogBackdropLm.style.display = 'flex';
-  toggleModalFocus('addFocus', confirmDialogCloseBtn);
-
-  confrimDialogBackdropLm.style.opacity = 1;
-  confirmDialogLm.style.transform = 'scale(1)';
-
-  let closeConfirmDialogTimId;
+  openDialog(closeConfirmDialogTimId, confirmDialogCloseBtn, confirmDialogLm, confrimDialogBackdropLm, confrimDialogDescLm, descText);
 
   function closeConfirmDialog() {
-    clearTimeout(closeConfirmDialogTimId);
-
+    console.log('confirm dialog closed')
     // if (isForm && !e.target.matches('.confirm-dialog__accept-btn')) {
     //   confirmFunction();
     // }
 
-    console.log('confirm dialog closed')
-    confrimDialogBackdropLm.style.opacity = 0;
-    confirmDialogLm.style.transform = 'scale(0)';
-    closeConfirmDialogTimId = setTimeout(() => {
-      confrimDialogBackdropLm.style.display = 'none';
-      toggleModalFocus('returnFocus');
-    }, 250);
+    closeDialog(confirmDialogLm, confrimDialogBackdropLm, closeConfirmDialogTimId)
 
+    // Remove event listeners
     toggleModalEvents(eventHandler, 'remove', null, closeLms, confirmDialogLm, confrimDialogBackdropLm);
-    confirmDialogAcceptBtn.removeEventListener('click', confirmCloseDialog);
+    confirmDialogAcceptBtn.removeEventListener('click', closeConfirmDialogHandler);
   }
 
-  function confirmCloseDialog() {
+  function closeConfirmDialogHandler() {
     closeConfirmDialog();
     confirmFunction();
   }
 
-  // add events to close modal
-  console.log('confirm modal opened')
-
+  // Add event listeners
   toggleModalEvents(eventHandler, 'add', closeConfirmDialog, closeLms, confirmDialogLm, confrimDialogBackdropLm, '.confirm-dialog-backdrop');
-  confirmDialogAcceptBtn.addEventListener('click', confirmCloseDialog);
+  confirmDialogAcceptBtn.addEventListener('click', closeConfirmDialogHandler);
 }
-
-
-
-
-function trapFocus(e, element) {
-  const focusableLms = element.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
-  const firstFocusableLm = focusableLms[0]; 
-  const lastFocusableLm = focusableLms[focusableLms.length - 1];
-
-  const isTabPressed = (e.key === 'Tab');
-  
-  if (!isTabPressed) { 
-    return; 
-  }
-
-  if (e.shiftKey) /* shift + tab */ {
-    if (document.activeElement === firstFocusableLm ) {
-      lastFocusableLm.focus();
-      e.preventDefault();
-    }
-  } 
-  else /* tab */ {
-    if (document.activeElement === lastFocusableLm) {
-      firstFocusableLm.focus();
-      e.preventDefault();
-    }
-  }
-}
-
-
-
-
-
-
