@@ -25,7 +25,7 @@ const infoDialogCloseBtn = document.getElementById('info-dialog__close-btn');
 const infoDialogAcceptBtn = document.getElementById('info-dialog__accept-btn');
 const infoDailogDescLm = document.getElementById('info-dialog__desc');
 
-// Reassignment variables and timout ids
+// Reassignment variables and timeout ids
 let closeEditDialogTimId;
 let closeInfoDialogTimId;
 let closeConfirmDialogTimId;
@@ -33,6 +33,7 @@ let openConfirmDialogTimId;
 let lastTargetId;
 
 function closeDialog(modalContentLm, modalContainerLm, timId) {
+  document.body.style.overflow = '';
   modalContainerLm.style.opacity = 0;
   modalContentLm.style.transform = 'scale(0)';
   timId = setTimeout(() => {
@@ -43,6 +44,7 @@ function closeDialog(modalContentLm, modalContainerLm, timId) {
 
 function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, modalDescLm, descText) {
   clearTimeout(timId);
+  document.body.style.overflow = 'hidden';
   modalDescLm && (modalDescLm.innerText = descText);
   modalContainerLm.style.display = 'flex';
   toggleModalFocus('add', firstFocusableLm);
@@ -53,10 +55,6 @@ function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, m
     modalContentLm.style.transform = 'scale(1)';
   });
 }
-
-//TODO Refactor dialog css
-//TODO Fix edit todo horizontal screen overflow bug
-//TODO Add the last accessibility features to open and close dialog functions
 
 export function openInfoDialog(descText, confirmFun) {
   console.log('info dialog opened')

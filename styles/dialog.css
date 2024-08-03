@@ -27,12 +27,15 @@
   text-align: center;
   transform: scale(0);
   transition: transform 0.25s;
+  scrollbar-width: thin;
+  max-height: 95vh;
+  overflow-y: auto;
 }
 
 .confirm-dialog img,
 .info-dialog img {
   display: block;
-  margin: 0 auto 10px;
+  margin: 0 auto 15px;
 }
 
 .confirm-dialog__recycle-placeholder-img {
@@ -41,7 +44,6 @@
 
 .dialog__capybara-placeholder-img {
   width: 125px;
-  padding: 0 0 5px;
 }
 
 .edit-dialog__close-btn,
@@ -76,7 +78,14 @@
 
 /* END OF DIALOG */
 
-/* edit DIALOG */
+/* EDIT DIALOG */
+
+.form-dialog {
+  max-width: 450px;
+  text-align: start;
+  padding: 30px 50px;
+  width: 100%;
+}
 
 .edit-dialog__task, 
 .edit-dialog__date,
@@ -95,13 +104,15 @@
 
 .edit-dialog label {
   display: block;
-  margin: 0 0 10px;
+  padding: 0 0 10px;
 }
 
 .edit-dialog__desc {
   resize: vertical;
   max-height: 250px;
-  min-height: 100px
+  min-height: 100px;
+  scrollbar-width: thin;
+  display: block;
 }
 
 .edit-dialog__submit-btn {
@@ -114,7 +125,7 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* END OF FORM DIALOG */
+/* END OF EDIT DIALOG */
 
 /* ADD TODO PROMPT */
 
@@ -224,3 +235,60 @@
 }
 
 /* END OF SEARCH TODO PROMPT */
+
+/* HOVER CAPABLE DEVICES */
+
+.confirm-dialog__accept-btn:is(:hover, :focus-visible),
+.confirm-dialog__cancel-btn:is(:hover, :focus-visible),
+.info-dialog__accept-btn:is(:hover, :focus-visible) {
+  background-color: var(--contrast-color);
+  color: #000;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.edit-dialog__close-btn:is(:hover, :focus-visible) span,
+.confrim-dialog__close-btn:is(:hover, :focus-visible) span,
+.info-dialog__close-btn:is(:hover, :focus-visible) span {
+  font-variation-settings:'FILL' 1;
+}
+
+.edit-dialog__submit-btn:is(:hover, :focus-visible) {
+  background-color: var(--contrast-color);
+  color: #000;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-height: 600px) and (min-width: 600px){
+  .form-dialog {
+    max-width: 700px;
+  }
+  
+  .edit-dialog__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  
+  .edit-dialog__date,
+  .edit-dialog__desc {
+    margin: 0;
+  }
+
+  .edit-dialog__submit-btn {
+    grid-column: span 2;
+    justify-self: center;
+    margin: 20px 0 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .form-dialog {
+    padding: 30px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

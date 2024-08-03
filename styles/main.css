@@ -439,29 +439,11 @@ main {
   .todo-sections > button:hover {
     background-color: var(--contrast-color);
     color: #000;
-    transition: background-color 0.15s, color 0.15s;
+    /* transition: background-color 0.1s, color 0.1s; */
   }
 
   .todo__edit-buttons button:hover > span {
     font-variation-settings:'FILL' 1;
-  }
-
-  .dialog__confirmation-btn:hover, 
-  .dialog__discard-btn:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .dialog__cancel-btn:hover > span, 
-  .form-dialog__cancel-btn:hover > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .form-dialog__submit-btn:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
   }
 }
 
@@ -485,26 +467,6 @@ main {
 .search-todo-prompt--active {
   max-height: 1000px;
   transform: translateX(0px);
-}
-
-.dialog-backdrop--active {
-  opacity: 1;
-}
-
-.dialog--active {
-  transform: scale(1);
-}
-
-.form-dialog--active {
-  max-width: 500px;
-  text-align: start;
-  padding: 30px 50px;
-}
-
-@media screen and (max-width: 450px) {
-  .form-dialog--active {
-    padding: 30px;
-  }
 }
 
 .todo__edit-buttons--completed {

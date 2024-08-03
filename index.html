@@ -53,17 +53,21 @@
   </div>
 
   <div id="edit-dialog-backdrop" class="edit-dialog-backdrop">
-    <div class="edit-dialog" id="edit-dialog" role="dialog" aria-label="Edit dialog.">
+    <div class="edit-dialog form-dialog" id="edit-dialog" role="dialog" aria-label="Edit dialog.">
       <form class="edit-dialog__form" id="edit-dialog__form">
         <button aria-label="Close dialog." type="button" class="edit-dialog__close-btn" id="edit-dialog__close-btn">
           <span aria-hidden="true" class="material-symbols-outlined">cancel</span>
         </button>
-        <label for="edit-dialog__task">Task</label>
-        <input required class="edit-dialog__task" id="edit-dialog__task" type="text" name="task">
-        <label for="edit-dialog__date">Date</label>
-        <input required class="edit-dialog__date" id="edit-dialog__date" type="date" name="date">
-        <label for="edit-dialog__desc">Description</label>
-        <textarea required class="edit-dialog__desc" id="edit-dialog__desc" name="description" rows="7"></textarea>
+        <div class="edit-dialog__task-container">
+          <label for="edit-dialog__task">Task</label>
+          <input required class="edit-dialog__task" id="edit-dialog__task" type="text" name="task">
+          <label for="edit-dialog__date">Date</label>
+          <input required class="edit-dialog__date" id="edit-dialog__date" type="date" name="date">
+        </div>
+        <div class="edit-dialog__desc-container">
+          <label for="edit-dialog__desc">Description</label>
+          <textarea required class="edit-dialog__desc" id="edit-dialog__desc" name="description" rows="7"></textarea>
+        </div>
         <button class="edit-dialog__submit-btn" type="submit">Edit todo</button>
       </form>
     </div>
