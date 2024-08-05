@@ -24,14 +24,12 @@ import {
 
 import {
   checkIfCurrentThemeIsRepeated, 
-  changeTheme, 
   setLastShuffledThemeToStorage
 } from './data/themes.js';
 
 import { getRandomIndex, preloadDialogImages } from './utils.js';
 
 let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
-const currentRandomTheme = checkIfCurrentThemeIsRepeated();
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const currDate = new Date();
 const refreshQuoteBtn = document.getElementById('quote__new-quote-btn');
@@ -440,8 +438,59 @@ addEventListener('load', () => {
   }, 500);
 });
 
+function changeTheme(currentRandomTheme) {
+  const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
+  const rootLm = document.documentElement;
+
+  // Because the todos are generated after the page is loaded; a timeout is needed in order to transition from grey to color in the todos container.
+  setTimeout(() => {
+    rootLm.style = `
+    --dark-accent-color: ${darkAccent};
+    --dark-to-medium-accent-color: ${mediumToDarkAccent};
+    --medium-accent-color: ${mediumAccent};
+    --light-accent-color: ${ligthAccent};
+    --contrast-color: ${contrast};
+    --background-image: ${backgroundImage};
+    `;
+  });
+}
+
+function loadBgImgProgressively(currentRandomTheme, time, changeTemeAfterTim) {
+  const imgUrl = currentRandomTheme.backgroundImage;
+  const preloaderImg = document.createElement("img");
+  preloaderImg.src = imgUrl;
+  !changeTemeAfterTim && changeTheme(currentRandomTheme)
+
+  const timBgId = setTimeout(() => { 
+    changeTemeAfterTim && changeTheme(currentRandomTheme)
+    console.log('tim');
+    console.log(preloaderImg.complete)
+    if (preloaderImg.complete) {
+      console.log('bg completed!')
+      backgroundImgLm.style.opacity = 1;
+      backgroundImgLm.style.backgroundImage = `url(${imgUrl})`;
+     
+    } 
+    else {
+      console.log('else')
+      preloaderImg.addEventListener('load', () => {
+        console.log('bg loaded')
+        backgroundImgLm.style.opacity = 1;
+        backgroundImgLm.style.backgroundImage = `url(${imgUrl})`;
+      })
+    }
+  }, time);
+
+  return timBgId;
+}
+
+//TODO Refactor change theme
+//TODO Refactor quote fetch and loader
+//TODO Add a quote mock API
+
+const currentRandomTheme = checkIfCurrentThemeIsRepeated();
 setLastShuffledThemeToStorage(currentRandomTheme);
-changeTheme(currentRandomTheme);
+const initBgTimId = loadBgImgProgressively(currentRandomTheme, 500, true);
 
 currentDateLm.innerText = formatCurrentDate(currDate);
 
@@ -449,14 +498,22 @@ getLastActiveSection();
 
 generateTodosHTML(todos);
 
+const backgroundImgLm = document.querySelector(".bg-lazy");
+let timBgId;
+
 refreshQuoteBtn.addEventListener('click', () => {
-  if (quotesData && !document.body.matches('.change-theme--active')) {
+  backgroundImgLm.style.opacity = 0;
+  clearTimeout(timBgId)
+  clearTimeout(initBgTimId)
+
+  const currentRandomTheme = checkIfCurrentThemeIsRepeated();
+  setLastShuffledThemeToStorage(currentRandomTheme);
+  timBgId = loadBgImgProgressively(currentRandomTheme, 1050);
+
+  if (quotesData) {
     const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];
-    const currentRandomTheme = checkIfCurrentThemeIsRepeated();
-    setLastShuffledThemeToStorage(currentRandomTheme);
     generateQuote(randomCurrentQuote);
     setShareBtnsHrefAtr(randomCurrentQuote);
-    changeTheme(currentRandomTheme);
   }
 }); 
 
@@ -563,3 +620,6 @@ todosContainerLm.addEventListener('click', e => {
     openConfirmDialog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
   }
 });
+
+
+

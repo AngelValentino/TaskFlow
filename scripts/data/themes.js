@@ -8,7 +8,7 @@ const themes = [
     mediumAccent: '#b259b6',
     ligthAccent: '#ecdeff',
     contrast: '#dfd684',
-    backgroundImage: 'url(../img/app-background/purple-background.jpg)'
+    backgroundImage: '../img/app-background/purple-background.jpg'
   },
   {
     darkAccent: '#2e6881',
@@ -16,7 +16,7 @@ const themes = [
     mediumAccent: '#6573eb',
     ligthAccent: '#d6f3ff',
     contrast: '#fd94ce',
-    backgroundImage: 'url(../img/app-background/blue-background.jpg)'
+    backgroundImage: '../img/app-background/blue-background.jpg'
   },
   {
     darkAccent: '#51763d',
@@ -24,7 +24,7 @@ const themes = [
     mediumAccent: '#57a871',
     ligthAccent: '#d8ffc2',
     contrast: '#6ecab9',
-    backgroundImage: 'url(../img/app-background/green-background.jpg)'
+    backgroundImage: '../img/app-background/green-background.jpg'
   },
   {
     darkAccent: '#55373d',
@@ -32,7 +32,7 @@ const themes = [
     mediumAccent: '#d8085f',
     ligthAccent: '#ffe9ed',
     contrast: '#91c989',
-    backgroundImage: 'url(../img/app-background/chocolate-background.jpg)'
+    backgroundImage: '../img/app-background/chocolate-background.jpg'
   },
   {
     darkAccent: '#984a9b',
@@ -40,7 +40,7 @@ const themes = [
     mediumAccent: '#bc8bf3',
     ligthAccent: '#ffe4fd',
     contrast: '#daf38b',
-    backgroundImage: 'url(../img/app-background/pink-background.jpg)'
+    backgroundImage: '../img/app-background/pink-background.jpg'
   },
   {
     darkAccent: '#793735',
@@ -48,7 +48,7 @@ const themes = [
     mediumAccent: '#fba264',
     ligthAccent: '#ffdad9',
     contrast: '#ff5b9f',
-    backgroundImage: 'url(../img/app-background/red-background.jpg)'
+    backgroundImage: '../img/app-background/red-background.jpg'
   },
   {
     darkAccent: '#84846b',
@@ -56,7 +56,7 @@ const themes = [
     mediumAccent: '#b0bd99',
     ligthAccent: '#fff8d9',
     contrast: '#b6c3e0',
-    backgroundImage: 'url(../img/app-background/sand-background.jpg)'
+    backgroundImage: '../img/app-background/sand-background.jpg'
   },
   {
     darkAccent: '#4e817e',
@@ -64,7 +64,7 @@ const themes = [
     mediumAccent: '#e79049',
     ligthAccent: '#c0f0ed',
     contrast: '#ec8bd6',
-    backgroundImage: 'url(../img/app-background/cian-background.jpg)'
+    backgroundImage: '../img/app-background/cian-background.jpg'
   }
 ];
 
@@ -76,26 +76,26 @@ export function checkIfCurrentThemeIsRepeated() {
   return currentRandomTheme;
 }
 
-export function changeTheme(currentRandomTheme) {
-  const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
-  const rootLm = document.documentElement;
-  document.body.classList.add('change-theme--active');
-  setTimeout(() => {
-    document.body.classList.remove('change-theme--active');
-  }, 500);
+// export function changeTheme(currentRandomTheme) {
+//   const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
+//   const rootLm = document.documentElement;
+//   document.body.classList.add('change-theme--active');
+//   setTimeout(() => {
+//     document.body.classList.remove('change-theme--active');
+//   }, 500);
 
-  // Because the todos are generated after the page is loaded; a timeout is needed in order to transition from grey to color in the todos container.
-  setTimeout(() => {
-    rootLm.style = `
-    --dark-accent-color: ${darkAccent};
-    --dark-to-medium-accent-color: ${mediumToDarkAccent};
-    --medium-accent-color: ${mediumAccent};
-    --light-accent-color: ${ligthAccent};
-    --contrast-color: ${contrast};
-    --background-image: ${backgroundImage};
-    `;
-  });
-}
+//   // Because the todos are generated after the page is loaded; a timeout is needed in order to transition from grey to color in the todos container.
+//   setTimeout(() => {
+//     rootLm.style = `
+//     --dark-accent-color: ${darkAccent};
+//     --dark-to-medium-accent-color: ${mediumToDarkAccent};
+//     --medium-accent-color: ${mediumAccent};
+//     --light-accent-color: ${ligthAccent};
+//     --contrast-color: ${contrast};
+//     --background-image: ${backgroundImage};
+//     `;
+//   });
+// }
 
 export function setLastShuffledThemeToStorage(currentRandomTheme) {
   lastShuffledTheme = currentRandomTheme;

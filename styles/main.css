@@ -38,10 +38,11 @@ html {
   --dark-accent-color: #404040;
   --dark-to-medium-accent-color: #878787;
   --medium-accent-color: #a4a4a4;
-  --light-accent-color: #c3c3c3;
+
   --contrast-color: #9c9c9c;
   --background-image: url(../img/app-background/grey-background.jpg);
   --theme-transition-delay: 0.15s;
+  --light-accent-color: #c3c3c3;
 }
 
 /* END OF ROOT*/
@@ -58,14 +59,27 @@ html {
 
 body {
   font-family: sans-serif;
-  max-width: 1400px;
   margin: 0 auto;
-  background-image: var(--background-image);
+  background-color: var(--light-accent-color);
+  min-width: 360px;
+  position: relative;
+  transition: background-color 0.5s;
+}
+
+.content {
+  z-index: 1;
+  position: relative;
+}
+
+.bg-lazy {
+  transition: opacity 1s;
+  position: absolute;
   background-repeat: no-repeat;
   background-size: cover;
-  transition: background-image 0.5s;
-  min-width: 360px;
+  inset: 0;
+  opacity: 0;
 }
+
 
 main {
   display: grid;
@@ -74,6 +88,8 @@ main {
   place-items: center;
   gap: 10%;
   padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 /* END OF MAIN */
