@@ -32,14 +32,15 @@ let closeConfirmDialogTimId;
 let openConfirmDialogTimId;
 let lastTargetId;
 
-function closeDialog(modalContentLm, modalContainerLm, timId) {
+function closeDialog(modalContentLm, modalContainerLm) {
   document.body.style.overflow = '';
   modalContainerLm.style.opacity = 0;
   modalContentLm.style.transform = 'scale(0)';
-  timId = setTimeout(() => {
+  const timId = setTimeout(() => {
     modalContainerLm.style.display = 'none';
     toggleModalFocus('return');
   }, 250);
+  return timId;
 }
 
 function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, modalDescLm, descText) {
@@ -66,7 +67,7 @@ export function openInfoDialog(descText, confirmFun) {
 
   function closeInfoDialog() {
     console.log('info dialog closed');
-    closeDialog(infoDialogLm, infoDialogBackdropLm, closeInfoDialogTimId);
+    closeInfoDialogTimId = closeDialog(infoDialogLm, infoDialogBackdropLm);
 
     // Remove event listeners
     toggleModalEvents(eventsHandler, 'remove', null, checkCloseLms(), infoDialogLm, infoDialogBackdropLm);
@@ -91,7 +92,7 @@ export function openEditDialog(targetId, todoInfo) {
   openDialog(closeEditDialogTimId, editDialogCloseBtn, editDialogLm, editDialogBackdropLm);
 
   function closeEditDialog() {
-    closeDialog(editDialogLm, editDialogBackdropLm, closeEditDialogTimId);
+    closeEditDialogTimId = closeDialog(editDialogLm, editDialogBackdropLm);
 
     toggleModalEvents(eventsHandler, 'remove', null, editDialogCloseBtn, editDialogLm, editDialogBackdropLm);
     editDialogFormLm.removeEventListener('submit', editTodo);
@@ -185,7 +186,7 @@ export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit
 
   function closeConfirmDialog() {
     console.log('confirm dialog closed')
-    closeDialog(confirmDialogLm, confrimDialogBackdropLm, closeConfirmDialogTimId);
+    closeConfirmDialogTimId = closeDialog(confirmDialogLm, confrimDialogBackdropLm);
 
     // Remove event listeners
     if (confirmEdit) {

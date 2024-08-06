@@ -486,7 +486,7 @@ function loadBgImgProgressively(currentRandomTheme, time, changeTemeAfterTim) {
 
 //TODO Refactor change theme
 //TODO Refactor quote fetch and loader
-//TODO Add a quote mock API
+//TODO Add a quote mock API and cache with timer
 
 const currentRandomTheme = checkIfCurrentThemeIsRepeated();
 setLastShuffledThemeToStorage(currentRandomTheme);
