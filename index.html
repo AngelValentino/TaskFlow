@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
   <link rel="stylesheet" href="styles/dialog.css"/>
   <link rel="stylesheet" href="styles/main.css"/>
+  <script>
+    // Start the timer for DOMContentLoaded as early as possible
+    const DOMContentStartTime = performance.now(); 
+  </script>
 </head>
 <body>
   <!-- Reference to preloaded app background images -->
@@ -23,7 +27,14 @@
     <img src="img/app-background/sand-background.jpg" alt="" />
   </div>
   <!-- End of reference to preloaded app background images -->
-   
+
+  <div id="bouncer-loader" class="bouncer" role="alert" aria-busy="true" aria-live="polite" aria-label="Loading...">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
   <div id="background-image" class="background-image"></div>
 
   <div id="info-dialog-backdrop" class="info-dialog-backdrop">

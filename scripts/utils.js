@@ -1,6 +1,14 @@
 let lastFocusedLmBeforeModalOpened;
 
-export const getRandomIndex = (arr) => Math.floor(Math.random() * arr.length);
+export function getRandomIndex(arr, lastIndex) {
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  if (randomIndex !== lastIndex) {
+    return randomIndex;
+  } 
+  else {
+    return getRandomIndex(arr, lastIndex);
+  }
+}
 
 export const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 

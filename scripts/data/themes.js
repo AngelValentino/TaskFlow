@@ -3,7 +3,8 @@ import { getRandomIndex } from '../utils.js';
 const backgroundImgLm = document.getElementById('background-image');
 export const preloadBgImgEventHandler = {};
 export let lastPreloadedImg;
-let lastShuffledTheme = JSON.parse(localStorage.getItem('lastShuffledTheme')) || 0;
+let lastThemeIndex;
+
 const themes = [
   {
     darkAccent: '#593e7f',
@@ -71,14 +72,6 @@ const themes = [
   }
 ];
 
-function checkIfCurrentThemeIsRepeated() {
-  let currentRandomTheme = themes[getRandomIndex(themes)];
-  while (lastShuffledTheme.contrast === currentRandomTheme.contrast) {
-    currentRandomTheme = themes[getRandomIndex(themes)];
-  }
-  return currentRandomTheme;
-}
-
 function changeTheme(currentRandomTheme) {
   const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
   const rootLm = document.documentElement;
@@ -94,11 +87,6 @@ function changeTheme(currentRandomTheme) {
     --background-image: ${backgroundImage};
     `;
   });
-}
-
-function setLastShuffledThemeToStorage(currentRandomTheme) {
-  lastShuffledTheme = currentRandomTheme;
-  localStorage.setItem('lastShuffledTheme', JSON.stringify(currentRandomTheme));
 }
 
 function loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim) {
@@ -137,8 +125,9 @@ function loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim) {
 }
 
 export function setRandomTheme(time, changeThemeAfterTim) {
-  const currentRandomTheme = checkIfCurrentThemeIsRepeated();
-  setLastShuffledThemeToStorage(currentRandomTheme);
+  const currentIndex = getRandomIndex(themes, lastThemeIndex);
+  lastThemeIndex = currentIndex;
+  const currentRandomTheme = themes[currentIndex];
   const timBgId = loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim);
   return timBgId;
 }

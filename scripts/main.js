@@ -1,8 +1,8 @@
 import { 
   quotesData, 
   checkQuotesData,
-  generateQuote, 
-  setShareBtnsHrefAtr
+  lastQuoteIndex,
+  setQuote
 } from './quote.js';
 
 import { 
@@ -29,7 +29,6 @@ import {
 } from './data/themes.js';
 
 import { 
-  getRandomIndex, 
   preloadDialogImages 
 } from './utils.js';
 
@@ -48,6 +47,7 @@ const currDate = new Date();
 const timsIntroBtns = {};
 const focusTimsIntroBtns = {};
 let timBgId;
+let initBgTimId;
 let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 let filteredTodos = [];
 
@@ -67,9 +67,6 @@ export const introPrompts = {
     time: 1250
   }
 };
-
-//TODO Refactor quote fetch, loader and add cache with timer
-//TODO Add a quote mock API 
   
 function checkActiveBtn(btnLm) {
   // Check if the button's 'aria-expanded' attribute is set to 'false'
@@ -439,16 +436,8 @@ function generateSpecificSectionHTML() {
   }
 }
 
-addEventListener('load', () => {
-  setTimeout(() => {
-    checkQuotesData();
-  }, 500);
-});
-
-
 //* Inital function calls
 
-const initBgTimId = setRandomTheme(500, true);
 currentDateLm.innerText = formatCurrentDate(currDate);
 preloadDialogImages();
 getLastActiveSection();
@@ -457,6 +446,32 @@ generateTodosHTML(todos);
 //* End of Inital function calls
 
 //* Add event listeners
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Record the end time
+  const DOMContentEndTime = performance.now();
+  // Calculate the time taken for the DOM to load
+  const DOMLoadTime = DOMContentEndTime - DOMContentStartTime;
+
+  // Hide the DOMContentLoaded loader
+  const bouncerLoaderLm = document.getElementById('bouncer-loader');
+  bouncerLoaderLm.style.display = 'none';
+
+  console.log('DOM loaded');
+
+  if (DOMLoadTime <= 250) {
+    // DOM loaded in less than or equal to 250ms, proceed with the timeout
+    setTimeout(() => {
+      checkQuotesData();
+    }, 250);
+    initBgTimId = setRandomTheme(250, true);
+  } 
+  else {
+    // DOM loaded in more than 250ms, do not add the timeout
+    checkQuotesData();
+    initBgTimId = setRandomTheme(0);
+  }
+});
 
 refreshQuoteBtn.addEventListener('click', () => {
   // Remove event lsitener from the last backgroun image just in case js garbage collector doesn't work as intended
@@ -467,13 +482,8 @@ refreshQuoteBtn.addEventListener('click', () => {
   clearTimeout(timBgId);
   clearTimeout(initBgTimId);
 
-  timBgId = setRandomTheme(1050);
-
-  if (quotesData) {
-    const randomCurrentQuote = quotesData[getRandomIndex(quotesData)];
-    generateQuote(randomCurrentQuote);
-    setShareBtnsHrefAtr(randomCurrentQuote);
-  }
+  timBgId = setRandomTheme(1050); // Changes background theme
+  quotesData && setQuote(quotesData, lastQuoteIndex); // Changes quote
 }); 
 
 introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
