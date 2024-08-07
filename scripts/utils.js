@@ -4,7 +4,7 @@ export const getRandomIndex = (arr) => Math.floor(Math.random() * arr.length);
 
 export const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-// Keeps a reference of the preloaded images to prevent the browser from sending them to the garbage collector.
+// Keeps a reference of the preloaded images to prevent the browser from sending them to the garbage collector
 const preloadImgs = [];
 
 function preloadImage(imgUrl) {

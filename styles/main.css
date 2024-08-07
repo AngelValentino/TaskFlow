@@ -71,7 +71,7 @@ body {
   position: relative;
 }
 
-.bg-lazy {
+.background-image {
   transition: opacity 1s;
   position: absolute;
   background-repeat: no-repeat;
@@ -79,7 +79,6 @@ body {
   inset: 0;
   opacity: 0;
 }
-
 
 main {
   display: grid;

@@ -29,8 +29,8 @@ export function completeTodo(targetId) {
     if (todos[i].id === targetId) {
       const currentTodo = todos[i];
       currentTodo.completed = true;
-      deleteTodo(currentTodo.id)
-      addTodo('push', null, null, currentTodo)
+      deleteTodo(currentTodo.id);
+      addTodo('push', null, null, currentTodo);
       break;
     }
   }

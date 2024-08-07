@@ -1,5 +1,8 @@
 import { getRandomIndex } from '../utils.js';
 
+const backgroundImgLm = document.getElementById('background-image');
+export const preloadBgImgEventHandler = {};
+export let lastPreloadedImg;
 let lastShuffledTheme = JSON.parse(localStorage.getItem('lastShuffledTheme')) || 0;
 const themes = [
   {
@@ -68,7 +71,7 @@ const themes = [
   }
 ];
 
-export function checkIfCurrentThemeIsRepeated() {
+function checkIfCurrentThemeIsRepeated() {
   let currentRandomTheme = themes[getRandomIndex(themes)];
   while (lastShuffledTheme.contrast === currentRandomTheme.contrast) {
     currentRandomTheme = themes[getRandomIndex(themes)];
@@ -76,28 +79,66 @@ export function checkIfCurrentThemeIsRepeated() {
   return currentRandomTheme;
 }
 
-// export function changeTheme(currentRandomTheme) {
-//   const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
-//   const rootLm = document.documentElement;
-//   document.body.classList.add('change-theme--active');
-//   setTimeout(() => {
-//     document.body.classList.remove('change-theme--active');
-//   }, 500);
+function changeTheme(currentRandomTheme) {
+  const { darkAccent, mediumToDarkAccent, mediumAccent, ligthAccent, contrast, backgroundImage } = currentRandomTheme;
+  const rootLm = document.documentElement;
 
-//   // Because the todos are generated after the page is loaded; a timeout is needed in order to transition from grey to color in the todos container.
-//   setTimeout(() => {
-//     rootLm.style = `
-//     --dark-accent-color: ${darkAccent};
-//     --dark-to-medium-accent-color: ${mediumToDarkAccent};
-//     --medium-accent-color: ${mediumAccent};
-//     --light-accent-color: ${ligthAccent};
-//     --contrast-color: ${contrast};
-//     --background-image: ${backgroundImage};
-//     `;
-//   });
-// }
+  // Because the todos are generated after the page is loaded; a timeout is needed in order to transition from grey to color in the todos container.
+  setTimeout(() => {
+    rootLm.style = `
+    --dark-accent-color: ${darkAccent};
+    --dark-to-medium-accent-color: ${mediumToDarkAccent};
+    --medium-accent-color: ${mediumAccent};
+    --light-accent-color: ${ligthAccent};
+    --contrast-color: ${contrast};
+    --background-image: ${backgroundImage};
+    `;
+  });
+}
 
-export function setLastShuffledThemeToStorage(currentRandomTheme) {
+function setLastShuffledThemeToStorage(currentRandomTheme) {
   lastShuffledTheme = currentRandomTheme;
   localStorage.setItem('lastShuffledTheme', JSON.stringify(currentRandomTheme));
+}
+
+function loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim) {
+  const imgUrl = currentRandomTheme.backgroundImage;
+  const preloaderImg = document.createElement("img");
+  preloaderImg.src = imgUrl;
+  lastPreloadedImg = preloaderImg;
+  !changeThemeAfterTim && changeTheme(currentRandomTheme);
+
+  function loadBgImg(imgUrl) {
+    backgroundImgLm.style.opacity = 1;
+    backgroundImgLm.style.backgroundImage = `url(${imgUrl})`;
+  }
+  
+  const handleLoadBgImg = imgUrl => () => {
+    loadBgImg(imgUrl);
+  }
+
+  const loadBgImgHandler = handleLoadBgImg(imgUrl)
+  preloadBgImgEventHandler.loadBgImgHandler = loadBgImgHandler;
+
+  const timBgId = setTimeout(() => { 
+    changeThemeAfterTim && changeTheme(currentRandomTheme);
+    console.log('tim init');
+    if (preloaderImg.complete) {
+      console.log('bg completed!');
+      loadBgImgHandler();
+    } 
+    else {
+      console.log('added load bg event');
+      preloaderImg.addEventListener('load', loadBgImgHandler);
+    }
+  }, time);
+
+  return timBgId;
+}
+
+export function setRandomTheme(time, changeThemeAfterTim) {
+  const currentRandomTheme = checkIfCurrentThemeIsRepeated();
+  setLastShuffledThemeToStorage(currentRandomTheme);
+  const timBgId = loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim);
+  return timBgId;
 }
