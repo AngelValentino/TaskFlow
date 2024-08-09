@@ -67,7 +67,13 @@ export const introPrompts = {
     time: 1250
   }
 };
-  
+
+//TODO Improve search by adding text highlighting
+//TODO Improve and refactor search and add todo prompts, specially review the timouts clean up
+//TODO Refactor styles, change svgs
+//TODO Move them to their specific file 'prompt.js'
+
+
 function checkActiveBtn(btnLm) {
   // Check if the button's 'aria-expanded' attribute is set to 'false'
   if (btnLm.getAttribute('aria-expanded') === 'false') {

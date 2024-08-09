@@ -37,7 +37,7 @@
 
   <div id="background-image" class="background-image"></div>
 
-  <div id="info-dialog-backdrop" class="info-dialog-backdrop">
+  <div id="info-dialog-container" class="info-dialog-container">
     <div class="info-dialog" id="info-dialog" role="dialog" aria-describedby="dialog__desc">
       <img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>
       <button aria-label="Close dialog." type="button" class="info-dialog__close-btn" id="info-dialog__close-btn">
@@ -46,9 +46,10 @@
       <p class="info-dialog__desc" id="info-dialog__desc"></p>
       <button style="padding: 12px 20px" class="info-dialog__accept-btn" id="info-dialog__accept-btn">Ok</button>
     </div>
+    <div id="info-dialog-overlay" class="info-dialog-overlay"></div>
   </div>
 
-  <div id="confirm-dialog-backdrop" class="confirm-dialog-backdrop">
+  <div id="confirm-dialog-container" class="confirm-dialog-container">
     <div class="confirm-dialog" id="confirm-dialog" role="alertdialog" aria-label="Confirm discard changes." aria-describedby="dialog__desc">
       <div id="confirm-dialog__image-container">
         <img class="confirm-dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-1.jpg" alt="A drawing of a garbage collector taking out the trash." />
@@ -62,9 +63,10 @@
         <button class="confirm-dialog__cancel-btn" id="confirm-dialog__cancel-btn">No</button>
       </div>
     </div>
+    <div id="confirm-dialog-overlay" class="confirm-dialog-overlay"></div>
   </div>
 
-  <div id="edit-dialog-backdrop" class="edit-dialog-backdrop">
+  <div id="edit-dialog-container" class="edit-dialog-container">
     <div class="edit-dialog form-dialog" id="edit-dialog" role="dialog" aria-label="Edit dialog.">
       <form class="edit-dialog__form" id="edit-dialog__form">
         <button aria-label="Close dialog." type="button" class="edit-dialog__close-btn" id="edit-dialog__close-btn">
@@ -83,6 +85,7 @@
         <button class="edit-dialog__submit-btn" type="submit">Edit todo</button>
       </form>
     </div>
+    <div id="edit-dialog-overlay" class="edit-dialog-overlay"></div>
   </div>
   
   <main class="content">

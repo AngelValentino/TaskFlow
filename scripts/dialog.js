@@ -3,7 +3,8 @@ import { getTodoInfo } from './main.js';
 import { getRandomNumber, toggleModalFocus, toggleModalEvents } from './utils.js';
 
 // Confirm dialog DOM references
-const confrimDialogBackdropLm = document.getElementById('confirm-dialog-backdrop');
+const confrimDialogContainerLm = document.getElementById('confirm-dialog-container');
+const confrimDailogOveralyLm = document.getElementById('confirm-dialog-overlay')
 const confirmDialogLm = document.getElementById('confirm-dialog');
 const confirmDialogImgContainerLm = document.getElementById('confirm-dialog__image-container');
 const confirmDialogCloseBtn = document.getElementById('confirm-dialog__close-btn');
@@ -12,14 +13,16 @@ const confirmDialogCancelBtn = document.getElementById('confirm-dialog__cancel-b
 const confrimDialogDescLm = document.getElementById('confirm-dialog__desc');
 
 // Edit dialog DOM references
-const editDialogBackdropLm = document.getElementById('edit-dialog-backdrop');
+const editDialogContainerLm = document.getElementById('edit-dialog-container');
+const editDialogOverlayLm = document.getElementById('edit-dialog-overlay');
 const editDialogLm = document.getElementById('edit-dialog');
 const editDialogCloseBtn = document.getElementById('edit-dialog__close-btn');
-const editDialogFormLm = document.getElementById('edit-dialog__form')
+const editDialogFormLm = document.getElementById('edit-dialog__form');
 const editDialogFormInputLms = editDialogFormLm.querySelectorAll('input, textarea');
 
 // Info dialog DOM references
-const infoDialogBackdropLm = document.getElementById('info-dialog-backdrop');
+const infoDialogContainerLm = document.getElementById('info-dialog-container');
+const infoDialogOverlayLm = document.getElementById('info-dialog-overlay');
 const infoDialogLm = document.getElementById('info-dialog');
 const infoDialogCloseBtn = document.getElementById('info-dialog__close-btn');
 const infoDialogAcceptBtn = document.getElementById('info-dialog__accept-btn');
@@ -32,10 +35,11 @@ let closeConfirmDialogTimId;
 let openConfirmDialogTimId;
 let lastTargetId;
 
-function closeDialog(modalContentLm, modalContainerLm) {
+function closeDialog(modalContentLm, modalContainerLm, modalOverlayLm) {
   document.body.style.overflow = '';
-  modalContainerLm.style.opacity = 0;
   modalContentLm.style.transform = 'scale(0)';
+  modalContentLm.style.opacity = 0;
+  modalOverlayLm.style.opacity = 0;
   const timId = setTimeout(() => {
     modalContainerLm.style.display = 'none';
     toggleModalFocus('return');
@@ -43,7 +47,7 @@ function closeDialog(modalContentLm, modalContainerLm) {
   return timId;
 }
 
-function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, modalDescLm, descText) {
+function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, modalOverlayLm, modalDescLm, descText) {
   clearTimeout(timId);
   document.body.style.overflow = 'hidden';
   modalDescLm && (modalDescLm.innerText = descText);
@@ -54,6 +58,8 @@ function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, m
   setTimeout(() => {
     modalContainerLm.style.opacity = 1;
     modalContentLm.style.transform = 'scale(1)';
+    modalContentLm.style.opacity = 1;
+    modalOverlayLm.style.opacity = 1;
   });
 }
 
@@ -61,16 +67,16 @@ export function openInfoDialog(descText, confirmFun) {
   console.log('info dialog opened')
   const eventsHandler = {};
   
-  openDialog(closeInfoDialogTimId, infoDialogCloseBtn, infoDialogLm, infoDialogBackdropLm, infoDailogDescLm, descText);
+  openDialog(closeInfoDialogTimId, infoDialogCloseBtn, infoDialogLm, infoDialogContainerLm, infoDialogOverlayLm, infoDailogDescLm, descText);
 
   const checkCloseLms = () => confirmFun ? infoDialogCloseBtn : [ infoDialogCloseBtn, infoDialogAcceptBtn ];
 
   function closeInfoDialog() {
     console.log('info dialog closed');
-    closeInfoDialogTimId = closeDialog(infoDialogLm, infoDialogBackdropLm);
+    closeInfoDialogTimId = closeDialog(infoDialogLm, infoDialogContainerLm, infoDialogOverlayLm);
 
     // Remove event listeners
-    toggleModalEvents(eventsHandler, 'remove', null, checkCloseLms(), infoDialogLm, infoDialogBackdropLm);
+    toggleModalEvents(eventsHandler, 'remove', null, checkCloseLms(), infoDialogLm, infoDialogContainerLm);
     confirmFun && infoDialogAcceptBtn.removeEventListener('click', closeInfoDialogWithFun);
   }
 
@@ -80,7 +86,7 @@ export function openInfoDialog(descText, confirmFun) {
   }
 
   // Add event listeners
-  toggleModalEvents(eventsHandler, 'add', closeInfoDialog, checkCloseLms(), infoDialogLm, infoDialogBackdropLm, '.info-dialog-backdrop');
+  toggleModalEvents(eventsHandler, 'add', closeInfoDialog, checkCloseLms(), infoDialogLm, infoDialogContainerLm, '.info-dialog-overlay');
   confirmFun && infoDialogAcceptBtn.addEventListener('click', closeInfoDialogWithFun);
 }
 
@@ -89,12 +95,12 @@ export function openEditDialog(targetId, todoInfo) {
   lastTargetId = targetId;
   console.log('edit dialog opened');
   clearTimeout(openConfirmDialogTimId);
-  openDialog(closeEditDialogTimId, editDialogCloseBtn, editDialogLm, editDialogBackdropLm);
+  openDialog(closeEditDialogTimId, editDialogCloseBtn, editDialogLm, editDialogContainerLm, editDialogOverlayLm);
 
   function closeEditDialog() {
-    closeEditDialogTimId = closeDialog(editDialogLm, editDialogBackdropLm);
+    closeEditDialogTimId = closeDialog(editDialogLm, editDialogContainerLm, editDialogOverlayLm);
 
-    toggleModalEvents(eventsHandler, 'remove', null, editDialogCloseBtn, editDialogLm, editDialogBackdropLm);
+    toggleModalEvents(eventsHandler, 'remove', null, editDialogCloseBtn, editDialogLm, editDialogContainerLm);
     editDialogFormLm.removeEventListener('submit', editTodo);
   }
 
@@ -166,7 +172,7 @@ export function openEditDialog(targetId, todoInfo) {
   }
 
   // Add event listeners
-  toggleModalEvents(eventsHandler, 'add', checkUnsavedChanges, editDialogCloseBtn, editDialogLm, editDialogBackdropLm, '.edit-dialog-backdrop');
+  toggleModalEvents(eventsHandler, 'add', checkUnsavedChanges, editDialogCloseBtn, editDialogLm, editDialogContainerLm, '.edit-dialog-overlay');
   editDialogFormLm.addEventListener('submit', editTodo);
 }
 
@@ -182,19 +188,19 @@ export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit
     confirmDialogImgContainerLm.innerHTML = `<img class="confirm-dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>`;
   }
 
-  openDialog(closeConfirmDialogTimId, confirmDialogCloseBtn, confirmDialogLm, confrimDialogBackdropLm, confrimDialogDescLm, descText);
+  openDialog(closeConfirmDialogTimId, confirmDialogCloseBtn, confirmDialogLm, confrimDialogContainerLm, confrimDailogOveralyLm, confrimDialogDescLm, descText);
 
   function closeConfirmDialog() {
     console.log('confirm dialog closed')
-    closeConfirmDialogTimId = closeDialog(confirmDialogLm, confrimDialogBackdropLm);
+    closeConfirmDialogTimId = closeDialog(confirmDialogLm, confrimDialogContainerLm, confrimDailogOveralyLm);
 
     // Remove event listeners
     if (confirmEdit) {
-      toggleModalEvents(eventsHandler, 'remove', null, closeLms, confirmDialogLm, confrimDialogBackdropLm);
+      toggleModalEvents(eventsHandler, 'remove', null, closeLms, confirmDialogLm, confrimDialogContainerLm);
       confirmDialogAcceptBtn.removeEventListener('click', confirmDiscardEdit);
     } 
     else {
-      toggleModalEvents(eventsHandler, 'remove', null, closeLms, confirmDialogLm, confrimDialogBackdropLm);
+      toggleModalEvents(eventsHandler, 'remove', null, closeLms, confirmDialogLm, confrimDialogContainerLm);
       confirmDialogAcceptBtn.removeEventListener('click', closeConfirmDialogWithFun);
     }
   }
@@ -215,11 +221,11 @@ export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit
 
   // Add event listeners
   if (confirmEdit) {
-    toggleModalEvents(eventsHandler, 'add', closeConfirmDialogWithFun, closeLms, confirmDialogLm, confrimDialogBackdropLm, '.confirm-dialog-backdrop');
+    toggleModalEvents(eventsHandler, 'add', closeConfirmDialogWithFun, closeLms, confirmDialogLm, confrimDialogContainerLm, '.confirm-dialog-overlay');
     confirmDialogAcceptBtn.addEventListener('click', confirmDiscardEdit);
   } 
   else {
-    toggleModalEvents(eventsHandler, 'add', closeConfirmDialog, closeLms, confirmDialogLm, confrimDialogBackdropLm, '.confirm-dialog-backdrop');
+    toggleModalEvents(eventsHandler, 'add', closeConfirmDialog, closeLms, confirmDialogLm, confrimDialogContainerLm, '.confirm-dialog-overlay');
     confirmDialogAcceptBtn.addEventListener('click', closeConfirmDialogWithFun);
   }
 }

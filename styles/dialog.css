@@ -1,16 +1,25 @@
 /* DIALOG */
 
-.confirm-dialog-backdrop,
-.edit-dialog-backdrop,
-.info-dialog-backdrop { 
+.confirm-dialog-container,
+.edit-dialog-container,
+.info-dialog-container { 
   font-size: 1.4rem;
-  background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   inset: 0;
   z-index: 10;
   display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
+  display: none;
+}
+
+.edit-dialog-overlay,
+.confirm-dialog-overlay,
+.info-dialog-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
   opacity: 0;
   transition: opacity 0.25s;
 }
@@ -26,10 +35,12 @@
   border-radius: 5px;
   text-align: center;
   transform: scale(0);
-  transition: transform 0.25s;
+  transition: transform 0.25s, opacity 0.25s;
   scrollbar-width: thin;
   max-height: 95vh;
   overflow-y: auto;
+  z-index: 25;
+  opacity: 0;
 }
 
 .confirm-dialog img,

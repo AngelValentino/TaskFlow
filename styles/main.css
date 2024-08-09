@@ -28,6 +28,7 @@ fieldset {
 
 html {
   font-size: 14px;
+  scrollbar-width: thin;
 }
 
 /* END OF RESET */
@@ -38,7 +39,6 @@ html {
   --dark-accent-color: #404040;
   --dark-to-medium-accent-color: #878787;
   --medium-accent-color: #a4a4a4;
-
   --contrast-color: #9c9c9c;
   --background-image: url(../img/app-background/grey-background.jpg);
   --theme-transition-delay: 0.15s;
