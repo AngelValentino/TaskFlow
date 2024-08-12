@@ -29,7 +29,8 @@ import {
 } from './data/themes.js';
 
 import { 
-  preloadDialogImages 
+  preloadDialogImages,
+  highlighter
 } from './utils.js';
 
 const backgroundImgLm = document.getElementById('background-image');
@@ -68,10 +69,9 @@ export const introPrompts = {
   }
 };
 
-//TODO Improve search by adding text highlighting
-//TODO Improve and refactor search and add todo prompts, specially review the timouts clean up
-//TODO Refactor styles, change svgs
-//TODO Move them to their specific file 'prompt.js'
+
+//TODO Move search and add todo prompt logic into their own file: 'prompt.js'.
+//TODO Improve and refactor search and add todo prompt styles and logic, specially review the timouts clean up.
 
 
 function checkActiveBtn(btnLm) {
@@ -213,7 +213,10 @@ function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, timId, time)
 function confirmDiscardAddPromptTypedData() {
   const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
   if (todoData[0] || todoData[1] || todoData[2]) {
-    openConfirmDialog(resetForm, 'Are you sure you want to discard all changes made in form?')
+    // It needs a timout so when the add todo form is closed with 'Escape' key it does not also closes the confirm dialog
+    setTimeout(() => {
+      openConfirmDialog(resetForm, 'Are you sure you want to discard all changes made in form?')
+    });
   } 
   else {
     const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
@@ -296,7 +299,7 @@ function generatePlaceholderImageHTML(imgUrl, id) {
 `;
 }
 
-export function generateTodosHTML(todos) {
+export function generateTodosHTML(todos, highlight) {
   const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
@@ -304,10 +307,10 @@ export function generateTodosHTML(todos) {
   const { btnLm } = introPrompts.searchTodoPrompt;
   let generatedHTML = '';
   
-  function generateTaskHTML(todo) {
+  function generateTaskHTML(todo, highlight) {
     return `
     <li id="${todo.id}" class="todo">
-      <h3 class="todo__task-name">${todo.task}</h3>
+      <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h3>
       <p class="todo__task-date">${todo.date}</p>
       <p class="todo__task-desc">${todo.description}</p>
       <div class="todo__edit-buttons">
@@ -327,10 +330,10 @@ export function generateTodosHTML(todos) {
   `;
   }
 
-  function genereateCompletedTaskHTML(todo) {
+  function genereateCompletedTaskHTML(todo, highlight) {
     return `
     <li id="${todo.id}" class="todo todo--completed">
-      <h3 class="todo__task-name">${todo.task}</h3>
+      <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h3>
       <p class="todo__task-date todo__task-date--completed">${todo.date}</p>
       <p class="todo__task-desc">${todo.description}</p>
       <div class="todo__edit-buttons todo__edit-buttons--completed">
@@ -354,21 +357,21 @@ export function generateTodosHTML(todos) {
   if (allBtnLm.matches('.todo-sections--active-btn')) {
     // All section HTML
     generatedHTML = todos
-    .map(todo => todo.completed ? genereateCompletedTaskHTML(todo) : generateTaskHTML(todo))
+    .map(todo => todo.completed ? genereateCompletedTaskHTML(todo, highlight) : generateTaskHTML(todo, highlight))
     .join('');
   } 
   else if (tasksBtnLm.matches('.todo-sections--active-btn')) {
     // Tasks section HTML
     generatedHTML = todos
     .filter(todo => !todo.completed)
-    .map(todo => generateTaskHTML(todo))
+    .map(todo => generateTaskHTML(todo, highlight))
     .join('');
   } 
   else if (completedBtnLm.matches('.todo-sections--active-btn')) {
     // Completed Section HTML
     generatedHTML = todos
-    .filter((todo) => todo.completed)
-    .map((todo) => genereateCompletedTaskHTML(todo))
+    .filter(todo => todo.completed)
+    .map(todo => genereateCompletedTaskHTML(todo, highlight))
     .join('');
   }
 
@@ -438,7 +441,7 @@ function generateSpecificSectionHTML() {
   } 
   else {
     filteredTodos = filterTodos(todos, searchInputLm);
-    generateTodosHTML(filteredTodos);
+    generateTodosHTML(filteredTodos, searchInputLm.value);
   }
 }
 
@@ -496,28 +499,19 @@ introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
 
 introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
 
-// Search todos at keyup.
-searchInputLm.addEventListener('keyup', (e) => {
-  if (e.key === 'Enter') {
-    return;
-  }
+// Search todos at input change.
+searchInputLm.addEventListener('input', e => {
   filteredTodos = filterTodos(todos, e.target);
-  generateTodosHTML(filteredTodos);
+  // generate the todos with the highlighted matched text
+  generateTodosHTML(filteredTodos, e.target.value);
 });
 
-// Search todos at submit.
-searchTodoFormLm.addEventListener('submit', (e) => {
+// Prevent default at form submit
+searchTodoFormLm.addEventListener('submit', e => {
   e.preventDefault();
-  filteredTodos = filterTodos(todos, searchInputLm);
-  generateTodosHTML(filteredTodos);
-  
-  // No todos have been found.
-  if (!filteredTodos.length) {
-    openInfoDialog('No todos have been found.', closeSearchPrompt);
-  }
 });
 
-searchTodoFormLm.addEventListener('keydown', (e) => {
+searchTodoFormLm.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeSearchPrompt();
   }
@@ -545,14 +539,14 @@ addTodoPromptCloseBtn.addEventListener('click', () => {
   confirmDiscardAddPromptTypedData();
 });
 
-addTodoPromptFormLm.addEventListener('keydown', (e) => {
+addTodoPromptFormLm.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     confirmDiscardAddPromptTypedData();
   }
 });
 
 // Check active section and generates the specific todos HTML needed.
-todosSectionsContainerLm.addEventListener('click', (e) => {
+todosSectionsContainerLm.addEventListener('click', e => {
   const sectionBtnLms = document.querySelectorAll('#todo-sections button');
   if (e.target.closest('#todo-sections__all-btn')) {
     // All

@@ -48,7 +48,7 @@ export function resetTodos() {
 }
 
 // Checks if a todo includes a specific value and returns the new array.
-export const filterTodos = (todos, input) => todos.filter((todo) => todo.task.toLowerCase().includes(input.value.toLowerCase()));
+export const filterTodos = (todos, input) => todos.filter(todo => todo.task.toLowerCase().includes(input.value.trim().toLowerCase()));
 
 export function countIncompletedTodos() {
   let incompletedTodosCounter = 0;

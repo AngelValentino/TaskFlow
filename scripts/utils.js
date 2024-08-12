@@ -149,3 +149,25 @@ export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, mod
     removeEventListeners();
   }
 }
+
+export function highlighter(text, highlight, isCompleted) {
+  // If highlight is empty or only whitespace, return the original text
+  if (!highlight.trim()) return text;
+
+  // Create a regular expression to match occurrences of the 'highlight' string, ignoring case
+  const regex = new RegExp(`(${highlight.trim()})`, 'gi');
+  
+  // Split the text into parts based on the regular expression
+  const parts = text.split(regex);
+
+  // Map through the parts, wrapping highlighted parts in a span with a specific class
+  return parts.map((part) => {
+    if (regex.test(part)) {
+      // If the part matches the highlight, wrap it in a span
+      return `<span class="${isCompleted ? 'highlighted-2' : 'highlighted'}">${part}</span>`;
+    } else {
+      // Otherwise, return the part as is
+      return part;
+    }
+  }).join(''); // Join the parts back into a single string
+}
