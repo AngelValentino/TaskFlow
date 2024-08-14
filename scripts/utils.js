@@ -66,13 +66,26 @@ export function trapFocus(e, element) {
 }
 
 // Event handler function for closing modal on Escape key
-const handleModalCloseAtEscapeKey = closeFun => e => {
+const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
+  if (e.key === 'Escape' && matchingClass === '.todo-app-prompt' && document.body.style.overflow === 'hidden') return;
   if (e.key === 'Escape') closeFun();
 };
 
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
-  if (e.target.matches(matchingClass)) {
+  console.log(e.target)
+  if (matchingClass === '.todo-app-prompt') {
+    console.log(!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container'))
+    if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container')) {
+      closeFun();
+    }
+  } 
+  else if (matchingClass === '.search-todo-prompt') {
+    if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__search-btn')) {
+      closeFun();
+    }
+  } 
+  else if (e.target.matches(matchingClass)){
     closeFun();
   }
 };
@@ -87,7 +100,7 @@ const handleTrapFocus = modalContentLm => e => {
 export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, modalContentLm, modalContainerLm, matchingClass) {
   // Create bound event handler functions
   function addEventListeners() {
-    const escKeyHandler = handleModalCloseAtEscapeKey(closeFun);
+    const escKeyHandler = handleModalCloseAtEscapeKey(closeFun, matchingClass);
     const outsideClickHandler = handleModalOutsideClick(closeFun, matchingClass);
     const trapFocusHandler = handleTrapFocus(modalContentLm);
 

@@ -1,6 +1,7 @@
 import { addTodo, deleteTodo } from './data/todo.js';
 import { getTodoInfo } from './main.js';
 import { getRandomNumber, toggleModalFocus, toggleModalEvents } from './utils.js';
+import { checkActiveBtn } from './prompt.js';
 
 // Confirm dialog DOM references
 const confrimDialogContainerLm = document.getElementById('confirm-dialog-container');
@@ -74,6 +75,10 @@ export function openInfoDialog(descText, confirmFun) {
   function closeInfoDialog() {
     console.log('info dialog closed');
     closeInfoDialogTimId = closeDialog(infoDialogLm, infoDialogContainerLm, infoDialogOverlayLm);
+
+    if (clearAllTodosBtn.getAttribute('aria-expanded') === 'true') {
+      checkActiveBtn(clearAllTodosBtn);
+    }
 
     // Remove event listeners
     toggleModalEvents(eventsHandler, 'remove', null, checkCloseLms(), infoDialogLm, infoDialogContainerLm);
@@ -176,6 +181,9 @@ export function openEditDialog(targetId, todoInfo) {
   editDialogFormLm.addEventListener('submit', editTodo);
 }
 
+
+const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
+
 export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit) {
   console.log('confirm modal opened');
   const eventsHandler = {};
@@ -193,6 +201,10 @@ export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit
   function closeConfirmDialog() {
     console.log('confirm dialog closed')
     closeConfirmDialogTimId = closeDialog(confirmDialogLm, confrimDialogContainerLm, confrimDailogOveralyLm);
+
+    if (clearAllTodosBtn.getAttribute('aria-expanded') === 'true') {
+      checkActiveBtn(clearAllTodosBtn);
+    }
 
     // Remove event listeners
     if (confirmEdit) {

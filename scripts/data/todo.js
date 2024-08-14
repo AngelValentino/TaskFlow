@@ -1,5 +1,6 @@
-import { generateTodosHTML, getFormData, introPrompts, removeLastActivePrompt } from '../main.js';
+import { generateTodosHTML, getFormData } from '../main.js';
 
+const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 export const todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 export function addTodo(method, form, id, todoData) {
@@ -38,11 +39,6 @@ export function completeTodo(targetId) {
 
 export function resetTodos() {
   todos.length = 0;
-  // Hide add prompt or search prompt.
-  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-  removeLastActivePrompt(searchTodoPrompt);
-  removeLastActivePrompt(addTodoPrompt);
-  // Generate HTML
   generateTodosHTML(todos);
   localStorage.setItem('todos', JSON.stringify(todos));
 }

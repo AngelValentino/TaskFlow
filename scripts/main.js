@@ -33,141 +33,56 @@ import {
   highlighter
 } from './utils.js';
 
+import {
+  toggleAddTodoPrompt,
+  toggleSearchPrompt,
+  isAddTodoFormEdited,
+  checkActiveBtn
+} from './prompt.js';
+
 const backgroundImgLm = document.getElementById('background-image');
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const refreshQuoteBtn = document.getElementById('quote__new-quote-btn');
-const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
-const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
-const searchTodoFormLm = document.getElementById('search-todo-prompt__form');
 const searchInputLm = document.getElementById('search-todo-prompt__search-input');
 const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 const todosSectionsContainerLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
 const todosContainerLm = document.getElementById('todos-container');
 const currDate = new Date();
-const timsIntroBtns = {};
-const focusTimsIntroBtns = {};
+
 let timBgId;
 let initBgTimId;
 let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 let filteredTodos = [];
 
-export const introPrompts = {
-  addTodoPrompt: {
-    timId: 'addTodoTim',
-    btnLm: document.getElementById('todo-app-intro__add-btn'),
-    promptLm: document.getElementById('todo-app-prompt'),
-    activeClass: 'todo-app-prompt--active',
-    time: 1500
-  }, 
-  searchTodoPrompt: {
-    timId: 'searchTodoTim',
-    btnLm: document.getElementById('todo-app-intro__search-btn'),
-    promptLm: document.getElementById('search-todo-prompt'),
-    activeClass: 'search-todo-prompt--active',
-    time: 1250
-  }
-};
-
 
 //TODO Move search and add todo prompt logic into their own file: 'prompt.js'.
 //TODO Improve and refactor search and add todo prompt styles and logic, specially review the timouts clean up.
+//TODO Add close at outside click to add and search todo prompt, reuse toggleModalEvents
 
 
-function checkActiveBtn(btnLm) {
-  // Check if the button's 'aria-expanded' attribute is set to 'false'
-  if (btnLm.getAttribute('aria-expanded') === 'false') {
-    // If 'aria-expanded' attribute does not exist add the 'btn--active' class to the button
-    btnLm.classList.add('btn--active');
-  } 
-  else {  
-    // If 'aria-expanded' attribute exists, remove the 'btn--active' class from the button
-    btnLm.classList.remove('btn--active');
-  }
-}
+// function checkActiveBtn(btnLm) {
+//   // Check if the button's 'aria-expanded' attribute is set to 'false'
+//   if (btnLm.getAttribute('aria-expanded') === 'false') {
+//     // If 'aria-expanded' attribute does not exist add the 'btn--active' class to the button
+//     btnLm.classList.add('btn--active');
+//   } 
+//   else {  
+//     // If 'aria-expanded' attribute exists, remove the 'btn--active' class from the button
+//     btnLm.classList.remove('btn--active');
+//   }
+// }
 
-function showPrompt(promptLm, btnLm, classToAdd) {
-  promptLm.removeAttribute('hidden');
-  btnLm.setAttribute('aria-expanded', true);
-  // It needs a bigger delay, 20ms, than usual. Probably due to the complexity of the timeouts and animations interlinked all together.
-  setTimeout(() => {
-    promptLm.classList.add(classToAdd);
-  }, 20);
-  // For an element to focus it needs to be called after hidden goes away.
-  // Check which add prompt button is active and focus the selected element.
-  if (btnLm.matches('#todo-app-intro__search-btn')) {
-    // It needs a timeout to focus. Because without it, it breaks addTodoPrompt to searchTodoPrompt animation.
-    focusTimsIntroBtns.searchBtnFocusTimId = setTimeout(() => {
-      searchInputLm.focus();
-    }, 1250);
-  } 
-  else {
-    // Without a timeout it adds lag to the showPromptAnimation.
-    focusTimsIntroBtns.addTodoPromptFocusTimId = setTimeout(() => {
-      addTodoPromptCloseBtn.focus();
-    }, 250);
-  }
-}
 
-function hidePrompt(promptLm, btnLm, classToRemove, timeoutId, time) {
-  btnLm.focus();
-  // Set the button's 'aria-expanded' attribute to 'false' to indicate that the related prompt is now collapsed.
-  btnLm.setAttribute('aria-expanded', false);
-   // Remove the specified class from the prompt element to update its visibility
-  promptLm.classList.remove(classToRemove);
-  // Delay the hiding of the prompt element
-  timsIntroBtns[timeoutId] = setTimeout(() => {
-    promptLm.setAttribute('hidden', ''); // Add 'hidden' attribute to hide the prompt element
-  }, time);
-}
 
-function checkLastBtnTim(e, key, classToMatch, timToMatch) {
-  if (e.currentTarget.matches('.' + classToMatch) && key === timToMatch) {
-    return 1;
-  } 
-  else {
-    return 0;
-  }
-}
+const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
+searchTodoBtn.addEventListener('click', toggleSearchPrompt);
 
-function clearIntroBtnsFocusTims() {
-  for (const key in focusTimsIntroBtns) {
-    clearTimeout(focusTimsIntroBtns[key])
-  }
-}
+const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
+addTodoBtn.addEventListener('click', toggleAddTodoPrompt);
 
-// Clear all timeouts except the neighbour prompt timeouts.
-function clearAllIntroBtnsTims(e) {
-  for (const key in timsIntroBtns) {
-    if (
-      checkLastBtnTim(e, key, 'todo-app-intro__search-btn', 'addTodoTim') || 
-      checkLastBtnTim(e, key, 'todo-app-intro__add-btn', 'searchTodoTim') 
-      ) {
-        continue;
-      }
-      clearTimeout(timsIntroBtns[key]);
-  }
-}
 
-export function removeLastActivePrompt({ promptLm, time, btnLm, activeClass, timId }) {
-  // Check if the button element has the 'btn--active' class
-  if (btnLm.matches('.btn--active')) {
-    checkActiveBtn(btnLm); // If the button is active, remove 'btn--active' class
-    hidePrompt(promptLm, btnLm, activeClass, timId, time);
-  }
-}
 
-function togglePrompt({btnLm, promptLm, activeClass, time, timId}, e) {
-  if (promptLm.matches('.' + activeClass)) {
-    clearIntroBtnsFocusTims(); // Clear intro buttons timeouts.
-    hidePrompt(promptLm, btnLm, activeClass, timId, time);
-  } 
-  else {
-    clearIntroBtnsFocusTims(); // Clear intro buttons timeouts.
-    clearAllIntroBtnsTims(e) // Clear all timeouts except the neighbour prompt timeouts. If it wouldn't do that, the neighbour intro prompt would not be set to hidden and would be visible in the accessibility tree.
-    showPrompt(promptLm, btnLm, activeClass); // Start intro buttons timeouts.
-  }
-} 
 
 const formatCurrentDate = (date) => date.toLocaleDateString('en-US', {dateStyle: 'long'});
 
@@ -179,7 +94,7 @@ export function getFormData(form, formatDateBoolean, id) {
   
   allFormInputs.forEach(input => {
     if ((input.name === 'date' && formatDateBoolean)) {
-      todoData[input.name] = formatDate(input.value)
+      todoData[input.name] = formatDate(input.value);
     }   
     else {
       todoData[input.name] = input.value.trim();
@@ -195,34 +110,6 @@ export function getFormData(form, formatDateBoolean, id) {
 
   todoData.completed = false;
   return todoData;
-}
-
-function resetForm() {
-  const { promptLm, btnLm, activeClass, timId, time} = introPrompts.addTodoPrompt;
-  addTodoPromptFormLm.reset();
-  checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, timId, time);
-}
-
-function resetPromptAfterLimitReached(promptLm, btnLm, activeClass, timId, time) {
-  checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, timId, time);
-  addTodoPromptFormLm.reset();
-} 
-
-function confirmDiscardAddPromptTypedData() {
-  const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
-  if (todoData[0] || todoData[1] || todoData[2]) {
-    // It needs a timout so when the add todo form is closed with 'Escape' key it does not also closes the confirm dialog
-    setTimeout(() => {
-      openConfirmDialog(resetForm, 'Are you sure you want to discard all changes made in form?')
-    });
-  } 
-  else {
-    const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
-    checkActiveBtn(btnLm);
-    hidePrompt(promptLm, btnLm, activeClass, timId, time);
-  }
 }
 
 function addTodoInfoToEditForm(targetId, formInputs, isCurrent, todoData) {
@@ -304,7 +191,6 @@ export function generateTodosHTML(todos, highlight) {
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
   const incompletedTodosCount = countIncompletedTodos();
-  const { btnLm } = introPrompts.searchTodoPrompt;
   let generatedHTML = '';
   
   function generateTaskHTML(todo, highlight) {
@@ -377,7 +263,7 @@ export function generateTodosHTML(todos, highlight) {
 
   todosContainerLm.innerHTML = generatedHTML;
 
-  if (todosContainerLm.innerHTML === '' && btnLm.getAttribute('aria-expanded') === 'true') {
+  if (todosContainerLm.innerHTML === '' && searchTodoBtn.getAttribute('aria-expanded') === 'true') {
     generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara-todos.png', 'todos-container__empty-search-section-image');
   } 
   else if (todosContainerLm.innerHTML === '') {
@@ -385,58 +271,50 @@ export function generateTodosHTML(todos, highlight) {
   }
 }
 
-function checkSearchTodosPlaceholder() {
-  const isSearchEmptyPlaceholder = todosContainerLm.querySelector('#todos-container__empty-search-section-image');
-  if (isSearchEmptyPlaceholder) {
-    generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
-  }
-}
+// function checkSearchTodosPlaceholder() {
+//   const isSearchEmptyPlaceholder = todosContainerLm.querySelector('#todos-container__empty-search-section-image');
+//   if (isSearchEmptyPlaceholder) {
+//     generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
+//   }
+// }
 
-function resetSearch() {
-  generateTodosHTML(todos);
-  searchTodoFormLm.reset();
-}
 
-function showAddTodoPrompt(e) {
-  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-  const addTodoBtnLm = addTodoPrompt.btnLm;
-  checkActiveBtn(addTodoBtnLm);
-  removeLastActivePrompt(searchTodoPrompt);
-  togglePrompt(addTodoPrompt, e);
-  checkSearchTodosPlaceholder();
-}
+// function showAddTodoPrompt(e) {
+//   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
+//   const addTodoBtnLm = addTodoPrompt.btnLm;
+//   checkActiveBtn(addTodoBtnLm);
+//   removeLastActivePrompt(searchTodoPrompt);
+//   togglePrompt(addTodoPrompt, e);
+//   checkSearchTodosPlaceholder();
+// }
 
-function showSearchTodoPrompt(e) {
-  const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-  const searchBtnLm = searchTodoPrompt.btnLm;
-  checkActiveBtn(searchBtnLm);
-  removeLastActivePrompt(addTodoPrompt);
-  togglePrompt(searchTodoPrompt, e);
-  resetSearch();
-}
+// function showSearchTodoPrompt(e) {
+//   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
+//   const searchBtnLm = searchTodoPrompt.btnLm;
+//   checkActiveBtn(searchBtnLm);
+//   removeLastActivePrompt(addTodoPrompt);
+//   togglePrompt(searchTodoPrompt, e);
+//   resetSearch();
+// }
+
+
 
 function clearAllTodos() {
+  if (isAddTodoFormEdited()) return; // if add todo prompt has data return
+  checkActiveBtn(clearAllTodosBtn);
+  clearAllTodosBtn.setAttribute('aria-expanded', true);
+  
   if (todos.length) {
     openConfirmDialog(resetTodos, 'Are you sure that you want to delete all tasks?');
   } 
   else {
     openInfoDialog('All tasks have been completed.');
   }
-  
-  //clearAllTodosBtn.classList.add('todo-app-intro__clear-btn--active');
-}
-
-function closeSearchPrompt() {
-  const { promptLm, btnLm, activeClass, timId, time} = introPrompts.searchTodoPrompt;
-  checkActiveBtn(btnLm);
-  hidePrompt(promptLm, btnLm, activeClass, timId, time);
-  resetSearch();
 }
 
 // Checks if search is active and generates its specific empty section placeholder image.
 function generateSpecificSectionHTML() {
-  const { btnLm } = introPrompts.searchTodoPrompt;
-  if (!filteredTodos.length && btnLm.getAttribute('aria-expanded') === 'false') {
+  if (!filteredTodos.length && searchTodoBtn.getAttribute('aria-expanded') === 'false') {
     generateTodosHTML(todos);
   } 
   else {
@@ -483,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 refreshQuoteBtn.addEventListener('click', () => {
+  if (isAddTodoFormEdited()) return; // if add todo prompt has data return
   // Remove event lsitener from the last backgroun image just in case js garbage collector doesn't work as intended
   lastPreloadedImg.removeEventListener('load', preloadBgImgEventHandler.loadBgImgHandler);
   // Set inital opacity
@@ -495,55 +374,9 @@ refreshQuoteBtn.addEventListener('click', () => {
   quotesData && setQuote(quotesData, lastQuoteIndex); // Changes quote
 }); 
 
-introPrompts.addTodoPrompt.btnLm.addEventListener('click', showAddTodoPrompt);
-
-introPrompts.searchTodoPrompt.btnLm.addEventListener('click', showSearchTodoPrompt);
-
-// Search todos at input change.
-searchInputLm.addEventListener('input', e => {
-  filteredTodos = filterTodos(todos, e.target);
-  // generate the todos with the highlighted matched text
-  generateTodosHTML(filteredTodos, e.target.value);
-});
-
-// Prevent default at form submit
-searchTodoFormLm.addEventListener('submit', e => {
-  e.preventDefault();
-});
-
-searchTodoFormLm.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeSearchPrompt();
-  }
-});
 
 clearAllTodosBtn.addEventListener('click', clearAllTodos);
 
-// Add todo.
-addTodoPromptFormLm.addEventListener('submit', e => {
-  e.preventDefault();
-  const { promptLm, btnLm, activeClass, timId, time } = introPrompts.addTodoPrompt;
-
-  if (isTodosLimitReached()) {
-    openInfoDialog('You have reached the maximum limit of 100 todos.',  resetPromptAfterLimitReached.bind(null, promptLm, btnLm, activeClass, timId, time));
-  } 
-  else {
-    addTodo('unshift', addTodoPromptFormLm);
-    checkActiveBtn(btnLm);
-    hidePrompt(promptLm, btnLm, activeClass, timId, time);
-    addTodoPromptFormLm.reset();
-  }
-});
-
-addTodoPromptCloseBtn.addEventListener('click', () => {
-  confirmDiscardAddPromptTypedData();
-});
-
-addTodoPromptFormLm.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    confirmDiscardAddPromptTypedData();
-  }
-});
 
 // Check active section and generates the specific todos HTML needed.
 todosSectionsContainerLm.addEventListener('click', e => {
@@ -568,8 +401,9 @@ todosSectionsContainerLm.addEventListener('click', e => {
   }
 });
 
-// Add events listener functionality to todo buttons.
+// Add events listeners to todo buttons
 todosContainerLm.addEventListener('click', e => {
+  if (isAddTodoFormEdited()) return; // if add todo prompt has data return
   if (e.target.closest('.todo__complete-btn')) {
     // Complete Todo
     const targetId = e.target.closest('li').id;
