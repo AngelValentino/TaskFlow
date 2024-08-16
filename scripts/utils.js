@@ -1,5 +1,3 @@
-let lastFocusedLmBeforeModalOpened;
-
 export function getRandomIndex(arr, lastIndex) {
   const randomIndex = Math.floor(Math.random() * arr.length);
   if (randomIndex !== lastIndex) {
@@ -30,13 +28,16 @@ export function preloadDialogImages() {
   }
 }
 
-export function toggleModalFocus(focusBehaviour, firstFocusableLm) {
+export function toggleModalFocus(focusBehaviour, firstFocusableLm, lastFocusedLm) {
   if (focusBehaviour === 'add') {
-    lastFocusedLmBeforeModalOpened = document.activeElement;
+    const lastFocusedLm = document.activeElement;
     firstFocusableLm.focus();
+    console.log(lastFocusedLm)
+    return lastFocusedLm;
   } 
   else if (focusBehaviour === 'return') {
-    lastFocusedLmBeforeModalOpened.focus();
+    console.log(lastFocusedLm)
+    lastFocusedLm.focus();
   }
 }
 
@@ -183,4 +184,20 @@ export function highlighter(text, highlight, isCompleted) {
       return part;
     }
   }).join(''); // Join the parts back into a single string
+}
+
+export function setActiveBtn(btnLm) {
+  // Check if the button's 'aria-expanded' attribute is set to 'false'
+  if (btnLm.getAttribute('aria-expanded') === 'false') {
+    console.log('true')
+    // If 'aria-expanded' attribute does not exist add the 'btn--active' class to the button
+    btnLm.classList.add('btn--active');
+    btnLm.setAttribute('aria-expanded', true);
+  } 
+  else {  
+    console.log('else')
+    // If 'aria-expanded' attribute exists, remove the 'btn--active' class from the button
+    btnLm.classList.remove('btn--active');
+    btnLm.setAttribute('aria-expanded', false);
+  }
 }

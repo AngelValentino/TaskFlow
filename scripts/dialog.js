@@ -1,7 +1,6 @@
 import { addTodo, deleteTodo } from './data/todo.js';
 import { getTodoInfo } from './main.js';
-import { getRandomNumber, toggleModalFocus, toggleModalEvents } from './utils.js';
-import { checkActiveBtn } from './prompt.js';
+import { getRandomNumber, toggleModalFocus, toggleModalEvents, setActiveBtn } from './utils.js';
 
 // Confirm dialog DOM references
 const confrimDialogContainerLm = document.getElementById('confirm-dialog-container');
@@ -35,6 +34,7 @@ let closeInfoDialogTimId;
 let closeConfirmDialogTimId;
 let openConfirmDialogTimId;
 let lastTargetId;
+let lastFocusedLmBeforeModal;
 
 function closeDialog(modalContentLm, modalContainerLm, modalOverlayLm) {
   document.body.style.overflow = '';
@@ -43,7 +43,7 @@ function closeDialog(modalContentLm, modalContainerLm, modalOverlayLm) {
   modalOverlayLm.style.opacity = 0;
   const timId = setTimeout(() => {
     modalContainerLm.style.display = 'none';
-    toggleModalFocus('return');
+    toggleModalFocus('return', null, lastFocusedLmBeforeModal);
   }, 250);
   return timId;
 }
@@ -53,7 +53,7 @@ function openDialog(timId, firstFocusableLm, modalContentLm, modalContainerLm, m
   document.body.style.overflow = 'hidden';
   modalDescLm && (modalDescLm.innerText = descText);
   modalContainerLm.style.display = 'flex';
-  toggleModalFocus('add', firstFocusableLm);
+  lastFocusedLmBeforeModal = toggleModalFocus('add', firstFocusableLm);
 
   // Added a timeout to ensure the animations always play 
   setTimeout(() => {
@@ -77,7 +77,7 @@ export function openInfoDialog(descText, confirmFun) {
     closeInfoDialogTimId = closeDialog(infoDialogLm, infoDialogContainerLm, infoDialogOverlayLm);
 
     if (clearAllTodosBtn.getAttribute('aria-expanded') === 'true') {
-      checkActiveBtn(clearAllTodosBtn);
+      setActiveBtn(clearAllTodosBtn);
     }
 
     // Remove event listeners
@@ -203,7 +203,7 @@ export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit
     closeConfirmDialogTimId = closeDialog(confirmDialogLm, confrimDialogContainerLm, confrimDailogOveralyLm);
 
     if (clearAllTodosBtn.getAttribute('aria-expanded') === 'true') {
-      checkActiveBtn(clearAllTodosBtn);
+      setActiveBtn(clearAllTodosBtn);
     }
 
     // Remove event listeners

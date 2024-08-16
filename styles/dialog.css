@@ -150,6 +150,12 @@
   transition: max-height 1.5s, transform .5s, margin 0.5s, background-color var(--theme-transition-delay);
 }
 
+.todo-app-prompt.active {
+  max-height: 1000px;
+  transform: translateY(0px);
+  margin: 0 0 20px;
+}
+
 .todo-app-prompt form {
   padding: 35px 30px;
 }
@@ -215,6 +221,11 @@
   transform: translateX(-600px);
   max-height: 0;
   transition: max-height 1.25s , transform 1.25s;
+}
+
+.search-todo-prompt.active {
+  max-height: 1000px;
+  transform: translateX(0px);
 }
 
 .search-todo-prompt__form {

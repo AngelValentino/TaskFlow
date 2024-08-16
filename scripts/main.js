@@ -12,14 +12,12 @@ import {
 } from './dialog.js';
 
 import { 
-  todos, 
-  addTodo, 
+  todos,
   deleteTodo, 
   completeTodo, 
   resetTodos, 
   filterTodos, 
   countIncompletedTodos, 
-  isTodosLimitReached, 
 } from './data/todo.js';
 
 import {
@@ -30,14 +28,14 @@ import {
 
 import { 
   preloadDialogImages,
-  highlighter
+  highlighter,
+  setActiveBtn
 } from './utils.js';
 
 import {
   toggleAddTodoPrompt,
   toggleSearchPrompt,
-  isAddTodoFormEdited,
-  checkActiveBtn
+  isAddTodoFormEdited
 } from './prompt.js';
 
 const backgroundImgLm = document.getElementById('background-image');
@@ -56,32 +54,11 @@ let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 let filteredTodos = [];
 
 
-//TODO Move search and add todo prompt logic into their own file: 'prompt.js'.
-//TODO Improve and refactor search and add todo prompt styles and logic, specially review the timouts clean up.
-//TODO Add close at outside click to add and search todo prompt, reuse toggleModalEvents
-
-
-// function checkActiveBtn(btnLm) {
-//   // Check if the button's 'aria-expanded' attribute is set to 'false'
-//   if (btnLm.getAttribute('aria-expanded') === 'false') {
-//     // If 'aria-expanded' attribute does not exist add the 'btn--active' class to the button
-//     btnLm.classList.add('btn--active');
-//   } 
-//   else {  
-//     // If 'aria-expanded' attribute exists, remove the 'btn--active' class from the button
-//     btnLm.classList.remove('btn--active');
-//   }
-// }
-
-
-
 const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
 searchTodoBtn.addEventListener('click', toggleSearchPrompt);
 
 const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
 addTodoBtn.addEventListener('click', toggleAddTodoPrompt);
-
-
 
 
 const formatCurrentDate = (date) => date.toLocaleDateString('en-US', {dateStyle: 'long'});
@@ -282,7 +259,7 @@ export function generateTodosHTML(todos, highlight) {
 // function showAddTodoPrompt(e) {
 //   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
 //   const addTodoBtnLm = addTodoPrompt.btnLm;
-//   checkActiveBtn(addTodoBtnLm);
+//   setActiveBtn(addTodoBtnLm);
 //   removeLastActivePrompt(searchTodoPrompt);
 //   togglePrompt(addTodoPrompt, e);
 //   checkSearchTodosPlaceholder();
@@ -291,7 +268,7 @@ export function generateTodosHTML(todos, highlight) {
 // function showSearchTodoPrompt(e) {
 //   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
 //   const searchBtnLm = searchTodoPrompt.btnLm;
-//   checkActiveBtn(searchBtnLm);
+//   setActiveBtn(searchBtnLm);
 //   removeLastActivePrompt(addTodoPrompt);
 //   togglePrompt(searchTodoPrompt, e);
 //   resetSearch();
@@ -301,7 +278,7 @@ export function generateTodosHTML(todos, highlight) {
 
 function clearAllTodos() {
   if (isAddTodoFormEdited()) return; // if add todo prompt has data return
-  checkActiveBtn(clearAllTodosBtn);
+  setActiveBtn(clearAllTodosBtn);
   clearAllTodosBtn.setAttribute('aria-expanded', true);
   
   if (todos.length) {
