@@ -1,6 +1,5 @@
 import { generateTodosHTML, getFormData } from '../main.js';
 
-const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 export const todos = JSON.parse(localStorage.getItem('todos')) || [];
 
 export function addTodo(method, form, id, todoData) {

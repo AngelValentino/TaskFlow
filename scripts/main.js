@@ -205,7 +205,10 @@ export function generateTodosHTML(todos, highlight) {
   }
 
   // Display incompleted tasks count.
-  if (incompletedTodosCount === 1) {
+  if (incompletedTodosCount === 0) {
+    tasksLeftLm.innerText = `No tasks left`
+  }
+  else if (incompletedTodosCount === 1) {
     tasksLeftLm.innerText = `${incompletedTodosCount} task left`
   } 
   else {
@@ -243,34 +246,6 @@ export function generateTodosHTML(todos, highlight) {
     generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
   }
 }
-
-// function checkSearchTodosPlaceholder() {
-//   const isSearchEmptyPlaceholder = todosContainerLm.querySelector('#todos-container__empty-search-section-image');
-//   if (isSearchEmptyPlaceholder) {
-//     generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
-//   }
-// }
-
-
-// function showAddTodoPrompt(e) {
-//   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-//   const addTodoBtnLm = addTodoPrompt.btnLm;
-//   setActiveBtn(addTodoBtnLm);
-//   removeLastActivePrompt(searchTodoPrompt);
-//   togglePrompt(addTodoPrompt, e);
-//   checkSearchTodosPlaceholder();
-// }
-
-// function showSearchTodoPrompt(e) {
-//   const { addTodoPrompt, searchTodoPrompt } = introPrompts;
-//   const searchBtnLm = searchTodoPrompt.btnLm;
-//   setActiveBtn(searchBtnLm);
-//   removeLastActivePrompt(addTodoPrompt);
-//   togglePrompt(searchTodoPrompt, e);
-//   resetSearch();
-// }
-
-
 
 function clearAllTodos() {
   if (isAddTodoFormEdited()) return; // if add todo prompt has data return

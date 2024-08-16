@@ -1,0 +1,173 @@
+/* ADD TODO PROMPT */
+
+.todo-app-prompt {
+  position: relative;
+  background-color: var(--dark-accent-color);
+  border-radius: 5px;
+  overflow: hidden;
+  max-height: 0;
+  transform: translateY(-140px);
+  transition: max-height 1.5s, transform .5s, margin 0.5s, background-color var(--base-transition-duration);
+}
+
+.todo-app-prompt.active {
+  max-height: 1000px;
+  transform: translateY(0px);
+  margin: 0 0 20px;
+}
+
+.todo-app-prompt form {
+  padding: 35px 30px;
+}
+
+.todo-app-prompt label {
+  display: block;
+  color: #fff;
+  margin: 0 0 10px;
+}
+
+.todo-app-prompt input, .todo-app-prompt textarea {
+  border: none;
+  padding: 10px;
+}
+
+.todo-app-prompt input {
+  width: 100%;
+  border-radius: 3px;
+  margin: 0 0 25px;
+  background-color: var(--light-accent-color);
+  transition: background-color var(--theme-transition-delay);
+}
+
+.todo-app-prompt textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+  max-height: 250px;
+  border-radius: 3px;
+  margin: 0 0 25px;
+}
+
+.todo-app-prompt__cancel-btn {
+  position: absolute;
+  color: #fff;
+  top: 10px;
+  right: 10px;
+  line-height: 0;
+}
+
+.todo-app-prompt__cancel-btn span {
+  font-size: 1.45em;
+}
+
+.todo-app-prompt__submit-btn {
+  font-weight: bold;
+  background-color: var(--medium-accent-color);
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  width: 100%;
+  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
+}
+
+/* END OF ADD TODO PROMPT */
+
+/* SEARCH TODO PROMPT */
+
+.search-todo-prompt {
+  border-radius: 5px;
+  overflow: hidden;
+  transform: translateX(-600px);
+  max-height: 0;
+  transition: max-height 1.25s , transform 1.25s;
+}
+
+.search-todo-prompt.active {
+  max-height: 1000px;
+  transform: translateX(0px);
+}
+
+.search-todo-prompt__container {
+  margin: 15px auto 30px;
+  max-width: 400px;
+  position: relative;
+}
+
+
+
+.search-todo-prompt__search-icon {
+  width: 1.6rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.3;
+  right: 18px;
+  pointer-events: none;
+  color: var(--medium-accent-color);
+}
+
+.search-todo-prompt__search-icon.active {
+  display: none;
+}
+
+.search-todo-prompt__search-input {
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--medium-accent-color);
+  opacity: 0.6;
+  padding: 10px 50px 10px 20px;
+  border-radius: 50px;
+  transition: opacity 0.15s;
+}
+
+.search-todo-prompt__search-input:focus {
+  outline: none;
+  opacity: 1;
+  border: 2px solid var(--medium-accent-color);
+}
+
+.search-todo-prompt__close-btn {
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  right: 16px;
+  display: none;
+}
+
+.search-todo-prompt__close-btn.active {
+  display: initial;
+}
+
+.search-todo-prompt__close-icon {
+  width: 1.85rem;
+  opacity: 0.3;
+}
+
+.search-todo-prompt__close-btn:hover .search-todo-prompt__close-icon{
+  opacity: 1;
+}
+
+/* END OF SEARCH TODO PROMPT */
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (hover: hover) {
+  .todo-app-prompt__cancel-btn:is(:hover, :focus-visible) > span {
+    font-variation-settings: 'FILL' 1;
+  }
+
+  .todo-app-prompt__submit-btn:is(:hover, :focus-visible) {
+    background-color: var(--contrast-color);
+    color: #000;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .todo__edit-buttons button:is(:hover, :focus-visible) > span {
+    font-variation-settings:'FILL' 1;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */

@@ -27,7 +27,7 @@ fieldset {
 }
 
 html {
-  font-size: 14px;
+  font-size: 16px;
   scrollbar-width: thin;
 }
 
@@ -41,11 +41,11 @@ html {
   --medium-accent-color: #a4a4a4;
   --contrast-color: #9c9c9c;
   --background-image: url(../img/app-background/grey-background.jpg);
-  --theme-transition-delay: 0.15s;
+  --base-transition-duration: 0.15s;
   --light-accent-color: #c3c3c3;
 }
 
-/* END OF ROOT*/
+/* END OF ROOT */
 
 .visually-hidden { 
   border: 0;
@@ -119,16 +119,16 @@ main {
 
 .quote__text, .quote__author {
   color: var(--dark-accent-color);
-  transition: color var(--theme-transition-delay);
+  transition: color var(--base-transition-duration);
 }
 
 .quote__text svg {
-  width: 1.9rem;
+  width: 1.75rem;
   vertical-align: bottom;
 }
 
 .quote__text {
-  font-size: 1.75rem;
+  font-size: 1.53rem;
   font-weight: normal;
   margin: 0 0 25px;
   text-align: center;
@@ -167,22 +167,22 @@ main {
   border-radius: 3px;
   background-color: var(--dark-accent-color);
   color: inherit;
-  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
 .quote__share-with-twitter-btn > svg {
-  width: 1.25rem;
+  width: 1.15rem;
 }
 
 .quote__share-with-tumblr-btn > svg {
-  width: 0.82rem;
+  width: 0.75rem;
 }
 
 .quote__buttons > button {
   background-color: var(--dark-accent-color);
   padding: 0 15px;
   border-radius: 3px;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--base-transition-duration);
 }
 
 /* END OF QUOTE */
@@ -192,7 +192,7 @@ main {
 .todo-app {
   display: flex;
   flex-flow: column;
-  font-size: 1.35rem;
+  font-size: 1.18rem;
   max-width: 600px;
   width: 100%;
   border-radius: 3px;
@@ -218,7 +218,7 @@ main {
   margin: 0 0 20px;
   position: relative;
   z-index: 1;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--base-transition-duration);
 }
 
 .todo-app-intro__info {
@@ -248,7 +248,7 @@ main {
   border-radius: 5px;
   color: #fff;
   padding: 10px;
-  transition: background-color var(--theme-transition-delay), color var(--theme-transition-delay);
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
 .todo-app-intro__add-btn {
@@ -277,8 +277,8 @@ main {
   background-color: #efefef;
   padding: 12px;
   border-radius: 50px;
-  font-size: 0.67em;
-  transition: background-color 0.15s, color 0.15s;
+  font-size: 0.65em;
+  transition: background-color 0.1s, color 0.1s;
 }
 
 .todo-sections h2 {
@@ -316,7 +316,7 @@ main {
   padding: 20px;
   border-radius: 5px;
   margin: 0 0 20px;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--base-transition-duration);
   word-wrap: break-word;
 }
 
@@ -328,7 +328,7 @@ main {
   opacity: 0.8;
   margin: 0 0 15px;
   color: var(--light-accent-color);
-  transition: color var(--theme-transition-delay);
+  transition: color var(--base-transition-duration);
 }
 
 .todo__task-desc {
@@ -370,7 +370,6 @@ main {
 }
 
 @media screen and (max-width: 600px) {
-
   .todos-container__empty-section-image {
     width: 60%;
   }
@@ -381,22 +380,9 @@ main {
 }
 
 @media screen and (max-width: 500px) {
-
-  html {
-    font-size: 14px;
-  }
-
   .quote {
     padding: 40rem 50px;
     min-width: 300px;
-  }
-
-  .todo-app-prompt {
-    transform: translateY(-140px); 
-  }
-
-  .todo-app-prompt form {
-    padding: 25px;
   }
 
   main {
@@ -442,20 +428,9 @@ main {
     transition: background-color 0.15s, color 0.15s;
   }
 
-  .todo-app-prompt__cancel-btn:hover > span {
-    font-variation-settings:'FILL' 1;
-  }
-
-  .todo-app-prompt__submit-btn:hover {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
   .todo-sections > button:hover {
     background-color: var(--contrast-color);
     color: #000;
-    /* transition: background-color 0.1s, color 0.1s; */
   }
 
   .todo__edit-buttons button:hover > span {
@@ -469,12 +444,10 @@ main {
 
 /* MODIFIERS */
 
-
 .btn--active {
   background-color: var(--medium-accent-color);
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--base-transition-duration);
 }
-
 
 .todo__edit-buttons--completed {
   justify-content: end;
@@ -484,7 +457,7 @@ main {
   background-color: var(--contrast-color);
   color: #000;
   text-decoration: line-through;
-  transition: background-color var(--theme-transition-delay);
+  transition: background-color var(--base-transition-duration);
 }
 
 .todo__task-date--completed {
@@ -530,6 +503,7 @@ main {
 
 /* END OF MODIFIERS */
 
+/* LOADER */
 
 .bouncer {
   position: fixed;
@@ -581,4 +555,4 @@ main {
   to { transform: translateY(0) }
 }
 
-/* END OF BOUNCING BALLS */
+/* END OF LOADER */

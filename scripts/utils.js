@@ -73,13 +73,12 @@ const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
   if (matchingClass === '.todo-app-prompt') {
-    //console.log(!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container'))
     if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container')) {
       closeFun();
     }
   } 
   else if (matchingClass === '.search-todo-prompt') {
-    if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__search-btn')) {
+    if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__search-btn') && !e.target.closest('.todo-sections')) {
       closeFun();
     }
   } 
