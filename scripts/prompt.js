@@ -13,8 +13,9 @@ const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
 // Serch todo prompt DOM references
 const searchTodoPromptLm = document.getElementById('search-todo-prompt');
 const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
-const searchTodoFormLm = document.getElementById('search-todo-prompt__form');
 const searchInputLm = document.getElementById('search-todo-prompt__search-input');
+const searchTodoDefaultIcon = document.getElementById('search-todo-prompt__search-icon');
+const searchTodoCloseIcon = document.getElementById('search-todo-prompt__close-btn');
 
 // Events handlers
 const addTodoPromptEventsHandler = {};
@@ -28,6 +29,8 @@ let resetAddTodoFormTimId;
 let hideSearchTodoPromptTimId;
 let searchTodoPromptFirstFocusLmTimId;
 let lastFocusedLmBeforePrompt;
+
+//TODO Reorganize styles, and change application font-size
 
 //* Add todo prompt
 
@@ -138,9 +141,23 @@ export function toggleAddTodoPrompt() {
 
 //* Search prompt
 
+function toggleClearSearchInput(inputLm) {
+  if (inputLm.value === '') {
+    // Return search icon
+    searchTodoCloseIcon.classList.remove('active');
+    searchTodoDefaultIcon.classList.remove('active');
+  } 
+  else {
+    // Add close icon
+    searchTodoCloseIcon.classList.add('active');
+    searchTodoDefaultIcon.classList.add('active');
+  }
+}
+
 function resetSearch() {
   generateTodosHTML(todos);
-  searchTodoFormLm.reset();
+  searchInputLm.value = '';
+  toggleClearSearchInput(searchInputLm);
 }
 
 function hideSearchTodoPrompt() {
@@ -151,15 +168,11 @@ function hideSearchTodoPrompt() {
   // Remove event listeners
   toggleModalEvents(searchTodoPromptEventsHandler, 'remove', null, null, null, document.body);
   searchInputLm.removeEventListener('input', searchTodo);
-  searchTodoFormLm.removeEventListener('submit', preventDefault);
-}
-
-function preventDefault(e) {
-  e.preventDefault();
 }
 
 function searchTodo(e) {
   // generate the todos with the highlighted matched text
+  toggleClearSearchInput(e.target);
   generateTodosHTML(filterTodos(todos, e.target), e.target.value);
 }
 
@@ -172,12 +185,13 @@ export function toggleSearchPrompt() {
     // Add event listeners
     toggleModalEvents(searchTodoPromptEventsHandler, 'add', hideSearchTodoPrompt, null, null, document.body, '.search-todo-prompt');
     searchInputLm.addEventListener('input', searchTodo); // Search todos at input change.
-    searchTodoFormLm.addEventListener('submit', preventDefault); // Prevent default at form submit
   } 
   // Hide Prompt
   else {
     hideSearchTodoPrompt();
   }
 }
+
+searchTodoCloseIcon.addEventListener('click', resetSearch);
 
 //* End of search prompt

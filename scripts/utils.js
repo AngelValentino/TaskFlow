@@ -32,11 +32,9 @@ export function toggleModalFocus(focusBehaviour, firstFocusableLm, lastFocusedLm
   if (focusBehaviour === 'add') {
     const lastFocusedLm = document.activeElement;
     firstFocusableLm.focus();
-    console.log(lastFocusedLm)
     return lastFocusedLm;
   } 
   else if (focusBehaviour === 'return') {
-    console.log(lastFocusedLm)
     lastFocusedLm.focus();
   }
 }
@@ -74,9 +72,8 @@ const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
 
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
-  console.log(e.target)
   if (matchingClass === '.todo-app-prompt') {
-    console.log(!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container'))
+    //console.log(!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container'))
     if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container')) {
       closeFun();
     }
@@ -189,13 +186,11 @@ export function highlighter(text, highlight, isCompleted) {
 export function setActiveBtn(btnLm) {
   // Check if the button's 'aria-expanded' attribute is set to 'false'
   if (btnLm.getAttribute('aria-expanded') === 'false') {
-    console.log('true')
     // If 'aria-expanded' attribute does not exist add the 'btn--active' class to the button
     btnLm.classList.add('btn--active');
     btnLm.setAttribute('aria-expanded', true);
   } 
   else {  
-    console.log('else')
     // If 'aria-expanded' attribute exists, remove the 'btn--active' class from the button
     btnLm.classList.remove('btn--active');
     btnLm.setAttribute('aria-expanded', false);

@@ -46,6 +46,8 @@ const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 const todosSectionsContainerLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
 const todosContainerLm = document.getElementById('todos-container');
+const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
+const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
 const currDate = new Date();
 
 let timBgId;
@@ -53,13 +55,7 @@ let initBgTimId;
 let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 let filteredTodos = [];
 
-
-const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
-searchTodoBtn.addEventListener('click', toggleSearchPrompt);
-
-const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
-addTodoBtn.addEventListener('click', toggleAddTodoPrompt);
-
+//TODO Refactor generateHTML and placeholder logic 
 
 const formatCurrentDate = (date) => date.toLocaleDateString('en-US', {dateStyle: 'long'});
 
@@ -351,9 +347,11 @@ refreshQuoteBtn.addEventListener('click', () => {
   quotesData && setQuote(quotesData, lastQuoteIndex); // Changes quote
 }); 
 
+searchTodoBtn.addEventListener('click', toggleSearchPrompt);
+
+addTodoBtn.addEventListener('click', toggleAddTodoPrompt);
 
 clearAllTodosBtn.addEventListener('click', clearAllTodos);
-
 
 // Check active section and generates the specific todos HTML needed.
 todosSectionsContainerLm.addEventListener('click', e => {
