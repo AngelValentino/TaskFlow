@@ -1,4 +1,5 @@
-import { generateTodosHTML, getFormData } from '../main.js';
+import { generateTodosHTML } from '../main.js';
+import { getFormData } from '../utils.js';
 
 export const todos = JSON.parse(localStorage.getItem('todos')) || [];
 
@@ -47,7 +48,7 @@ export const filterTodos = (todos, input) => todos.filter(todo => todo.task.toLo
 
 export function countIncompletedTodos() {
   let incompletedTodosCounter = 0;
-  todos.forEach(({completed}) => {
+  todos.forEach(({ completed }) => {
     if (!completed) {
       incompletedTodosCounter++;
     }

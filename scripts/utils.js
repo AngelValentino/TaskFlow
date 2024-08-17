@@ -1,3 +1,7 @@
+export const formatCurrentDate = date => date.toLocaleDateString('en-US', { dateStyle: 'long' });
+
+export const formatDate = date => date.split('-').reverse().join('-');
+
 export function getRandomIndex(arr, lastIndex) {
   const randomIndex = Math.floor(Math.random() * arr.length);
   if (randomIndex !== lastIndex) {
@@ -194,4 +198,28 @@ export function setActiveBtn(btnLm) {
     btnLm.classList.remove('btn--active');
     btnLm.setAttribute('aria-expanded', false);
   }
+}
+
+export function getFormData(form, formatDateBoolean, id) {
+  const todoData = {};
+  const allFormInputs = [...form.querySelectorAll('input, textarea')];
+  
+  allFormInputs.forEach(input => {
+    if ((input.name === 'date' && formatDateBoolean)) {
+      todoData[input.name] = formatDate(input.value);
+    }   
+    else {
+      todoData[input.name] = input.value.trim();
+    }
+  });
+
+  if (id) {
+    todoData.id = id;
+  } 
+  else {
+    todoData.id = `task-${Date.now()}`;
+  }
+
+  todoData.completed = false;
+  return todoData;
 }

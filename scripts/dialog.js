@@ -1,6 +1,20 @@
-import { addTodo, deleteTodo } from './data/todo.js';
-import { getTodoInfo } from './main.js';
-import { getRandomNumber, toggleModalFocus, toggleModalEvents, setActiveBtn } from './utils.js';
+import { 
+  addTodo, 
+  deleteTodo 
+} from './data/todo.js';
+
+import { 
+  getTodoInfo 
+} from './main.js';
+
+import { 
+  getRandomNumber, 
+  toggleModalFocus, 
+  toggleModalEvents, 
+  setActiveBtn 
+} from './utils.js';
+
+const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 
 // Confirm dialog DOM references
 const confrimDialogContainerLm = document.getElementById('confirm-dialog-container');
@@ -180,9 +194,6 @@ export function openEditDialog(targetId, todoInfo) {
   toggleModalEvents(eventsHandler, 'add', checkUnsavedChanges, editDialogCloseBtn, editDialogLm, editDialogContainerLm, '.edit-dialog-overlay');
   editDialogFormLm.addEventListener('submit', editTodo);
 }
-
-
-const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
 
 export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit) {
   console.log('confirm modal opened');

@@ -1,8 +1,27 @@
-import { getFormData, generateTodosHTML } from "./main.js";
-import { addTodo, todos } from "./data/todo.js";
-import { openConfirmDialog } from "./dialog.js";
-import { isTodosLimitReached, filterTodos } from "./data/todo.js";
-import { toggleModalEvents, toggleModalFocus, setActiveBtn } from "./utils.js";
+import { 
+  generateTodosHTML 
+} from "./main.js";
+
+import { 
+  addTodo, 
+  todos 
+} from "./data/todo.js";
+
+import { 
+  openConfirmDialog 
+} from "./dialog.js";
+
+import { 
+  isTodosLimitReached, 
+  filterTodos 
+} from "./data/todo.js";
+
+import { 
+  toggleModalEvents, 
+  toggleModalFocus, 
+  setActiveBtn, 
+  getFormData 
+} from "./utils.js";
 
 // Add todo prompt DOM references
 const addTodoBtn = document.getElementById('todo-app-intro__add-btn');

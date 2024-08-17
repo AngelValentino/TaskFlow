@@ -29,7 +29,9 @@ import {
 import { 
   preloadDialogImages,
   highlighter,
-  setActiveBtn
+  setActiveBtn,
+  formatCurrentDate,
+  formatDate,
 } from './utils.js';
 
 import {
@@ -54,40 +56,15 @@ let timBgId;
 let initBgTimId;
 let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 let filteredTodos = [];
+let lastGeneratedHTML = '';
 
-//TODO Refactor generateHTML and placeholder logic 
-
-const formatCurrentDate = (date) => date.toLocaleDateString('en-US', {dateStyle: 'long'});
-
-const formatDate = (value) => value.split('-').reverse().join('-');
-
-export function getFormData(form, formatDateBoolean, id) {
-  const todoData = {};
-  const allFormInputs = [...form.querySelectorAll('input, textarea')];
-  
-  allFormInputs.forEach(input => {
-    if ((input.name === 'date' && formatDateBoolean)) {
-      todoData[input.name] = formatDate(input.value);
-    }   
-    else {
-      todoData[input.name] = input.value.trim();
-    }
-  });
-
-  if (id) {
-    todoData.id = id;
-  } 
-  else {
-    todoData.id = `task-${Date.now()}`;
-  }
-
-  todoData.completed = false;
-  return todoData;
-}
+//TODO Add horizontal styles to add todo form
+//TODO App review
+//TODO Add pomodoro timer
 
 function addTodoInfoToEditForm(targetId, formInputs, isCurrent, todoData) {
   if (isCurrent) {
-    formInputs.forEach((input) => {
+    formInputs.forEach(input => {
       if (input.name === 'date') {
         input.value = formatDate(todoData[input.name]);
       } 
@@ -97,9 +74,9 @@ function addTodoInfoToEditForm(targetId, formInputs, isCurrent, todoData) {
     });
   } 
   else {
-    todos.forEach((todo) => {
+    todos.forEach(todo => {
       if (todo.id === targetId) {
-        formInputs.forEach((input) => {
+        formInputs.forEach(input => {
           if (input.name === 'date') {
             input.value = formatDate(todo[input.name]);
           } 
@@ -115,23 +92,23 @@ function addTodoInfoToEditForm(targetId, formInputs, isCurrent, todoData) {
 export function getTodoInfo(formDialogLm) {
   const formInputs = formDialogLm.querySelectorAll('input, textarea');
   const todoInfo = {};
-  formInputs.forEach((input) => {
+  formInputs.forEach(input => {
     todoInfo[input.name] = input.value;
   })
   return todoInfo;
 }
 
 function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
-  sectionBtnLms.forEach((sectionBtn) => {
+  sectionBtnLms.forEach(sectionBtn => {
     if (sectionBtn.matches(btnToAddId)) {
-      sectionBtn.classList.add('todo-sections--active-btn');
+      sectionBtn.classList.add('active');
       sectionBtn.setAttribute('aria-expanded', true);
     } 
     else {
-      sectionBtn.classList.remove('todo-sections--active-btn');
+      sectionBtn.classList.remove('active');
       sectionBtn.setAttribute('aria-expanded', false);
     }
-  }); 
+  });
 }
 
 function setCurrentSectionToStorage(sectionId) {
@@ -142,21 +119,22 @@ function setCurrentSectionToStorage(sectionId) {
 function getLastActiveSection() {
   if (!lastPickedSection) {
     const allBtnLm = document.getElementById('todo-sections__all-btn');
-    allBtnLm.classList.add('todo-sections--active-btn');
+    allBtnLm.classList.add('active');
     allBtnLm.setAttribute('aria-expanded', true);
-  } else {
+  } 
+  else {
     const lastPickedSectionBtn =  document.getElementById(lastPickedSection);
-    lastPickedSectionBtn.classList.add('todo-sections--active-btn');
+    lastPickedSectionBtn.classList.add('active');
     lastPickedSectionBtn.setAttribute('aria-expanded', true);
   }
 }
 
 function generatePlaceholderImageHTML(imgUrl, id) {
   todosContainerLm.innerHTML = `
-  <li class="todos-container__img-container">
-    <img id="${id}" class="todos-container__empty-section-image" src="${imgUrl}" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile"/>
-  </li>
-`;
+    <li class="todos-container__img-container">
+      <img id="${id}" class="todos-container__empty-section-image" src="${imgUrl}" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile" />
+    </li>
+  `;
 }
 
 export function generateTodosHTML(todos, highlight) {
@@ -168,76 +146,83 @@ export function generateTodosHTML(todos, highlight) {
   
   function generateTaskHTML(todo, highlight) {
     return `
-    <li id="${todo.id}" class="todo">
-      <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h3>
-      <p class="todo__task-date">${todo.date}</p>
-      <p class="todo__task-desc">${todo.description}</p>
-      <div class="todo__edit-buttons">
-        <button title="Complete task" class="todo__complete-btn" aria-label="Complete todo." type="button">
-          <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
-        </button>
-        <div>
-          <button title="Edit task" class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
-            <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
+      <li id="${todo.id}" class="todo">
+        <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h3>
+        <p class="todo__task-date">${todo.date}</p>
+        <p class="todo__task-desc">${todo.description}</p>
+        <div class="todo__edit-buttons">
+          <button title="Complete task" class="todo__complete-btn" aria-label="Complete todo." type="button">
+            <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
           </button>
-          <button title="Delete task" class="todo__delete-btn" aria-label="Delete todo." type="button">
+          <div>
+            <button title="Edit task" class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
+              <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
+            </button>
+            <button title="Delete task" class="todo__delete-btn" aria-label="Delete todo." type="button">
+              <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </div>
+      </li>
+    `;
+  }
+
+  function generateCompletedTaskHTML(todo, highlight) {
+    return `
+      <li id="${todo.id}" class="todo completed">
+        <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h3>
+        <p class="todo__task-date">${todo.date}</p>
+        <p class="todo__task-desc">${todo.description}</p>
+        <div class="todo__edit-buttons">
+          <button title="Delete completed task" class="todo__delete-btn" aria-label="Delete todo." type="button">
             <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
           </button>
         </div>
-      </div>
-    </li>
-  `;
+      </li>
+    `;
   }
 
-  function genereateCompletedTaskHTML(todo, highlight) {
-    return `
-    <li id="${todo.id}" class="todo todo--completed">
-      <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h3>
-      <p class="todo__task-date todo__task-date--completed">${todo.date}</p>
-      <p class="todo__task-desc">${todo.description}</p>
-      <div class="todo__edit-buttons todo__edit-buttons--completed">
-        <button title="Delete completed task" class="todo__delete-btn" aria-label="Delete todo." type="button">
-          <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
-        </button>
-      </div>
-    </li>
-  `;
-  }
-
-  // Display incompleted tasks count.
+  // Update tasks left text
   if (incompletedTodosCount === 0) {
     tasksLeftLm.innerText = `No tasks left`
   }
   else if (incompletedTodosCount === 1) {
-    tasksLeftLm.innerText = `${incompletedTodosCount} task left`
+    tasksLeftLm.innerText = `1 task left`
   } 
   else {
     tasksLeftLm.innerText = `${incompletedTodosCount} tasks left`
   }
   
-  // Display Todos.
-  if (allBtnLm.matches('.todo-sections--active-btn')) {
+  // Generate Todos HTML based on the active section
+  if (allBtnLm.matches('.active')) {
     // All section HTML
     generatedHTML = todos
-    .map(todo => todo.completed ? genereateCompletedTaskHTML(todo, highlight) : generateTaskHTML(todo, highlight))
-    .join('');
+      .map(todo => todo.completed ? generateCompletedTaskHTML(todo, highlight) : generateTaskHTML(todo, highlight))
+      .join('');
   } 
-  else if (tasksBtnLm.matches('.todo-sections--active-btn')) {
+  else if (tasksBtnLm.matches('.active')) {
     // Tasks section HTML
     generatedHTML = todos
-    .filter(todo => !todo.completed)
-    .map(todo => generateTaskHTML(todo, highlight))
-    .join('');
+      .filter(todo => !todo.completed)
+      .map(todo => generateTaskHTML(todo, highlight))
+      .join('');
   } 
-  else if (completedBtnLm.matches('.todo-sections--active-btn')) {
+  else if (completedBtnLm.matches('.active')) {
     // Completed Section HTML
     generatedHTML = todos
-    .filter(todo => todo.completed)
-    .map(todo => genereateCompletedTaskHTML(todo, highlight))
-    .join('');
+      .filter(todo => todo.completed)
+      .map(todo => generateCompletedTaskHTML(todo, highlight))
+      .join('');
   }
 
+  // Compares the newly generated HTML with the existing one. If they are identical, exit early
+  // Note: The placeholder image is still generated when the "todo" section is empty
+  if (generatedHTML === lastGeneratedHTML && generatedHTML !== '') return;
+  lastGeneratedHTML = generatedHTML;
+
   todosContainerLm.innerHTML = generatedHTML;
+
+  // Generate todos placeholder
 
   if (todosContainerLm.innerHTML === '' && searchTodoBtn.getAttribute('aria-expanded') === 'true') {
     generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara-todos.png', 'todos-container__empty-search-section-image');
@@ -262,7 +247,7 @@ function clearAllTodos() {
 
 // Checks if search is active and generates its specific empty section placeholder image.
 function generateSpecificSectionHTML() {
-  if (!filteredTodos.length && searchTodoBtn.getAttribute('aria-expanded') === 'false') {
+  if (filteredTodos.length === 0 && searchTodoBtn.getAttribute('aria-expanded') === 'false') {
     generateTodosHTML(todos);
   } 
   else {
@@ -308,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Set theme and quote
 refreshQuoteBtn.addEventListener('click', () => {
   if (isAddTodoFormEdited()) return; // if add todo prompt has data return
   // Remove event lsitener from the last backgroun image just in case js garbage collector doesn't work as intended
@@ -332,7 +318,7 @@ clearAllTodosBtn.addEventListener('click', clearAllTodos);
 todosSectionsContainerLm.addEventListener('click', e => {
   const sectionBtnLms = document.querySelectorAll('#todo-sections button');
   if (e.target.closest('#todo-sections__all-btn')) {
-    // All
+    // All todos
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__all-btn');
     generateSpecificSectionHTML();
     setCurrentSectionToStorage('todo-sections__all-btn');
@@ -344,7 +330,7 @@ todosSectionsContainerLm.addEventListener('click', e => {
     setCurrentSectionToStorage('todo-sections__tasks-btn');
   } 
   else if (e.target.closest('#todo-sections__completed-btn')) {
-    // Completed
+    // Completed todos
     changeActiveSectionBtn(sectionBtnLms, '#todo-sections__completed-btn');
     generateSpecificSectionHTML();
     setCurrentSectionToStorage('todo-sections__completed-btn');

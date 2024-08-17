@@ -259,7 +259,7 @@ main {
   width: 1.3em;
 }
 
-.todo-app-intro__add-btn > svg {
+.todo-app-intro__add-btn svg {
   width: 1.6em;
 }
 
@@ -281,6 +281,13 @@ main {
   transition: background-color 0.1s, color 0.1s;
 }
 
+.todo-sections__all-btn.active,
+.todo-sections__tasks-btn.active,
+.todo-sections__completed-btn.active {
+  background-color: #222;
+  color: #fff;
+}
+
 .todo-sections h2 {
   font-weight: normal;
 }
@@ -300,12 +307,14 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
   padding: 0 0 40px;
+  height: 100%;
+  background-color: rgb(248, 248, 248);
+  border-radius: 5px;
 }
 
 .todos-container__empty-section-image {
-  width: 50%;
+  width: 200px;
 }
 
 /* END OF PLACEHOLDER IMAGE*/
@@ -320,6 +329,13 @@ main {
   word-wrap: break-word;
 }
 
+.todo.completed {
+  background-color: var(--contrast-color);
+  color: #000;
+  text-decoration: line-through;
+  transition: background-color var(--base-transition-duration);
+}
+
 .todo__task-name {
   margin: 0 0 5px;
 }
@@ -331,6 +347,10 @@ main {
   transition: color var(--base-transition-duration);
 }
 
+.todo.completed .todo__task-date {
+  color: #000;
+}
+
 .todo__task-desc {
   margin: 0 0 22px;
 }
@@ -339,6 +359,10 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.todo.completed .todo__edit-buttons {
+  justify-content: end;
 }
 
 .todo__edit-buttons button {
@@ -370,10 +394,6 @@ main {
 }
 
 @media screen and (max-width: 600px) {
-  .todos-container__empty-section-image {
-    width: 60%;
-  }
-
   .todo-app-intro__info {
     font-size: 0.7em;
   }
@@ -396,49 +416,63 @@ main {
   .quote {
     padding: 30px 40px;
   }
-
-  .todos-container__empty-section-image {
-    width: 65%;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .todos-container__empty-section-image {
-    width: 75%;
-  }
 }
 
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (hover: hover) {
-  .quote__buttons button:hover {
+  .quote__buttons button:is(:hover, :focus-visible) {
     background-color: var(--medium-accent-color);
-    transition: background-color 0.15s;
   }
 
-  .quote__buttons a:hover {
+  .quote__buttons a:is(:hover, :focus-visible) {
     color: #000;
     background-color: var(--contrast-color);
-    transition: background-color 0.15s, color 0.15s;
   }
 
-  .todo-app-intro__buttons > button:hover {
+  .todo-app-intro__buttons > button:is(:hover, :focus-visible) {
     color: #000;
     background-color: var(--medium-accent-color);
-    transition: background-color 0.15s, color 0.15s;
   }
 
-  .todo-sections > button:hover {
-    background-color: var(--contrast-color);
-    color: #000;
+  .todo-sections > button:not(.active):is(:hover, :focus-visible) {
+    background-color: #222;
+    color: white;
+  }
+  
+  .todo-sections > button.active:is(:hover, :focus-visible) {
+    cursor: default;
   }
 
-  .todo__edit-buttons button:hover > span {
+  .todo__edit-buttons button:is(:hover, :focus-visible) > span {
     font-variation-settings:'FILL' 1;
   }
 }
 
 /* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+button:active, 
+link:active {
+  opacity: 0.7;
+}
+
+.todo-sections > button:not(.active):active {
+  opacity: 0.7;
+}
+
+button:active, 
+link:active {
+  opacity: 0.7;
+}
+
+.todo-sections > button.active:active {
+  opacity: 1;
+}
+
+
+/* END OF ACTIVE */
 
 /* END OF MEDIA QUERIES*/
 
@@ -447,30 +481,6 @@ main {
 .btn--active {
   background-color: var(--medium-accent-color);
   transition: background-color var(--base-transition-duration);
-}
-
-.todo__edit-buttons--completed {
-  justify-content: end;
-}
-
-.todo--completed {
-  background-color: var(--contrast-color);
-  color: #000;
-  text-decoration: line-through;
-  transition: background-color var(--base-transition-duration);
-}
-
-.todo__task-date--completed {
-  color: #000;
-}
-
-.todo-sections--active-btn {
-  background-color: #000;
-  color: #fff;
-}
-
-.todo-app-intro__clear-btn--active {
-  background-color: var(--medium-accent-color);
 }
 
 @keyframes fade {
