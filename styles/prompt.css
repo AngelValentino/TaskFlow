@@ -16,7 +16,7 @@
   margin: 0 0 20px;
 }
 
-.todo-app-prompt form {
+.todo-app-prompt__form {
   padding: 35px 30px;
 }
 
@@ -171,3 +171,19 @@
 }
 
 /* END OF HOVER CAPABLE DEVICES */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-height: 700px) and (min-width: 550px) {
+  .todo-app-prompt__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .todo-app-prompt__submit-btn {
+    grid-column: span 2;
+  }
+}
+
+/* END OF MEDIA QUERIES */

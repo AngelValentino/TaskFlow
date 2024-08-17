@@ -58,7 +58,7 @@ let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
 let filteredTodos = [];
 let lastGeneratedHTML = '';
 
-//TODO Add horizontal styles to add todo form
+
 //TODO App review
 //TODO Add pomodoro timer
 
