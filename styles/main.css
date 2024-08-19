@@ -1,6 +1,8 @@
 /* RESET */
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -8,8 +10,8 @@
 
 button {
   border: none;
-  background-color: transparent;
   padding: 0;
+  background-color: transparent;
 }
 
 button, input, textarea {
@@ -122,7 +124,7 @@ main {
   transition: color var(--base-transition-duration);
 }
 
-.quote__text svg {
+.quote__quotes-icon {
   width: 1.75rem;
   vertical-align: bottom;
 }
@@ -157,7 +159,8 @@ main {
   gap: 5px;
 }
 
-.quote__buttons a {
+.quote__share-with-twitter-btn,
+.quote__share-with-tumblr-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,15 +173,15 @@ main {
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
-.quote__share-with-twitter-btn > svg {
+.quote__share-with-twitter-icon {
   width: 1.15rem;
 }
 
-.quote__share-with-tumblr-btn > svg {
+.quote__share-with-tumblr-icon {
   width: 0.75rem;
 }
 
-.quote__buttons > button {
+.quote__new-quote-btn {
   background-color: var(--dark-accent-color);
   padding: 0 15px;
   border-radius: 3px;
@@ -206,6 +209,8 @@ main {
   scrollbar-gutter: stable both-edges;
 }
 
+/* END OF TODO APP */
+
 /* _TODO APP INTRO */
 
 .todo-app-intro {
@@ -230,7 +235,7 @@ main {
   font-size: 0.75em;
 }
 
-.todo-app-intro__tasks-left{
+.todo-app-intro__tasks-left {
   font-weight: normal;
 }
 
@@ -255,15 +260,16 @@ main {
   grid-row: span 2;
 }
 
-.todo-app-intro__buttons svg {
+.todo-app-intro__search-icon,
+.todo-app-intro__clear-icon {
   width: 1.3em;
 }
 
-.todo-app-intro__add-btn svg {
+.todo-app-intro__add-icon {
   width: 1.6em;
 }
 
-/* END OF TODO APP INTRO*/
+/* END OF TODO APP INTRO */
 
 /* _TODO APP SECTIONS */
 
@@ -292,96 +298,100 @@ main {
   font-weight: normal;
 }
 
-/* END OF TODO APP SECTIONS*/
+/* END OF TODO APP SECTIONS */
 
-/* START OF TODOS CONTAINER */
+/* _TODOS CONTAINER */
 
-.todos-container {
-  list-style-type: none;
-  flex: 1;
-}
+  .todos-container {
+    list-style-type: none;
+    flex: 1;
+  }
 
-/* PLACEHOLDER IMAGE */
+  /* PLACEHOLDER IMAGE */
 
-.todos-container__img-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0 40px;
-  height: 100%;
-  background-color: rgb(248, 248, 248);
-  border-radius: 5px;
-}
+  .todos-container__img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 40px;
+    height: 100%;
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+  }
 
-.todos-container__empty-section-image {
-  width: 200px;
-}
+  .todos-container__empty-section-image {
+    width: 200px;
+  }
 
-/* END OF PLACEHOLDER IMAGE*/
+  /* END OF PLACEHOLDER IMAGE*/
 
-.todo {
-  color: #fff;
-  background-color: var(--dark-accent-color);
-  padding: 20px;
-  border-radius: 5px;
-  margin: 0 0 20px;
-  transition: background-color var(--base-transition-duration);
-  word-wrap: break-word;
-}
+  .todo {
+    color: #fff;
+    background-color: var(--dark-accent-color);
+    padding: 20px;
+    border-radius: 5px;
+    margin: 0 0 20px;
+    transition: background-color var(--base-transition-duration);
+    word-wrap: break-word;
+  }
 
-.todo.completed {
-  background-color: var(--contrast-color);
-  color: #000;
-  text-decoration: line-through;
-  transition: background-color var(--base-transition-duration);
-}
+  .todo.completed {
+    background-color: var(--contrast-color);
+    color: #000;
+    text-decoration: line-through;
+    transition: background-color var(--base-transition-duration);
+  }
 
-.todo__task-name {
-  margin: 0 0 5px;
-}
+  .todo__task-name {
+    margin: 0 0 5px;
+  }
 
-.todo__task-date {
-  opacity: 0.8;
-  margin: 0 0 15px;
-  color: var(--light-accent-color);
-  transition: color var(--base-transition-duration);
-}
+  .todo__task-date {
+    opacity: 0.8;
+    margin: 0 0 15px;
+    color: var(--light-accent-color);
+    transition: color var(--base-transition-duration);
+  }
 
-.todo.completed .todo__task-date {
-  color: #000;
-}
+  .todo.completed .todo__task-date {
+    color: #000;
+  }
 
-.todo__task-desc {
-  margin: 0 0 22px;
-}
+  .todo__task-desc {
+    margin: 0 0 22px;
+  }
 
-.todo__edit-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .todo__edit-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.todo.completed .todo__edit-buttons {
-  justify-content: end;
-}
+  .todo.completed .todo__edit-buttons {
+    justify-content: end;
+  }
 
-.todo__edit-buttons button {
-  line-height: 0;
-}
+  .todo__edit-buttons button {
+    line-height: 0;
+    border-radius: 5px;
+  }
 
-.todo__edit-buttons > div {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+  .todo__edit-buttons > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-.todo__edit-buttons span {
-  font-size: 1.45em;
-}
+  .todo__complete-icon,
+  .todo__edit-icon {
+    font-size: 1.45em;
+  }
+
+  .todo__delete-icon {
+    font-size: 1.5em;
+  }
 
 /* END OF TODOS CONTAINER */
-
-/* END OF TODO APP */
 
 /* MEDIA QUERIES */
 
@@ -425,7 +435,8 @@ main {
     background-color: var(--medium-accent-color);
   }
 
-  .quote__buttons a:is(:hover, :focus-visible) {
+  .quote__share-with-twitter-btn:is(:hover, :focus-visible),
+  .quote__share-with-tumblr-btn:is(:hover, :focus-visible) {
     color: #000;
     background-color: var(--contrast-color);
   }
@@ -436,8 +447,7 @@ main {
   }
 
   .todo-sections > button:not(.active):is(:hover, :focus-visible) {
-    background-color: #222;
-    color: white;
+    background-color: var(--contrast-color);
   }
   
   .todo-sections > button.active:is(:hover, :focus-visible) {
@@ -453,22 +463,37 @@ main {
 
 /* ACTIVE */
 
-button:active, 
-link:active {
-  opacity: 0.7;
+.quote__buttons button:active {
+  transition: none;
+  color: #000;
+  background-color: var(--contrast-color)
+}
+
+.quote__share-with-twitter-btn:active,
+.quote__share-with-tumblr-btn:active {
+  color: #000;
+  transition: none;
+  background-color: var(--light-accent-color);
+}
+
+.todo-app-intro__buttons > button:active {
+  transition: none;
+  background-color: var(--contrast-color);
+}
+
+.todo__complete-btn:active,
+.todo__edit-btn:active,
+.todo__delete-btn:active {
+  color: var(--contrast-color);
+}
+
+.todo.completed .todo__delete-btn:active {
+  color: var(--light-accent-color);
 }
 
 .todo-sections > button:not(.active):active {
-  opacity: 0.7;
-}
-
-button:active, 
-link:active {
-  opacity: 0.7;
-}
-
-.todo-sections > button.active:active {
-  opacity: 1;
+  background-color: #222;
+  color: white;
 }
 
 
@@ -481,19 +506,6 @@ link:active {
 .btn--active {
   background-color: var(--medium-accent-color);
   transition: background-color var(--base-transition-duration);
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.load-quote {
-  animation: fade 1.5s ease-out infinite alternate;
 }
 
 .highlighted, .highlighted-2 {
@@ -513,56 +525,77 @@ link:active {
 
 /* END OF MODIFIERS */
 
-/* LOADER */
+/* LOADERS */
 
-.bouncer {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  padding-top: 100px;
-  gap: 0.4rem;
-  z-index: 20;
-}
+  /* QUOTE LOADER */
 
-.bouncer div {
-  --bounce-animation-duration: 0.5s;
-  width: 1.35rem;
-  height: 1.35rem;
-  background: #0077ff;
-  border-radius: 50%;
-  animation: 
-    bounce var(--bounce-animation-duration) cubic-bezier(.19,.57,.3,.98) infinite alternate 0.5s, 
-    fallDown var(--bounce-animation-duration) cubic-bezier(.67,.11,1,.43);
-}
+  .load-quote {
+    animation: fade 1.5s ease-out infinite alternate;
+  }
 
-.bouncer div:nth-child(2) {
-  opacity: 0.8;
-  animation-delay: 0.6s, 0s;
-  animation-duration: var(--bounce-animation-duration), 0.6s;
-}
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 
-.bouncer div:nth-child(3) {
-  opacity: 0.6;
-  animation-delay: 0.7s, 0s;
-  animation-duration: var(--bounce-animation-duration), 0.7s;
-}
+  /* END OF QUOTE LOADER */
 
-.bouncer div:nth-child(4) {
-  opacity: 0.4;
-  animation-delay: 0.8s, 0s;
-  animation-duration: var(--bounce-animation-duration), 0.8s;
-}
+  /* BOUNCING BALLS LOADER */
 
-@keyframes bounce {
-  from { transform: translateY(0) }
-  to { transform: translateY(-100px) }
-}
+  .bouncer {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    padding-top: 100px;
+    gap: 0.4rem;
+    z-index: 20;
+  }
 
-@keyframes fallDown {
-  from { transform: translateY(-100px) }
-  to { transform: translateY(0) }
-}
+  .bouncer div {
+    --bounce-animation-duration: 0.5s;
+    width: 1.35rem;
+    height: 1.35rem;
+    background: #0077ff;
+    border-radius: 50%;
+    animation: 
+      bounce var(--bounce-animation-duration) cubic-bezier(.19,.57,.3,.98) infinite alternate 0.5s, 
+      fallDown var(--bounce-animation-duration) cubic-bezier(.67,.11,1,.43);
+  }
 
-/* END OF LOADER */
+  .bouncer div:nth-child(2) {
+    opacity: 0.8;
+    animation-delay: 0.6s, 0s;
+    animation-duration: var(--bounce-animation-duration), 0.6s;
+  }
+
+  .bouncer div:nth-child(3) {
+    opacity: 0.6;
+    animation-delay: 0.7s, 0s;
+    animation-duration: var(--bounce-animation-duration), 0.7s;
+  }
+
+  .bouncer div:nth-child(4) {
+    opacity: 0.4;
+    animation-delay: 0.8s, 0s;
+    animation-duration: var(--bounce-animation-duration), 0.8s;
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0) }
+    to { transform: translateY(-100px) }
+  }
+
+  @keyframes fallDown {
+    from { transform: translateY(-100px) }
+    to { transform: translateY(0) }
+  }
+
+  /* END OF BOUNCING BALLS LOADER */
+
+/* END OF LOADERS */

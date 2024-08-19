@@ -58,7 +58,6 @@ export function countIncompletedTodos() {
 
 export function isTodosLimitReached() {
   const incompletedTodosCounter = countIncompletedTodos();
-  // The code checks the todos count before generating the first one, it's needed for the submit limit validation. So we have to check if it is equal to 100 because it will begin with 0 when we already have one task. If we wouldnt't do that the limit will go up to 101, not 100.
   if (incompletedTodosCounter >= 100) {
     return 1;
   } 

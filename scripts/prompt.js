@@ -8,7 +8,8 @@ import {
 } from "./data/todo.js";
 
 import { 
-  openConfirmDialog 
+  openConfirmDialog,
+  openInfoDialog
 } from "./dialog.js";
 
 import { 
@@ -25,9 +26,9 @@ import {
 
 // Add todo prompt DOM references
 const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
-const addTodoPromptLm = document.getElementById('todo-app-prompt');
-const addTodoPromptCloseBtn = document.getElementById('todo-app-prompt__cancel-btn');
-const addTodoPromptFormLm = document.getElementById('todo-app-prompt__form');
+const addTodoPromptLm = document.getElementById('add-todo-prompt');
+const addTodoPromptCloseBtn = document.getElementById('add-todo-prompt__close-btn');
+const addTodoPromptFormLm = document.getElementById('add-todo-prompt__form');
 
 // Serch todo prompt DOM references
 const searchTodoPromptLm = document.getElementById('search-todo-prompt');
@@ -47,15 +48,12 @@ let addTodoPromptFirstFocusLmTimId;
 let resetAddTodoFormTimId;
 let hideSearchTodoPromptTimId;
 let searchTodoPromptFirstFocusLmTimId;
-let lastFocusedLmBeforePrompt;
-
-//TODO Reorganize styles, and change application font-size
 
 //* Add todo prompt
 
 function hidePrompt(focusFirstLmTimId, btnLm, promptLm, time) {
   clearTimeout(focusFirstLmTimId);
-  toggleModalFocus('return', null, lastFocusedLmBeforePrompt);
+  toggleModalFocus('return', null, btnLm);
   setActiveBtn(btnLm)
   // Remove the specified class from the prompt element to update its visibility
   promptLm.classList.remove('active');
@@ -78,7 +76,7 @@ function showPrompt(hidePromptTimId, promptLm, btnLm, time, firstFocusableLm) {
   }, 20);
 
   const focusFirstLmTimId = setTimeout(() => {
-    lastFocusedLmBeforePrompt = toggleModalFocus('add', firstFocusableLm);
+    toggleModalFocus('add', firstFocusableLm);
   }, time);
 
   return focusFirstLmTimId;
@@ -99,11 +97,6 @@ function resetAddTodoForm() {
   resetAddTodoFormTimId = setTimeout(() => {
     hideAddTodoPrompt();
   }, 250);
-}
-
-function resetAddTodoFormOnTodoLimit() {
-  hideAddTodoPrompt();
-  addTodoPromptFormLm.reset();
 }
 
 export function isAddTodoFormEdited() {
@@ -131,11 +124,11 @@ function submitTodoInfo(e) {
   e.preventDefault();
 
   if (isTodosLimitReached()) {
-    openInfoDialog('You have reached the maximum limit of 100 todos.',  resetAddTodoFormOnTodoLimit);
+    openInfoDialog('You have reached the maximum limit of 100 todos.',  resetAddTodoForm);
   } 
   else {
     addTodo('unshift', addTodoPromptFormLm);
-    hideAddTodoPrompt()
+    hideAddTodoPrompt();
     addTodoPromptFormLm.reset();
   }
 }
@@ -147,7 +140,7 @@ export function toggleAddTodoPrompt() {
     clearTimeout(resetAddTodoFormTimId);
 
     // Add event listeners
-    toggleModalEvents(addTodoPromptEventsHandler, 'add', confirmDiscardPromptData, addTodoPromptCloseBtn, addTodoPromptLm, document.body, '.todo-app-prompt');
+    toggleModalEvents(addTodoPromptEventsHandler, 'add', confirmDiscardPromptData, addTodoPromptCloseBtn, addTodoPromptLm, document.body, '.add-todo-prompt');
     addTodoPromptFormLm.addEventListener('submit', submitTodoInfo);
   }
   // Hide prompt

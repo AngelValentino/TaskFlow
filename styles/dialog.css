@@ -78,12 +78,12 @@
   padding: 12px 18px;
   color: #fff;
   border-radius: 3px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
-.edit-dialog__close-btn span,
-.confrim-dialog__close-btn span,
-.info-dialog__close-btn span {
+.edit-dialog__close-btn .edit-dialog__close-icon,
+.confrim-dialog__close-btn .confrim-dialog__close-icon,
+.info-dialog__close-btn .info-dialog__close-icon {
   font-size: 1.4em;
 }
 
@@ -133,7 +133,7 @@
   border-radius: 5px;
   color: #fff;
   width: 100%;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
 /* END OF EDIT DIALOG */
@@ -143,26 +143,39 @@
 @media screen and (hover: hover) {
   .confirm-dialog__accept-btn:is(:hover, :focus-visible),
   .confirm-dialog__cancel-btn:is(:hover, :focus-visible),
-  .info-dialog__accept-btn:is(:hover, :focus-visible) {
-    background-color: var(--contrast-color);
-    color: #000;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .edit-dialog__close-btn:is(:hover, :focus-visible) span,
-  .confrim-dialog__close-btn:is(:hover, :focus-visible) span,
-  .info-dialog__close-btn:is(:hover, :focus-visible) span {
-    font-variation-settings:'FILL' 1;
-  }
-
+  .info-dialog__accept-btn:is(:hover, :focus-visible),
   .edit-dialog__submit-btn:is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
     color: #000;
-    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .edit-dialog__close-btn:is(:hover, :focus-visible) .edit-dialog__close-icon,
+  .confrim-dialog__close-btn:is(:hover, :focus-visible) .confrim-dialog__close-icon,
+  .info-dialog__close-btn:is(:hover, :focus-visible) .info-dialog__close-icon {
+    font-variation-settings:'FILL' 1;
   }
 }
 
 /* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.confirm-dialog__accept-btn:active,
+.confirm-dialog__cancel-btn:active,
+.info-dialog__accept-btn:active,
+.edit-dialog__submit-btn:active {
+  transition: none;
+  background-color: var(--light-accent-color);
+  color: #000;
+}
+
+.edit-dialog__close-btn:active,
+.confrim-dialog__close-btn:active,
+.info-dialog__close-btn:active {
+  color: #ff4f33;
+}
+
+/* END OF ACTIVE */
 
 /* MEDIA QUERIES */
 

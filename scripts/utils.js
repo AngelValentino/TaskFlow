@@ -70,19 +70,33 @@ export function trapFocus(e, element) {
 
 // Event handler function for closing modal on Escape key
 const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
-  if (e.key === 'Escape' && matchingClass === '.todo-app-prompt' && document.body.style.overflow === 'hidden') return;
+  if (
+    e.key === 'Escape' && 
+    matchingClass === '.add-todo-prompt' && 
+    document.body.style.overflow === 'hidden'
+  ) return;
+  
   if (e.key === 'Escape') closeFun();
 };
 
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
-  if (matchingClass === '.todo-app-prompt') {
-    if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__add-btn') && !e.target.closest('.confirm-dialog-container')) {
+  if (matchingClass === '.add-todo-prompt') {
+    if (
+      !e.target.closest(matchingClass) && 
+      !e.target.closest('.todo-app-intro__add-btn') && 
+      !e.target.closest('.confirm-dialog-container') && 
+      !e.target.closest('.info-dialog-container')
+    ) {
       closeFun();
     }
   } 
   else if (matchingClass === '.search-todo-prompt') {
-    if (!e.target.closest(matchingClass) && !e.target.closest('.todo-app-intro__search-btn') && !e.target.closest('.todo-sections')) {
+    if (
+      !e.target.closest(matchingClass) && 
+      !e.target.closest('.todo-app-intro__search-btn') && 
+      !e.target.closest('.todo-sections')
+    ) {
       closeFun();
     }
   } 
@@ -205,7 +219,7 @@ export function getFormData(form, formatDateBoolean, id) {
   const allFormInputs = [...form.querySelectorAll('input, textarea')];
   
   allFormInputs.forEach(input => {
-    if ((input.name === 'date' && formatDateBoolean)) {
+    if (input.name === 'date' && formatDateBoolean) {
       todoData[input.name] = formatDate(input.value);
     }   
     else {

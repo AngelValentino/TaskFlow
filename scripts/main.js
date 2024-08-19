@@ -54,39 +54,26 @@ const currDate = new Date();
 
 let timBgId;
 let initBgTimId;
-let lastPickedSection = localStorage.getItem('lastPickedSectionId') || '';
+let lastPickedSection = localStorage.getItem('lastPickedSection') || '';
 let filteredTodos = [];
 let lastGeneratedHTML = '';
 
 
-//TODO App review
 //TODO Add pomodoro timer
 
-function addTodoInfoToEditForm(targetId, formInputs, isCurrent, todoData) {
-  if (isCurrent) {
-    formInputs.forEach(input => {
-      if (input.name === 'date') {
-        input.value = formatDate(todoData[input.name]);
-      } 
-      else {
-        input.value = todoData[input.name];
-      }
-    });
-  } 
-  else {
-    todos.forEach(todo => {
-      if (todo.id === targetId) {
-        formInputs.forEach(input => {
-          if (input.name === 'date') {
-            input.value = formatDate(todo[input.name]);
-          } 
-          else {
-            input.value = todo[input.name];
-          }
-        });
-      }
-    });
-  }
+function addTodoInfoToEditForm(targetId, formInputs) {
+  todos.forEach(todo => {
+    if (todo.id === targetId) {
+      formInputs.forEach(input => {
+        if (input.name === 'date') {
+          input.value = formatDate(todo[input.name]);
+        } 
+        else {
+          input.value = todo[input.name];
+        }
+      });
+    }
+  });
 }
 
 export function getTodoInfo(formDialogLm) {
@@ -113,7 +100,7 @@ function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
 
 function setCurrentSectionToStorage(sectionId) {
   lastPickedSection = sectionId;
-  localStorage.setItem('lastPickedSectionId', lastPickedSection)
+  localStorage.setItem('lastPickedSection', lastPickedSection);
 }
 
 function getLastActiveSection() {
@@ -129,20 +116,20 @@ function getLastActiveSection() {
   }
 }
 
-function generatePlaceholderImageHTML(imgUrl, id) {
-  todosContainerLm.innerHTML = `
-    <li class="todos-container__img-container">
-      <img id="${id}" class="todos-container__empty-section-image" src="${imgUrl}" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile" />
-    </li>
-  `;
-}
-
 export function generateTodosHTML(todos, highlight) {
   const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
   const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
   const completedBtnLm = document.getElementById('todo-sections__completed-btn');
   const incompletedTodosCount = countIncompletedTodos();
   let generatedHTML = '';
+
+  function generatePlaceholderImageHTML(imgUrl, id) {
+    todosContainerLm.innerHTML = `
+      <li class="todos-container__img-container">
+        <img id="${id}" class="todos-container__empty-section-image" src="${imgUrl}" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile" />
+      </li>
+    `;
+  }
   
   function generateTaskHTML(todo, highlight) {
     return `
@@ -152,14 +139,14 @@ export function generateTodosHTML(todos, highlight) {
         <p class="todo__task-desc">${todo.description}</p>
         <div class="todo__edit-buttons">
           <button title="Complete task" class="todo__complete-btn" aria-label="Complete todo." type="button">
-            <span aria-hidden="true" class="material-symbols-outlined">check_circle</span>
+            <span aria-hidden="true" role="presentation" class="material-symbols-outlined todo__complete-icon">check_circle</span>
           </button>
           <div>
             <button title="Edit task" class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
-              <span aria-hidden="true" class="material-symbols-outlined">edit_square</span>
+              <span aria-hidden="true" role="presentation" class="material-symbols-outlined todo__edit-icon">edit_square</span>
             </button>
             <button title="Delete task" class="todo__delete-btn" aria-label="Delete todo." type="button">
-              <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+              <span aria-hidden="true" role="presentation" class="trash material-symbols-outlined todo__delete-icon">delete</span>
             </button>
           </div>
         </div>
@@ -175,7 +162,7 @@ export function generateTodosHTML(todos, highlight) {
         <p class="todo__task-desc">${todo.description}</p>
         <div class="todo__edit-buttons">
           <button title="Delete completed task" class="todo__delete-btn" aria-label="Delete todo." type="button">
-            <span aria-hidden="true" class="trash material-symbols-outlined">delete</span>
+            <span aria-hidden="true" role="presentation" class="trash material-symbols-outlined todo__delete-icon">delete</span>
           </button>
         </div>
       </li>
@@ -245,7 +232,7 @@ function clearAllTodos() {
   }
 }
 
-// Checks if search is active and generates its specific empty section placeholder image.
+// Checks if search is active and generates its specific empty section placeholder image
 function generateSpecificSectionHTML() {
   if (filteredTodos.length === 0 && searchTodoBtn.getAttribute('aria-expanded') === 'false') {
     generateTodosHTML(todos);
@@ -308,13 +295,12 @@ refreshQuoteBtn.addEventListener('click', () => {
   quotesData && setQuote(quotesData, lastQuoteIndex); // Changes quote
 }); 
 
-searchTodoBtn.addEventListener('click', toggleSearchPrompt);
+// Add events to intro buttons
+searchTodoBtn.addEventListener('click', toggleSearchPrompt); // Add toggle search todo event
+addTodoBtn.addEventListener('click', toggleAddTodoPrompt); // Add toggle add todo prompt event
+clearAllTodosBtn.addEventListener('click', clearAllTodos); // Add clear all todos event
 
-addTodoBtn.addEventListener('click', toggleAddTodoPrompt);
-
-clearAllTodosBtn.addEventListener('click', clearAllTodos);
-
-// Check active section and generates the specific todos HTML needed.
+// Check active section and generates the specific todos HTML needed
 todosSectionsContainerLm.addEventListener('click', e => {
   const sectionBtnLms = document.querySelectorAll('#todo-sections button');
   if (e.target.closest('#todo-sections__all-btn')) {

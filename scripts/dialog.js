@@ -164,10 +164,10 @@ export function openEditDialog(targetId, todoInfo) {
       openEditDialog(targetId, todoInfo);
     }, 100);
     
-    // add current info back again to inputs
+    // Add current info back again to inputs
     editDialogFormInputLms.forEach(input => {
       input.value = todoInfo.currentEdit[input.name];
-    })
+    });
   }
 
   function checkUnsavedChanges() {
