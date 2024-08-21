@@ -109,6 +109,55 @@ main {
 
 /* END OF MAIN */
 
+/* TIMER */
+
+.timer-quote-container {
+  border: 2px solid red;
+  text-align: center;
+  display: grid;
+  align-items: center;
+  grid-template-rows: 1fr 3fr;
+  gap: 40px;
+}
+
+.timer {
+  background-color: #fff;
+  justify-self: center;
+  padding: 30px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+}
+
+.timer__clock {
+  color: var(--dark-accent-color);
+  transition: background-color var(--base-transition-duration);
+}
+
+.timer__btn {
+  background-color: var(--dark-accent-color);
+  color: white;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color var(--base-transition-duration);
+}
+
+.timer__btn-icon {
+  width: 1em;
+}
+
+
+
+
+
+/* END OF TIMER */
+
 /* QUOTE */
 
 .quote {
