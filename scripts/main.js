@@ -40,6 +40,8 @@ import {
   isAddTodoFormEdited
 } from './prompt.js';
 
+import { Timer } from './Timer.js';
+
 const backgroundImgLm = document.getElementById('background-image');
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const refreshQuoteBtn = document.getElementById('quote__new-quote-btn');
@@ -251,6 +253,9 @@ getLastActiveSection();
 generateTodosHTML(todos);
 
 //* End of Inital function calls
+
+const timerLm = document.getElementById('timer')
+new Timer(timerLm);
 
 //* Add event listeners
 

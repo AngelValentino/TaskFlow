@@ -114,10 +114,10 @@ main {
 .timer-quote-container {
   border: 2px solid red;
   text-align: center;
-  display: grid;
+  /* display: grid; */
   align-items: center;
-  grid-template-rows: 1fr 3fr;
-  gap: 40px;
+  /* grid-template-rows: 1fr 3fr; */
+  /* gap: 40px; */
 }
 
 .timer {
@@ -128,12 +128,18 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 50px;
   font-size: 1.5rem;
+  transition: color var(--base-transition-duration);
 }
 
 .timer__clock {
   color: var(--dark-accent-color);
   transition: background-color var(--base-transition-duration);
+}
+
+.timer__clock.rest {
+  animation: flash .1s infinite alternate ease-in-out;
 }
 
 .timer__btn {
@@ -148,8 +154,22 @@ main {
   transition: background-color var(--base-transition-duration);
 }
 
+.timer__btn.active {
+  background-color: var(--contrast-color);
+  color: #222;
+}
+
 .timer__btn-icon {
   width: 1em;
+}
+
+@keyframes flash {
+  0% {
+    color: var(--dark-accent-color); /* Start with no color */
+  }
+  100% {
+    color: var(--medium-accent-color); /* Flash color */
+  }
 }
 
 
