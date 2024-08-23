@@ -89,12 +89,12 @@ function changeTheme(currentRandomTheme) {
   });
 }
 
-function loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim) {
+function loadBgImgProgressively(currentRandomTheme, time = 0) {
   const imgUrl = currentRandomTheme.backgroundImage;
   const preloaderImg = document.createElement("img");
   preloaderImg.src = imgUrl;
   lastPreloadedImg = preloaderImg;
-  !changeThemeAfterTim && changeTheme(currentRandomTheme);
+  changeTheme(currentRandomTheme);
 
   function loadBgImg(imgUrl) {
     backgroundImgLm.style.opacity = 1;
@@ -109,7 +109,6 @@ function loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim) {
   preloadBgImgEventHandler.loadBgImgHandler = loadBgImgHandler;
 
   const timBgId = setTimeout(() => { 
-    changeThemeAfterTim && changeTheme(currentRandomTheme);
     console.log('tim init');
     if (preloaderImg.complete) {
       console.log('bg completed!');
@@ -124,10 +123,10 @@ function loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim) {
   return timBgId;
 }
 
-export function setRandomTheme(time, changeThemeAfterTim) {
+export function setRandomTheme(time = 0) {
   const currentIndex = getRandomIndex(themes, lastThemeIndex);
   lastThemeIndex = currentIndex;
   const currentRandomTheme = themes[currentIndex];
-  const timBgId = loadBgImgProgressively(currentRandomTheme, time, changeThemeAfterTim);
+  const timBgId = loadBgImgProgressively(currentRandomTheme, time);
   return timBgId;
 }

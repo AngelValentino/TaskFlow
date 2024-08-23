@@ -1,0 +1,128 @@
+/* QUOTE */
+
+.quote {
+  padding: 40px 50px;
+  border-radius: 3px;
+  min-width: 400px;
+  max-width: 600px;
+  background-color: #fff;
+}
+
+.quote__text, .quote__author {
+  color: var(--dark-accent-color);
+  transition: color var(--base-transition-duration);
+}
+
+.quote__quotes-icon {
+  width: 1.75rem;
+  vertical-align: bottom;
+}
+
+.quote__text {
+  font-size: 1.53rem;
+  font-weight: normal;
+  margin: 0 0 25px;
+  text-align: center;
+}
+
+.quote__text {
+  font-weight: normal;
+}
+
+.quote__author {
+  display: block;
+  text-align: end;
+  margin: 0 0 40px;
+  font-style: normal;
+}
+
+.quote__buttons {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.quote__buttons > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quote__share-with-twitter-btn,
+.quote__share-with-tumblr-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  background-color: var(--dark-accent-color);
+  color: inherit;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
+}
+
+.quote__share-with-twitter-icon {
+  width: 1.15rem;
+}
+
+.quote__share-with-tumblr-icon {
+  width: 0.75rem;
+}
+
+.quote__new-quote-btn {
+  background-color: var(--dark-accent-color);
+  padding: 0 15px;
+  border-radius: 3px;
+  transition: background-color var(--base-transition-duration);
+}
+
+/* END OF QUOTE */
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (hover: hover) {
+  .quote__buttons button:is(:hover, :focus-visible) {
+    background-color: var(--medium-accent-color);
+  }
+
+  .quote__share-with-twitter-btn:is(:hover, :focus-visible),
+  .quote__share-with-tumblr-btn:is(:hover, :focus-visible) {
+    color: #000;
+    background-color: var(--contrast-color);
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+  .quote__buttons button:active {
+    transition: none;
+    color: #000;
+    background-color: var(--contrast-color)
+  }
+
+  .quote__share-with-twitter-btn:active,
+  .quote__share-with-tumblr-btn:active {
+    color: #000;
+    transition: none;
+    background-color: var(--light-accent-color);
+  }
+
+/* END OF ACTIVE */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 500px) {
+  .quote {
+    padding: 40rem 50px;
+    min-width: 300px;
+  }
+
+  .quote {
+    padding: 30px 40px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

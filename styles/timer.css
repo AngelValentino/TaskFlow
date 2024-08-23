@@ -1,0 +1,90 @@
+/* TIMER */
+
+.timer {
+  background-color: #fff;
+  justify-self: center;
+  padding: 30px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 50px;
+  font-size: 1.5rem;
+  transition: color var(--base-transition-duration);
+}
+
+.timer__clock {
+  color: var(--dark-accent-color);
+  transition: background-color var(--base-transition-duration);
+}
+
+.timer__clock.active {
+  animation: flash .1s infinite alternate ease-in-out;
+}
+
+.timer__btn {
+  background-color: var(--dark-accent-color);
+  color: white;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color var(--base-transition-duration);
+  width: 40px;
+  height: 40px;
+}
+
+.timer__btn.active {
+  background-color: var(--contrast-color);
+  color: #222;
+}
+
+.timer__btn-icon {
+  width: 1em;
+}
+
+.timer__reset-icon {
+  width: 0.95em;
+}
+
+/* END OF TIMER */
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (hover: hover) {
+  .timer__btn:is(:hover, :focus-visible) {
+    background-color: var(--medium-accent-color);
+  }
+
+  .timer__control-btn.active:is(:hover, :focus-visible)r {
+    background-color: var(--dark-to-medium-accent-color);
+    color: white;
+  }
+  
+  .timer__clock.active ~ .timer__btn:is(:hover, :focus-visible) {
+    background-color: var(--dark-accent-color);
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+  .timer__reset-btn:active:not(:is(.timer__clock.active ~ .timer__btn)) {
+    transition: none;
+    background-color: var(--contrast-color);
+    color: #222;
+  }
+
+/* END OF ACTIVE */
+
+@keyframes flash {
+  0% {
+    color: var(--dark-accent-color); /* Start with no color */
+  }
+  100% {
+    color: var(--medium-accent-color); /* Flash color */
+  }
+}

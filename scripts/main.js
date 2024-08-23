@@ -60,9 +60,6 @@ let lastPickedSection = localStorage.getItem('lastPickedSection') || '';
 let filteredTodos = [];
 let lastGeneratedHTML = '';
 
-
-//TODO Add pomodoro timer
-
 function addTodoInfoToEditForm(targetId, formInputs) {
   todos.forEach(todo => {
     if (todo.id === targetId) {
@@ -252,43 +249,37 @@ preloadDialogImages();
 getLastActiveSection();
 generateTodosHTML(todos);
 
-//* End of Inital function calls
-
-const timerLm = document.getElementById('timer')
+// Init timer
+const timerLm = document.getElementById('timer');
 new Timer(timerLm);
+
+//* End of Inital function calls
 
 //* Add event listeners
 
+// Hide app until the the DOM is generated
 document.addEventListener('DOMContentLoaded', () => {
-  // Record the end time
-  const DOMContentEndTime = performance.now();
-  // Calculate the time taken for the DOM to load
-  const DOMLoadTime = DOMContentEndTime - DOMContentStartTime;
-
-  // Hide the DOMContentLoaded loader
+  const bouncerLoaderContainerLm = document.getElementById('bouncer-container');
   const bouncerLoaderLm = document.getElementById('bouncer-loader');
-  bouncerLoaderLm.style.display = 'none';
+  
+  // Hide loader
+  bouncerLoaderContainerLm.style.backgroundColor = 'transparent'
+  bouncerLoaderLm.style.opacity = 0;
+
+  // Set loader dispay to none
+  setTimeout(() => {
+    bouncerLoaderContainerLm.style.display = 'none';
+  }, 500)
 
   console.log('DOM loaded');
-
-  if (DOMLoadTime <= 250) {
-    // DOM loaded in less than or equal to 250ms, proceed with the timeout
-    setTimeout(() => {
-      checkQuotesData();
-    }, 250);
-    initBgTimId = setRandomTheme(250, true);
-  } 
-  else {
-    // DOM loaded in more than 250ms, do not add the timeout
-    checkQuotesData();
-    initBgTimId = setRandomTheme(0);
-  }
+  checkQuotesData();
+  initBgTimId = setRandomTheme();
 });
 
 // Set theme and quote
 refreshQuoteBtn.addEventListener('click', () => {
   if (isAddTodoFormEdited()) return; // if add todo prompt has data return
-  // Remove event lsitener from the last backgroun image just in case js garbage collector doesn't work as intended
+  // Remove event lsitener from the last background image just in case js garbage collector doesn't work as intended
   lastPreloadedImg.removeEventListener('load', preloadBgImgEventHandler.loadBgImgHandler);
   // Set inital opacity
   backgroundImgLm.style.opacity = 0;

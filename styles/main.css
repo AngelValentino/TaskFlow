@@ -109,10 +109,9 @@ main {
 
 /* END OF MAIN */
 
-/* TIMER */
+/* TIMER AND QUOTE */
 
 .timer-quote-container {
-  border: 2px solid red;
   text-align: center;
   /* display: grid; */
   align-items: center;
@@ -120,144 +119,7 @@ main {
   /* gap: 40px; */
 }
 
-.timer {
-  background-color: #fff;
-  justify-self: center;
-  padding: 30px;
-  border-radius: 50px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 50px;
-  font-size: 1.5rem;
-  transition: color var(--base-transition-duration);
-}
-
-.timer__clock {
-  color: var(--dark-accent-color);
-  transition: background-color var(--base-transition-duration);
-}
-
-.timer__clock.rest {
-  animation: flash .1s infinite alternate ease-in-out;
-}
-
-.timer__btn {
-  background-color: var(--dark-accent-color);
-  color: white;
-  line-height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background-color var(--base-transition-duration);
-}
-
-.timer__btn.active {
-  background-color: var(--contrast-color);
-  color: #222;
-}
-
-.timer__btn-icon {
-  width: 1em;
-}
-
-@keyframes flash {
-  0% {
-    color: var(--dark-accent-color); /* Start with no color */
-  }
-  100% {
-    color: var(--medium-accent-color); /* Flash color */
-  }
-}
-
-
-
-
-
-/* END OF TIMER */
-
-/* QUOTE */
-
-.quote {
-  padding: 40px 50px;
-  border-radius: 3px;
-  min-width: 400px;
-  max-width: 600px;
-  background-color: #fff;
-}
-
-.quote__text, .quote__author {
-  color: var(--dark-accent-color);
-  transition: color var(--base-transition-duration);
-}
-
-.quote__quotes-icon {
-  width: 1.75rem;
-  vertical-align: bottom;
-}
-
-.quote__text {
-  font-size: 1.53rem;
-  font-weight: normal;
-  margin: 0 0 25px;
-  text-align: center;
-}
-
-.quote__text {
-  font-weight: normal;
-}
-
-.quote__author {
-  display: block;
-  text-align: end;
-  margin: 0 0 40px;
-  font-style: normal;
-}
-
-.quote__buttons {
-  display: flex;
-  justify-content: space-between;
-  color: #fff;
-}
-
-.quote__buttons > div {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.quote__share-with-twitter-btn,
-.quote__share-with-tumblr-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 3px;
-  background-color: var(--dark-accent-color);
-  color: inherit;
-  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
-}
-
-.quote__share-with-twitter-icon {
-  width: 1.15rem;
-}
-
-.quote__share-with-tumblr-icon {
-  width: 0.75rem;
-}
-
-.quote__new-quote-btn {
-  background-color: var(--dark-accent-color);
-  padding: 0 15px;
-  border-radius: 3px;
-  transition: background-color var(--base-transition-duration);
-}
-
-/* END OF QUOTE */
+/* END OF TIMER AND QUOTE */
 
 /* _TODO APP */
 
@@ -479,11 +341,6 @@ main {
 }
 
 @media screen and (max-width: 500px) {
-  .quote {
-    padding: 40rem 50px;
-    min-width: 300px;
-  }
-
   main {
     padding: 30px 15px;
   }
@@ -491,25 +348,11 @@ main {
   .todo-app {
     padding: 20px;
   }
-
-  .quote {
-    padding: 30px 40px;
-  }
 }
 
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (hover: hover) {
-  .quote__buttons button:is(:hover, :focus-visible) {
-    background-color: var(--medium-accent-color);
-  }
-
-  .quote__share-with-twitter-btn:is(:hover, :focus-visible),
-  .quote__share-with-tumblr-btn:is(:hover, :focus-visible) {
-    color: #000;
-    background-color: var(--contrast-color);
-  }
-
   .todo-app-intro__buttons > button:is(:hover, :focus-visible) {
     color: #000;
     background-color: var(--medium-accent-color);
@@ -531,40 +374,25 @@ main {
 /* END OF HOVER CAPABLE DEVICES */
 
 /* ACTIVE */
+  .todo-app-intro__buttons > button:active {
+    transition: none;
+    background-color: var(--contrast-color);
+  }
 
-.quote__buttons button:active {
-  transition: none;
-  color: #000;
-  background-color: var(--contrast-color)
-}
+  .todo__complete-btn:active,
+  .todo__edit-btn:active,
+  .todo__delete-btn:active {
+    color: var(--contrast-color);
+  }
 
-.quote__share-with-twitter-btn:active,
-.quote__share-with-tumblr-btn:active {
-  color: #000;
-  transition: none;
-  background-color: var(--light-accent-color);
-}
+  .todo.completed .todo__delete-btn:active {
+    color: var(--light-accent-color);
+  }
 
-.todo-app-intro__buttons > button:active {
-  transition: none;
-  background-color: var(--contrast-color);
-}
-
-.todo__complete-btn:active,
-.todo__edit-btn:active,
-.todo__delete-btn:active {
-  color: var(--contrast-color);
-}
-
-.todo.completed .todo__delete-btn:active {
-  color: var(--light-accent-color);
-}
-
-.todo-sections > button:not(.active):active {
-  background-color: #222;
-  color: white;
-}
-
+  .todo-sections > button:not(.active):active {
+    background-color: #222;
+    color: white;
+  }
 
 /* END OF ACTIVE */
 
@@ -615,15 +443,23 @@ main {
 
   /* BOUNCING BALLS LOADER */
 
-  .bouncer {
+  .bouncer-container {
     position: fixed;
-    left: 50%;
+    background-color: #fff;
+    inset: 0;
+    z-index: 20;
+    transition: background-color 0.5s;
+  }
+
+  .bouncer {
+    position: absolute;
     top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    display: flex;
+    display: inline-flex;
     padding-top: 100px;
     gap: 0.4rem;
-    z-index: 20;
+    transition: opacity var(--base-transition-duration);
   }
 
   .bouncer div {
