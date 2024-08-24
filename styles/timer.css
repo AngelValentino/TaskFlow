@@ -58,7 +58,7 @@
     background-color: var(--medium-accent-color);
   }
 
-  .timer__control-btn.active:is(:hover, :focus-visible)r {
+  .timer__control-btn.active:is(:hover, :focus-visible) {
     background-color: var(--dark-to-medium-accent-color);
     color: white;
   }

@@ -1,3 +1,5 @@
+import { playSound, stopSound, isSoundPlaying } from "./utils.js";
+
 export class Timer {
   constructor(root) {
     if (!root) throw new Error("Root element is required");
@@ -18,19 +20,19 @@ export class Timer {
     this.restTime = 5 * 60;
     this.workTime = 25 * 60;
     this.remainingSeconds = this.workTime;
+    this.alarmClock = new Audio('../audios/alarm-clock.mp3');
+    this.alarmClockTicking = new Audio('../audios/alarm-clock-ticking.mp3');
 
     // Reassignment variables 
     this.interval = null;
     this.isRest = null;
     this.isTimer = null;
 
-    //TODO Add sound to pomodoro timer
-
     // Set time
     this.updateClockLm();
 
     // Add event listeners
-      // Add start/pause/stop event listener to control button
+      // Add start/pause event listener to control button
       this.lms.controlLm.addEventListener('click', () => {
         if (this.isTimer) return; 
 
@@ -128,11 +130,15 @@ export class Timer {
     this.interval = null;
     // Updates the control elements to reflect the timer's stopped state
     this.updateControlLms();
+    if (isSoundPlaying(this.alarmClockTicking)) {
+      stopSound(this.alarmClockTicking);
+    }
   }
 
   // Initializes the timer with a specific time and sets it as active
   initTimer(clockTime) {
     this.isTimer = true;
+    playSound(this.alarmClock);
     this.remainingSeconds = clockTime; // Sets the timer's countdown to the specified time
     this.lms.clockLm.classList.add('active');
     this.updateClockLm(); // Updates the displayed clock time
@@ -144,6 +150,7 @@ export class Timer {
     this.isTimer = false;
     this.lms.clockLm.classList.remove('active');
     this.updateCursor();
+    stopSound(this.alarmClock);
   }
 
   // Restarts the timer by stopping the current interval and initializing a new one
@@ -155,17 +162,27 @@ export class Timer {
       this.stopAnimation();
       // Starts the new timer if a timer type is provided (work or rest)
       timerType && this.startTimer(timerType);
-    }, 2500)
+    }, 2600)
+  }
+
+  startTickingSound() {
+    if (this.remainingSeconds <= 10) {
+      if (!isSoundPlaying(this.alarmClockTicking)) {
+        playSound(this.alarmClockTicking);
+      }
+    }
   }
 
   // Starts the timer, switching between work and rest
   startTimer(isRest) {
     this.isRest = isRest === 'rest';
+    this.startTickingSound();
 
     this.interval = setInterval(() => {
       this.remainingSeconds--; // Decreases the remaining time by one second
       this.updateClockLm(); // Updates the displayed clock time
 
+      this.startTickingSound();
       // Checks if the timer has finished
       if (this.remainingSeconds === 0) {
         // If rest has ended start work

@@ -367,7 +367,7 @@ main {
   }
 
   .todo__edit-buttons button:is(:hover, :focus-visible) > span {
-    font-variation-settings:'FILL' 1;
+    font-variation-settings: 'FILL' 1;
   }
 }
 

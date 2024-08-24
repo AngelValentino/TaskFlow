@@ -237,3 +237,19 @@ export function getFormData(form, formatDateBoolean, id) {
   todoData.completed = false;
   return todoData;
 }
+
+export function playSound(audio) {
+  audio.currentTime = 0; // Reset to the start
+  audio.play().catch(error => {
+    console.error('Playback error:', error);
+  });
+}
+
+export function stopSound(audio) {
+  audio.pause();
+  audio.currentTime = 0;
+}
+
+export function isSoundPlaying(audio) {
+  return !audio.paused && audio.currentTime > 0;
+}
