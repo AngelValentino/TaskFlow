@@ -201,10 +201,10 @@ export function openConfirmDialog(confirmFun, descText, changeImage, confirmEdit
   const closeLms = [ confirmDialogCloseBtn, confirmDialogCancelBtn ];
   
   if (changeImage) {
-    confirmDialogImgContainerLm.innerHTML = '<img class="dialog__capybara-placeholder-img" src="img/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
+    confirmDialogImgContainerLm.innerHTML = '<img class="dialog__capybara-placeholder-img" src="images/cute-animals-drawings/capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>';
   } 
   else {
-    confirmDialogImgContainerLm.innerHTML = `<img class="confirm-dialog__recycle-placeholder-img" src="img/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>`;
+    confirmDialogImgContainerLm.innerHTML = `<img class="confirm-dialog__recycle-placeholder-img" src="images/recycle-icons/garbage-collector-${getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash."/>`;
   }
 
   openDialog(closeConfirmDialogTimId, confirmDialogCloseBtn, confirmDialogLm, confrimDialogContainerLm, confrimDailogOveralyLm, confrimDialogDescLm, descText);

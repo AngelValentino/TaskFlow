@@ -12,7 +12,7 @@ const themes = [
     mediumAccent: '#b259b6',
     ligthAccent: '#ecdeff',
     contrast: '#dfd684',
-    backgroundImage: '../img/app-background/purple-background.jpg'
+    backgroundImage: '../images/app-background/purple-background.jpg'
   },
   {
     darkAccent: '#2e6881',
@@ -20,7 +20,7 @@ const themes = [
     mediumAccent: '#6573eb',
     ligthAccent: '#d6f3ff',
     contrast: '#fd94ce',
-    backgroundImage: '../img/app-background/blue-background.jpg'
+    backgroundImage: '../images/app-background/blue-background.jpg'
   },
   {
     darkAccent: '#51763d',
@@ -28,7 +28,7 @@ const themes = [
     mediumAccent: '#57a871',
     ligthAccent: '#d8ffc2',
     contrast: '#6ecab9',
-    backgroundImage: '../img/app-background/green-background.jpg'
+    backgroundImage: '../images/app-background/green-background.jpg'
   },
   {
     darkAccent: '#55373d',
@@ -36,7 +36,7 @@ const themes = [
     mediumAccent: '#d8085f',
     ligthAccent: '#ffe9ed',
     contrast: '#91c989',
-    backgroundImage: '../img/app-background/chocolate-background.jpg'
+    backgroundImage: '../images/app-background/chocolate-background.jpg'
   },
   {
     darkAccent: '#984a9b',
@@ -44,7 +44,7 @@ const themes = [
     mediumAccent: '#bc8bf3',
     ligthAccent: '#ffe4fd',
     contrast: '#daf38b',
-    backgroundImage: '../img/app-background/pink-background.jpg'
+    backgroundImage: '../images/app-background/pink-background.jpg'
   },
   {
     darkAccent: '#793735',
@@ -52,7 +52,7 @@ const themes = [
     mediumAccent: '#fba264',
     ligthAccent: '#ffdad9',
     contrast: '#ff5b9f',
-    backgroundImage: '../img/app-background/red-background.jpg'
+    backgroundImage: '../images/app-background/red-background.jpg'
   },
   {
     darkAccent: '#84846b',
@@ -60,7 +60,7 @@ const themes = [
     mediumAccent: '#b0bd99',
     ligthAccent: '#fff8d9',
     contrast: '#b6c3e0',
-    backgroundImage: '../img/app-background/sand-background.jpg'
+    backgroundImage: '../images/app-background/sand-background.jpg'
   },
   {
     darkAccent: '#4e817e',
@@ -68,7 +68,7 @@ const themes = [
     mediumAccent: '#e79049',
     ligthAccent: '#c0f0ed',
     contrast: '#ec8bd6',
-    backgroundImage: '../img/app-background/cian-background.jpg'
+    backgroundImage: '../images/app-background/cian-background.jpg'
   }
 ];
 

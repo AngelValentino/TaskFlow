@@ -24,11 +24,11 @@ function preloadImage(imgUrl) {
 }
 
 export function preloadDialogImages() {
-  preloadImage('img/cute-animals-drawings/croco-capybara.png');
-  preloadImage('img/cute-animals-drawings/croco-capybara-todos.png');
-  preloadImage('img/cute-animals-drawings/capybara.jpg');
+  preloadImage('images/cute-animals-drawings/croco-capybara.png');
+  preloadImage('images/cute-animals-drawings/croco-capybara-todos.png');
+  preloadImage('images/cute-animals-drawings/capybara.jpg');
   for (let i = 1; i <= 6; i++) {
-    preloadImage(`img/recycle-icons/garbage-collector-${i}.jpg`);
+    preloadImage(`images/recycle-icons/garbage-collector-${i}.jpg`);
   }
 }
 

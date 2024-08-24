@@ -42,7 +42,7 @@ html {
   --dark-to-medium-accent-color: #878787;
   --medium-accent-color: #a4a4a4;
   --contrast-color: #9c9c9c;
-  --background-image: url(../img/app-background/grey-background.jpg);
+  --background-image: url(../images/app-background/grey-background.jpg);
   --base-transition-duration: 0.15s;
   --light-accent-color: #c3c3c3;
 }

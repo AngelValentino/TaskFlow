@@ -211,10 +211,10 @@ export function generateTodosHTML(todos, highlight) {
   // Generate todos placeholder
 
   if (todosContainerLm.innerHTML === '' && searchTodoBtn.getAttribute('aria-expanded') === 'true') {
-    generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara-todos.png', 'todos-container__empty-search-section-image');
+    generatePlaceholderImageHTML('images/cute-animals-drawings/croco-capybara-todos.png', 'todos-container__empty-search-section-image');
   } 
   else if (todosContainerLm.innerHTML === '') {
-    generatePlaceholderImageHTML('img/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
+    generatePlaceholderImageHTML('images/cute-animals-drawings/croco-capybara.png', 'todos-container__empty-section-image');
   }
 }
 
