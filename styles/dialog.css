@@ -146,7 +146,7 @@
   .info-dialog__accept-btn:is(:hover, :focus-visible),
   .edit-dialog__submit-btn:is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
-    color: #000;
+    color: var(--base-text-color);
   }
 
   .edit-dialog__close-btn:is(:hover, :focus-visible) .edit-dialog__close-icon,
@@ -166,7 +166,7 @@
 .edit-dialog__submit-btn:active {
   transition: none;
   background-color: var(--light-accent-color);
-  color: #000;
+  color: var(--base-text-color);
 }
 
 .edit-dialog__close-btn:active,

@@ -38,7 +38,7 @@
 
 .timer__btn.active {
   background-color: var(--contrast-color);
-  color: #222;
+  color: var(--base-text-color);
 }
 
 .timer__btn-icon {
@@ -75,7 +75,7 @@
   .timer__reset-btn:active:not(:is(.timer__clock.active ~ .timer__btn)) {
     transition: none;
     background-color: var(--contrast-color);
-    color: #222;
+    color: var(--base-text-color);
   }
 
 /* END OF ACTIVE */

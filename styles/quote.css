@@ -88,7 +88,7 @@
 
   .quote__share-with-twitter-btn:is(:hover, :focus-visible),
   .quote__share-with-tumblr-btn:is(:hover, :focus-visible) {
-    color: #000;
+    color: var(--base-text-color);
     background-color: var(--contrast-color);
   }
 }
@@ -99,13 +99,13 @@
 
   .quote__buttons button:active {
     transition: none;
-    color: #000;
+    color: var(--base-text-color);
     background-color: var(--contrast-color)
   }
 
   .quote__share-with-twitter-btn:active,
   .quote__share-with-tumblr-btn:active {
-    color: #000;
+    color: var(--base-text-color);
     transition: none;
     background-color: var(--light-accent-color);
   }

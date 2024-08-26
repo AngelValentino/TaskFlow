@@ -30,7 +30,7 @@ const addTodoPromptLm = document.getElementById('add-todo-prompt');
 const addTodoPromptCloseBtn = document.getElementById('add-todo-prompt__close-btn');
 const addTodoPromptFormLm = document.getElementById('add-todo-prompt__form');
 
-// Serch todo prompt DOM references
+// Search todo prompt DOM references
 const searchTodoPromptLm = document.getElementById('search-todo-prompt');
 const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
 const searchInputLm = document.getElementById('search-todo-prompt__search-input');
@@ -42,7 +42,6 @@ const addTodoPromptEventsHandler = {};
 const searchTodoPromptEventsHandler = {};
 
 // Reassignment variables and timeout ids
-
 let hideAddTodoPromptTimId;
 let addTodoPromptFirstFocusLmTimId;
 let resetAddTodoFormTimId;
@@ -52,39 +51,39 @@ let searchTodoPromptFirstFocusLmTimId;
 //* Add todo prompt
 
 function hidePrompt(focusFirstLmTimId, btnLm, promptLm, time) {
-  clearTimeout(focusFirstLmTimId);
-  toggleModalFocus('return', null, btnLm);
-  setActiveBtn(btnLm)
+  clearTimeout(focusFirstLmTimId); // Clear any existing focus timeout
+  toggleModalFocus('return', null, btnLm); // Restore focus
+  setActiveBtn(btnLm); // Set button to inactive
   // Remove the specified class from the prompt element to update its visibility
   promptLm.classList.remove('active');
+
   // Delay the hiding of the prompt element
   const hidePromptTimId = setTimeout(() => {
     promptLm.setAttribute('hidden', ''); // Add 'hidden' attribute to hide the prompt element
   }, time);
 
-  return hidePromptTimId;
+  return hidePromptTimId; // Return the timeout ID
 }
 
 function showPrompt(hidePromptTimId, promptLm, btnLm, time, firstFocusableLm) {
-  clearTimeout(hidePromptTimId);
-  promptLm.removeAttribute('hidden');
-  setActiveBtn(btnLm);
+  clearTimeout(hidePromptTimId); // Clear any existing hide timeout
+  promptLm.removeAttribute('hidden'); // Remove 'hidden' attribute to show the prompt
+  setActiveBtn(btnLm); // Set button to active
 
-  // It needs a bigger delay, 20ms, than usual. Probably due to the complexity of the timeouts and animations interlinked all together.
+  // Add 'active' class to prompt with a slight delay
   setTimeout(() => {
     promptLm.classList.add('active');
   }, 20);
 
   const focusFirstLmTimId = setTimeout(() => {
-    toggleModalFocus('add', firstFocusableLm);
+    toggleModalFocus('add', firstFocusableLm); // Focus the first element in the prompt
   }, time);
 
   return focusFirstLmTimId;
 }
 
 function hideAddTodoPrompt() {
-  console.log('add todo prompt closed')
-  // Hide Prompt
+  // Hide the prompt with a delay
   hideAddTodoPromptTimId = hidePrompt(addTodoPromptFirstFocusLmTimId, addTodoBtn, addTodoPromptLm, 1500);
 
   // Remove event listeners
@@ -92,59 +91,71 @@ function hideAddTodoPrompt() {
   addTodoPromptFormLm.removeEventListener('submit', submitTodoInfo);
 }
 
+
+// Reset the add todo form and hide the prompt
 function resetAddTodoForm() {
-  addTodoPromptFormLm.reset();
+  addTodoPromptFormLm.reset(); // Reset the form fields
   resetAddTodoFormTimId = setTimeout(() => {
-    hideAddTodoPrompt();
+    hideAddTodoPrompt(); // Hide the prompt after a short delay
   }, 250);
 }
 
+// Checks if the Add Todo form has been edited
 export function isAddTodoFormEdited() {
-  const todoData = Object.values(getFormData(addTodoPromptFormLm, true));
+  const todoData = Object.values(getFormData(addTodoPromptFormLm, true)); // Get form data
+  // Check if any field has data
   if (todoData[0] || todoData[1] || todoData[2]) {
     return true;
   }
+  // If they dont have any data, return false
   return false;
 }
 
+// Confirm discarding changes in the add todo form
 function confirmDiscardPromptData() {
   if (isAddTodoFormEdited()) {
-    // It needs a timout so when the add todo form is closed with 'Escape' key it does not also closes the confirm dialog
+    // It needs a timeout so when the add todo form is closed with 'Escape' key it does not also closes the confirm dialog
     setTimeout(() => {
+      // Open confirm dialog if changes have been made in form
       openConfirmDialog(resetAddTodoForm, 'Are you sure you want to discard all changes made in form?');
     });
   } 
   else {
+    // Hide the prompt if no changes
     hideAddTodoPrompt();
   }
 }
 
+// Handle form submission in the add todo prompt
 function submitTodoInfo(e) {
-  console.log('submit')
-  e.preventDefault();
+  e.preventDefault(); // Prevent default form submission
 
   if (isTodosLimitReached()) {
+    // Show info dialog if limit is reached
     openInfoDialog('You have reached the maximum limit of 100 todos.',  resetAddTodoForm);
   } 
   else {
-    addTodo('unshift', addTodoPromptFormLm);
-    hideAddTodoPrompt();
-    addTodoPromptFormLm.reset();
+    addTodo('unshift', addTodoPromptFormLm); // Add the new todo
+    hideAddTodoPrompt(); // Hide the prompt
+    addTodoPromptFormLm.reset(); // Reset the form
   }
 }
 
+// Toggle the add todo prompt visibility
 export function toggleAddTodoPrompt() {
-  // Show prompt
+  // Show the add todo prompt if it is not already visible
   if (!addTodoPromptLm.classList.contains('active')) {
+    clearTimeout(resetAddTodoFormTimId); // Clear any existing reset timeout
+    // Show the prompt with a delay
     addTodoPromptFirstFocusLmTimId = showPrompt(hideAddTodoPromptTimId, addTodoPromptLm, addTodoBtn, 250, addTodoPromptCloseBtn);
-    clearTimeout(resetAddTodoFormTimId);
 
     // Add event listeners
     toggleModalEvents(addTodoPromptEventsHandler, 'add', confirmDiscardPromptData, addTodoPromptCloseBtn, addTodoPromptLm, document.body, '.add-todo-prompt');
     addTodoPromptFormLm.addEventListener('submit', submitTodoInfo);
   }
-  // Hide prompt
+  // Hide the add todo prompt if it is already visible
   else {
+    // Confirm discarding changes if prompt is already visible
     confirmDiscardPromptData();
   }
 }
@@ -153,52 +164,59 @@ export function toggleAddTodoPrompt() {
 
 //* Search prompt
 
+// Toggle the visibility of the search input clear icon
 function toggleClearSearchInput(inputLm) {
   if (inputLm.value === '') {
-    // Return search icon
+    // If input is empty, show the default search icon and hide the close icon
     searchTodoCloseIcon.classList.remove('active');
     searchTodoDefaultIcon.classList.remove('active');
   } 
   else {
-    // Add close icon
+    // If input has text, show the close icon and hide the default search icon
     searchTodoCloseIcon.classList.add('active');
     searchTodoDefaultIcon.classList.add('active');
   }
 }
 
+// Reset the search todo prompt and results
 function resetSearch() {
-  generateTodosHTML(todos);
-  searchInputLm.value = '';
-  toggleClearSearchInput(searchInputLm);
+  generateTodosHTML(todos); // Regenerate the list of todos
+  searchInputLm.value = ''; // Clear the search input
+  toggleClearSearchInput(searchInputLm); // Update clear and search icons based on the empty input
 }
 
+// Hide the search todo prompt and clean up
 function hideSearchTodoPrompt() {
-  console.log('search todo prompt closed')
+  // Hide the prompt with a delay
   hideSearchTodoPromptTimId = hidePrompt(searchTodoPromptFirstFocusLmTimId, searchTodoBtn, searchTodoPromptLm, 1250);
-  resetSearch();
+  resetSearch(); // Reset search results and input
 
   // Remove event listeners
   toggleModalEvents(searchTodoPromptEventsHandler, 'remove', null, null, null, document.body);
   searchInputLm.removeEventListener('input', searchTodo);
 }
 
+// Handle the search input and update the list of todos
 function searchTodo(e) {
-  // generate the todos with the highlighted matched text
-  toggleClearSearchInput(e.target);
-  generateTodosHTML(filterTodos(todos, e.target), e.target.value);
+  // Generate todos with highlighted matched text based on the search input
+  toggleClearSearchInput(e.target); // Update clear and search icons
+  generateTodosHTML(filterTodos(todos, e.target), e.target.value); // Filter and display todos
 }
 
+// Toggle the search todo prompt visibility
 export function toggleSearchPrompt() {
   if (isAddTodoFormEdited()) return; // if add todo prompt has data return
-  // Show Prompt
+  
+  // Show the search yodo prompt if it is not already visible
   if (!searchTodoPromptLm.classList.contains('active')) {
+    // Display the search prompt and set focus to the search input after a delay
     searchTodoPromptFirstFocusLmTimId = showPrompt(hideSearchTodoPromptTimId, searchTodoPromptLm, searchTodoBtn, 1250, searchInputLm);
     
     // Add event listeners
     toggleModalEvents(searchTodoPromptEventsHandler, 'add', hideSearchTodoPrompt, null, null, document.body, '.search-todo-prompt');
     searchInputLm.addEventListener('input', searchTodo); // Search todos at input change.
   } 
-  // Hide Prompt
+  // Hide the search todo prompt if it is already visible
   else {
     hideSearchTodoPrompt();
   }

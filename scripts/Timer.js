@@ -22,6 +22,8 @@ export class Timer {
     this.remainingSeconds = this.workTime;
     this.alarmClock = new Audio('../audios/alarm-clock.mp3');
     this.alarmClockTicking = new Audio('../audios/alarm-clock-ticking.mp3');
+    this.alarmClock.preload = 'auto';
+    this.alarmClockTicking.preload = 'auto';
 
     // Reassignment variables 
     this.interval = null;

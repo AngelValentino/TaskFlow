@@ -43,8 +43,9 @@ html {
   --medium-accent-color: #a4a4a4;
   --contrast-color: #9c9c9c;
   --background-image: url(../images/app-background/grey-background.jpg);
-  --base-transition-duration: 0.15s;
   --light-accent-color: #c3c3c3;
+  --base-transition-duration: 0.15s;
+  --base-text-color: #272727;
 }
 
 /* END OF ROOT */
@@ -80,6 +81,7 @@ body {
   min-width: 360px;
   position: relative;
   transition: background-color 0.5s;
+  color: var(--base-text-color);
 }
 
 .content {
@@ -113,10 +115,6 @@ main {
 
 .timer-quote-container {
   text-align: center;
-  /* display: grid; */
-  align-items: center;
-  /* grid-template-rows: 1fr 3fr; */
-  /* gap: 40px; */
 }
 
 /* END OF TIMER AND QUOTE */
@@ -221,7 +219,7 @@ main {
 .todo-sections__all-btn.active,
 .todo-sections__tasks-btn.active,
 .todo-sections__completed-btn.active {
-  background-color: #222;
+  background-color: var(--base-text-color);
   color: #fff;
 }
 
@@ -268,7 +266,7 @@ main {
 
   .todo.completed {
     background-color: var(--contrast-color);
-    color: #000;
+    color: var(--base-text-color);
     text-decoration: line-through;
     transition: background-color var(--base-transition-duration);
   }
@@ -285,7 +283,7 @@ main {
   }
 
   .todo.completed .todo__task-date {
-    color: #000;
+    color: var(--base-text-color);
   }
 
   .todo__task-desc {
@@ -354,7 +352,7 @@ main {
 
 @media screen and (hover: hover) {
   .todo-app-intro__buttons > button:is(:hover, :focus-visible) {
-    color: #000;
+    color: var(--base-text-color);
     background-color: var(--medium-accent-color);
   }
 
@@ -389,11 +387,6 @@ main {
     color: var(--light-accent-color);
   }
 
-  .todo-sections > button:not(.active):active {
-    background-color: #222;
-    color: white;
-  }
-
 /* END OF ACTIVE */
 
 /* END OF MEDIA QUERIES*/
@@ -406,7 +399,7 @@ main {
 }
 
 .highlighted, .highlighted-2 {
-  color: black;
+  color: var(--base-text-color);
   border-radius: 2px;
 }
 
