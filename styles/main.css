@@ -122,8 +122,6 @@ main {
 /* _TODO APP */
 
 .todo-app {
-  display: flex;
-  flex-flow: column;
   font-size: 1.18rem;
   max-width: 600px;
   width: 100%;
@@ -136,6 +134,7 @@ main {
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-gutter: stable both-edges;
+  position: relative;
 }
 
 /* END OF TODO APP */
@@ -149,7 +148,7 @@ main {
   background-color: var(--light-accent-color);
   padding: 10px;
   border-radius: 5px;
-  margin: 0 0 20px;
+  margin: 0 0 12px;
   position: relative;
   z-index: 1;
   transition: background-color var(--base-transition-duration);
@@ -203,7 +202,11 @@ main {
 /* _TODO APP SECTIONS */
 
 .todo-sections {
-  margin: 0 0 40px;
+  padding: 10px 0;
+  position: sticky;
+  top: -31px;
+  background-color: #fff;
+  z-index: 10;
 }
 
 .todo-sections__all-btn,
@@ -232,6 +235,7 @@ main {
 /* _TODOS CONTAINER */
 
   .todos-container {
+    margin-top: 25px;
     list-style-type: none;
     flex: 1;
   }
@@ -345,6 +349,10 @@ main {
 
   .todo-app {
     padding: 20px;
+  }
+
+  .todo-sections {
+    top: -20px;
   }
 }
 

@@ -65,6 +65,8 @@ let filteredTodos = [];
 let lastGeneratedHTML = '';
 
 
+//TODO Add position stcky to section header and scroll top functionality
+
 // Add todo information to the edit form
 function addTodoInfoToEditForm(targetId, formInputs) {
   todos.forEach(todo => {
