@@ -122,6 +122,8 @@ main {
 /* _TODO APP */
 
 .todo-app {
+  display: flex;
+  flex-flow: column;
   font-size: 1.18rem;
   max-width: 600px;
   width: 100%;
