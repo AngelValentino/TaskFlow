@@ -31,7 +31,7 @@ import {
   highlighter,
   setActiveBtn,
   formatCurrentDate,
-  formatDate,
+  formatDate
 } from './utils.js';
 
 import {
@@ -46,10 +46,12 @@ import { Timer } from './Timer.js';
 const backgroundImgLm = document.getElementById('background-image');
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const updateQuoteBtn = document.getElementById('quote__new-quote-btn');
+const todoAppLm = document.getElementById('todo-app');
 const searchInputLm = document.getElementById('search-todo-prompt__search-input');
 const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
-const todosSectionsContainerLm = document.getElementById('todo-sections');
+const todoSectionsHeaderLm = document.getElementById('todo-sections');
 const allBtnLm = document.getElementById('todo-sections__all-btn');
+const scrollToTopBtn = document.getElementById('todo-sections__scroll-to-top-btn');
 const todosContainerLm = document.getElementById('todos-container');
 const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
 const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
@@ -63,9 +65,6 @@ let initBgTimId;
 let lastPickedSection = localStorage.getItem('lastPickedSection') || '';
 let filteredTodos = [];
 let lastGeneratedHTML = '';
-
-
-//TODO Add position stcky to section header and scroll top functionality
 
 // Add todo information to the edit form
 function addTodoInfoToEditForm(targetId, formInputs) {
@@ -107,7 +106,7 @@ function setActiveSection(btn) {
 // Change the active section button style and aria-expanded attribute
 function changeActiveSectionBtn(sectionBtnLms, btnToAddId) {
   sectionBtnLms.forEach(sectionBtn => {
-    if (sectionBtn.matches(btnToAddId)) {
+    if (sectionBtn.matches('#' + btnToAddId)) {
       // Add 'active' class and set 'aria-expanded' attribute to true for the selected button
       setActiveSection(sectionBtn);
     } 
@@ -136,6 +135,43 @@ function getLastActiveSection() {
     // Otherwise, set the last picked section as active
     const lastPickedSectionBtn =  document.getElementById(lastPickedSection);
     setActiveSection(lastPickedSectionBtn);
+  }
+}
+
+function scrollToTopOfContainer(behavior = 'smooth') {
+  // Check if the user prefers reduced motion
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+  // I they prefer reduced motion set scroll behaviour to auto
+  if (!prefersReducedMotion) behavior = 'auto';
+  // Scroll to the top of the container
+  todoAppLm.scrollTo({top: 0, behavior: behavior});
+}
+
+function handleScrollToTopOfContainer() {
+  scrollToTopOfContainer();
+}
+
+function isSectionHeaderSticky() {
+  // Get the sticky element's bounding rect relative to the viewport
+  const stickyRect = todoSectionsHeaderLm.getBoundingClientRect();
+  // Get the container's bounding rect
+  const containerRect = todoAppLm.getBoundingClientRect();
+  // Calculate the top offset of the sticky element relative to the container
+  const stickyOffset = stickyRect.top - containerRect.top;
+  
+  return stickyOffset <= 0;
+}
+
+// Toggle scroll to top button visibility
+function toggleScrollToTopBtn() {
+  // Check if the sticky element is currently active
+  if (isSectionHeaderSticky()) {
+    // Position sticky is active
+    scrollToTopBtn.style.display = 'inline-block';
+  } 
+  else {
+    // Position sticky is inactive
+    scrollToTopBtn.style.display = 'none';
   }
 }
 
@@ -282,6 +318,17 @@ function generateSpecificSectionHTML() {
   }
 }
 
+function setActiveTodoSection(btnId) {
+  // All section buttons DOM references
+  const sectionBtnLms = document.querySelectorAll('.todo-sections__btn');
+  // If section header is sticky scroll to the top of the container
+  if (isSectionHeaderSticky()) scrollToTopOfContainer('auto');
+
+  changeActiveSectionBtn(sectionBtnLms, btnId);
+  generateSpecificSectionHTML();
+  setCurrentSectionToStorage(btnId);
+}
+
 //* Inital function and constructors calls
 
 // Update the current date display with the formatted current date
@@ -342,29 +389,24 @@ searchTodoBtn.addEventListener('click', toggleSearchPrompt); // Add toggle searc
 addTodoBtn.addEventListener('click', toggleAddTodoPrompt); // Add toggle add todo prompt event
 clearAllTodosBtn.addEventListener('click', clearAllTodos); // Add clear all todos event
 
+// Handle scroll to top of container and scroll to top button visiblity
+todoAppLm.addEventListener('scroll', toggleScrollToTopBtn);
+scrollToTopBtn.addEventListener('click', handleScrollToTopOfContainer);
+
 // Check active section and generates the specific todos HTML needed
-todosSectionsContainerLm.addEventListener('click', e => {
-  // All section buttons DOM references
-  const sectionBtnLms = document.querySelectorAll('#todo-sections button');
-  
+todoSectionsHeaderLm.addEventListener('click', e => { 
   // Determine which section button was clicked and update the active section
   if (e.target.closest('#todo-sections__all-btn')) {
     // Show all todos
-    changeActiveSectionBtn(sectionBtnLms, '#todo-sections__all-btn');
-    generateSpecificSectionHTML();
-    setCurrentSectionToStorage('todo-sections__all-btn');
+    setActiveTodoSection('todo-sections__all-btn');
   } 
   else if (e.target.closest('#todo-sections__tasks-btn')) {
     // Show only incomplete tasks
-    changeActiveSectionBtn(sectionBtnLms, '#todo-sections__tasks-btn');
-    generateSpecificSectionHTML();
-    setCurrentSectionToStorage('todo-sections__tasks-btn');
+    setActiveTodoSection('todo-sections__tasks-btn');
   } 
   else if (e.target.closest('#todo-sections__completed-btn')) {
     // Show only completed tasks
-    changeActiveSectionBtn(sectionBtnLms, '#todo-sections__completed-btn');
-    generateSpecificSectionHTML();
-    setCurrentSectionToStorage('todo-sections__completed-btn');
+    setActiveTodoSection('todo-sections__completed-btn');
   }
 });
 

@@ -86,7 +86,8 @@ const handleModalOutsideClick = (closeFun, matchingClass) => e => {
       !e.target.closest(matchingClass) && 
       !e.target.closest('.todo-app-intro__add-btn') && 
       !e.target.closest('.confirm-dialog-container') && 
-      !e.target.closest('.info-dialog-container')
+      !e.target.closest('.info-dialog-container') &&
+      !e.target.closest('.todo-sections')
     ) {
       closeFun();
     }

@@ -14,7 +14,7 @@ export let quotesData = JSON.parse(localStorage.getItem('quotesData')) || null;
 // Asynchronous function to fetch quote data from an API
 async function getQuoteData() {
   // Add a loading class to the quote text element to indicate loading
-  quoteTextLm.classList.add('load-quote');
+  quoteTextLm.classList.add('loading');
   // Fetch the quote data from the provided URL
   const response = await fetch('https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json');
   // If the fetch fails, throw an error
@@ -91,7 +91,7 @@ export function loadQuote() {
       })
       .finally(() => {
         // Remove the loading class from the quote text element
-        quoteTextLm.classList.remove('load-quote');
+        quoteTextLm.classList.remove('loading');
       });
   } 
   else {

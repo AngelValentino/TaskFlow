@@ -176,9 +176,7 @@ main {
   text-align: center;
 }
 
-.todo-app-intro__add-btn, 
-.todo-app-intro__search-btn,
-.todo-app-intro__clear-btn {
+.todo-app-intro__btn {
   background-color: var(--dark-accent-color);
   border-radius: 5px;
   color: #fff;
@@ -209,11 +207,16 @@ main {
   top: -31px;
   background-color: #fff;
   z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.todo-sections__all-btn,
-.todo-sections__tasks-btn,
-.todo-sections__completed-btn {
+.todo-sections__header {
+  display: inline-block;
+}
+
+.todo-sections__btn {
   background-color: #efefef;
   padding: 12px;
   border-radius: 50px;
@@ -221,15 +224,28 @@ main {
   transition: background-color 0.1s, color 0.1s;
 }
 
-.todo-sections__all-btn.active,
-.todo-sections__tasks-btn.active,
-.todo-sections__completed-btn.active {
+.todo-sections__btn.active {
   background-color: var(--base-text-color);
   color: #fff;
 }
 
 .todo-sections h2 {
   font-weight: normal;
+}
+
+.todo-sections__scroll-to-top-btn {
+  display: none;
+  background-color: var(--medium-accent-color);
+  line-height: 0;
+  border-radius: 5px;
+  color: white;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
+  width: 40px;
+  height: 40px;
+}
+
+.todo-sections__scroll-to-top-icon {
+  width: 1em;
 }
 
 /* END OF TODO APP SECTIONS */
@@ -259,6 +275,8 @@ main {
   }
 
   /* END OF PLACEHOLDER IMAGE*/
+
+  /* _TODO */
 
   .todo {
     color: #fff;
@@ -326,6 +344,8 @@ main {
     font-size: 1.5em;
   }
 
+  /* END OF TODO */
+
 /* END OF TODOS CONTAINER */
 
 /* MEDIA QUERIES */
@@ -361,17 +381,22 @@ main {
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (hover: hover) {
-  .todo-app-intro__buttons > button:is(:hover, :focus-visible) {
+  .todo-app-intro__btn:is(:hover, :focus-visible) {
     color: var(--base-text-color);
     background-color: var(--medium-accent-color);
   }
 
-  .todo-sections > button:not(.active):is(:hover, :focus-visible) {
+  .todo-sections__btn:not(.active):is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
   }
   
-  .todo-sections > button.active:is(:hover, :focus-visible) {
+  .todo-sections__btn.active:is(:hover, :focus-visible) {
     cursor: default;
+  }
+
+  .todo-sections__scroll-to-top-btn:is(:hover, :focus-visible) {
+    background-color: var(--contrast-color);
+    color: var(--base-text-color);
   }
 
   .todo__edit-buttons button:is(:hover, :focus-visible) > span {
@@ -382,15 +407,19 @@ main {
 /* END OF HOVER CAPABLE DEVICES */
 
 /* ACTIVE */
-  .todo-app-intro__buttons > button:active {
+  .todo-app-intro__btn:active {
     transition: none;
     background-color: var(--contrast-color);
   }
 
-  .todo__complete-btn:active,
-  .todo__edit-btn:active,
-  .todo__delete-btn:active {
-    color: var(--contrast-color);
+  .todo-app-intro__btn:active {
+    color: var(--base-text-color);
+    background-color: var(--contrast-color);
+  }
+
+  .todo-sections__scroll-to-top-btn:active {
+    transition: none;
+    background-color: var(--light-accent-color) ;
   }
 
   .todo.completed .todo__delete-btn:active {
@@ -428,10 +457,6 @@ main {
 /* LOADERS */
 
   /* QUOTE LOADER */
-
-  .load-quote {
-    animation: fade 1.5s ease-out infinite alternate;
-  }
 
   @keyframes fade {
     0% {

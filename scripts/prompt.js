@@ -1,5 +1,5 @@
 import { 
-  generateTodosHTML 
+  generateTodosHTML
 } from "./main.js";
 
 import { 
@@ -56,10 +56,11 @@ function hidePrompt(focusFirstLmTimId, btnLm, promptLm, time) {
   setActiveBtn(btnLm); // Set button to inactive
   // Remove the specified class from the prompt element to update its visibility
   promptLm.classList.remove('active');
-
+  
   // Delay the hiding of the prompt element
   const hidePromptTimId = setTimeout(() => {
-    promptLm.setAttribute('hidden', ''); // Add 'hidden' attribute to hide the prompt element
+    // Add 'hidden' attribute to hide the prompt element
+    promptLm.setAttribute('hidden', '');
   }, time);
 
   return hidePromptTimId; // Return the timeout ID
@@ -70,8 +71,9 @@ function showPrompt(hidePromptTimId, promptLm, btnLm, time, firstFocusableLm) {
   promptLm.removeAttribute('hidden'); // Remove 'hidden' attribute to show the prompt
   setActiveBtn(btnLm); // Set button to active
 
-  // Add 'active' class to prompt with a slight delay
+  // Show prompt
   setTimeout(() => {
+    // Add active class
     promptLm.classList.add('active');
   }, 20);
 
@@ -90,7 +92,6 @@ function hideAddTodoPrompt() {
   toggleModalEvents(addTodoPromptEventsHandler, 'remove', null, addTodoPromptCloseBtn, addTodoPromptLm, document.body)
   addTodoPromptFormLm.removeEventListener('submit', submitTodoInfo);
 }
-
 
 // Reset the add todo form and hide the prompt
 function resetAddTodoForm() {
@@ -148,7 +149,6 @@ export function toggleAddTodoPrompt() {
     clearTimeout(resetAddTodoFormTimId); // Clear any existing reset timeout
     // Show the prompt with a delay
     addTodoPromptFirstFocusLmTimId = showPrompt(hideAddTodoPromptTimId, addTodoPromptLm, addTodoBtn, 250, addTodoPromptCloseBtn);
-
     // Add event listeners
     toggleModalEvents(addTodoPromptEventsHandler, 'add', confirmDiscardPromptData, addTodoPromptCloseBtn, addTodoPromptLm, document.body, '.add-todo-prompt');
     addTodoPromptFormLm.addEventListener('submit', submitTodoInfo);
