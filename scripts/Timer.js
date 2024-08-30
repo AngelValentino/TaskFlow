@@ -20,10 +20,12 @@ export class Timer {
     this.restTime = 5 * 60;
     this.workTime = 25 * 60;
     this.remainingSeconds = this.workTime;
+    // Create and configure the audio elements
     this.alarmClock = new Audio('../audios/alarm-clock.mp3');
     this.alarmClockTicking = new Audio('../audios/alarm-clock-ticking.mp3');
-    this.alarmClock.preload = 'auto';
-    this.alarmClockTicking.preload = 'auto';
+    // Ensure that audio is preloaded
+    this.preloadAudio(this.alarmClock);
+    this.preloadAudio(this.alarmClockTicking);
 
     // Reassignment variables 
     this.interval = null;
@@ -58,6 +60,12 @@ export class Timer {
         this.isRest = false;
         this.restartTimer(this.workTime);
       });
+  }
+
+  preloadAudio(audio) {
+    // Set preload attribute to auto, preload when the browser sees fit
+    audio.preload = 'auto';
+    audio.load();
   }
 
   updateClockLm() {

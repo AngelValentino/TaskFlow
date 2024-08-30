@@ -1,67 +1,92 @@
+// Keeps a reference of the preloaded images to prevent the browser from sending them to the garbage collector
+const preloadImgs = [];
+
+// Formats the provided Date object to an 'en-US' long-form string e.g. "January 1, 2024"
 export const formatCurrentDate = date => date.toLocaleDateString('en-US', { dateStyle: 'long' });
 
+// Reverses a date string from 'YYYY-MM-DD' to 'DD-MM-YYYY' or from 'DD-MM-YYYY' to 'YYYY-MM-DD'
 export const formatDate = date => date.split('-').reverse().join('-');
 
+// Returns a random index from the array that is not equal to the lastIndex
 export function getRandomIndex(arr, lastIndex) {
+  // Generate a random index between 0 and arr.length - 1
   const randomIndex = Math.floor(Math.random() * arr.length);
+
   if (randomIndex !== lastIndex) {
+    // If the random index is different from the last index, return it
     return randomIndex;
   } 
   else {
+     // Otherwise, recursively call the function until a different index is found
     return getRandomIndex(arr, lastIndex);
   }
 }
 
+// Generates a random integer between the specified min and max value
 export const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-// Keeps a reference of the preloaded images to prevent the browser from sending them to the garbage collector
-const preloadImgs = [];
-
+// Preloads a single image by creating a new Image object and setting its src
 function preloadImage(imgUrl) {
   const img = new Image();
   img.src = imgUrl;
   preloadImgs.push(img);
 }
 
+// Preloads a specific set of images fro Dialog and todos placeholder
 export function preloadDialogImages() {
+  // Preload specific animal images
   preloadImage('images/cute-animals-drawings/croco-capybara.png');
   preloadImage('images/cute-animals-drawings/croco-capybara-todos.png');
   preloadImage('images/cute-animals-drawings/capybara.jpg');
+  
+  // Preload a series of recycling icons
   for (let i = 1; i <= 6; i++) {
     preloadImage(`images/recycle-icons/garbage-collector-${i}.jpg`);
   }
 }
 
+// Toggles focus between modal elements to trap focus within the modal
 export function toggleModalFocus(focusBehaviour, firstFocusableLm, lastFocusedLm) {
   if (focusBehaviour === 'add') {
+    // Save the currently focused element
     const lastFocusedLm = document.activeElement;
+    // Focus on the first focusable element in the modal
     firstFocusableLm.focus();
+    // Return the last focused element for later use
     return lastFocusedLm;
   } 
   else if (focusBehaviour === 'return') {
+    // Restore focus to the last focused element before the modal was opened
     lastFocusedLm.focus();
   }
 }
 
+// Traps focus within a specified element
 export function trapFocus(e, element) {
+  // Select all focusable elements within the given element
   const focusableLms = element.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
+  // Get the first and last focusable elements
   const firstFocusableLm = focusableLms[0]; 
   const lastFocusableLm = focusableLms[focusableLms.length - 1];
 
+  // Check if the Tab key was pressed
   const isTabPressed = (e.key === 'Tab');
   
+  // Exit if the Tab key was not pressed
   if (!isTabPressed) { 
     return; 
   }
 
   if (e.shiftKey) /* shift + tab */ {
     if (document.activeElement === firstFocusableLm ) {
+      // If 'Shift + Tab' is pressed and focus is on the first element, move focus to the last element
       lastFocusableLm.focus();
       e.preventDefault();
     }
   } 
   else /* tab */ {
     if (document.activeElement === lastFocusableLm) {
+      // If Tab is pressed and focus is on the last element, move focus to the first element
       firstFocusableLm.focus();
       e.preventDefault();
     }
@@ -70,18 +95,21 @@ export function trapFocus(e, element) {
 
 // Event handler function for closing modal on Escape key
 const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
+  // Prevent closing if Escape is pressed within a specific modal and certain conditions are met
   if (
     e.key === 'Escape' && 
     matchingClass === '.add-todo-prompt' && 
     document.body.style.overflow === 'hidden'
   ) return;
   
+  // Close the modal if Escape is pressed
   if (e.key === 'Escape') closeFun();
 };
 
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
   if (matchingClass === '.add-todo-prompt') {
+    // Close modal if meets certain conditions within the 'add-todo-prompt' class
     if (
       !e.target.closest(matchingClass) && 
       !e.target.closest('.todo-app-intro__add-btn') && 
@@ -93,6 +121,7 @@ const handleModalOutsideClick = (closeFun, matchingClass) => e => {
     }
   } 
   else if (matchingClass === '.search-todo-prompt') {
+    // Close modal if meets certain conditions within the 'search-todo-prompt' class
     if (
       !e.target.closest(matchingClass) && 
       !e.target.closest('.todo-app-intro__search-btn') && 
@@ -102,6 +131,7 @@ const handleModalOutsideClick = (closeFun, matchingClass) => e => {
     }
   } 
   else if (e.target.matches(matchingClass)){
+    // Close modal if the clicked element matches the 'matchingClass'
     closeFun();
   }
 };
@@ -109,13 +139,13 @@ const handleModalOutsideClick = (closeFun, matchingClass) => e => {
 // Event handler function for trapping focus within the modal content
 const handleTrapFocus = modalContentLm => e => {
   trapFocus(e, modalContentLm);
-  console.log('trap focus')
 }
 
 // Toggle modal events (add or remove event listeners)
 export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, modalContentLm, modalContainerLm, matchingClass) {
-  // Create bound event handler functions
+  // Helper function to add event listeners
   function addEventListeners() {
+    // Create bound event handler functions
     const escKeyHandler = handleModalCloseAtEscapeKey(closeFun, matchingClass);
     const outsideClickHandler = handleModalOutsideClick(closeFun, matchingClass);
     const trapFocusHandler = handleTrapFocus(modalContentLm);
@@ -125,6 +155,7 @@ export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, mod
     modalContentLm?.addEventListener('keydown', trapFocusHandler);
     modalContainerLm?.addEventListener('click', outsideClickHandler);
 
+    // Add close function to specified element(s)
     if (closeLms) {
       // An array of elements
       if (Array.isArray(closeLms)) {
@@ -145,6 +176,7 @@ export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, mod
     closeLms && (eventsHandler.closeFun = closeFun);
   }
 
+  // Helper function to remove event listeners
   function removeEventListeners() {
     // Remove event listeners if elements exist
     document.body.removeEventListener('keydown', eventsHandler.escKeyHandler);
@@ -186,15 +218,17 @@ export function highlighter(text, highlight, isCompleted) {
   // Create a regular expression to match occurrences of the 'highlight' string, ignoring case
   const regex = new RegExp(`(${highlight.trim()})`, 'gi');
   
-  // Split the text into parts based on the regular expression
+  // Split the text into parts based on the regular expression also including the regex split 
+  // value thanks to using a capture group '()'
   const parts = text.split(regex);
 
   // Map through the parts, wrapping highlighted parts in a span with a specific class
-  return parts.map((part) => {
+  return parts.map(part => {
     if (regex.test(part)) {
       // If the part matches the highlight, wrap it in a span
       return `<span class="${isCompleted ? 'highlighted-2' : 'highlighted'}">${part}</span>`;
-    } else {
+    } 
+    else {
       // Otherwise, return the part as is
       return part;
     }
@@ -202,7 +236,6 @@ export function highlighter(text, highlight, isCompleted) {
 }
 
 export function setActiveBtn(btnLm) {
-  // Check if the button's 'aria-expanded' attribute is set to 'false'
   if (btnLm.getAttribute('aria-expanded') === 'false') {
     // If 'aria-expanded' attribute does not exist add the 'btn--active' class to the button
     btnLm.classList.add('btn--active');
@@ -215,27 +248,39 @@ export function setActiveBtn(btnLm) {
   }
 }
 
+// Gather and format data from a form
 export function getFormData(form, formatDateBoolean, id) {
+  // Initialize an empty object to store the form data
   const todoData = {};
+  // Select all input and textarea elements within the form
   const allFormInputs = [...form.querySelectorAll('input, textarea')];
+  // Set the default completion status to false
+  todoData.completed = false;
   
+  // Iterate over each form input element
   allFormInputs.forEach(input => {
+    // Check if is date input and if formatting is required
     if (input.name === 'date' && formatDateBoolean) {
+      // Format the date value and assign it to the todoData object
       todoData[input.name] = formatDate(input.value);
     }   
     else {
+      // Trim whitespace from the input value and assign it to the todoData object
       todoData[input.name] = input.value.trim();
     }
   });
 
+  // Check if an id is provided
   if (id) {
+    // Assign the provided id to the todoData object
     todoData.id = id;
   } 
   else {
+    // If no id is provided, generate a new unique id based on the current timestamp
     todoData.id = `task-${Date.now()}`;
   }
-
-  todoData.completed = false;
+  
+  // Return the populated todoData object
   return todoData;
 }
 

@@ -62,9 +62,13 @@ const currDate = new Date();
 // Initialize variables
 let timBgId;
 let initBgTimId;
-let lastPickedSection = localStorage.getItem('lastPickedSection') || '';
+let lastPickedSection = localStorage.getItem('lastPickedSection') || null;
 let filteredTodos = [];
+
 let lastGeneratedHTML = '';
+
+//TODO style focus forms not to be default browser outline styles
+//TODO App and documentation review
 
 // Add todo information to the edit form
 function addTodoInfoToEditForm(targetId, formInputs) {
@@ -164,15 +168,8 @@ function isSectionHeaderSticky() {
 
 // Toggle scroll to top button visibility
 function toggleScrollToTopBtn() {
-  // Check if the sticky element is currently active
-  if (isSectionHeaderSticky()) {
-    // Position sticky is active
-    scrollToTopBtn.style.display = 'inline-block';
-  } 
-  else {
-    // Position sticky is inactive
-    scrollToTopBtn.style.display = 'none';
-  }
+  // Check if the sticky element is currently active/inactive and show or hide scroll to top button
+  scrollToTopBtn.classList.toggle('show', isSectionHeaderSticky());
 }
 
 // Generate the HTML for displaying todos based on the active section and search highlight

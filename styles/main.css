@@ -244,6 +244,10 @@ main {
   height: 40px;
 }
 
+.todo-sections__scroll-to-top-btn.show {
+  display: inline-block;
+}
+
 .todo-sections__scroll-to-top-icon {
   width: 1em;
 }
