@@ -134,7 +134,7 @@ function getLastActiveSection() {
   } 
   else {
     // Otherwise, set the last picked section as active
-    const lastPickedSectionBtn =  document.getElementById(lastPickedSection);
+    const lastPickedSectionBtn = document.getElementById(lastPickedSection);
     setActiveSection(lastPickedSectionBtn);
   }
 }
@@ -332,7 +332,7 @@ function setActiveTodoSection(btnId) {
   setCurrentSectionToStorage(btnId);
 }
 
-//* Inital function and constructors calls
+//* Inital function and constructor calls
 
 // Update the current date display with the formatted current date
 currentDateLm.innerText = formatCurrentDate(currDate);
@@ -347,7 +347,7 @@ generateTodosHTML(todos);
 const timerLm = document.getElementById('timer');
 new Timer(timerLm);
 
-//* End of Inital function and constructors calls
+//* End of Inital function and constructor calls
 
 //* Add event listeners
 
