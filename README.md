@@ -9,7 +9,10 @@ TaskFlow is your go-to app for **effortless productivity**. Easily manage tasks,
 
 ## Table of Contents
 
+
+
 * [Todo App Functionality](#todo-app-functionality)
+  * [`toggleModalEvents()`](#togglemodalevents)
   * [Add Task](#add-task)
   * [Search Task](#search-task)
   * [Edit Task](#edit-task)
