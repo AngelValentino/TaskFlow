@@ -350,6 +350,8 @@ new Timer(timerLm);
 
 - Implement a **theme picker**.
 
+- Add **dark mode**.
+
 - Add **ambient music** with the option to connect to a music streaming platform.
 
 - **Enhance** the **pomodoro timer** by adding a tree that grows while the timer is running and allowing users to **edit time** periods.
