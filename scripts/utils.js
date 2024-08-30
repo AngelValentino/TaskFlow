@@ -98,25 +98,33 @@ const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
   // Prevent closing if Escape is pressed within a specific modal and certain conditions are met
   if (
     e.key === 'Escape' && 
-    matchingClass === '.add-todo-prompt' && 
+    (matchingClass === '.add-todo-prompt' || matchingClass === '.search-todo-prompt') && 
     document.body.style.overflow === 'hidden'
   ) return;
-  
+
   // Close the modal if Escape is pressed
   if (e.key === 'Escape') closeFun();
 };
 
+function isDialogClosed(e) {
+  return (
+    !e.target.closest('.confirm-dialog-container') &&
+    !e.target.closest('.info-dialog-container') &&
+    !e.target.closest('.edit-dialog-container')
+  );
+}
+
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
-  console.log(matchingClass)
   if (matchingClass === '.add-todo-prompt') {
     // Close modal if meets certain conditions within the 'add-todo-prompt' class
     if (
-      !e.target.closest(matchingClass) && 
-      !e.target.closest('.todo-app-intro__add-btn') && 
-      !e.target.closest('.confirm-dialog-container') && 
-      !e.target.closest('.info-dialog-container') &&
-      !e.target.closest('.todo-sections')
+      e.target.closest('.todo-app-intro__search-btn') ||
+        (
+          !e.target.closest(matchingClass) &&
+          isDialogClosed(e) &&
+          !e.target.closest('.todo-sections')
+        )
     ) {
       closeFun();
     }
@@ -124,8 +132,8 @@ const handleModalOutsideClick = (closeFun, matchingClass) => e => {
   else if (matchingClass === '.search-todo-prompt') {
     // Close search prompt if meets certain conditions within the 'search-todo-prompt' class
     if (
-      !e.target.closest('.todo-app') ||
-      e.target.closest('.todo-app-intro__add-btn')
+        (!e.target.closest('.todo-app') && isDialogClosed(e)) ||
+        e.target.closest('.todo-app-intro__add-btn')
     ) {
       closeFun();
     }

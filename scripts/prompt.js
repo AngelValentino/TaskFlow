@@ -152,7 +152,10 @@ export function toggleAddTodoPrompt() {
     // Show the prompt with a delay
     addTodoPromptFirstFocusLmTimId = showPrompt(hideAddTodoPromptTimId, addTodoPromptLm, addTodoBtn, 250, addTodoPromptCloseBtn);
     // Add event listeners
-    toggleModalEvents(addTodoPromptEventsHandler, 'add', confirmDiscardPromptData, addTodoPromptCloseBtn, addTodoPromptLm, document.body, '.add-todo-prompt');
+    // It needs the timeout to not conflict with close at overlay click
+    setTimeout(() => {
+      toggleModalEvents(addTodoPromptEventsHandler, 'add', confirmDiscardPromptData, addTodoPromptCloseBtn, addTodoPromptLm, document.body, '.add-todo-prompt');
+    })
     addTodoPromptFormLm.addEventListener('submit', submitTodoInfo);
   }
   // Hide the add todo prompt if it is already visible
@@ -215,7 +218,10 @@ export function toggleSearchPrompt() {
     searchTodoPromptFirstFocusLmTimId = showPrompt(hideSearchTodoPromptTimId, searchTodoPromptLm, searchTodoBtn, 1250, searchInputLm);
     
     // Add event listeners
-    toggleModalEvents(searchTodoPromptEventsHandler, 'add', hideSearchTodoPrompt, null, null, document.body, '.search-todo-prompt');
+    // It needs the timeout to not conflict with close at overlay click
+    setTimeout(() => {
+      toggleModalEvents(searchTodoPromptEventsHandler, 'add', hideSearchTodoPrompt, null, null, document.body, '.search-todo-prompt');
+    })
     searchInputLm.addEventListener('input', searchTodo); // Search todos at input change.
   } 
   // Hide the search todo prompt if it is already visible
