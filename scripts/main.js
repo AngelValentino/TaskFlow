@@ -294,7 +294,6 @@ export function generateTodosHTML(todos, highlight) {
 
 // Clears all todos after confirmation if there are any existing todos
 function clearAllTodos() {
-  if (isAddTodoFormEdited()) return; // if add todo prompt has data return
   setActiveBtn(clearAllTodosBtn);
   
   // Check if there are any todos to delete
@@ -415,8 +414,6 @@ todoSectionsHeaderLm.addEventListener('click', e => {
 
 // Add events listeners to todo buttons
 todosContainerLm.addEventListener('click', e => {
-  if (isAddTodoFormEdited()) return; // if add todo prompt has data return
-  
   //* Complete Todo
   if (e.target.closest('.todo__complete-btn')) {
     // Get the ID of the todo item

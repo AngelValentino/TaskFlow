@@ -106,6 +106,7 @@ const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
   if (e.key === 'Escape') closeFun();
 };
 
+// Helper functions for handleModalOutsideClick
 function isDialogClosed(e) {
   return (
     !e.target.closest('.confirm-dialog-container') &&
@@ -114,27 +115,24 @@ function isDialogClosed(e) {
   );
 }
 
+function isOutsideClickPrompt(e, btnClass) {
+  return (
+    (!e.target.closest('.todo-app') && isDialogClosed(e)) ||
+    e.target.closest('.' + btnClass)
+  )
+}
+
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
   if (matchingClass === '.add-todo-prompt') {
-    // Close modal if meets certain conditions within the 'add-todo-prompt' class
-    if (
-      e.target.closest('.todo-app-intro__search-btn') ||
-        (
-          !e.target.closest(matchingClass) &&
-          isDialogClosed(e) &&
-          !e.target.closest('.todo-sections')
-        )
-    ) {
+    /* Close add todo prompt if target is search button or it is outside the prompt and dialog is closed */
+    if (isOutsideClickPrompt(e, 'todo-app-intro__search-btn')) {
       closeFun();
     }
   } 
   else if (matchingClass === '.search-todo-prompt') {
-    // Close search prompt if meets certain conditions within the 'search-todo-prompt' class
-    if (
-        (!e.target.closest('.todo-app') && isDialogClosed(e)) ||
-        e.target.closest('.todo-app-intro__add-btn')
-    ) {
+    /* Close search todo prompt if target is search button or it is outside the prompt and dialog is closed */
+    if (isOutsideClickPrompt(e, 'todo-app-intro__add-btn')) {
       closeFun();
     }
   } 

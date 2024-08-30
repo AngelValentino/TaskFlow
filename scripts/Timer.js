@@ -1,3 +1,4 @@
+import { isAddTodoFormEdited } from "./prompt.js";
 import { playSound, stopSound, isSoundPlaying } from "./utils.js";
 
 export class Timer {
@@ -38,8 +39,8 @@ export class Timer {
     // Add event listeners
       // Add start/pause event listener to control button
       this.lms.controlLm.addEventListener('click', () => {
-        // If the timer is currently running, exit the function
-        if (this.isTimer) return; 
+        // If the timer is currently running or add todo form is edited, exit the function
+        if (this.isTimer || isAddTodoFormEdited()) return; 
 
         // If there's no active interval (timer is not running)
         if (!this.interval) {
@@ -61,8 +62,9 @@ export class Timer {
 
       // Add reset event listener to reset button
       this.lms.resetLm.addEventListener('click', () => {
-        // If the timer is currently running or the remaining seconds are equal to the work time, exit the function
-        if (this.isTimer || this.remainingSeconds === this.workTime) return;
+        /* If the timer is currently running or the remaining seconds are equal to the work time 
+        or add todo form is edited, exit the function */
+        if (this.isTimer || this.remainingSeconds === this.workTime || isAddTodoFormEdited()) return;
 
         // Reset to the work phase
         this.isRest = false;
