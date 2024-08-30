@@ -352,6 +352,6 @@ new Timer(timerLm);
 
 - Add **ambient music** with the option to connect to a music streaming platform.
 
-- **Enhance** the **pomodoro timer** by Adding a tree that grows while the timer is running and allowing users to **edit time** periods.
+- **Enhance** the **pomodoro timer** by adding a tree that grows while the timer is running and allowing users to **edit time** periods.
 
 - Add a **forest cube** displaying all the user trees using **'Three.js'**.
