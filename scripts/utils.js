@@ -95,7 +95,7 @@ export function trapFocus(e, element) {
 
 // Event handler function for closing modal on Escape key
 const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
-  // Prevent closing if Escape is pressed within a specific modal and certain conditions are met
+  // Prevent closing if Escape is pressed and certain conditions are met
   if (
     e.key === 'Escape' && 
     (matchingClass === '.add-todo-prompt' || matchingClass === '.search-todo-prompt') && 
