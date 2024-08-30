@@ -20,6 +20,10 @@ button, input, textarea {
   color: inherit;
 }
 
+ul {
+  list-style-type: none;
+}
+
 button {
   cursor: pointer;
 }
@@ -46,6 +50,7 @@ html {
   --light-accent-color: #c3c3c3;
   --base-transition-duration: 0.15s;
   --base-text-color: #272727;
+  --base-font-size: 1.18rem;
 }
 
 /* END OF ROOT */
@@ -84,11 +89,6 @@ body {
   color: var(--base-text-color);
 }
 
-.content {
-  z-index: 1;
-  position: relative;
-}
-
 .background-image {
   transition: opacity 1s;
   position: absolute;
@@ -99,14 +99,23 @@ body {
 }
 
 main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   min-height: 100vh;
-  place-items: center;
-  gap: 10%;
   padding: 30px;
   max-width: 1400px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+.widgets-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+  gap: 10%;
+  width: 100%;
 }
 
 /* END OF MAIN */
@@ -121,12 +130,14 @@ main {
 
 /* _TODO APP */
 
+.todo-app-container {
+  max-width: 600px;
+  width: 100%;
+}
+
 .todo-app {
   display: flex;
   flex-flow: column;
-  font-size: 1.18rem;
-  max-width: 600px;
-  width: 100%;
   border-radius: 3px;
   background-color: #fff;
   padding: 30px 25px;
@@ -162,14 +173,18 @@ main {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 0.75em;
+}
+
+.todo-app-intro__current-date,
+.todo-app-intro__tasks-left {
+  font-size: 1.32rem;
 }
 
 .todo-app-intro__tasks-left {
   font-weight: normal;
 }
 
-.todo-app-intro__buttons {
+.todo-app-intro__buttons-list{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -177,6 +192,8 @@ main {
 }
 
 .todo-app-intro__btn {
+  width: 100%;
+  height: 100%;
   background-color: var(--dark-accent-color);
   border-radius: 5px;
   color: #fff;
@@ -184,17 +201,17 @@ main {
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
-.todo-app-intro__add-btn {
+.todo-app-intro__add-button-container {
   grid-row: span 2;
 }
 
 .todo-app-intro__search-icon,
 .todo-app-intro__clear-icon {
-  width: 1.3em;
+  width: 1.5rem;
 }
 
 .todo-app-intro__add-icon {
-  width: 1.6em;
+  width: 1.85rem;
 }
 
 /* END OF TODO APP INTRO */
@@ -212,7 +229,7 @@ main {
   align-items: center;
 }
 
-.todo-sections__header {
+.todo-sections__btn-container {
   display: inline-block;
 }
 
@@ -220,7 +237,7 @@ main {
   background-color: #efefef;
   padding: 12px;
   border-radius: 50px;
-  font-size: 0.65em;
+  font-size: 1.15rem;
   transition: background-color 0.1s, color 0.1s;
 }
 
@@ -229,7 +246,7 @@ main {
   color: #fff;
 }
 
-.todo-sections h2 {
+.todo-sections__header {
   font-weight: normal;
 }
 
@@ -249,7 +266,7 @@ main {
 }
 
 .todo-sections__scroll-to-top-icon {
-  width: 1em;
+  width: 1.15rem;
 }
 
 /* END OF TODO APP SECTIONS */
@@ -258,7 +275,6 @@ main {
 
   .todos-container {
     margin-top: 25px;
-    list-style-type: none;
     flex: 1;
   }
 
@@ -270,6 +286,7 @@ main {
     justify-content: center;
     padding: 0 0 40px;
     height: 100%;
+    width: 100%;
     background-color: rgb(248, 248, 248);
     border-radius: 5px;
   }
@@ -301,9 +318,11 @@ main {
 
   .todo__task-name {
     margin: 0 0 5px;
+    font-size: 1.375rem;
   }
 
   .todo__task-date {
+    font-size: var(--base-font-size);
     opacity: 0.8;
     margin: 0 0 15px;
     color: var(--light-accent-color);
@@ -316,24 +335,27 @@ main {
 
   .todo__task-desc {
     margin: 0 0 22px;
+    font-size: var(--base-font-size);
   }
 
-  .todo__edit-buttons {
+  .todo__control-buttons-list {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    line-height: 0;
   }
 
-  .todo.completed .todo__edit-buttons {
+  .todo.completed .todo__control-btn-container {
+    display: flex;
     justify-content: end;
   }
 
-  .todo__edit-buttons button {
+  .todo__control-btn {
     line-height: 0;
     border-radius: 5px;
   }
 
-  .todo__edit-buttons > div {
+  .todo__control-buttons-list > div {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -341,11 +363,11 @@ main {
 
   .todo__complete-icon,
   .todo__edit-icon {
-    font-size: 1.45em;
+    font-size: 1.7rem;
   }
 
   .todo__delete-icon {
-    font-size: 1.5em;
+    font-size: 1.75rem;
   }
 
   /* END OF TODO */
@@ -355,7 +377,7 @@ main {
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 1200px) {
-  main {
+  .widgets-list {
     display: flex;
     flex-flow: column;
     gap: 7rem;
@@ -363,8 +385,9 @@ main {
 }
 
 @media screen and (max-width: 600px) {
-  .todo-app-intro__info {
-    font-size: 0.7em;
+  .todo-app-intro__current-date,
+  .todo-app-intro__tasks-left {
+    font-size: 1.2rem;
   }
 }
 
@@ -379,6 +402,12 @@ main {
 
   .todo-sections {
     top: -20px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  html {
+    font-size: 15px;
   }
 }
 
@@ -403,7 +432,7 @@ main {
     color: var(--base-text-color);
   }
 
-  .todo__edit-buttons button:is(:hover, :focus-visible) > span {
+  .todo__control-btn:is(:hover, :focus-visible) > span {
     font-variation-settings: 'FILL' 1;
   }
 }
@@ -424,6 +453,10 @@ main {
   .todo-sections__scroll-to-top-btn:active {
     transition: none;
     background-color: var(--light-accent-color) ;
+  }
+
+  .todo__control-btn:active {
+    color: var(--contrast-color);
   }
 
   .todo.completed .todo__delete-btn:active {

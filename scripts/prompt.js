@@ -52,8 +52,10 @@ let searchTodoPromptFirstFocusLmTimId;
 
 function hidePrompt(focusFirstLmTimId, btnLm, promptLm, time) {
   clearTimeout(focusFirstLmTimId); // Clear any existing focus timeout
-  toggleModalFocus('return', null, btnLm); // Restore focus
-  setActiveBtn(btnLm); // Set button to inactive
+  // If no modal is open restore focus
+  if (document.body.style.overflow !== 'hidden') toggleModalFocus('return', null, btnLm);
+  // Set button to inactive
+  setActiveBtn(btnLm); 
   // Remove the specified class from the prompt element to update its visibility
   promptLm.classList.remove('active');
   

@@ -67,9 +67,6 @@ let filteredTodos = [];
 
 let lastGeneratedHTML = '';
 
-//TODO style focus forms not to be default browser outline styles
-//TODO App and documentation review
-
 // Add todo information to the edit form
 function addTodoInfoToEditForm(targetId, formInputs) {
   todos.forEach(todo => {
@@ -195,23 +192,29 @@ export function generateTodosHTML(todos, highlight) {
   // Generate HTML for an individual task
   function generateTaskHTML(todo, highlight) {
     return `
-      <li id="${todo.id}" class="todo">
+      <li aria-checked="false" id="${todo.id}" aria-label="Task not completed." class="todo">
         <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h3>
         <p class="todo__task-date">${todo.date}</p>
         <p class="todo__task-desc">${todo.description}</p>
-        <div class="todo__edit-buttons">
-          <button title="Complete task" class="todo__complete-btn" aria-label="Complete todo." type="button">
-            <span aria-hidden="true" role="presentation" class="material-symbols-outlined todo__complete-icon">check_circle</span>
-          </button>
-          <div>
-            <button title="Edit task" class="todo__edit-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
-              <span aria-hidden="true" role="presentation" class="material-symbols-outlined todo__edit-icon">edit_square</span>
+        <ul aria-label="Task controls." class="todo__control-buttons-list">
+          <li>
+            <button title="Complete task" class="todo__complete-btn todo__control-btn" aria-label="Complete todo." type="button">
+              <span aria-hidden="true" role="presentation" class="material-symbols-outlined todo__complete-icon">check_circle</span>
             </button>
-            <button title="Delete task" class="todo__delete-btn" aria-label="Delete todo." type="button">
-              <span aria-hidden="true" role="presentation" class="trash material-symbols-outlined todo__delete-icon">delete</span>
-            </button>
+          </li>
+          <div role="presentation">
+            <li>
+              <button title="Edit task" class="todo__edit-btn todo__control-btn" id="todo__edit-btn-${todo.id}" aria-label="Edit todo." type="button">
+                <span aria-hidden="true" role="presentation" class="material-symbols-outlined todo__edit-icon">edit_square</span>
+              </button>
+            </li>
+            <li>
+              <button title="Delete task" class="todo__delete-btn todo__control-btn" aria-label="Delete todo." type="button">
+                <span aria-hidden="true" role="presentation" class="trash material-symbols-outlined todo__delete-icon">delete</span>
+              </button>
+            </li>
           </div>
-        </div>
+        </ul>
       </li>
     `;
   }
@@ -219,12 +222,12 @@ export function generateTodosHTML(todos, highlight) {
   // Generate HTML for a completed task
   function generateCompletedTaskHTML(todo, highlight) {
     return `
-      <li id="${todo.id}" class="todo completed">
+      <li aria-checked="true" id="${todo.id}" aria-label="Task completed." class="todo completed">
         <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h3>
         <p class="todo__task-date">${todo.date}</p>
         <p class="todo__task-desc">${todo.description}</p>
-        <div class="todo__edit-buttons">
-          <button title="Delete completed task" class="todo__delete-btn" aria-label="Delete todo." type="button">
+        <div class="todo__control-btn-container">
+          <button title="Delete completed task" class="todo__delete-btn todo__control-btn" aria-label="Delete todo." type="button">
             <span aria-hidden="true" role="presentation" class="trash material-symbols-outlined todo__delete-icon">delete</span>
           </button>
         </div>
@@ -247,6 +250,7 @@ export function generateTodosHTML(todos, highlight) {
   if (allBtnLm.matches('.active')) {
     // All section HTML, showing both completed and incomplete tasks
     // For each todo, generate the appropriate HTML based on its completion status
+    todosContainerLm.ariaLabel = "All Todos list."
     generatedHTML = todos
       .map(todo => todo.completed ? generateCompletedTaskHTML(todo, highlight) : generateTaskHTML(todo, highlight))
       .join('');
@@ -254,6 +258,7 @@ export function generateTodosHTML(todos, highlight) {
   else if (tasksBtnLm.matches('.active')) {
     // Tasks section HTML, showing only incomplete tasks
     // Filter out completed tasks and generate HTML only for those that are still incompleted
+    todosContainerLm.ariaLabel = "Tasks list."
     generatedHTML = todos
       .filter(todo => !todo.completed)
       .map(todo => generateTaskHTML(todo, highlight))
@@ -262,6 +267,7 @@ export function generateTodosHTML(todos, highlight) {
   else if (completedBtnLm.matches('.active')) {
     // Completed Section HTML, showing only complete tasks
     // Filter out incomplete tasks and generate HTML only for those that are marked as completed
+    todosContainerLm.ariaLabel = "Completed tasks list."
     generatedHTML = todos
       .filter(todo => todo.completed)
       .map(todo => generateCompletedTaskHTML(todo, highlight))
@@ -414,15 +420,14 @@ todosContainerLm.addEventListener('click', e => {
   //* Complete Todo
   if (e.target.closest('.todo__complete-btn')) {
     // Get the ID of the todo item
-    const targetId = e.target.closest('li').id;
-   
+    const targetId = e.target.closest('.todo').id;
     // Confirm complete todo
     openConfirmDialog(completeTodo.bind(null, targetId), 'Are you sure that you want to complete this task?', true); 
   } 
   //* Edit Todo
   else if (e.target.closest('.todo__edit-btn')) {
     // Get the ID of the todo item
-    const targetId = e.target.closest('li').id;
+    const targetId = e.target.closest('.todo').id;
     // DOM references
     const editDialogFormLm = document.getElementById('edit-dialog__form')
     const editDialogFormInputLms = editDialogFormLm.querySelectorAll('input, textarea');
@@ -434,8 +439,7 @@ todosContainerLm.addEventListener('click', e => {
   //* Delete todo
   else if (e.target.closest('.todo__delete-btn')) {
     // Get the ID of the todo item
-    const targetId = e.target.closest('li').id;
-    
+    const targetId = e.target.closest('.todo').id;
     // Confirm delete todo
     openConfirmDialog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
   }

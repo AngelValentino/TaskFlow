@@ -27,9 +27,85 @@ TaskFlow is your go-to app for **effortless productivity**. Easily manage tasks,
 
 ## Todo App Functionality
 
-The application includes a fully implemented todo system the with ability to **add**, **edit**, **complete** , **delete** and **search** tasks.
+The application includes a fully implemented todo system the with ability to **add**, **edit**, **complete**, **delete** and **search** tasks.
 
->All functionalities reuse the **toggleModalEvents** function to open their respective modals, with all necessary **accessible features**, such as **closing with the 'Escape' key**, **overlay click**, and **focus trapping**.
+>All functionalities reuse the **`toggleModalEvents()`** and **`toggeModalFocus()`** functions to open their respective modals, with all the necessary **accessible features**. Such as **closing with the 'Escape' key**, **overlay click**, and **focus trapping**. [see more](https://github.com/AngelValentino/TaskFlow/blob/main/scripts/utils.js)
+
+
+### `toggleModalEvents()`
+
+```js
+// Toggle modal events (add or remove event listeners)
+export function toggleModalEvents(eventsHandler, action, closeFun, closeLms, modalContentLm, modalContainerLm, matchingClass) {
+  // Helper function to add event listeners
+  function addEventListeners() {
+    // Create bound event handler functions
+    const escKeyHandler = handleModalCloseAtEscapeKey(closeFun, matchingClass);
+    const outsideClickHandler = handleModalOutsideClick(closeFun, matchingClass);
+    const trapFocusHandler = handleTrapFocus(modalContentLm);
+
+    // Add event listeners if elements exist
+    document.body.addEventListener('keydown', escKeyHandler);
+    modalContentLm?.addEventListener('keydown', trapFocusHandler);
+    modalContainerLm?.addEventListener('click', outsideClickHandler);
+
+    // Add close function to specified element(s)
+    if (closeLms) {
+      // An array of elements
+      if (Array.isArray(closeLms)) {
+        closeLms.forEach(closeLm => {
+          closeLm.addEventListener('click', closeFun);
+        });
+      } 
+      // Only one element
+      else {
+        closeLms.addEventListener('click', closeFun);
+      }
+    }
+
+    // Store handlers on the eventsHandler object to remove them later
+    eventsHandler.escKeyHandler = escKeyHandler;
+    modalContentLm && (eventsHandler.trapFocusHandler = trapFocusHandler);
+    modalContainerLm && (eventsHandler.outsideClickHandler = outsideClickHandler);
+    closeLms && (eventsHandler.closeFun = closeFun);
+  }
+
+  // Helper function to remove event listeners
+  function removeEventListeners() {
+    // Remove event listeners if elements exist
+    document.body.removeEventListener('keydown', eventsHandler.escKeyHandler);
+    modalContentLm?.removeEventListener('keydown', eventsHandler.trapFocusHandler);
+    modalContainerLm?.removeEventListener('click', eventsHandler.outsideClickHandler);
+
+    if (closeLms) {
+      // An array of elements
+      if (Array.isArray(closeLms)) {
+        closeLms.forEach(closeLm => {
+          closeLm.removeEventListener('click', eventsHandler.closeFun);
+        });
+      } 
+      // Only one element
+      else {
+        closeLms.removeEventListener('click', eventsHandler.closeFun);
+      }
+    }
+
+    // Clean up stored handlers
+    delete eventsHandler.escKeyHandler;
+    modalContentLm && delete eventsHandler.trapFocusHandler;
+    modalContainerLm && delete eventsHandler.outsideClickHandler;
+    closeLms && delete eventsHandler.closeFun;
+  }
+
+  if (action === 'add') {
+    addEventListeners();
+  } 
+  else if (action === 'remove') {
+    removeEventListeners();
+  }
+}
+```
+
 ### Add Task
 
 ```js
@@ -114,7 +190,7 @@ export function completeTodo(targetId) {
 
 ![Task Flow Todo system complete task confirmational modal dialog](https://i.imgur.com/YytDhyp.jpeg)
 
-![Task Flow Todo system completed task](https://i.imgur.com/Tsejt5J.jpeg)
+![Task Flow Todo system completed task](https://i.imgur.com/fAxbII2.jpeg)
 
 ### Delete Task
 

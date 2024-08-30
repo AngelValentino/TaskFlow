@@ -113,6 +113,13 @@
   background-color: var(--light--accent-color);
 }
 
+.edit-dialog__task:focus, 
+.edit-dialog__date:focus,
+.edit-dialog__desc:focus {
+  outline: none;
+  border: 2px solid var(--dark-accent-color);
+}
+
 .edit-dialog label {
   display: block;
   padding: 0 0 10px;
@@ -205,6 +212,12 @@
 @media screen and (max-width: 450px) {
   .form-dialog {
     padding: 30px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .form-dialog {
+    padding: 30px 25px;
   }
 }
 

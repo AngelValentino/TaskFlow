@@ -23,9 +23,9 @@ export class Timer {
     // Create and configure the audio elements
     this.alarmClock = new Audio('../audios/alarm-clock.mp3');
     this.alarmClockTicking = new Audio('../audios/alarm-clock-ticking.mp3');
-    // Ensure that audio is preloaded
-    this.preloadAudio(this.alarmClock);
-    this.preloadAudio(this.alarmClockTicking);
+    // Set preload attribute to auto, preload when the browser sees fit
+    this.alarmClock.preload = 'auto'; 
+    this.alarmClockTicking.preload = 'auto';
 
     // Reassignment variables 
     this.interval = null;
@@ -38,34 +38,37 @@ export class Timer {
     // Add event listeners
       // Add start/pause event listener to control button
       this.lms.controlLm.addEventListener('click', () => {
+        // If the timer is currently running, exit the function
         if (this.isTimer) return; 
 
+        // If there's no active interval (timer is not running)
         if (!this.interval) {
+          // Check if the current phase is rest
           if (this.isRest) {
+            // Start the rest timer
             this.startTimer('rest');
           } 
           else {
+            // Start the work timer
             this.startTimer('work');
           }
         } 
         else {
+          // If the timer is running, stop the timer
           this.stopTimer();
         }
       });
 
       // Add reset event listener to reset button
       this.lms.resetLm.addEventListener('click', () => {
+        // If the timer is currently running or the remaining seconds are equal to the work time, exit the function
         if (this.isTimer || this.remainingSeconds === this.workTime) return;
 
+        // Reset to the work phase
         this.isRest = false;
+        // Restart the timer with the work time
         this.restartTimer(this.workTime);
       });
-  }
-
-  preloadAudio(audio) {
-    // Set preload attribute to auto, preload when the browser sees fit
-    audio.preload = 'auto';
-    audio.load();
   }
 
   updateClockLm() {
@@ -213,6 +216,7 @@ export class Timer {
   static generateHTML() {
     return (
       `
+        <h2 class="visually-hidden">Pomodoro Timer</h2>
         <div class="timer__clock">
           <span class="timer__minutes">00</span>
           <span>:</span>
