@@ -193,7 +193,7 @@ export function generateTodosHTML(todos, highlight) {
   function generateTaskHTML(todo, highlight) {
     return `
       <li aria-checked="false" id="${todo.id}" aria-label="Task not completed." class="todo">
-        <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h3>
+        <h4 class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h4>
         <p class="todo__task-date">${todo.date}</p>
         <p class="todo__task-desc">${todo.description}</p>
         <ul aria-label="Task controls." class="todo__control-buttons-list">
@@ -223,7 +223,7 @@ export function generateTodosHTML(todos, highlight) {
   function generateCompletedTaskHTML(todo, highlight) {
     return `
       <li aria-checked="true" id="${todo.id}" aria-label="Task completed." class="todo completed">
-        <h3 class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h3>
+        <h4 class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h4>
         <p class="todo__task-date">${todo.date}</p>
         <p class="todo__task-desc">${todo.description}</p>
         <div class="todo__control-btn-container">
