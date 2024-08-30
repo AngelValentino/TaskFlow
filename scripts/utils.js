@@ -108,6 +108,7 @@ const handleModalCloseAtEscapeKey = (closeFun, matchingClass) => e => {
 
 // Event handler function for closing modal on outside click
 const handleModalOutsideClick = (closeFun, matchingClass) => e => {
+  console.log(matchingClass)
   if (matchingClass === '.add-todo-prompt') {
     // Close modal if meets certain conditions within the 'add-todo-prompt' class
     if (
@@ -121,11 +122,10 @@ const handleModalOutsideClick = (closeFun, matchingClass) => e => {
     }
   } 
   else if (matchingClass === '.search-todo-prompt') {
-    // Close modal if meets certain conditions within the 'search-todo-prompt' class
+    // Close search prompt if meets certain conditions within the 'search-todo-prompt' class
     if (
-      !e.target.closest(matchingClass) && 
-      !e.target.closest('.todo-app-intro__search-btn') && 
-      !e.target.closest('.todo-sections')
+      !e.target.closest('.todo-app') ||
+      e.target.closest('.todo-app-intro__add-btn')
     ) {
       closeFun();
     }
