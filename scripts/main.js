@@ -357,13 +357,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const bouncerLoaderLm = document.getElementById('bouncer-loader');
   
   // Hide the loader by setting its opacity to 0
-  bouncerLoaderContainerLm.style.backgroundColor = 'transparent'
+  bouncerLoaderContainerLm.style.backgroundColor = 'transparent';
   bouncerLoaderLm.style.opacity = 0;
 
   // Set loader dispay to none
   setTimeout(() => {
     bouncerLoaderContainerLm.style.display = 'none';
-  }, 500)
+  }, 500);
 
   // Load the initial quote and set a random background theme
   loadQuote();
