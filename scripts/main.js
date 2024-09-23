@@ -356,11 +356,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const bouncerLoaderContainerLm = document.getElementById('bouncer-container');
   const bouncerLoaderLm = document.getElementById('bouncer-loader');
   
-  // Hide the loader by setting its opacity to 0
+  // Annouce that the element has stopped loading
+  bouncerLoaderContainerLm.ariaBusy = 'false';
+  // Hide the loader
   bouncerLoaderContainerLm.style.backgroundColor = 'transparent';
   bouncerLoaderLm.style.opacity = 0;
+  // Reset the loader title
+  bouncerLoaderContainerLm.title = '';
 
-  // Set loader dispay to none
+  // After 500ms, completely hide the loader
   setTimeout(() => {
     bouncerLoaderContainerLm.style.display = 'none';
   }, 500);
