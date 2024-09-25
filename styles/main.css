@@ -409,11 +409,6 @@ main {
     justify-content: end;
   }
 
-  .todo__control-btn {
-    line-height: 0;
-    border-radius: 5px;
-  }
-
   .todo__control-buttons-list > div {
     display: flex;
     align-items: center;
@@ -425,6 +420,7 @@ main {
   .todo__delete-btn {
     padding: 5px;
     margin: -5px;
+    line-height: 0;
   }
 
   .todo__complete-icon,
