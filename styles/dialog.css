@@ -58,12 +58,13 @@
 }
 
 .edit-dialog__close-btn,
-.confrim-dialog__close-btn,
+.confirm-dialog__close-btn,
 .info-dialog__close-btn {
-  position: absolute;
-  right: 10px;
-  top: 10px;
+  position: absolute !important;
+  right: 15px;
+  top: 15px;
   line-height: 0;
+  padding: 3px;
 }
 
 .confirm-dialog__desc,
@@ -82,9 +83,9 @@
 }
 
 .edit-dialog__close-btn .edit-dialog__close-icon,
-.confrim-dialog__close-btn .confrim-dialog__close-icon,
+.confirm-dialog__close-btn .confirm-dialog__close-icon,
 .info-dialog__close-btn .info-dialog__close-icon {
-  font-size: 1.4em;
+  width: 1.3em;
 }
 
 /* END OF DIALOG */
@@ -155,12 +156,6 @@
     background-color: var(--contrast-color);
     color: var(--base-text-color);
   }
-
-  .edit-dialog__close-btn:is(:hover, :focus-visible) .edit-dialog__close-icon,
-  .confrim-dialog__close-btn:is(:hover, :focus-visible) .confrim-dialog__close-icon,
-  .info-dialog__close-btn:is(:hover, :focus-visible) .info-dialog__close-icon {
-    font-variation-settings:'FILL' 1;
-  }
 }
 
 /* END OF HOVER CAPABLE DEVICES */
@@ -174,12 +169,6 @@
   transition: none;
   background-color: var(--light-accent-color);
   color: var(--base-text-color);
-}
-
-.edit-dialog__close-btn:active,
-.confrim-dialog__close-btn:active,
-.info-dialog__close-btn:active {
-  color: #ff4f33;
 }
 
 /* END OF ACTIVE */

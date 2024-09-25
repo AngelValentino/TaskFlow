@@ -69,13 +69,59 @@ html {
   white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 }
 
-/* MATERIAL ICONS */
 
-.material-symbols-outlined {
-  font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+/* UI COMPONENTS */
+
+.appear-bg-from-center {
+  position: relative;
 }
 
-/* END OF MATERIAL ICONS */
+.appear-bg-from-center::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0.1em;
+  opacity: 0;
+  transition: transform 0.15s, height 0.15s, background-color var(--base-transition-duration), opacity 0.15s;
+  will-change: transform, height;
+  border-radius: 2px;
+  top: 50%;
+  transform: scaleX(0) translateY(-50%);
+  background-color: var(--dark-to-medium-accent-color);
+  z-index: -1;
+}
+
+.appear-bg-from-center.rounded::after {
+  border-radius: 50px;
+}
+
+.appear-bg-from-center.dark {
+  transition: color 0.15s;
+}
+
+.appear-bg-from-center.dark::after {
+  background-color: rgb(77, 77, 77);
+}
+
+@media screen and (hover: hover) {
+  .appear-bg-from-center:not(.active):is(:hover, :focus-visible)::after {
+    height: 100%;
+    transform: scaleX(1) translateY(-50%);
+    opacity: 1;
+  }
+
+  .appear-bg-from-center:not(.active):is(:hover, :focus-visible) {
+    color: #fff;
+  }
+}
+
+.appear-bg-from-center:active svg {
+  opacity: 0.75;
+}
+
+/* END OF UI COMPONENTS */
 
 /* BODY AND MAIN */
 
@@ -184,11 +230,12 @@ main {
   font-weight: normal;
 }
 
-.todo-app-intro__buttons-list{
+.todo-app-intro__buttons-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   text-align: center;
+  justify-self: center;
 }
 
 .todo-app-intro__btn {
@@ -235,10 +282,12 @@ main {
 
 .todo-sections__btn {
   background-color: #efefef;
+  position: relative;
+  z-index: 1;
   padding: 12px;
   border-radius: 50px;
   font-size: 1.15rem;
-  transition: background-color 0.1s, color 0.1s;
+  overflow: hidden;
 }
 
 .todo-sections__btn.active {
@@ -307,6 +356,8 @@ main {
     margin: 0 0 20px;
     transition: background-color var(--base-transition-duration);
     word-wrap: break-word;
+    position: relative;
+    z-index: 1;
   }
 
   .todo.completed {
@@ -361,13 +412,22 @@ main {
     gap: 10px;
   }
 
-  .todo__complete-icon,
-  .todo__edit-icon {
-    font-size: 1.7rem;
+  .todo__complete-btn,
+  .todo__edit-btn,
+  .todo__delete-btn {
+    padding: 5px;
+    margin: -5px;
+    border-radius: 50%;
   }
 
+  .todo__complete-icon,
+  .todo__edit-icon,
   .todo__delete-icon {
-    font-size: 1.75rem;
+    width: 1.65rem;
+  }
+
+  .todo__edit-icon {
+    margin-bottom: -2px;
   }
 
   /* END OF TODO */
@@ -415,12 +475,7 @@ main {
 
 @media screen and (hover: hover) {
   .todo-app-intro__btn:is(:hover, :focus-visible) {
-    color: var(--base-text-color);
     background-color: var(--medium-accent-color);
-  }
-
-  .todo-sections__btn:not(.active):is(:hover, :focus-visible) {
-    background-color: var(--contrast-color);
   }
   
   .todo-sections__btn.active:is(:hover, :focus-visible) {
@@ -431,10 +486,6 @@ main {
     background-color: var(--contrast-color);
     color: var(--base-text-color);
   }
-
-  .todo__control-btn:is(:hover, :focus-visible) > span {
-    font-variation-settings: 'FILL' 1;
-  }
 }
 
 /* END OF HOVER CAPABLE DEVICES */
@@ -442,23 +493,14 @@ main {
 /* ACTIVE */
   .todo-app-intro__btn:active {
     transition: none;
-    background-color: var(--contrast-color);
-  }
-
-  .todo-app-intro__btn:active {
-    color: var(--base-text-color);
-    background-color: var(--contrast-color);
+    opacity: 0.75;
   }
 
   .todo-sections__scroll-to-top-btn:active {
     transition: none;
     background-color: var(--light-accent-color) ;
   }
-
-  .todo__control-btn:active {
-    color: var(--contrast-color);
-  }
-
+  
   .todo.completed .todo__delete-btn:active {
     color: var(--light-accent-color);
   }
