@@ -48,7 +48,7 @@ html {
   --contrast-color: #9c9c9c;
   --background-image: url(../images/app-background/grey-background.jpg);
   --light-accent-color: #c3c3c3;
-  --base-transition-duration: 0.15s;
+  --base-transition-duration: 0.25s;
   --base-text-color: #272727;
   --base-font-size: 1.18rem;
 }
@@ -69,7 +69,6 @@ html {
   white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 }
 
-
 /* UI COMPONENTS */
 
 .appear-bg-from-center {
@@ -84,13 +83,18 @@ html {
   width: 100%;
   height: 0.1em;
   opacity: 0;
-  transition: transform 0.15s, height 0.15s, background-color var(--base-transition-duration), opacity 0.15s;
+  transition: transform var(--base-transition-duration), height var(--base-transition-duration), background-color var(--base-transition-duration), opacity var(--base-transition-duration);
   will-change: transform, height;
   border-radius: 2px;
   top: 50%;
   transform: scaleX(0) translateY(-50%);
   background-color: var(--dark-to-medium-accent-color);
   z-index: -1;
+  transform-origin: center;
+}
+
+.appear-bg-from-center.rounded {
+  border-radius: 50px;
 }
 
 .appear-bg-from-center.rounded::after {
@@ -98,11 +102,15 @@ html {
 }
 
 .appear-bg-from-center.dark {
-  transition: color 0.15s;
+  transition: color var(--base-transition-duration);
 }
 
 .appear-bg-from-center.dark::after {
   background-color: rgb(77, 77, 77);
+}
+
+.appear-bg-from-center.light::after {
+  background-color: var(--light-accent-color);
 }
 
 @media screen and (hover: hover) {
@@ -112,7 +120,7 @@ html {
     opacity: 1;
   }
 
-  .appear-bg-from-center:not(.active):is(:hover, :focus-visible) {
+  .appear-bg-from-center.dark:not(.active):is(:hover, :focus-visible) {
     color: #fff;
   }
 }
@@ -417,7 +425,6 @@ main {
   .todo__delete-btn {
     padding: 5px;
     margin: -5px;
-    border-radius: 50%;
   }
 
   .todo__complete-icon,
@@ -498,13 +505,9 @@ main {
 
   .todo-sections__scroll-to-top-btn:active {
     transition: none;
+    color: var(--base-text-color);
     background-color: var(--light-accent-color) ;
   }
-  
-  .todo.completed .todo__delete-btn:active {
-    color: var(--light-accent-color);
-  }
-
 /* END OF ACTIVE */
 
 /* END OF MEDIA QUERIES*/
