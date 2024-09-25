@@ -123,6 +123,7 @@ export class Timer {
       this.lms.controlLm.classList.remove('active');
 
       // Add accessibility attributes to control button
+      this.lms.controlLm.ariaPressed = false;
       this.updateButtonAttributes(this.lms.controlLm, 'Start timer');
     } 
     else {
@@ -135,6 +136,7 @@ export class Timer {
       this.lms.controlLm.classList.add('active');
 
       // Add accessibility attributes to control button
+      this.lms.controlLm.ariaPressed = true;
       this.updateButtonAttributes(this.lms.controlLm, 'Pause timer');
     }
   }
@@ -219,12 +221,12 @@ export class Timer {
     return (
       `
         <h2 class="visually-hidden">Pomodoro Timer</h2>
-        <div class="timer__clock">
-          <span class="timer__minutes">00</span>
-          <span>:</span>
-          <span class="timer__seconds">00</span>
+        <div role="timer" aria-live="polite" aria-atomic="true" class="timer__clock">
+          <span aria-label="minutes" class="timer__minutes">00</span>
+          <span aria-hidden="true" role="presentation">:</span>
+          <span aria-label="seconds" class="timer__seconds">00</span>
         </div>
-        <button title="Start timer" aria-label="Start timer." class="timer__btn timer__control-btn">
+        <button title="Start timer" aria-pressed="false" aria-label="Start timer." class="timer__btn timer__control-btn">
           <svg class="timer__btn-icon" aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
             <path fill="currentColor" d="m11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
           </svg>

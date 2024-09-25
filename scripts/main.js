@@ -31,6 +31,7 @@ import {
   highlighter,
   setActiveBtn,
   formatCurrentDate,
+  convertAndFormatDate,
   formatDate
 } from './utils.js';
 
@@ -42,7 +43,7 @@ import {
 
 import { Timer } from './Timer.js';
 
-// DOM references
+//* DOM REFERENCES
 const backgroundImgLm = document.getElementById('background-image');
 const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const updateQuoteBtn = document.getElementById('quote__new-quote-btn');
@@ -56,16 +57,18 @@ const todosContainerLm = document.getElementById('todos-container');
 const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
 const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
 
+//* VARIABLES
 // Get current date
 const currDate = new Date();
 
-// Initialize variables
+//* REASSIGNMENT VARIABLES
 let timBgId;
 let initBgTimId;
 let lastPickedSection = localStorage.getItem('lastPickedSection') || null;
 let filteredTodos = [];
-
 let lastGeneratedHTML = '';
+
+//* FUNCTION DECLARATIONS
 
 // Add todo information to the edit form
 function addTodoInfoToEditForm(targetId, formInputs) {
@@ -193,9 +196,9 @@ export function generateTodosHTML(todos, highlight) {
   function generateTaskHTML(todo, highlight) {
     return `
       <li aria-checked="false" id="${todo.id}" aria-label="Task not completed." class="todo">
-        <h4 class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h4>
-        <p class="todo__task-date">${todo.date}</p>
-        <p class="todo__task-desc">${todo.description}</p>
+        <h4 aria-label="Task title." class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h4>
+        <time class="todo__task-date" aria-label="Task due date." datetime="${formatDate(todo.date)}">Due to ${convertAndFormatDate(todo.date).longFormat}</time>
+        <p aria-label="Task description" class="todo__task-desc">${todo.description}</p>
         <ul aria-label="Task controls." class="todo__control-buttons-list">
           <li>
             <button title="Complete task" class="todo__complete-btn todo__control-btn appear-bg-from-center rounded" aria-label="Complete todo." type="button">
@@ -235,9 +238,9 @@ export function generateTodosHTML(todos, highlight) {
   function generateCompletedTaskHTML(todo, highlight) {
     return `
       <li aria-checked="true" id="${todo.id}" aria-label="Task completed." class="todo completed">
-        <h4 class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h4>
-        <p class="todo__task-date">${todo.date}</p>
-        <p class="todo__task-desc">${todo.description}</p>
+        <h4 aria-label="Task title." class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h4>
+        <time class="todo__task-date" aria-label="Task due date." datetime="${formatDate(todo.date)}">Due to ${convertAndFormatDate(todo.date).longFormat}</time>
+        <p aria-label="Task description." class="todo__task-desc">${todo.description}</p>
         <div class="todo__control-btn-container">
           <button title="Delete completed task" class="todo__delete-btn appear-bg-from-center rounded light" aria-label="Delete completed todo." type="button">
             <svg aria-hidden="true" focusable="false" role="presentation" class="todo__delete-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -348,10 +351,13 @@ function setActiveTodoSection(btnId) {
   setCurrentSectionToStorage(btnId);
 }
 
-//* Inital function and constructor calls
+//* END OF FUNCTION DECLARATIONS
+
+//* INITIAL FUNCTION AND CONSTRUCTOR CALLS
 
 // Update the current date display with the formatted current date
-currentDateLm.innerText = formatCurrentDate(currDate);
+currentDateLm.innerText = formatCurrentDate(currDate).longFormat;
+currentDateLm.setAttribute('datetime', formatCurrentDate(currDate).isoFormat);
 // Preload images used in dialogs
 preloadDialogImages();
 // Restore the last active section from storage
@@ -363,9 +369,9 @@ generateTodosHTML(todos);
 const timerLm = document.getElementById('timer');
 new Timer(timerLm);
 
-//* End of Inital function and constructor calls
+//* END OF INITIAL FUNCTION AND CONSTRUCTOR CALLS
 
-//* Add event listeners
+//* EVENT LISTENERS
 
 // Event listener for DOMContentLoaded to ensure the DOM is fully loaded before manipulating it
 document.addEventListener('DOMContentLoaded', () => {
@@ -462,3 +468,5 @@ todosContainerLm.addEventListener('click', e => {
     openConfirmDialog(deleteTodo.bind(null, targetId), 'Are you sure that you want to delete this task?');
   }
 });
+
+//* END OF EVENT LISTENERS

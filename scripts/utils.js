@@ -1,8 +1,24 @@
 // Keeps a reference of the preloaded images to prevent the browser from sending them to the garbage collector
 const preloadImgs = [];
 
-// Formats the provided Date object to an 'en-US' long-form string e.g. "January 1, 2024"
-export const formatCurrentDate = date => date.toLocaleDateString('en-US', { dateStyle: 'long' });
+// Formats the provided Date object to an 'en-US' long-form string and ISO 8601 standard format
+export const formatCurrentDate = date => {
+  const longFormat = date.toLocaleDateString('en-US', { dateStyle: 'long' }); // e.g., "January 1, 2024"
+  const isoFormat = date.toISOString().split('T')[0]; // e.g., "2024-01-01"
+
+  return { longFormat, isoFormat };
+};
+
+// Converts a date string from 'DD-MM-YYYY' to both long and ISO formats
+export const convertAndFormatDate = (dateString) => {
+  const [day, month, year] = dateString.split('-').map(Number);
+  
+  // Create a new Date object (months are 0-based in JavaScript)
+  const dateObject = new Date(year, month - 1, day);
+  
+  // Use the existing formatCurrentDate function to get the formatted strings
+  return formatCurrentDate(dateObject);
+};
 
 // Reverses a date string from 'YYYY-MM-DD' to 'DD-MM-YYYY' or from 'DD-MM-YYYY' to 'YYYY-MM-DD'
 export const formatDate = date => date.split('-').reverse().join('-');

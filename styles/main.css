@@ -381,6 +381,7 @@ main {
   }
 
   .todo__task-date {
+    display: block;
     font-size: var(--base-font-size);
     opacity: 0.8;
     margin: 0 0 15px;
