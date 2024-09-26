@@ -4,12 +4,10 @@ TaskFlow is your go-to app for **effortless productivity**. Easily manage tasks,
 
 > It has been developed using **HTML/CSS** and vanilla **JavaScript**, utilizing the **LocalStorage API** for persistent data storage.
 
-![TaskFlow App screenshot](https://i.imgur.com/rVwrHhZ.jpeg)
+![TaskFlow App screenshot](https://i.imgur.com/KjtxRhz.jpeg)
 
 
 ## Table of Contents
-
-
 
 * [Todo App Functionality](#todo-app-functionality)
   * [`toggleModalEvents()`](#togglemodalevents)
@@ -23,7 +21,7 @@ TaskFlow is your go-to app for **effortless productivity**. Easily manage tasks,
   * [Quote Machine](#quote-machine)
   * [Dynamic Background Image Fade](#dynamic-background-image-fade)
 
-* [Pomodoro Timer](#pomodor-timer)
+* [Pomodoro Timer](#pomodoro-timer)
 
 * [Future Improvements](#future-improvements)
 
@@ -129,7 +127,7 @@ export function addTodo(method, form, id, todoData) {
 }
 ```
 
-![Task Flow Todo system add task functionality](https://i.imgur.com/eXI1TqH.jpeg)
+![Task Flow Todo system add task functionality](https://i.imgur.com/QQJThDW.jpeg)
 
 ### Search Task
 
@@ -139,9 +137,9 @@ returns a new array of todos matching the filter criteria */
 export const filterTodos = (todos, input) => todos.filter(todo => todo.task.toLowerCase().includes(input.value.trim().toLowerCase()));
 ```
 
-![Task Flow Todo system search task functionality](https://i.imgur.com/LeXsqKj.jpeg)
+![Task Flow Todo system search task functionality](https://i.imgur.com/uLwLGfG.jpeg)
 
-![Task Flow Todo system search task functionality, no todos have been found](https://i.imgur.com/X5BdGji.jpeg)
+![Task Flow Todo system search task functionality, no todos have been found](https://i.imgur.com/dRQckKs.jpeg)
 
 ### Edit Task
 
@@ -166,7 +164,7 @@ export const filterTodos = (todos, input) => todos.filter(todo => todo.task.toLo
   }
 ```
 
-![Task Flow Todo system edit task functionality](https://i.imgur.com/4MAayBX.jpeg)
+![Task Flow Todo system edit task functionality](https://i.imgur.com/dSOhRLu.jpeg)
 
 ### Complete Task
 
@@ -191,9 +189,9 @@ export function completeTodo(targetId) {
 }
 ```
 
-![Task Flow Todo system complete task confirmational modal dialog](https://i.imgur.com/YytDhyp.jpeg)
+![Task Flow Todo system complete task confirmational modal dialog](https://i.imgur.com/VS0eLdQ.jpeg)
 
-![Task Flow Todo system completed task](https://i.imgur.com/fAxbII2.jpeg)
+![Task Flow Todo system completed task](https://i.imgur.com/xOZx5Zi.jpeg)
 
 ### Delete Task
 
@@ -224,9 +222,9 @@ export function resetTodos() {
 
 ```
 
-![Task Flow Todo system delete task comfirmational modal dialog](https://i.imgur.com/Hd4Kpay.jpeg)
+![Task Flow Todo system delete task comfirmational modal dialog](https://i.imgur.com/jg2ZuIf.jpeg)
 
-![Task Flow Todo system delete all tasks confirmational modal dialog](https://i.imgur.com/iAv8In9.jpeg)
+![Task Flow Todo system delete all tasks confirmational modal dialog](https://i.imgur.com/3HXPPeI.jpeg)
 
 
 ## Quote Machine and Background Image Fade Logic
@@ -304,7 +302,7 @@ export function loadQuote() {
 
 ```
 
-![TaskFlow quote machine](https://i.imgur.com/e6XCDGh.jpeg)
+![TaskFlow quote machine](https://i.imgur.com/xkCGsU4.jpeg)
 
 ### Dynamic Background Image Fade
 
@@ -321,10 +319,10 @@ export function setRandomTheme(time = 0) {
 }
 ```
 
-![TaskFlow dynamic background image fade functionality](https://i.imgur.com/k9WxWve.jpeg)
+![TaskFlow dynamic background image fade functionality](https://i.imgur.com/5JC2pX9.jpeg)
 
 
-## Pomodor Timer
+## Pomodoro Timer
 
 Implemented a fully functional Pomodoro timer with **work** and **break** intervals. The timer alternates between **25 minutes** of work and **5 minutes** of rest. It also includes a **reset button** and **audible notifications**.
 
@@ -336,7 +334,7 @@ const timerLm = document.getElementById('timer');
 new Timer(timerLm);
 ```
 
-![TaskFlow pomodor timer](https://i.imgur.com/C8GcvNf.jpeg)
+![TaskFlow pomodor timer](https://i.imgur.com/LijCx4a.jpeg)
 
 ## Future Improvements
 
