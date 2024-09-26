@@ -105,7 +105,7 @@ function resetAddTodoForm() {
 
 // Checks if the Add Todo form has been edited
 export function isAddTodoFormEdited() {
-  const todoData = Object.values(getFormData(addTodoPromptFormLm, true)); // Get form data
+  const todoData = Object.values(getFormData(addTodoPromptFormLm)); // Get form data
   // Check if any field has data
   if (todoData[0] || todoData[1] || todoData[2]) {
     return true;
@@ -155,7 +155,7 @@ export function toggleAddTodoPrompt() {
     // It needs the timeout to not conflict with close at overlay click
     setTimeout(() => {
       toggleModalEvents(addTodoPromptEventsHandler, 'add', confirmDiscardPromptData, addTodoPromptCloseBtn, addTodoPromptLm, document.body, '.add-todo-prompt');
-    })
+    });
     addTodoPromptFormLm.addEventListener('submit', submitTodoInfo);
   }
   // Hide the add todo prompt if it is already visible

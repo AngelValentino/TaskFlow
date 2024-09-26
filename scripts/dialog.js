@@ -4,14 +4,11 @@ import {
 } from './data/todo.js';
 
 import { 
-  getTodoInfo 
-} from './main.js';
-
-import { 
   getRandomNumber, 
   toggleModalFocus, 
   toggleModalEvents, 
-  setActiveBtn 
+  setActiveBtn,
+  getFormData
 } from './utils.js';
 
 // DOM reference for the clear all todos button
@@ -134,7 +131,7 @@ export function openEditDialog(targetId, todoInfo) {
 
   // Check if the form has been edited
   function isFormEdited() {
-    const currentTodoInfo = getTodoInfo(editDialogFormLm);
+    const currentTodoInfo = getFormData(editDialogFormLm);
     
     // Compare current form values with the original todo info
     return (
@@ -184,7 +181,7 @@ export function openEditDialog(targetId, todoInfo) {
       closeEditDialog();
       // Open confirm modal
       openConfirmDialogTimId = setTimeout(() => {
-        openConfirmDialog(exitAndReturnEdit.bind(null, targetId, { ...todoInfo, currentEdit: getTodoInfo(editDialogFormLm) }), 'Are you sure that you want to discard the current changes made in form?', null, true);
+        openConfirmDialog(exitAndReturnEdit.bind(null, targetId, { ...todoInfo, currentEdit: getFormData(editDialogFormLm) }), 'Are you sure that you want to discard the current changes made in form?', null, true);
       }, 100);
     } 
     // Else if the form has not been edited, just close the edit dialog

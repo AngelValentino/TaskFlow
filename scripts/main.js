@@ -30,9 +30,8 @@ import {
   preloadDialogImages,
   highlighter,
   setActiveBtn,
-  formatCurrentDate,
-  convertAndFormatDate,
-  formatDate
+  formatDate,
+  getFormData
 } from './utils.js';
 
 import {
@@ -44,22 +43,35 @@ import {
 import { Timer } from './Timer.js';
 
 //* DOM REFERENCES
+// App structure
 const backgroundImgLm = document.getElementById('background-image');
-const currentDateLm = document.getElementById('todo-app-intro__current-date');
+
+// Quote generator
 const updateQuoteBtn = document.getElementById('quote__new-quote-btn');
+
+// _Todo app
 const todoAppLm = document.getElementById('todo-app');
-const searchInputLm = document.getElementById('search-todo-prompt__search-input');
-const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
-const todoSectionsHeaderLm = document.getElementById('todo-sections');
-const allBtnLm = document.getElementById('todo-sections__all-btn');
-const scrollToTopBtn = document.getElementById('todo-sections__scroll-to-top-btn');
-const todosContainerLm = document.getElementById('todos-container');
+const currentDateLm = document.getElementById('todo-app-intro__current-date');
 const searchTodoBtn = document.getElementById('todo-app-intro__search-btn');
 const addTodoBtn = document.getElementById('todo-app-intro__add-btn');
+const clearAllTodosBtn = document.getElementById('todo-app-intro__clear-btn');
+const searchInputLm = document.getElementById('search-todo-prompt__search-input');
+const todosContainerLm = document.getElementById('todos-container');
+
+// _Todo section headers and navigation
+const todoSectionsHeaderLm = document.getElementById('todo-sections');
+const allBtnLm = document.getElementById('todo-sections__all-btn');
+const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
+const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
+const completedBtnLm = document.getElementById('todo-sections__completed-btn');
+const scrollToTopBtn = document.getElementById('todo-sections__scroll-to-top-btn');
+
+// Edit dialog
+const editDialogFormLm = document.getElementById('edit-dialog__form');
 
 //* VARIABLES
 // Get current date
-const currDate = new Date();
+const currentDate = new Date();
 
 //* REASSIGNMENT VARIABLES
 let timBgId;
@@ -73,35 +85,18 @@ let lastGeneratedHTML = '';
 //TODO Modal event propagation review
 
 // Add todo information to the edit form
-function addTodoInfoToEditForm(targetId, formInputs) {
+function addTodoInfoToForm(targetId, formLm) {
+  const formInputs = formLm.querySelectorAll('input, textarea');
+  
   todos.forEach(todo => {
     if (todo.id === targetId) {
       // Iterate through form inputs to set their values based on the todo's properties
       formInputs.forEach(input => {
-        if (input.name === 'date') {
-          // If the input is a date field, reverse the todo date value to be 'yyyy-mm-dd to be able to set the input value correctly'
-          input.value = formatDate(todo[input.name]);
-        } 
-        else {
-          // Set input value with specific todo data
-          input.value = todo[input.name];
-        }
+        // Set input value with specific todo data
+        input.value = todo[input.name];
       });
     }
   });
-}
-
-// Get todo information from the form dialog and return as an object
-export function getTodoInfo(formLm) {
-  const formInputs = formLm.querySelectorAll('input, textarea'); // DOM query form inputs
-  const todoInfo = {};
-
-  // Populate todoInfo object with input values
-  formInputs.forEach(input => {
-    todoInfo[input.name] = input.value;
-  });
-
-  return todoInfo; // Return todoInfo object
 }
 
 function setActiveSection(btn) {
@@ -134,7 +129,6 @@ function setCurrentSectionToStorage(sectionId) {
 function getLastActiveSection() {
   if (!lastPickedSection) {
     // If no section is stored, default to showing the 'all' section
-    const allBtnLm = document.getElementById('todo-sections__all-btn');
     setActiveSection(allBtnLm);
   } 
   else {
@@ -176,11 +170,6 @@ function toggleScrollToTopBtn() {
 
 // Generate the HTML for displaying todos based on the active section and search highlight
 export function generateTodosHTML(todos, highlight) {
-  // DOM references
-  const tasksLeftLm = document.getElementById('todo-app-intro__tasks-left');
-  const tasksBtnLm = document.getElementById('todo-sections__tasks-btn');
-  const completedBtnLm = document.getElementById('todo-sections__completed-btn');
-  
   // Initialize variables
   const incompletedTodosCount = countIncompletedTodos();
   let generatedHTML = '';
@@ -199,7 +188,7 @@ export function generateTodosHTML(todos, highlight) {
     return `
       <li aria-checked="false" id="${todo.id}" aria-label="Task not completed." class="todo">
         <h4 aria-label="Task title." class="todo__task-name">${highlight ? highlighter(todo.task, highlight) : todo.task}</h4>
-        <time class="todo__task-date" aria-label="Task due date." datetime="${formatDate(todo.date)}">Due to ${convertAndFormatDate(todo.date).longFormat}</time>
+        <time class="todo__task-date" aria-label="Task due date." datetime="${todo.date}">Due to ${formatDate(todo.date).longFormat}</time>
         <p aria-label="Task description" class="todo__task-desc">${todo.description}</p>
         <ul aria-label="Task controls." class="todo__control-buttons-list">
           <li>
@@ -241,7 +230,7 @@ export function generateTodosHTML(todos, highlight) {
     return `
       <li aria-checked="true" id="${todo.id}" aria-label="Task completed." class="todo completed">
         <h4 aria-label="Task title." class="todo__task-name">${highlight ? highlighter(todo.task, highlight, true) : todo.task}</h4>
-        <time class="todo__task-date" aria-label="Task due date." datetime="${formatDate(todo.date)}">Due to ${convertAndFormatDate(todo.date).longFormat}</time>
+        <time class="todo__task-date" aria-label="Task due date." datetime="${todo.date}">Due to ${formatDate(todo.date).longFormat}</time>
         <p aria-label="Task description." class="todo__task-desc">${todo.description}</p>
         <div class="todo__control-btn-container">
           <button title="Delete completed task" class="todo__delete-btn appear-bg-from-center rounded light" aria-label="Delete completed todo." type="button">
@@ -259,13 +248,13 @@ export function generateTodosHTML(todos, highlight) {
 
   // Update tasks left text
   if (incompletedTodosCount === 0) {
-    tasksLeftLm.innerText = `No tasks left`
+    tasksLeftLm.innerText = `No tasks left`;
   }
   else if (incompletedTodosCount === 1) {
-    tasksLeftLm.innerText = `1 task left`
+    tasksLeftLm.innerText = `1 task left`;
   } 
   else {
-    tasksLeftLm.innerText = `${incompletedTodosCount} tasks left`
+    tasksLeftLm.innerText = `${incompletedTodosCount} tasks left`;
   }
   
   // Generate HTML based on the active section (all, tasks, or completed)
@@ -358,8 +347,8 @@ function setActiveTodoSection(btnId) {
 //* INITIAL FUNCTION AND CONSTRUCTOR CALLS
 
 // Update the current date display with the formatted current date
-currentDateLm.innerText = formatCurrentDate(currDate).longFormat;
-currentDateLm.setAttribute('datetime', formatCurrentDate(currDate).isoFormat);
+currentDateLm.innerText = formatDate(currentDate).longFormat;
+currentDateLm.setAttribute('datetime', formatDate(currentDate).isoFormat);
 // Preload images used in dialogs
 preloadDialogImages();
 // Restore the last active section from storage
@@ -454,13 +443,10 @@ todosContainerLm.addEventListener('click', e => {
   else if (e.target.closest('.todo__edit-btn')) {
     // Get the ID of the todo item
     const targetId = e.target.closest('.todo').id;
-    // DOM references
-    const editDialogFormLm = document.getElementById('edit-dialog__form')
-    const editDialogFormInputLms = editDialogFormLm.querySelectorAll('input, textarea');
     
     // Populate the edit form with todo data and open edit dialog
-    addTodoInfoToEditForm(targetId, editDialogFormInputLms);
-    openEditDialog(targetId, { formerEdit: getTodoInfo(editDialogFormLm) });
+    addTodoInfoToForm(targetId, editDialogFormLm);
+    openEditDialog(targetId, { formerEdit: getFormData(editDialogFormLm) });
   } 
   //* Delete todo
   else if (e.target.closest('.todo__delete-btn')) {

@@ -2,26 +2,17 @@
 const preloadImgs = [];
 
 // Formats the provided Date object to an 'en-US' long-form string and ISO 8601 standard format
-export const formatCurrentDate = date => {
+export const formatDate = dateInput => {
+  // Check if the input is a string (assumed to be an ISO date string)
+  const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+
+  // Format the date in "en-US" long-form
   const longFormat = date.toLocaleDateString('en-US', { dateStyle: 'long' }); // e.g., "January 1, 2024"
+  // Format the date in ISO 8601 format "YYYY-MM-DD"
   const isoFormat = date.toISOString().split('T')[0]; // e.g., "2024-01-01"
 
   return { longFormat, isoFormat };
 };
-
-// Converts a date string from 'DD-MM-YYYY' to both long and ISO formats
-export const convertAndFormatDate = (dateString) => {
-  const [day, month, year] = dateString.split('-').map(Number);
-  
-  // Create a new Date object (months are 0-based in JavaScript)
-  const dateObject = new Date(year, month - 1, day);
-  
-  // Use the existing formatCurrentDate function to get the formatted strings
-  return formatCurrentDate(dateObject);
-};
-
-// Reverses a date string from 'YYYY-MM-DD' to 'DD-MM-YYYY' or from 'DD-MM-YYYY' to 'YYYY-MM-DD'
-export const formatDate = date => date.split('-').reverse().join('-');
 
 // Returns a random index from the array that is not equal to the lastIndex
 export function getRandomIndex(arr, lastIndex) {
@@ -271,36 +262,33 @@ export function setActiveBtn(btnLm) {
 }
 
 // Gather and format data from a form
-export function getFormData(form, formatDateBoolean, id) {
+export function getFormData(form, initData, id) {
   // Initialize an empty object to store the form data
   const todoData = {};
   // Select all input and textarea elements within the form
   const allFormInputs = [...form.querySelectorAll('input, textarea')];
-  // Set the default completion status to false
-  todoData.completed = false;
   
   // Iterate over each form input element
   allFormInputs.forEach(input => {
-    // Check if is date input and if formatting is required
-    if (input.name === 'date' && formatDateBoolean) {
-      // Format the date value and assign it to the todoData object
-      todoData[input.name] = formatDate(input.value);
-    }   
-    else {
-      // Trim whitespace from the input value and assign it to the todoData object
-      todoData[input.name] = input.value.trim();
-    }
+    // Trim whitespace from the input value and assign it to the todoData object
+    todoData[input.name] = input.value.trim();
   });
 
-  // Check if an id is provided
-  if (id) {
-    // Assign the provided id to the todoData object
-    todoData.id = id;
-  } 
-  else {
-    // If no id is provided, generate a new unique id based on the current timestamp
-    todoData.id = `task-${Date.now()}`;
+  if (initData) {
+    // Check if an id is provided
+    if (id) {
+      // Assign the provided id to the todoData object instead of setting a new one
+      todoData.id = id;
+    } 
+    else {
+      // If no id is provided, generate a new unique id based on the current timestamp
+      todoData.id = `task-${Date.now()}`;
+    }
+
+    // Set the default completion status to false
+    todoData.completed = false;
   }
+
   
   // Return the populated todoData object
   return todoData;
