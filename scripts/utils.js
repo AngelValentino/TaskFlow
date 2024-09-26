@@ -8,10 +8,10 @@ export const formatDate = dateInput => {
 
   // Format the date in "en-US" long-form
   const longFormat = date.toLocaleDateString('en-US', { dateStyle: 'long' }); // e.g., "January 1, 2024"
-  // // Format the date in ISO 8601 format "YYYY-MM-DD"
-  // const isoFormat = date.toISOString().split('T')[0]; // e.g., "2024-01-01"
+  // Format the date in ISO 8601 format "YYYY-MM-DD"
+  const isoFormat = date.toISOString().split('T')[0]; // e.g., "2024-01-01"
 
-  return { longFormat };
+  return { longFormat, isoFormat };
 };
 
 // Returns a random index from the array that is not equal to the lastIndex
