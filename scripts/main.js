@@ -70,6 +70,8 @@ let lastGeneratedHTML = '';
 
 //* FUNCTION DECLARATIONS
 
+//TODO Modal event propagation review
+
 // Add todo information to the edit form
 function addTodoInfoToEditForm(targetId, formInputs) {
   todos.forEach(todo => {
