@@ -84,7 +84,7 @@ html {
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
-  transition: transform var(--base-transition-duration), opacity var(--base-transition-duration);
+  transition: transform var(--base-transition-duration), opacity 0.5s;
   background-color: var(--dark-to-medium-accent-color);
   z-index: -1;
   will-change: transform;
@@ -104,6 +104,7 @@ html {
 
 .appear-bg-from-center.dark::after {
   background-color: #4d4d4d;
+  transition: transform var(--base-transition-duration), opacity 0.33s;
 }
 
 .appear-bg-from-center.dark-soft::after {
