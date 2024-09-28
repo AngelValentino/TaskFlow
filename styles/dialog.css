@@ -151,9 +151,11 @@
 @media screen and (hover: hover) {
   .confirm-dialog__accept-btn:is(:hover, :focus-visible),
   .confirm-dialog__cancel-btn:is(:hover, :focus-visible),
-  .info-dialog__accept-btn:is(:hover, :focus-visible),
-  .edit-dialog__submit-btn:is(:hover, :focus-visible) {
+  .info-dialog__accept-btn:is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
+  }
+
+  .edit-dialog__submit-btn:is(:hover, :focus-visible) {
     color: var(--base-text-color);
   }
 }
@@ -165,9 +167,10 @@
 .confirm-dialog__accept-btn:active,
 .confirm-dialog__cancel-btn:active,
 .info-dialog__accept-btn:active,
-.edit-dialog__submit-btn:active {
+.edit-dialog__submit-btn:active,
+.edit-dialog__submit-btn:active::after {
   transition: none;
-  background-color: var(--light-accent-color);
+  background-color: var(--light-accent-color) !important;
   color: var(--base-text-color);
 }
 

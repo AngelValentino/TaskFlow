@@ -159,7 +159,6 @@
 
 @media screen and (hover: hover) {
   .add-todo-prompt__submit-btn:is(:hover, :focus-visible) {
-    background-color: var(--contrast-color);
     color: var(--base-text-color);
   }
 
@@ -172,9 +171,10 @@
 
 /* ACTIVE */
 
-.add-todo-prompt__submit-btn:active {
+.add-todo-prompt__submit-btn:active,
+.add-todo-prompt__submit-btn:active::after  {
   transition: none;
-  background-color: var(--light-accent-color);
+  background-color: var(--light-accent-color) !important;
   color: var(--base-text-color);
 }
 

@@ -82,10 +82,6 @@
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (hover: hover) {
-  .quote__buttons button:is(:hover, :focus-visible) {
-    background-color: var(--medium-accent-color);
-  }
-
   .quote__share-with-twitter-btn:is(:hover, :focus-visible),
   .quote__share-with-tumblr-btn:is(:hover, :focus-visible) {
     color: var(--base-text-color);
@@ -96,8 +92,8 @@
 /* END OF HOVER CAPABLE DEVICES */
 
 /* ACTIVE */
-
-  .quote__buttons button:active {
+  .quote__buttons button:active,
+  .quote__buttons button:active::after {
     transition: none;
     color: var(--base-text-color);
     background-color: var(--contrast-color)

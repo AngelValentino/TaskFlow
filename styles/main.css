@@ -71,23 +71,39 @@ html {
 
 /* UI COMPONENTS */
 
-.appear-bg-from-center {
+.appear-bg-from-center,
+.slide-bg-in-and-out {
   position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
-.appear-bg-from-center::after {
+.appear-bg-from-center::after,
+.slide-bg-in-and-out::after {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
+  inset: 0;
   opacity: 0;
   transition: transform var(--base-transition-duration), opacity 0.5s;
   background-color: var(--dark-to-medium-accent-color);
   z-index: -1;
   will-change: transform;
+}
+
+.appear-bg-from-center::after {
+  transform: scale(0);
+}
+
+.slide-bg-in-and-out::after {
+  transition: transform 0.4s;
+  transform-origin: right;
+  transform: scaleX(0);
+  background-color: var(--medium-accent-color);
+  opacity: 1;
+}
+
+.slide-bg-in-and-out.contrast::after {
+  background-color: var(--contrast-color);
 }
 
 .appear-bg-from-center.rounded {
@@ -117,8 +133,13 @@ html {
 
 @media screen and (hover: hover) {
   .appear-bg-from-center:not(.active):is(:hover, :focus-visible)::after {
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
     opacity: 1;
+  }
+
+  .slide-bg-in-and-out:is(:hover, :focus-visible)::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   .todo-sections__btn.appear-bg-from-center.dark:not(.active):is(:hover, :focus-visible) {
@@ -291,8 +312,6 @@ main {
 
 .todo-sections__btn {
   background-color: #efefef;
-  position: relative;
-  z-index: 1;
   padding: 12px;
   border-radius: 50px;
   font-size: 1.15rem;
@@ -365,8 +384,6 @@ main {
     margin: 0 0 20px;
     transition: background-color var(--base-transition-duration);
     word-wrap: break-word;
-    position: relative;
-    z-index: 1;
   }
 
   .todo.completed {
