@@ -158,10 +158,6 @@
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (hover: hover) {
-  .add-todo-prompt__submit-btn:is(:hover, :focus-visible) {
-    color: var(--base-text-color);
-  }
-
   .search-todo-prompt__close-btn:is(:hover, :focus-visible) {
     opacity: 1;
   }

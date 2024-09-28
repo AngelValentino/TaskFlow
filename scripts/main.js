@@ -82,7 +82,6 @@ let lastGeneratedHTML = '';
 
 //* FUNCTION DECLARATIONS
 
-//TODO Add custom slide right button
 //TODO Modal event propagation review
 
 // Add todo information to the edit form

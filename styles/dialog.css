@@ -154,10 +154,6 @@
   .info-dialog__accept-btn:is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
   }
-
-  .edit-dialog__submit-btn:is(:hover, :focus-visible) {
-    color: var(--base-text-color);
-  }
 }
 
 /* END OF HOVER CAPABLE DEVICES */
