@@ -82,8 +82,6 @@ let lastGeneratedHTML = '';
 
 //* FUNCTION DECLARATIONS
 
-//TODO Modal event propagation review
-
 // Add todo information to the edit form
 function addTodoInfoToForm(targetId, formLm) {
   const formInputs = formLm.querySelectorAll('input, textarea');

@@ -221,7 +221,7 @@ export function toggleSearchPrompt() {
     // It needs the timeout to not conflict with close at overlay click
     setTimeout(() => {
       toggleModalEvents(searchTodoPromptEventsHandler, 'add', hideSearchTodoPrompt, null, null, document.body, '.search-todo-prompt');
-    })
+    });
     searchInputLm.addEventListener('input', searchTodo); // Search todos at input change.
   } 
   // Hide the search todo prompt if it is already visible
