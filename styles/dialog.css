@@ -136,12 +136,8 @@
 
 .edit-dialog__submit-btn {
   background-color: var(--medium-accent-color);
-  color: white;
-  padding: 10px;
   border-radius: 5px;
-  color: #fff;
   width: 100%;
-  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
 /* END OF EDIT DIALOG */
@@ -154,6 +150,10 @@
   .info-dialog__accept-btn:is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
   }
+
+  .edit-dialog__submit-btn:is(:hover, :focus-visible) {
+    opacity: 0.75;
+  }
 }
 
 /* END OF HOVER CAPABLE DEVICES */
@@ -163,11 +163,14 @@
 .confirm-dialog__accept-btn:active,
 .confirm-dialog__cancel-btn:active,
 .info-dialog__accept-btn:active,
-.edit-dialog__submit-btn:active,
-.edit-dialog__submit-btn:active::after {
+.edit-dialog__submit-btn:active {
   transition: none;
-  background-color: var(--light-accent-color) !important;
+  background-color: var(--light-accent-color);
   color: var(--base-text-color);
+}
+
+.edit-dialog__submit-btn:active {
+  transition: padding 0.4s;
 }
 
 /* END OF ACTIVE */

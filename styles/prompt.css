@@ -69,12 +69,8 @@
 .add-todo-prompt__submit-btn {
   font-weight: bold;
   background-color: var(--medium-accent-color);
-  padding: 10px;
-  border-radius: 5px;
-  color: #fff;
-  width: 100%;
-  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
   font-size: var(--base-font-size);
+  border-radius: 2px;
 }
 
 /* END OF ADD TODO PROMPT */
@@ -152,7 +148,6 @@
   width: 1.85rem;
 }
 
-
 /* END OF SEARCH TODO PROMPT */
 
 /* HOVER CAPABLE DEVICES */
@@ -167,11 +162,8 @@
 
 /* ACTIVE */
 
-.add-todo-prompt__submit-btn:active,
-.add-todo-prompt__submit-btn:active::after  {
-  transition: none;
-  background-color: var(--light-accent-color) !important;
-  color: var(--base-text-color);
+.add-todo-prompt__submit-btn:active  {
+  background-color: var(--contrast-color);
 }
 
 .search-todo-prompt__close-btn:active {
@@ -195,6 +187,12 @@
 
   .add-todo-prompt {
     transition: max-height 1.5s, transform 0.4s, margin 0.4s, background-color var(--base-transition-duration);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .add-todo-prompt__submit-btn {
+    width: 100%;
   }
 }
 
