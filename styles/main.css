@@ -502,13 +502,6 @@ main {
   }
 }
 
-@media screen and (max-width: 600px) {
-  .todo-app-intro__current-date,
-  .todo-app-intro__tasks-left {
-    font-size: 1.2rem;
-  }
-}
-
 @media screen and (max-width: 550px) {
   main {
     padding: 30px 15px;
@@ -516,6 +509,11 @@ main {
 
   .todo-app {
     padding: 20px;
+  }
+
+  .todo-app-intro__current-date,
+  .todo-app-intro__tasks-left {
+    font-size: 1.2rem;
   }
 
   .todo-sections {
