@@ -196,9 +196,15 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   .add-todo-prompt__form {
     padding: 30px 25px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .add-todo-prompt__form {
+    padding: 30px 20px;
   }
 }
 
