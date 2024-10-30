@@ -359,6 +359,11 @@ main {
   color: #fff;
 }
 
+/* Makes sure to remove the transtion when selecting a section. */
+.appear-bg-from-center.dark.todo-sections__btn.active::after {
+  transition: none;
+}
+
 .todo-sections__header {
   font-weight: normal;
 }
