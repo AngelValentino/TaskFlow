@@ -53,7 +53,7 @@
 
 /* HOVER CAPABLE DEVICES */
 
-@media screen and (hover: hover) {
+@media screen and (pointer: fine) and (hover: hover) {
   .timer__btn:is(:hover, :focus-visible) {
     background-color: var(--medium-accent-color);
   }

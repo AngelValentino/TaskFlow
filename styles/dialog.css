@@ -144,7 +144,7 @@
 
 /* HOVER CAPABLE DEVICES */
 
-@media screen and (hover: hover) {
+@media screen and (pointer: fine) and (hover: hover) {
   .confirm-dialog__accept-btn:is(:hover, :focus-visible),
   .confirm-dialog__cancel-btn:is(:hover, :focus-visible),
   .info-dialog__accept-btn:is(:hover, :focus-visible) {

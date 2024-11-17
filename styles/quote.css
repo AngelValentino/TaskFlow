@@ -82,7 +82,7 @@
 
 /* HOVER CAPABLE DEVICES */
 
-@media screen and (hover: hover) {
+@media screen and (pointer: fine) and (hover: hover) {
   .quote__share-with-twitter-btn:is(:hover, :focus-visible),
   .quote__share-with-tumblr-btn:is(:hover, :focus-visible) {
     color: var(--base-text-color);

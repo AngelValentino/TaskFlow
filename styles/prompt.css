@@ -152,7 +152,7 @@
 
 /* HOVER CAPABLE DEVICES */
 
-@media screen and (hover: hover) {
+@media screen and (pointer: fine) and (hover: hover) {
   .search-todo-prompt__close-btn:is(:hover, :focus-visible) {
     opacity: 1;
   }
