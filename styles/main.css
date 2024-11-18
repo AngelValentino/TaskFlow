@@ -357,6 +357,7 @@ main {
 .todo-sections__btn.active {
   background-color: var(--base-text-color);
   color: #fff;
+  cursor: default;
 }
 
 /* Makes sure to remove the transtion when selecting a section. */
@@ -537,10 +538,6 @@ main {
 @media screen and (pointer: fine) and (hover: hover) {
   .todo-app-intro__btn:is(:hover, :focus-visible) {
     background-color: var(--medium-accent-color);
-  }
-  
-  .todo-sections__btn.active:is(:hover, :focus-visible) {
-    cursor: default;
   }
 
   .todo-sections__scroll-to-top-btn:is(:hover, :focus-visible) {
