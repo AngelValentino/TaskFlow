@@ -338,20 +338,15 @@ new Timer(timerLm);
 
 ## Future Improvements
 
-- **Minify** and **optimize** JavaScript and CSS files using **webpack** and **Babel**.
+Currently focusing on implementing the following enhancements:
+- Develop a **RESTful API** using **PHP** and **SQL**, featuring **JWT token authentication** for secure user login, registration, and task retrieval.  
+- Restructure the project by implementing a **vanilla SPA** and refactoring all code to follow **OOP principles**.  
+- Differentiate **anonymous users** using **local storage**, while **authenticated users** will fetch and manage tasks through the **REST API**.
+- Add **dark mode**.  
 
-- Configure a **server** using **PHP** and **SQL** to **fetch**, **store**, **edit**, **delete**, **complete**, and **search** user data. This setup will offer users the choice to log in and use their data or remain anonymous and use the LocalStorage API.
-
-- Add **user authentication** with **PHP**.
-
-- Introduce user **configuration options** such as **delete account**, **edit avatar** (including cropping an image) or **recover password** via **Gmail**.
-
-- Implement a **theme picker**.
-
-- Add **dark mode**.
-
-- Add **ambient music** with the option to connect to a music streaming platform.
-
-- **Enhance** the **pomodoro timer** by adding a tree that grows while the timer is running and allowing users to **edit time** periods.
-
-- Add a **forest cube** displaying all the user trees using **'Three.js'**.
+Planned future enhancements include:  
+- Implement a dedicated **task management page** for a more intuitive and efficient task organization.
+- Add **ambient music** with the option to connect to a music streaming platform.  
+- **Enhance** the **pomodoro timer** by adding a tree that grows while the timer is running and allowing users to **edit time** periods.  
+- Add a **forest cube** displaying all the user trees using **'Three.js'**.  
+- **Minify** and **optimize** JavaScript and CSS files using **webpack** and **Babel**.  
