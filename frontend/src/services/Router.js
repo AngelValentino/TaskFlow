@@ -2,6 +2,7 @@ export default class Router {
   constructor() {
     this.routes = [];
     this.init();
+    this.appLm = document.getElementById('App');
   }
 
   // Adds a route
@@ -17,6 +18,8 @@ export default class Router {
 
   // Route matching and rendering logic
   dispatch() {
+    const formerView = this.appLm.dataset.view
+
     const { route } = this.routes
       .map(route => {
         return {
@@ -31,13 +34,19 @@ export default class Router {
       return;
     }
 
+    // Update current view
+    this.appLm.dataset.view = route.path;
+    const currentView = this.appLm.dataset.view;
+
+    // Avoid rendering the same view
+    if (formerView === currentView) return;
+  
     route.view();
   }
 
   // Handle rendering for a 404 not found
   handleNotFound() {
-    const appLm = document.getElementById('App');
-    appLm.innerHTML = `
+    this.appLm.innerHTML = `
       <h1>404</h1>
       <p>Resource not found</p>
     `;

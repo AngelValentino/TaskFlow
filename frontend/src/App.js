@@ -6,10 +6,10 @@ import Router from './services/Router.js';
 document.addEventListener('DOMContentLoaded', () => {
   // Instantiate Router class
   const router = new Router();
+  const appLm = document.getElementById('App');
 
   // Add routes
   router.addRoute('/', () => {
-    const appLm = document.getElementById('App');
     const view = new DashboardView();
 
     view.getHtml()
@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/register', () => {
-    const appLm = document.getElementById('App');
     const view = new RegisterView();
 
     view.getHtml()
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/login', () => {
-    const appLm = document.getElementById('App');
     const view = new LoginView();
 
     view.getHtml()
