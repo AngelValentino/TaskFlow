@@ -28,7 +28,7 @@ button, input, textarea {
 }
 
 a {
-  /* color: inherit; */
+  color: inherit;
   text-decoration: none;
   cursor: pointer;
 }

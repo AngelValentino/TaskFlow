@@ -1,0 +1,28 @@
+.register-form {
+  display: inline-block;
+  padding: 15px;
+  background-color: #fff;
+  border: 2px solid red;
+}
+
+.register-form label,
+.register-form input {
+  display: block;
+}
+
+.register-form label {
+  padding: 0 0 8px;
+}
+
+.register-form input {
+  margin: 0 0 15px;
+  padding: 2px 5px;
+}
+
+.register-form__submit-btn {
+  background-color: green;
+  color: #fff;
+  padding: 10px;
+  border-radius: 2px;
+  margin: 10px 0 0;
+}
