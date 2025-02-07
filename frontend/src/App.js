@@ -26,54 +26,70 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(html => {
         appLm.innerHTML = html;
 
-        // TODO Properly render errors, and redirect the user to login if he was
-        // TODO correctly registered
-
         // TODO Refactor this to be used from userModel class
 
-        document.getElementById('register-form').addEventListener('submit', event => {
-          event.preventDefault(); // Prevent the default form submission
+        async function registerUser(formData) {
+          const response = await fetch('http://localhost/taskflow-api/register', {
+            method: 'POST',
+            body: formData
+          });
+
+          // Validation error
+          if (response.status === 422) {
+            const errorData = await response.json();
+            const error = new Error('Validation error occurred');
+            error.data = errorData; // Attach the full error data
+            throw error;
+          }
+
+          // API error
+          if (!response.ok) {
+              throw new Error(`Couldn't properly register the user, try again later`);
+          }
+
+          const data = await response.json();
+          return data;
+        }
+
+
+        document.getElementById('register-form').addEventListener('submit', e => {
+          e.preventDefault(); // Prevent the default form submission
           
           // Create a FormData object from the form
-          const formData = new FormData(document.getElementById('register-form'));
+          const formData = new FormData(e.target);
   
           formData.forEach((value, key) => {
             console.log(`${key} = ${value}`);
           });
 
-          fetch('http://localhost/taskflow-api/register', {
-            method: 'POST',
-            body: formData
-          })
-          .then(response => {
-            console.log(response.status)
+          const usernameErrorLm = document.getElementById('username-error');
+          const emailErrorLm = document.getElementById('email-error');
+          const passwordErrorLm = document.getElementById('password-error');
+          const submitBtn = document.getElementById('register-form__submit-btn');
 
-            if (response.status === 422) {
-                // If the response is not ok, parse the error JSON and log the message
-                return response.json().then(errorData => {
-                    throw errorData;
-                });
-            }
+          submitBtn.innerText = 'Loading...'
 
-            if (!response.ok) {
-              throw new Error(`Couldn't properly register the user, try again later`);
-            }
+          registerUser(formData)
+            .then(data => {
+              usernameErrorLm.textContent = '';
+              emailErrorLm.textContent = '';
+              passwordErrorLm.textContent = '';
 
-            return response.json(); // Proceed with the response body if status is OK
-          })
-          .then(data => {
-            document.getElementById('response-message').textContent = data.message;
-          })
-          .catch(error => {
-            // Handle any errors that occur during the request
-            console.error('Error during login:', error);
-          });
+              router.navigateTo('/login');
+            })
+            .catch(error => {
+              console.error(error.message);
+
+              usernameErrorLm.textContent = error.data.errors.username || '';
+              emailErrorLm.textContent = error.data.errors.email || '';
+              passwordErrorLm.textContent = error.data.errors.password || '';
+            })
+            .finally(() => {
+              submitBtn.innerText = 'Register';
+            });
         });
-    
       })
       .catch(error => console.error('Error fetching HTML:', error));
-
-    
   });
 
   router.addRoute('/login', () => {

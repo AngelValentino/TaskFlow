@@ -3,11 +3,14 @@
   padding: 15px;
   background-color: #fff;
   border: 2px solid red;
+  max-width: 325px;
+  width: 100%;
 }
 
 .register-form label,
 .register-form input {
   display: block;
+  width: 100%;
 }
 
 .register-form label {
@@ -15,8 +18,12 @@
 }
 
 .register-form input {
-  margin: 0 0 15px;
   padding: 2px 5px;
+  margin: 0 0 5px;
+}
+
+.register-form .error-message {
+  margin: 0 0 15px;
 }
 
 .register-form__submit-btn {
