@@ -1,5 +1,5 @@
 export default class Header {
-  getHtml() {
+  static getHtml() {
     return `
       <header>
         <nav class="navbar">
