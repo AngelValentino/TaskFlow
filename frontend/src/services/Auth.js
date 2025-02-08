@@ -1,6 +1,10 @@
 export default class Auth {
   username = '';
 
+  constructor(router) {
+    this.router = router
+  }
+
   getUsername() {
     return this.username;
   }
@@ -8,7 +12,8 @@ export default class Auth {
   async handleUserRegistration(formData) {
     const response = await fetch('http://localhost/taskflow-api/register', {
       method: 'POST',
-      body: formData
+      body: formData,
+      signal: this.router.getAbortSignal()
     });
 
     // Validation error
@@ -21,7 +26,7 @@ export default class Auth {
 
     // API error
     if (!response.ok) {
-        throw new Error(`Couldn't properly register the user, try again later`);
+      throw new Error(`Couldn't properly register the user, try again later`);
     }
 
     const data = await response.json();

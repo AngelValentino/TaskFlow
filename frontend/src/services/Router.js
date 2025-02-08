@@ -3,6 +3,7 @@ export default class Router {
     this.routes = [];
     this.init();
     this.appLm = document.getElementById('App');
+    this.abortController = new AbortController();
   }
 
   // Adds a route
@@ -40,6 +41,9 @@ export default class Router {
 
     // Avoid rendering the same view
     if (formerView === currentView) return;
+
+    // Before navigating to the new view, cancel any active fetches
+    this.abortActiveFetch();
   
     route.view();
   }
@@ -66,5 +70,14 @@ export default class Router {
         this.navigateTo(e.target.href);
       }
     });
+  }
+
+  abortActiveFetch() {
+    this.abortController.abort();
+    this.abortController = new AbortController(); 
+  }
+
+  getAbortSignal() {
+    return this.abortController.signal;
   }
 }

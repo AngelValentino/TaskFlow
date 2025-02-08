@@ -18,12 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/register', () => {
     appLm.innerHTML = RegisterPage.getHtml()
-    const auth = new Auth();
+    const auth = new Auth(router);
     const registerView = new RegisterView();
     new RegisterController(router, auth, registerView);
   });
 
   router.addRoute('/login', () => {
+    // TODO Add basic login functionality
     appLm.innerHTML = LoginPage.getHtml();
   });
 

@@ -16,15 +16,24 @@ export default class RegisterController {
     const formData = new FormData(e.target);
     this.registerView.updateSubmitBtn('Loading...');
 
+    let wasFetchAborted = false;
+
     this.auth.handleUserRegistration(formData)
       .then(data => {
         this.router.navigateTo('/login');
       })
       .catch(error => {
+        if (error.name === 'AbortError') {
+          wasFetchAborted = true;
+          console.warn('Request aborted due to navigation change');
+          return;
+        }
+
         console.error(error.message);
         this.registerView.clearErrorMessages(error.data.errors);
       })
       .finally(() => {
+        if (wasFetchAborted) return;
         this.registerView.updateSubmitBtn('Register');
       });
   }
