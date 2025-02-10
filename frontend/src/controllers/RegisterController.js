@@ -14,11 +14,16 @@ export default class RegisterController {
   registerUser(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    this.registerView.updateSubmitBtn('Loading...');
-
+    const registerData = {};
     let wasFetchAborted = false;
 
-    this.auth.handleUserRegistration(formData)
+    formData.forEach((value, key) => {
+      registerData[key] = value;
+    });
+
+    this.registerView.updateSubmitBtn('Loading...');
+
+    this.auth.handleUserRegistration(JSON.stringify(registerData))
       .then(data => {
         this.router.navigateTo('/login');
       })

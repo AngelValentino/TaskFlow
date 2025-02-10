@@ -6,6 +6,9 @@ export default class Auth {
   async handleUserRegistration(formData) {
     const response = await fetch('http://localhost/taskflow-api/register', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: formData,
       signal: this.router.getAbortSignal()
     });
@@ -58,7 +61,8 @@ export default class Auth {
       },
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken')
-      })
+      }),
+      signal: this.router.getAbortSignal()
     });
 
     if (!response.ok) {

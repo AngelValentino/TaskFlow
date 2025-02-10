@@ -1,5 +1,5 @@
 export default class LogoutController {
-  constructor(router, auth, logoutView) {
+  constructor(router, auth) {
     this.router = router;
     this.auth = auth;
 
