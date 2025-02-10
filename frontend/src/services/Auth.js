@@ -1,12 +1,6 @@
 export default class Auth {
-  username = '';
-
   constructor(router) {
     this.router = router
-  }
-
-  getUsername() {
-    return this.username;
   }
 
   async handleUserRegistration(formData) {
@@ -33,11 +27,26 @@ export default class Auth {
     return data;
   }
 
-  async handleUserLogin() {
+  async handleUserLogin(formData) {
+    const response = await fetch('http://localhost/taskflow-api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: formData,
+      signal: this.router.getAbortSignal()
+    });
 
-  }
+    if (response.status === 400 || response.status === 401) {
+      const error = await response.json();
+      throw new Error(error.message);
+    }
 
-  async handleRefreshToken() {
+    if (!response.ok) {
+      throw new Error(`Couldn't properly login the user, try again later`);
+    }
 
+    const data = await response.json();
+    return data;
   }
 }

@@ -6,7 +6,7 @@ export default class RegisterView {
       emailErrorLm: document.getElementById('email-error'),
       passwordErrorLm: document.getElementById('password-error'),
       submitBtn: document.getElementById('register-form__submit-btn')
-    }
+    };
   }
 
   getRegisterLms() {

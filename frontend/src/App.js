@@ -1,13 +1,14 @@
 import DashboardPage from "./pages/Dashboard.js";
 import RegisterPage from "./pages/Register.js";
-import LoginPage from "./pages/Login.js";
+import LoginPage from "./pages/login/Login.js";
 import Router from './services/Router.js';
 import Auth from "./services/Auth.js";
 import RegisterController from "./controllers/registerController.js";
 import RegisterView from "./views/RegisterView.js";
+import LoginView from "./views/LoginView.js";
+import LoginController from "./controllers/LoginController.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Instantiate Router class
   const router = new Router();
   const appLm = document.getElementById('App');
 
@@ -24,8 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/login', () => {
-    // TODO Add basic login functionality
     appLm.innerHTML = LoginPage.getHtml();
+    const auth = new Auth(router);
+    const loginView = new LoginView;
+    new LoginController(router, auth, loginView);
   });
 
   // Dispatch to the correct route

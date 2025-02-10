@@ -1,4 +1,5 @@
-.register-form {
+.register-form,
+.login-form {
   display: inline-block;
   padding: 15px;
   background-color: #fff;
@@ -8,12 +9,15 @@
 }
 
 .register-form label,
-.register-form input {
+.register-form input,
+.login-form label,
+.login-form input {
   display: block;
   width: 100%;
 }
 
-.register-form label {
+.register-form label,
+.login-form label {
   padding: 0 0 8px;
 }
 
@@ -22,14 +26,24 @@
   margin: 0 0 5px;
 }
 
+.login-form input {
+  padding: 2px 5px;
+  margin: 0 0 15px;
+}
+
 .register-form .error-message {
   margin: 0 0 15px;
 }
 
-.register-form__submit-btn {
+.register-form__submit-btn,
+.login-form__submit-btn {
   background-color: green;
   color: #fff;
   padding: 10px;
   border-radius: 2px;
   margin: 10px 0 0;
+}
+
+.login-form__submit-btn {
+  background-color: black;
 }
