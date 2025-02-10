@@ -1,5 +1,5 @@
-import Header from "../layouts/Header.js";
-import RegisterUserForm from "../components/RegisterUserForm.js";
+import Header from "../../layouts/Header.js";
+import RegisterUserForm from "./components/RegisterUserForm.js";
 
 export default class RegisterPage {
   static getHtml() {
