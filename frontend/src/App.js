@@ -7,6 +7,8 @@ import RegisterController from "./controllers/registerController.js";
 import RegisterView from "./views/RegisterView.js";
 import LoginView from "./views/LoginView.js";
 import LoginController from "./controllers/LoginController.js";
+import LogoutPage from "./pages/Logout.js";
+import LogoutController from "./controllers/LogoutController.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router();
@@ -29,6 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const auth = new Auth(router);
     const loginView = new LoginView;
     new LoginController(router, auth, loginView);
+  });
+
+  router.addRoute('/logout', () => {
+    appLm.innerHTML = LogoutPage.getHtml();
+    const auth = new Auth(router);
+    new LogoutController(router, auth);
   });
 
   // Dispatch to the correct route

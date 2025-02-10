@@ -49,4 +49,26 @@ export default class Auth {
     const data = await response.json();
     return data;
   }
+
+  async handleUserLogout() {
+    const response = await fetch('http://localhost/taskflow-api/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        token: localStorage.getItem('refreshToken')
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Couldn't properly logout the user, try again later`);
+    }
+  }
+
+  logoutClient() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('username');
+  }
 }

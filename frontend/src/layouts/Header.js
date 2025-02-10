@@ -11,7 +11,10 @@ export default class Header {
               <a class="navbar__link" href="/register" data-link>Register</a>
             </li>
             <li>
-              <a class="navbar__link" href="/login" data-link>Log In</a>
+              <a class="navbar__link" href="/login" data-link>Login</a>
+            </li>
+            <li>
+              <a class="navbar__link navbar__logout-btn" href="/logout" data-link>Logout</a>
             </li>
           </ul>
         </nav>

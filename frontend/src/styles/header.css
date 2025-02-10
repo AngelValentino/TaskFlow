@@ -11,3 +11,7 @@
 .navbar__link:hover {
   color: green;
 }
+
+.navbar__logout-btn:hover {
+  color: rgb(240, 74, 74);
+}
