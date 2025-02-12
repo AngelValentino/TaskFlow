@@ -9,6 +9,7 @@ import LoginView from "./views/LoginView.js";
 import LoginController from "./controllers/LoginController.js";
 import LogoutPage from "./pages/Logout.js";
 import LogoutController from "./controllers/LogoutController.js";
+import UserModel from "./models/UserModel.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router();
@@ -20,23 +21,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/register', () => {
-    appLm.innerHTML = RegisterPage.getHtml()
-    const auth = new Auth(router);
+    appLm.innerHTML = RegisterPage.getHtml();
+    const userModel = new UserModel(router);
     const registerView = new RegisterView();
-    new RegisterController(router, auth, registerView);
+    new RegisterController(router, userModel, registerView);
   });
 
   router.addRoute('/login', () => {
     appLm.innerHTML = LoginPage.getHtml();
     const auth = new Auth(router);
+    const userModel = new UserModel(router);
     const loginView = new LoginView;
-    new LoginController(router, auth, loginView);
+    new LoginController(router, auth, userModel, loginView);
   });
 
   router.addRoute('/logout', () => {
     appLm.innerHTML = LogoutPage.getHtml();
     const auth = new Auth(router);
-    new LogoutController(router, auth);
+    const userModel = new UserModel(router);
+    new LogoutController(router, auth, userModel);
   });
 
   // Dispatch to the correct route

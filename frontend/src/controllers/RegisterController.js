@@ -1,7 +1,7 @@
 export default class RegisterController {
-  constructor(router, auth, registerView) {
+  constructor(router, userModel, registerView) {
     this.router = router;
-    this.auth = auth;
+    this.userModel = userModel
     this.registerView = registerView;
 
     // Get DOM references
@@ -23,8 +23,8 @@ export default class RegisterController {
 
     this.registerView.updateSubmitBtn('Loading...');
 
-    this.auth.handleUserRegistration(JSON.stringify(registerData))
-      .then(data => {
+    this.userModel.handleUserRegistration(JSON.stringify(registerData))
+      .then(() => {
         this.router.navigateTo('/login');
       })
       .catch(error => {

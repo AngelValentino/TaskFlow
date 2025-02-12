@@ -1,9 +1,11 @@
 export default class Router {
   constructor() {
+    if (Router.instance) return Router.instance; // Prevents multiple instances
     this.routes = [];
     this.init();
     this.appLm = document.getElementById('App');
     this.abortController = new AbortController();
+    Router.instance = this; // Store the instance
   }
 
   // Adds a route

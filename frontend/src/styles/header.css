@@ -6,6 +6,11 @@
 .navbar__links-list {
   display: flex;
   gap: 12px;
+  justify-content: space-between;
+}
+
+.navbar__links-list li {
+  display: inline-block;
 }
 
 .navbar__link:hover {
@@ -14,4 +19,12 @@
 
 .navbar__logout-btn:hover {
   color: rgb(240, 74, 74);
+}
+.navbar__auth-links-container {
+  gap: 8px;
+  display: flex;
+}
+
+.navbar__greeting-message {
+  opacity: 0.5;
 }

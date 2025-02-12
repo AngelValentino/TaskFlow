@@ -1,13 +1,14 @@
 export default class LogoutController {
-  constructor(router, auth) {
+  constructor(router, auth, userModel) {
     this.router = router;
     this.auth = auth;
+    this.userModel = userModel;
 
     this.logoutUser();
   }
 
   logoutUser() {
-    this.auth.handleUserLogout()
+    this.userModel.handleUserLogout()
       .then(() => {
         this.auth.logoutClient();
         console.log('logout successful');

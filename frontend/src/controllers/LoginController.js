@@ -1,7 +1,8 @@
 export default class LoginController {
-  constructor(router, auth, loginView) {
+  constructor(router, auth, userModel, loginView) {
     this.router = router;
     this.auth = auth;
+    this.userModel = userModel;
     this.loginView = loginView;
 
     this.lms = this.loginView.getDomRefs();
@@ -21,12 +22,9 @@ export default class LoginController {
 
     this.loginView.updateSubmitBtn('Loading...');
 
-    this.auth.handleUserLogin(JSON.stringify(loginData))
+    this.userModel.handleUserLogin(JSON.stringify(loginData))
       .then(data => {
-        localStorage.setItem('accessToken', data.access_token);
-        localStorage.setItem('refreshToken', data.refresh_token);
-        localStorage.setItem('username', data.username);
-
+        this.auth.loginClient(data);
         this.router.navigateTo('/');
       })
       .catch(error => {
