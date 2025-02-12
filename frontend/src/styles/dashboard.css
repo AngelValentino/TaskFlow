@@ -1,0 +1,453 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 50px 30px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+.widgets-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-items: center;
+  gap: 10%;
+  width: 100%;
+}
+
+/* TIMER AND QUOTE */
+
+.timer-quote-container {
+  text-align: center;
+}
+
+/* END OF TIMER AND QUOTE */
+
+/* _TODO APP */
+
+.todo-app-container {
+  max-width: 600px;
+  width: 100%;
+}
+
+.todo-app {
+  display: flex;
+  flex-flow: column;
+  border-radius: 3px;
+  background-color: #fff;
+  padding: 30px 25px;
+  height: 83.75vh;
+  min-height: 620px;
+  max-height: 800px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable both-edges;
+  position: relative;
+}
+
+/* END OF TODO APP */
+
+/* _TODO APP INTRO */
+
+.todo-app-intro {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+  background-color: var(--light-accent-color);
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0 0 12px;
+  position: relative;
+  z-index: 1;
+  transition: background-color var(--base-transition-duration);
+}
+
+.todo-app-intro__info {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.todo-app-intro__current-date,
+.todo-app-intro__tasks-left {
+  font-size: 1.32rem;
+}
+
+.todo-app-intro__tasks-left {
+  font-weight: normal;
+}
+
+.todo-app-intro__buttons-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  text-align: center;
+  justify-self: center;
+}
+
+.todo-app-intro__btn {
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark-accent-color);
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
+}
+
+.todo-app-intro__add-button-container {
+  grid-row: span 2;
+}
+
+.todo-app-intro__search-icon,
+.todo-app-intro__clear-icon {
+  width: 1.5rem;
+}
+
+.todo-app-intro__add-icon {
+  width: 1.85rem;
+}
+
+/* END OF TODO APP INTRO */
+
+/* _TODO APP SECTIONS */
+
+.todo-sections {
+  padding: 10px 0;
+  position: sticky;
+  top: -31px;
+  background-color: #fff;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-sections__btn-container {
+  display: inline-block;
+}
+
+.todo-sections__btn {
+  background-color: #efefef;
+  padding: 12px;
+  border-radius: 50px;
+  font-size: 1.15rem;
+  overflow: hidden;
+}
+
+.todo-sections__btn.active {
+  background-color: var(--base-text-color);
+  color: #fff;
+  cursor: default;
+}
+
+/* Makes sure to remove the transtion when selecting a section. */
+.appear-bg-from-center.dark.todo-sections__btn.active::after {
+  transition: none;
+}
+
+.todo-sections__header {
+  font-weight: normal;
+}
+
+.todo-sections__scroll-to-top-btn {
+  display: none;
+  background-color: var(--medium-accent-color);
+  line-height: 0;
+  border-radius: 5px;
+  color: white;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
+  width: 40px;
+  height: 40px;
+}
+
+.todo-sections__scroll-to-top-btn.show {
+  display: inline-block;
+}
+
+.todo-sections__scroll-to-top-icon {
+  width: 1.15rem;
+}
+
+/* END OF TODO APP SECTIONS */
+
+/* _TODOS CONTAINER */
+
+  .todos-container {
+    margin-top: 25px;
+    flex: 1;
+  }
+
+  /* PLACEHOLDER IMAGE */
+
+  .todos-container__img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 40px;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+  }
+
+  .todos-container__empty-section-image {
+    width: 200px;
+  }
+
+  /* END OF PLACEHOLDER IMAGE*/
+
+  /* _TODO */
+
+  .todo {
+    color: #fff;
+    background-color: var(--dark-accent-color);
+    padding: 20px;
+    border-radius: 5px;
+    margin: 0 0 20px;
+    transition: background-color var(--base-transition-duration);
+    word-wrap: break-word;
+  }
+
+  .todo.completed {
+    background-color: var(--contrast-color);
+    color: var(--base-text-color);
+    text-decoration: line-through;
+    transition: background-color var(--base-transition-duration);
+  }
+
+  .todo__task-name {
+    margin: 0 0 5px;
+    font-size: 1.375rem;
+  }
+
+  .todo__task-date {
+    display: block;
+    font-size: var(--base-font-size);
+    opacity: 0.8;
+    margin: 0 0 15px;
+    color: var(--light-accent-color);
+    transition: color var(--base-transition-duration);
+  }
+
+  .todo.completed .todo__task-date {
+    color: var(--base-text-color);
+  }
+
+  .todo__task-desc {
+    margin: 0 0 22px;
+    font-size: var(--base-font-size);
+  }
+
+  .todo__control-buttons-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 0;
+  }
+
+  .todo.completed .todo__control-btn-container {
+    display: flex;
+    justify-content: end;
+  }
+
+  .todo__control-buttons-list > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .todo__complete-btn,
+  .todo__edit-btn,
+  .todo__delete-btn {
+    padding: 5px;
+    margin: -5px;
+    line-height: 0;
+  }
+
+  .todo__complete-icon,
+  .todo__edit-icon,
+  .todo__delete-icon {
+    width: 1.65rem;
+  }
+
+  .todo__edit-icon {
+    margin-bottom: -2px;
+  }
+
+  /* END OF TODO */
+
+/* END OF TODOS CONTAINER */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 1200px) {
+  .widgets-list {
+    display: flex;
+    flex-flow: column;
+    gap: 7rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  main {
+    padding: 30px 15px;
+  }
+
+  .todo-app {
+    padding: 20px;
+  }
+
+  .todo-app-intro__current-date,
+  .todo-app-intro__tasks-left {
+    font-size: 1.2rem;
+  }
+
+  .todo-sections {
+    top: -21px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .todo-app-intro__btn:is(:hover, :focus-visible) {
+    background-color: var(--medium-accent-color);
+  }
+
+  .todo-sections__scroll-to-top-btn:is(:hover, :focus-visible) {
+    background-color: var(--contrast-color);
+    color: var(--base-text-color);
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+  .todo-app-intro__btn:active {
+    transition: none;
+    opacity: 0.75;
+  }
+
+  .todo-sections__scroll-to-top-btn:active {
+    transition: none;
+    color: var(--base-text-color);
+    background-color: var(--light-accent-color) ;
+  }
+/* END OF ACTIVE */
+
+/* END OF MEDIA QUERIES*/
+
+/* MODIFIERS */
+
+.btn--active {
+  background-color: var(--medium-accent-color);
+  transition: background-color var(--base-transition-duration);
+}
+
+.highlighted, .highlighted-2 {
+  color: var(--base-text-color);
+  border-radius: 2px;
+}
+
+.highlighted {
+  background-color: var(--contrast-color);
+}
+
+.highlighted-2 {
+  background-color: var(--light-accent-color);
+  display: inline-block;
+  text-decoration: none;
+} 
+
+/* END OF MODIFIERS */
+
+/* LOADERS */
+
+  /* QUOTE LOADER */
+
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  /* END OF QUOTE LOADER */
+
+  /* BOUNCING BALLS LOADER */
+
+  .bouncer-container {
+    position: fixed;
+    background-color: #fff;
+    inset: 0;
+    z-index: 20;
+    transition: background-color 0.5s;
+  }
+
+  .bouncer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    padding-top: 100px;
+    gap: 0.4rem;
+    transition: opacity var(--base-transition-duration);
+  }
+
+  .bouncer div {
+    --bounce-animation-duration: 0.5s;
+    width: 1.35rem;
+    height: 1.35rem;
+    background: #0077ff;
+    border-radius: 50%;
+    animation: 
+      bounce var(--bounce-animation-duration) cubic-bezier(.19,.57,.3,.98) infinite alternate 0.5s, 
+      fallDown var(--bounce-animation-duration) cubic-bezier(.67,.11,1,.43);
+  }
+
+  .bouncer div:nth-child(2) {
+    opacity: 0.8;
+    animation-delay: 0.6s, 0s;
+    animation-duration: var(--bounce-animation-duration), 0.6s;
+  }
+
+  .bouncer div:nth-child(3) {
+    opacity: 0.6;
+    animation-delay: 0.7s, 0s;
+    animation-duration: var(--bounce-animation-duration), 0.7s;
+  }
+
+  .bouncer div:nth-child(4) {
+    opacity: 0.4;
+    animation-delay: 0.8s, 0s;
+    animation-duration: var(--bounce-animation-duration), 0.8s;
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0) }
+    to { transform: translateY(-100px) }
+  }
+
+  @keyframes fallDown {
+    from { transform: translateY(-100px) }
+    to { transform: translateY(0) }
+  }
+
+  /* END OF BOUNCING BALLS LOADER */
+
+/* END OF LOADERS */

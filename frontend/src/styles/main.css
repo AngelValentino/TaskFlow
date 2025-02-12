@@ -5,3 +5,172 @@ body {
 .error-message {
   color: red;
 }
+
+:root {
+  --dark-accent-color: #55373d;
+  --dark-to-medium-accent-color: #7a4f54;
+  --medium-accent-color: #d8085f;
+  --contrast-color: #91c989;
+  --background-image: url(../../public/assets/images/background/chocolate-background.jpg);
+  --light-accent-color: #ffe9ed;
+  --base-transition-duration: 0.25s;
+  --base-text-color: #272727;
+  --base-font-size: 1.15rem;
+}
+
+
+.visually-hidden { 
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px; 
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+  clip: rect(1px, 1px, 1px, 1px); /* maybe deprecated but we need to support legacy browsers */
+  clip-path: inset(50%); /* modern browsers, clip-path works inwards from each corner */
+  white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0 auto;
+  background-color: var(--light-accent-color);
+  min-width: 360px;
+  position: relative;
+  transition: background-color 0.5s;
+  color: var(--base-text-color);
+}
+
+.background-image {
+  transition: opacity 1s;
+  position: absolute;
+  background-image: var(--background-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  inset: 0;
+  opacity: 1;
+}
+
+main {
+  padding-top: 50px;
+}
+
+/* UI COMPONENTS */
+
+.appear-bg-from-center,
+.slide-bg-in-and-back {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.appear-bg-from-center::after,
+.slide-bg-in-and-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: transform var(--base-transition-duration), opacity 0.5s;
+  background-color: var(--dark-to-medium-accent-color);
+  z-index: -1;
+  will-change: transform;
+}
+
+.appear-bg-from-center::after {
+  transform: scale(0);
+}
+
+.slide-bg-in-and-back::after {
+  transition: transform 0.4s;
+  transform-origin: left;
+  transform: scaleX(0);
+  background-color: var(--medium-accent-color);
+  opacity: 1;
+}
+
+.appear-bg-from-center.rounded {
+  border-radius: 50px;
+}
+
+.appear-bg-from-center.rounded::after {
+  border-radius: 50px;
+}
+
+.appear-bg-from-center.dark {
+  transition: color var(--base-transition-duration);
+}
+
+.appear-bg-from-center.dark::after {
+  background-color: #4d4d4d;
+  transition: transform var(--base-transition-duration), opacity 0.33s;
+}
+
+.appear-bg-from-center.dark-soft::after {
+  background-color: #eee;
+}
+
+.appear-bg-from-center.light::after {
+  background-color: var(--light-accent-color);
+}
+
+.slide-button {
+  position: relative;
+  overflow: hidden;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration), padding 0.25s, opacity var(--base-transition-duration);
+  will-change: padding;
+  padding: 10px 30px;
+  color: #fff;
+}
+
+.slide-button::after {
+  content: "";
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: currentColor;
+  transition: right 0.25s;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.edit-dialog__submit-btn.slide-button::after {
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='m21.41 11.58l-9-9C12.04 2.21 11.53 2 11 2H4c-.53 0-1.04.21-1.41.59C2.21 2.96 2 3.47 2 4v7c0 .26.05.53.15.77c.1.23.25.46.44.65l1.98 1.98L6 13l-2-2V4h7l9 9l-7 7l-2.13-2.13l-.17.17v-.01l-1.25 1.25l2.14 2.14c.38.37.88.58 1.41.58s1.04-.21 1.41-.59l7-7c.38-.37.59-.88.59-1.41c0-.26-.05-.5-.15-.77c-.1-.23-.25-.46-.44-.65M6.5 5a1.5 1.5 0 0 1 1.39.93c.11.27.14.57.08.86s-.2.56-.41.77s-.48.35-.77.41s-.59.03-.86-.08A1.5 1.5 0 0 1 6.5 5m4.2 10.35l1-1a.55.55 0 0 0 0-.77l-1.28-1.28a.55.55 0 0 0-.77 0l-1 1zm-2.64-1.47L2 19.94V22h2.06l6.05-6.07z' /%3E%3C/svg%3E") no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='m21.41 11.58l-9-9C12.04 2.21 11.53 2 11 2H4c-.53 0-1.04.21-1.41.59C2.21 2.96 2 3.47 2 4v7c0 .26.05.53.15.77c.1.23.25.46.44.65l1.98 1.98L6 13l-2-2V4h7l9 9l-7 7l-2.13-2.13l-.17.17v-.01l-1.25 1.25l2.14 2.14c.38.37.88.58 1.41.58s1.04-.21 1.41-.59l7-7c.38-.37.59-.88.59-1.41c0-.26-.05-.5-.15-.77c-.1-.23-.25-.46-.44-.65M6.5 5a1.5 1.5 0 0 1 1.39.93c.11.27.14.57.08.86s-.2.56-.41.77s-.48.35-.77.41s-.59.03-.86-.08A1.5 1.5 0 0 1 6.5 5m4.2 10.35l1-1a.55.55 0 0 0 0-.77l-1.28-1.28a.55.55 0 0 0-.77 0l-1 1zm-2.64-1.47L2 19.94V22h2.06l6.05-6.07z' /%3E%3C/svg%3E") no-repeat;
+}
+
+.add-todo-prompt__submit-btn.slide-button::after {
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M6.25 3A3.25 3.25 0 0 0 3 6.25v11.5A3.25 3.25 0 0 0 6.25 21h5.772a6.5 6.5 0 0 1-.709-1.5H6.25a1.75 1.75 0 0 1-1.75-1.75V6.25c0-.966.784-1.75 1.75-1.75h11.5c.966 0 1.75.784 1.75 1.75v5.063a6.5 6.5 0 0 1 1.5.709V6.25A3.25 3.25 0 0 0 17.75 3zm6.25 6.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75m-1.72-.47a.75.75 0 1 0-1.06-1.06L8.25 9.19l-.47-.47a.75.75 0 0 0-1.06 1.06l1 1a.75.75 0 0 0 1.06 0zm0 4.44a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 0 1-1.06 0l-1-1a.75.75 0 1 1 1.06-1.06l.47.47l1.47-1.47a.75.75 0 0 1 1.06 0M23 17.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0m-5 .5l.001 2.503a.5.5 0 1 1-1 0V18h-2.505a.5.5 0 0 1 0-1H17v-2.5a.5.5 0 1 1 1 0V17h2.497a.5.5 0 0 1 0 1z' /%3E%3C/svg%3E") no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M6.25 3A3.25 3.25 0 0 0 3 6.25v11.5A3.25 3.25 0 0 0 6.25 21h5.772a6.5 6.5 0 0 1-.709-1.5H6.25a1.75 1.75 0 0 1-1.75-1.75V6.25c0-.966.784-1.75 1.75-1.75h11.5c.966 0 1.75.784 1.75 1.75v5.063a6.5 6.5 0 0 1 1.5.709V6.25A3.25 3.25 0 0 0 17.75 3zm6.25 6.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75m-1.72-.47a.75.75 0 1 0-1.06-1.06L8.25 9.19l-.47-.47a.75.75 0 0 0-1.06 1.06l1 1a.75.75 0 0 0 1.06 0zm0 4.44a.75.75 0 0 1 0 1.06l-2 2a.75.75 0 0 1-1.06 0l-1-1a.75.75 0 1 1 1.06-1.06l.47.47l1.47-1.47a.75.75 0 0 1 1.06 0M23 17.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0m-5 .5l.001 2.503a.5.5 0 1 1-1 0V18h-2.505a.5.5 0 0 1 0-1H17v-2.5a.5.5 0 1 1 1 0V17h2.497a.5.5 0 0 1 0 1z' /%3E%3C/svg%3E") no-repeat;
+}
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .appear-bg-from-center:not(.active):is(:hover, :focus-visible)::after {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .slide-bg-in-and-back:is(:hover, :focus-visible)::after {
+    transform: scaleX(1);
+  }
+
+  .todo-sections__btn.appear-bg-from-center.dark:not(.active):is(:hover, :focus-visible) {
+    color: #fff;
+  }
+
+  .slide-button:is(:hover, :focus-visible) {
+    padding: 10px 55px 10px 25px;
+    transition: padding 0.4s, opacity var(--base-transition-duration);
+  } 
+  
+  .slide-button:is(:hover, :focus-visible)::after {
+    right: 17px;
+    transition: right 0.4s;
+  }
+}
+
+.appear-bg-from-center:active svg {
+  opacity: 0.75;
+}

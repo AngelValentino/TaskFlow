@@ -1,4 +1,4 @@
-import DashboardPage from "./pages/Dashboard.js";
+import DashboardPage from "./pages/dashboard/Dashboard.js";
 import RegisterPage from "./pages/Register/Register.js";
 import LoginPage from "./pages/login/Login.js";
 import Router from './services/Router.js';
