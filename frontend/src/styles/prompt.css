@@ -1,0 +1,211 @@
+/* ADD TODO PROMPT */
+
+.add-todo-prompt {
+  position: relative;
+  background-color: var(--dark-accent-color);
+  border-radius: 5px;
+  overflow: hidden;
+  max-height: 0;
+  transform: translateY(-130px);
+  transition: max-height 1.5s, transform 0.5s, margin 0.5s, background-color var(--base-transition-duration);
+}
+
+.add-todo-prompt.active {
+  max-height: 1000px;
+  transform: translateY(0px);
+  margin-bottom: 10px;
+}
+
+.add-todo-prompt__form {
+  padding: 35px 30px;
+}
+
+.add-todo-prompt label {
+  display: block;
+  color: #fff;
+  margin: 0 0 10px;
+  font-size: var(--base-font-size);
+}
+
+.add-todo-prompt input, 
+.add-todo-prompt textarea {
+  border: none;
+  padding: 10px;
+}
+
+.add-todo-prompt input {
+  width: 100%;
+  border-radius: 3px;
+  margin: 0 0 25px;
+  background-color: var(--light-accent-color);
+  transition: background-color var(--base-transition-duration);
+  font-size: var(--base-font-size);
+}
+
+.add-todo-prompt textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+  max-height: 250px;
+  border-radius: 3px;
+  margin: 0 0 25px;
+  font-size: var(--base-font-size);
+}
+
+.add-todo-prompt__close-btn {
+  position: absolute !important;
+  color: #fff;
+  top: 12px;
+  right: 12px;
+  line-height: 0;
+  padding: 3px;
+}
+
+.add-todo-prompt__close-icon {
+  width: 1.65rem;
+}
+
+.add-todo-prompt__submit-btn {
+  font-weight: bold;
+  background-color: var(--medium-accent-color);
+  font-size: var(--base-font-size);
+  border-radius: 2px;
+}
+
+/* END OF ADD TODO PROMPT */
+
+/* SEARCH TODO PROMPT */
+
+.search-todo-prompt {
+  border-radius: 5px;
+  overflow: hidden;
+  transform: translateX(-600px);
+  max-height: 0;
+  transition: max-height 1.25s , transform 1.25s;
+}
+
+.search-todo-prompt.active {
+  max-height: 1000px;
+  transform: translateX(0px);
+}
+
+.search-todo-prompt__container {
+  margin: 15px auto 30px;
+  max-width: 400px;
+  position: relative;
+}
+
+.search-todo-prompt__search-icon {
+  width: 1.4rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.3;
+  right: 18px;
+  pointer-events: none;
+  color: var(--medium-accent-color);
+}
+
+.search-todo-prompt__search-icon.active {
+  display: none;
+}
+
+.search-todo-prompt__search-input {
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--medium-accent-color);
+  opacity: 0.6;
+  padding: 10px 50px 10px 20px;
+  border-radius: 50px;
+  transition: opacity var(--base-transition-duration);
+  font-size: var(--base-font-size);
+}
+
+.search-todo-prompt__search-input:focus {
+  outline: none;
+  opacity: 1;
+  border: 2px solid var(--medium-accent-color);
+}
+
+.search-todo-prompt__close-btn {
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  right: 16px;
+  display: none;
+  transition: opacity var(--base-transition-duration);
+  opacity: 0.3;
+}
+
+.search-todo-prompt__close-btn.active {
+  display: initial;
+}
+
+.search-todo-prompt__close-icon {
+  width: 1.85rem;
+}
+
+/* END OF SEARCH TODO PROMPT */
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .search-todo-prompt__close-btn:is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.add-todo-prompt__submit-btn:active  {
+  background-color: var(--contrast-color);
+}
+
+.search-todo-prompt__close-btn:active {
+  color: #ff4f33;
+}
+
+/* END OF ACTIVE */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-height: 700px) and (min-width: 550px) {
+  .add-todo-prompt__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .add-todo-prompt__submit-btn {
+    grid-column: span 2;
+  }
+
+  .add-todo-prompt {
+    transition: max-height 1.5s, transform 0.4s, margin 0.4s, background-color var(--base-transition-duration);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .add-todo-prompt__submit-btn {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .add-todo-prompt__form {
+    padding: 30px 25px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .add-todo-prompt__form {
+    padding: 30px 20px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

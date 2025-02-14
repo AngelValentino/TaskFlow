@@ -10,6 +10,9 @@ import LoginController from "./controllers/LoginController.js";
 import LogoutPage from "./pages/Logout.js";
 import LogoutController from "./controllers/LogoutController.js";
 import UserModel from "./models/UserModel.js";
+import TaskManagerView from "./views/TaskMangerView.js";
+import TaskManagerController from "./controllers/TaskManagerController.js";
+import ModalHandler from "./services/ModalHandler.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router();
@@ -18,6 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
+
+    // TODO Insert task fetch request
+
+    // Task manager
+    const modalHandler = new ModalHandler;
+    const taskManagerView = new TaskManagerView(modalHandler);
+    new TaskManagerController(taskManagerView);
   });
 
   router.addRoute('/register', () => {

@@ -1,7 +1,7 @@
 .navbar {
   padding: 10px 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.09);
-  position: absolute;
+  position: fixed;
   z-index: 10;
   background-color: white;
   top: 0;
