@@ -1,5 +1,5 @@
 import DashboardPage from "./pages/dashboard/Dashboard.js";
-import RegisterPage from "./pages/Register/Register.js";
+import RegisterPage from "./pages/register/Register.js";
 import LoginPage from "./pages/login/Login.js";
 import Router from './services/Router.js';
 import Auth from "./services/Auth.js";
@@ -13,9 +13,10 @@ import UserModel from "./models/UserModel.js";
 import TaskManagerView from "./views/TaskMangerView.js";
 import TaskManagerController from "./controllers/TaskManagerController.js";
 import ModalHandler from "./services/ModalHandler.js";
+import TaskModel from "./models/TaskModel.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-  const router = new Router();
+  const router = new Router;
   const appLm = document.getElementById('App');
 
   // Add routes
@@ -25,21 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // TODO Insert task fetch request
 
     // Task manager
+    const auth = new Auth;
     const modalHandler = new ModalHandler;
     const taskManagerView = new TaskManagerView(modalHandler);
-    new TaskManagerController(taskManagerView);
+    const taskModel = new TaskModel(router, auth);
+
+    new TaskManagerController(taskManagerView, taskModel, auth);
   });
 
   router.addRoute('/register', () => {
     appLm.innerHTML = RegisterPage.getHtml();
     const userModel = new UserModel(router);
-    const registerView = new RegisterView();
+    const registerView = new RegisterView;
     new RegisterController(router, userModel, registerView);
   });
 
   router.addRoute('/login', () => {
     appLm.innerHTML = LoginPage.getHtml();
-    const auth = new Auth(router);
+    const auth = new Auth;
     const userModel = new UserModel(router);
     const loginView = new LoginView;
     new LoginController(router, auth, userModel, loginView);
@@ -47,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/logout', () => {
     appLm.innerHTML = LogoutPage.getHtml();
-    const auth = new Auth(router);
+    const auth = new Auth;
     const userModel = new UserModel(router);
     new LogoutController(router, auth, userModel);
   });

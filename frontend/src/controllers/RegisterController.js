@@ -35,7 +35,7 @@ export default class RegisterController {
         }
 
         console.error(error.message);
-        this.registerView.clearErrorMessages(error.data.errors);
+        this.registerView.clearErrorMessages(error.data?.errors);
       })
       .finally(() => {
         if (wasFetchAborted) return;

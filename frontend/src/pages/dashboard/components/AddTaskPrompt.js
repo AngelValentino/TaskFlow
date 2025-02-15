@@ -9,14 +9,14 @@ export default class AddTaskPrompt {
             </svg>
           </button>
           <div>
-            <label for="add-todo-prompt__task">Task</label>
-            <input required type="text" name="task" id="add-todo-prompt__task" aria-required="true"/>
-            <label for="add-todo-prompt__date">Date</label>
-            <input required type="date" name="date" id="add-todo-prompt__date" aria-required="true"/>   
+            <label for="add-todo-prompt__task">Title</label>
+            <input type="text" name="title" id="add-todo-prompt__task" aria-required="true"/>
+            <label for="add-todo-prompt__date">Due date</label>
+            <input type="date" name="due_date" id="add-todo-prompt__date" aria-required="true"/>   
           </div>
           <div>
             <label for="add-todo-prompt__desc">Description</label>
-            <textarea required name="description" id="add-todo-prompt__desc" rows="7" aria-required="true"></textarea>
+            <textarea name="description" id="add-todo-prompt__desc" rows="7"></textarea>
           </div>
           <button id="add-todo-prompt__submit-btn" class="add-todo-prompt__submit-btn slide-button" type="submit">Add new todo</button>
         </form>
