@@ -18,7 +18,7 @@ export default class AddTaskPrompt {
             <label for="add-todo-prompt__desc">Description</label>
             <textarea name="description" id="add-todo-prompt__desc" rows="7"></textarea>
           </div>
-          <button id="add-todo-prompt__submit-btn" class="add-todo-prompt__submit-btn slide-button" type="submit">Add new todo</button>
+          <button id="add-todo-prompt__submit-btn" class="add-todo-prompt__submit-btn slide-button" type="submit">Add new task</button>
         </form>
       </div>
     `;

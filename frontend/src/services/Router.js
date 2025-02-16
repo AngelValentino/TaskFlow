@@ -44,7 +44,7 @@ export default class Router {
     // Avoid rendering the same view
     if (formerView === currentView) return;
 
-    // Before navigating to the new view, cancel any active fetches
+    // Before navigating to the new view, cancel any active fetch
     this.abortActiveFetch();
   
     route.view();
@@ -74,12 +74,16 @@ export default class Router {
     });
   }
 
-  abortActiveFetch() {
-    this.abortController.abort();
+  getNewAbortSignal() {
     this.abortController = new AbortController(); 
   }
 
+  abortActiveFetch() {
+    this.abortController.abort();
+  }
+
   getAbortSignal() {
+    this.getNewAbortSignal();
     return this.abortController.signal;
   }
 }

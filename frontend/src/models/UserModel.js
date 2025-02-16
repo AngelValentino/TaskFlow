@@ -65,6 +65,16 @@ export default class UserModel {
       signal: this.router.getAbortSignal()
     });
 
+    if (response.status === 401) {
+      // If the refresh token has expired, just logout the client
+      // Any logout request will throw errors as the token is no longer valid
+      const error = await response.json();
+      if (error.message === 'Token has expired.') {
+        console.warn('Expired refresh token.');
+        return;
+      }
+    }
+
     if (!response.ok) {
       throw new Error(`Couldn't properly logout the user, try again later`);
     }

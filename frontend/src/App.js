@@ -3,7 +3,7 @@ import RegisterPage from "./pages/register/Register.js";
 import LoginPage from "./pages/login/Login.js";
 import Router from './services/Router.js';
 import Auth from "./services/Auth.js";
-import RegisterController from "./controllers/registerController.js";
+import RegisterController from "./controllers/RegisterController.js";
 import RegisterView from "./views/RegisterView.js";
 import LoginView from "./views/LoginView.js";
 import LoginController from "./controllers/LoginController.js";
@@ -14,6 +14,7 @@ import TaskManagerView from "./views/TaskMangerView.js";
 import TaskManagerController from "./controllers/TaskManagerController.js";
 import ModalHandler from "./services/ModalHandler.js";
 import TaskModel from "./models/TaskModel.js";
+import TokenHandler from "./services/TokenHandler.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router;
@@ -23,13 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Insert task fetch request
+    
 
     // Task manager
     const auth = new Auth;
+    const userModel = new UserModel(router);
     const modalHandler = new ModalHandler;
     const taskManagerView = new TaskManagerView(modalHandler);
-    const taskModel = new TaskModel(router, auth);
+    const tokenHandler = new TokenHandler(router, userModel, auth);
+    const taskModel = new TaskModel(router, auth, tokenHandler);
 
     new TaskManagerController(taskManagerView, taskModel, auth);
   });

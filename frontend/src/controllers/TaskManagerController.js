@@ -13,12 +13,10 @@ export default class TaskManagerController {
   }
 
   submitTask(e) {
-    //TODO Get errors
-    //TODO Check if access or refresh token are valid
-    //TODO Submit data
     e.preventDefault();
     const formData = new FormData(e.target);
     const taskData = {};
+    let wasFetchAborted = false;
 
     formData.forEach((value, key) => {
       taskData[key] = value;
@@ -29,6 +27,7 @@ export default class TaskManagerController {
       return;
     }
 
+    this.lms.submitTaskBtn.innerText = 'Loading...';
     console.log(taskData);
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
       .then(() => {
@@ -36,16 +35,17 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
+          wasFetchAborted = true;
           console.warn('Request aborted due to navigation change');
           return;
         }
 
         console.error(error.message);
-
         if (error.data) console.error(error.data?.errors);
       })
       .finally(() => {
-
+        if (wasFetchAborted) return;
+        this.lms.submitTaskBtn.innerText = 'Add new task';
       });
 
   }

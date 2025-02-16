@@ -1,5 +1,8 @@
 import Auth from "../services/Auth.js";
 
+//TODO Check if user is still logged in by checking refresh token validity
+//TODO And just logout client without making another fetch request
+
 export default class Header {
   static auth = new Auth();
 
