@@ -47,12 +47,11 @@ export default class TaskManagerController {
         if (wasFetchAborted) return;
         this.lms.submitTaskBtn.innerText = 'Add new task';
       });
-
   }
 
   toggleAddTaskPrompt() {
     if (this.lms.addTaskPromptLm.classList.contains('active')) {
-      this.taskManagerView.hideAddTaskPrompt();
+      this.taskManagerView.confirmDiscardPromptData();
     } 
     else {
       if (this.lms.searchTaskPromptLm.classList.contains('active')) {
@@ -67,6 +66,12 @@ export default class TaskManagerController {
       this.taskManagerView.hideSearchTaskPrompt();
     } 
     else {
+      // Check if add task form has been edited
+      if (this.taskManagerView.isAddTaskFormEdited()) {
+        this.taskManagerView.confirmDiscardPromptData();
+        return;
+      }
+      
       if (this.lms.addTaskPromptLm.classList.contains('active')) {
         this.taskManagerView.hideAddTaskPrompt();
       }

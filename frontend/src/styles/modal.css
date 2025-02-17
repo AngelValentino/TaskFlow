@@ -1,0 +1,215 @@
+/* DIALOG */
+
+.confirm-dialog-container,
+.edit-dialog-container,
+.info-dialog-container { 
+  font-size: 1.225rem;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.edit-dialog-overlay,
+.confirm-dialog-overlay,
+.info-dialog-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.confirm-dialog,
+.edit-dialog,
+.info-dialog {
+  position: relative;
+  max-width: 400px;
+  background-color: #fff;
+  padding: 30px;
+  margin: 15px;
+  border-radius: 5px;
+  text-align: center;
+  transform: scale(0);
+  transition: transform 0.25s, opacity 0.25s;
+  scrollbar-width: thin;
+  max-height: 95vh;
+  overflow-y: auto;
+  z-index: 25;
+  opacity: 0;
+}
+
+.confirm-dialog img,
+.info-dialog img {
+  display: block;
+  margin: 0 auto 15px;
+}
+
+.confirm-dialog__recycle-placeholder-img {
+  width: 100px;
+}
+
+.dialog__capybara-placeholder-img {
+  width: 125px;
+}
+
+.edit-dialog__close-btn,
+.confirm-dialog__close-btn,
+.info-dialog__close-btn {
+  position: absolute !important;
+  right: 15px;
+  top: 15px;
+  line-height: 0;
+  padding: 3px;
+}
+
+.confirm-dialog__desc,
+.info-dialog__desc {
+  margin: 0 0 30px;
+} 
+
+.confirm-dialog__accept-btn,
+.confirm-dialog__cancel-btn,
+.info-dialog__accept-btn {
+  background-color: var(--dark-accent-color);
+  padding: 12px 18px;
+  color: #fff;
+  border-radius: 3px;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
+}
+
+.edit-dialog__close-btn .edit-dialog__close-icon,
+.confirm-dialog__close-btn .confirm-dialog__close-icon,
+.info-dialog__close-btn .info-dialog__close-icon {
+  width: 1.35em;
+}
+
+/* END OF DIALOG */
+
+/* EDIT DIALOG */
+
+.form-dialog {
+  max-width: 450px;
+  text-align: start;
+  padding: 30px 50px;
+  width: 100%;
+}
+
+.edit-dialog__task, 
+.edit-dialog__date,
+.edit-dialog__desc {
+  width: 100%;
+  border-radius: 3px;
+  margin: 0 0 25px;
+  padding: 10px;
+  border: 2px dashed var(--dark-accent-color);
+}
+
+.edit-dialog__task, 
+.edit-dialog__date {
+  background-color: var(--light--accent-color);
+}
+
+.edit-dialog__task:focus, 
+.edit-dialog__date:focus,
+.edit-dialog__desc:focus {
+  outline: none;
+  border: 2px solid var(--dark-accent-color);
+}
+
+.edit-dialog label {
+  display: block;
+  padding: 0 0 10px;
+}
+
+.edit-dialog__desc {
+  resize: vertical;
+  max-height: 250px;
+  min-height: 100px;
+  scrollbar-width: thin;
+  display: block;
+}
+
+.edit-dialog__submit-btn {
+  background-color: var(--medium-accent-color);
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* END OF EDIT DIALOG */
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .confirm-dialog__accept-btn:is(:hover, :focus-visible),
+  .confirm-dialog__cancel-btn:is(:hover, :focus-visible),
+  .info-dialog__accept-btn:is(:hover, :focus-visible) {
+    background-color: var(--contrast-color);
+  }
+
+  .edit-dialog__submit-btn:is(:hover, :focus-visible) {
+    opacity: 0.75;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.confirm-dialog__accept-btn:active,
+.confirm-dialog__cancel-btn:active,
+.info-dialog__accept-btn:active,
+.edit-dialog__submit-btn:active {
+  transition: none;
+  background-color: var(--light-accent-color);
+  color: var(--base-text-color);
+}
+
+.edit-dialog__submit-btn:active {
+  transition: padding 0.4s;
+}
+
+/* END OF ACTIVE */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-height: 600px) and (min-width: 600px){
+  .form-dialog {
+    max-width: 700px;
+  }
+  
+  .edit-dialog__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  
+  .edit-dialog__date,
+  .edit-dialog__desc {
+    margin: 0;
+  }
+
+  .edit-dialog__submit-btn {
+    grid-column: span 2;
+    justify-self: center;
+    margin: 20px 0 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .form-dialog {
+    padding: 30px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .form-dialog {
+    padding: 30px 25px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

@@ -1,6 +1,7 @@
 export default class TaskManagerView {
-  constructor(modalHandler) {
+  constructor(modalHandler, modalView) {
     this.modalHandler = modalHandler;
+    this.modalView = modalView;
     this.timIds = {};
     this.lms = {
       addTaskBtn: document.getElementById('todo-app-intro__add-btn'),
@@ -85,5 +86,36 @@ export default class TaskManagerView {
       'hideSearchTaskPrompt',
       1250
     );
+  }
+
+  isAddTaskFormEdited() {
+    const formData = new FormData(this.lms.addTaskPromptFormLm);
+    const taskData = {};
+
+    formData.forEach((value, key) => {
+      taskData[key] = value;
+    });
+
+    for (const key in taskData) {
+      if (taskData[key]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  resetAddTaskForm() {
+    this.lms.addTaskPromptFormLm.reset();
+    this.hideAddTaskPrompt();
+  }
+
+  confirmDiscardPromptData() {
+    if (this.isAddTaskFormEdited()) {
+      this.modalView.openConfirmModal(this.resetAddTaskForm.bind(this));
+    }
+    else {
+      this.hideAddTaskPrompt();
+    }
   }
 }
