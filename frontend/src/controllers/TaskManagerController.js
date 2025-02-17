@@ -55,15 +55,15 @@ export default class TaskManagerController {
     } 
     else {
       if (this.lms.searchTaskPromptLm.classList.contains('active')) {
-        this.taskManagerView.hideSearchTaskPrompt();
+        this.taskManagerView.closeSearchTaskPrompt();
       }
-      this.taskManagerView.showAddTaskPrompt();
+      this.taskManagerView.openAddTaskPrompt();
     }
   }
 
   toggleSearchTaskPrompt() {
     if (this.lms.searchTaskPromptLm.classList.contains('active')) {
-      this.taskManagerView.hideSearchTaskPrompt();
+      this.taskManagerView.closeSearchTaskPrompt();
     } 
     else {
       // Check if add task form has been edited
@@ -73,9 +73,9 @@ export default class TaskManagerController {
       }
       
       if (this.lms.addTaskPromptLm.classList.contains('active')) {
-        this.taskManagerView.hideAddTaskPrompt();
+        this.taskManagerView.closeAddTaskPrompt();
       }
-      this.taskManagerView.showSearchTaskPrompt();      
+      this.taskManagerView.openSearchTaskPrompt();      
     }
   }
 }

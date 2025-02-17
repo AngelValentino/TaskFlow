@@ -37,9 +37,10 @@ export default class ModalView {
     modalLm.style.transform = 'scale(0)'; // Scale down the modal content
     modalLm.style.opacity = 0; // Fade out the modal content
     modalOverlayLm.style.opacity = 0; // Fade out the overlay
-    
+
     const timId = setTimeout(() => {
       modalContainerLm.style.display = 'none'; // Hide the modal container
+      console.log(this.lastFocusedLmBeforeModal);
       this.modalHandler.toggleModalFocus('return', null, this.lastFocusedLmBeforeModal); // Return focus to the last focused element
     }, 250);
   
@@ -77,6 +78,8 @@ export default class ModalView {
     }
 
     const confirmAndDismissModal = () => {
+      // TODO Fix return focus bug, because modal close with a timeout, after 250ms foucs escape the prompt button
+      // TODO and goes back to the last active element in closed form
       closeConfirmModal();
       confirmHandler();
     }

@@ -65,8 +65,17 @@ export default class ModalHandler {
     }
   }
 
-  handleEscapeKeyClose(closeHandler) {
+  handleEscapeKeyClose(closeHandler, className) {
     return e => {
+      // Prevent closing add or search task prompts at escape if a modal has been opened
+      if (
+        e.key === 'Escape' && 
+        (className === '.add-todo-prompt' || className === '.search-todo-prompt') && 
+        document.body.style.overflow === 'hidden'
+      ) {
+        return;
+      }
+
       if (e.key === 'Escape') {
         console.warn('close at escape key');
         closeHandler();
@@ -84,7 +93,7 @@ export default class ModalHandler {
   }
 
   addModalEvents(eventHandlerKey, className, modalContainerLm, modalLm, closeLms, closeHandler) {
-    const escapeKeyHandler = this.handleEscapeKeyClose(closeHandler);
+    const escapeKeyHandler = this.handleEscapeKeyClose(closeHandler, className);
     const outsideClickHandler = this.handleOutsideClickClose(closeHandler, className);
     const trapFocusHandler = this.handleTrapFocus(modalLm);
   

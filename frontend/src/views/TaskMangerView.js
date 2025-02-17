@@ -48,7 +48,7 @@ export default class TaskManagerView {
     }, timeout);    
   }
 
-  showAddTaskPrompt() {
+  openAddTaskPrompt() {
     this.showPrompt(
       this.lms.addTaskPromptLm,
       this.lms.addTaskBtn,
@@ -56,9 +56,19 @@ export default class TaskManagerView {
       this.timIds.hideAddTaskPrompt,
       250
     );
+
+    // Add event listeners
+    this.modalHandler.addModalEvents(
+      'addTaskPrompt',
+      '.add-todo-prompt',
+      null,
+      this.lms.addTaskPromptLm,
+      [this.lms.addTaskPromptCloseBtn],
+      this.confirmDiscardPromptData.bind(this)
+    );
   }
 
-  hideAddTaskPrompt() {
+  closeAddTaskPrompt() {
     this.hidePrompt(
       this.lms.addTaskPromptLm,
       this.lms.addTaskBtn,
@@ -66,9 +76,17 @@ export default class TaskManagerView {
       'hideAddTaskPrompt',
       1500
     );
+
+    // Remove event listeners
+    this.modalHandler.removeModalEvents(
+      'addTaskPrompt',
+      null,
+      this.lms.addTaskPromptLm,
+      [this.lms.addTaskPromptCloseBtn]
+    );
   }
 
-  showSearchTaskPrompt() {
+  openSearchTaskPrompt() {
     this.showPrompt(
       this.lms.searchTaskPromptLm,
       this.lms.searchTaskBtn,
@@ -76,15 +94,30 @@ export default class TaskManagerView {
       this.timIds.hideSearchTaskPrompt,
       1250
     );
+
+    // Add event listeners
+    this.modalHandler.addModalEvents(
+      'searchTaskPrompt',
+      '.search-todo-prompt',
+      null,
+      null,
+      null,
+      this.closeSearchTaskPrompt.bind(this)
+    );
   }
 
-  hideSearchTaskPrompt() {
+  closeSearchTaskPrompt() {
     this.hidePrompt(
       this.lms.searchTaskPromptLm,
       this.lms.searchTaskBtn,
       this.timIds.focusFirstPromptLm,
       'hideSearchTaskPrompt',
       1250
+    );
+
+    // Remove event listeners
+    this.modalHandler.removeModalEvents(
+      'searchTaskPrompt'
     );
   }
 
@@ -107,7 +140,7 @@ export default class TaskManagerView {
 
   resetAddTaskForm() {
     this.lms.addTaskPromptFormLm.reset();
-    this.hideAddTaskPrompt();
+    this.closeAddTaskPrompt();
   }
 
   confirmDiscardPromptData() {
@@ -115,7 +148,7 @@ export default class TaskManagerView {
       this.modalView.openConfirmModal(this.resetAddTaskForm.bind(this));
     }
     else {
-      this.hideAddTaskPrompt();
+      this.closeAddTaskPrompt();
     }
   }
 }
