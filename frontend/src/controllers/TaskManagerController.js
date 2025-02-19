@@ -24,6 +24,7 @@ export default class TaskManagerController {
 
     if (!this.auth.isClientLogged()) {
       console.warn('User is not logged in, insert in localStorage');
+      this.taskModel.addTaskToLocalStorage(taskData);
       return;
     }
 

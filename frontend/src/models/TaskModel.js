@@ -5,14 +5,21 @@ export default class TaskModel {
     this.tokenHandler = tokenHandler;
   }
 
-  async handleSubmitTask(formData) {
+  addTaskToLocalStorage(taskData) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    taskData.id = Date.now();
+    tasks.push(taskData);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  async handleSubmitTask(taskData) {
     const response = await fetch('http://localhost/taskflow-api/tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
       },
-      body: formData,
+      body: taskData,
       signal: this.router.getAbortSignal()
     });
 
@@ -36,7 +43,7 @@ export default class TaskModel {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
           },
-          body: formData,
+          body: taskData,
           signal: this.router.getAbortSignal()
         });
 
