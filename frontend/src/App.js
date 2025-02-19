@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Finish add and search prompts by adding the remaining accessibility functionality
+    // TODO Add close add and search prompt at outside click functionality
     // TODO Store task in local storage if user is not logged in
 
     // Task manager
