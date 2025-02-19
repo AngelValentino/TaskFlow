@@ -4,16 +4,16 @@ export default class TaskManagerView {
     this.modalView = modalView;
     this.timIds = {};
     this.lms = {
-      addTaskBtn: document.getElementById('todo-app-intro__add-btn'),
-      addTaskPromptLm: document.getElementById('add-todo-prompt'),
-      addTaskPromptCloseBtn: document.getElementById('add-todo-prompt__close-btn'),
-      addTaskPromptFormLm: document.getElementById('add-todo-prompt__form'),
-      submitTaskBtn: document.getElementById('add-todo-prompt__submit-btn'),
-      searchTaskPromptLm: document.getElementById('search-todo-prompt'),
-      searchTaskBtn: document.getElementById('todo-app-intro__search-btn'),
-      searchTaskInputLm: document.getElementById('search-todo-prompt__search-input'),
-      searchTaskDefaultIcon: document.getElementById('search-todo-prompt__search-icon'),
-      searchTaskCloseIcon: document.getElementById('search-todo-prompt__close-btn')
+      addTaskBtn: document.getElementById('task-manager__dashboard-add-btn'),
+      addTaskPromptLm: document.getElementById('task-manager__add-prompt'),
+      addTaskPromptCloseBtn: document.getElementById('task-manager__add-prompt-close-btn'),
+      addTaskPromptFormLm: document.getElementById('task-manager__add-prompt-form'),
+      submitTaskBtn: document.getElementById('task-manager__add-prompt-submit-btn'),
+      searchTaskPromptLm: document.getElementById('task-manager__search-prompt'),
+      searchTaskBtn: document.getElementById('task-manager__dashboard-search-btn'),
+      searchTaskInputLm: document.getElementById('task-manager__search-prompt-input'),
+      searchTaskDefaultIcon: document.getElementById('task-manager__search-svg'),
+      searchTaskCloseIcon: document.getElementById('task-manager__search-prompt-close-btn')
     };
   }
 
@@ -60,7 +60,7 @@ export default class TaskManagerView {
     // Add event listeners
     this.modalHandler.addModalEvents(
       'addTaskPrompt',
-      '.add-todo-prompt',
+      '.task-manager__add-prompt',
       document.body,
       this.lms.addTaskPromptLm,
       [this.lms.addTaskPromptCloseBtn],
@@ -98,7 +98,7 @@ export default class TaskManagerView {
     // Add event listeners
     this.modalHandler.addModalEvents(
       'searchTaskPrompt',
-      '.search-todo-prompt',
+      '.task-manager__search-prompt',
       document.body,
       null,
       null,

@@ -29,7 +29,7 @@ export default class DashboardPage {
               ${quoteMchine}
             </li>
           </div>
-          <li class="todo-app-container">
+          <li class="task-manager-container">
             ${taskManager}
           </li>
         </ul>

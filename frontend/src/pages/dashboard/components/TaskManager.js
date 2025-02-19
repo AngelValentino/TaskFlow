@@ -1,16 +1,22 @@
-import TaskManagerControlls from "./TaskManagerControls.js";
 import TaskManagerTabs from "./TaskManagerTabs.js";
+import AddTaskPrompt from "./AddTaskPrompt.js";
+import SearchTaskPrompt from "./SearchTaskPrompt.js";
+import TaskManagerDashboard from "./TaskManagerDashboard.js";
 
 export default class TaskManager {
   static getHtml() {
-    const taskManagerControlls = TaskManagerControlls.getHtml();
     const taskManagerTabs = TaskManagerTabs.getHtml();
+    const taskManagerDashboard = TaskManagerDashboard.getHtml();
+    const addTaskPrompt = AddTaskPrompt.getHtml();
+    const searchTaskPrompt = SearchTaskPrompt.getHtml();
 
     return `
-      <article role="region" aria-label="Todo task management widget." id="todo-app" class="todo-app">
+      <article role="region" aria-label="Todo task management widget." id="task-manager" class="task-manager">
         <h2 class="visually-hidden">Task manager</h2>
-        <div class="todo-app-controls-container">
-          ${taskManagerControlls}
+        <div class="task-manager__dashboard-container">
+          ${taskManagerDashboard}
+          ${addTaskPrompt}
+          ${searchTaskPrompt}
         </div>
         <nav id="todo-sections" class="todo-sections">
           ${taskManagerTabs}

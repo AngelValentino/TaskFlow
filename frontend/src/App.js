@@ -10,7 +10,7 @@ import LoginController from "./controllers/LoginController.js";
 import LogoutPage from "./pages/Logout.js";
 import LogoutController from "./controllers/LogoutController.js";
 import UserModel from "./models/UserModel.js";
-import TaskManagerView from "./views/TaskMangerView.js";
+import TaskManagerView from "./views/TaskManagerView.js";
 import TaskManagerController from "./controllers/TaskManagerController.js";
 import ModalHandler from "./services/ModalHandler.js";
 import TaskModel from "./models/TaskModel.js";
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Add close add and search prompt at outside click functionality
     // TODO Store task in local storage if user is not logged in
 
     // Task manager

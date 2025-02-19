@@ -1,6 +1,6 @@
 /* ADD TODO PROMPT */
 
-.add-todo-prompt {
+.task-manager__add-prompt {
   position: relative;
   background-color: var(--dark-accent-color);
   border-radius: 5px;
@@ -10,30 +10,30 @@
   transition: max-height 1.5s, transform 0.5s, margin 0.5s, background-color var(--base-transition-duration);
 }
 
-.add-todo-prompt.active {
+.task-manager__add-prompt.active {
   max-height: 1000px;
   transform: translateY(0px);
   margin-bottom: 10px;
 }
 
-.add-todo-prompt__form {
+.task-manager__add-prompt-form {
   padding: 35px 30px;
 }
 
-.add-todo-prompt label {
+.task-manager__add-prompt label {
   display: block;
   color: #fff;
-  margin: 0 0 10px;
+  padding: 0 0 10px;
   font-size: var(--base-font-size);
 }
 
-.add-todo-prompt input, 
-.add-todo-prompt textarea {
+.task-manager__add-prompt input, 
+.task-manager__add-prompt textarea {
   border: none;
   padding: 10px;
 }
 
-.add-todo-prompt input {
+.task-manager__add-prompt input {
   width: 100%;
   border-radius: 3px;
   margin: 0 0 25px;
@@ -42,7 +42,7 @@
   font-size: var(--base-font-size);
 }
 
-.add-todo-prompt textarea {
+.task-manager__add-prompt textarea {
   display: block;
   width: 100%;
   resize: vertical;
@@ -53,7 +53,7 @@
   font-size: var(--base-font-size);
 }
 
-.add-todo-prompt__close-btn {
+.task-manager__add-prompt-close-btn {
   position: absolute !important;
   color: #fff;
   top: 12px;
@@ -62,11 +62,11 @@
   padding: 3px;
 }
 
-.add-todo-prompt__close-icon {
+.task-manager__add-prompt-close-svg {
   width: 1.65rem;
 }
 
-.add-todo-prompt__submit-btn {
+.task-manager__add-prompt-submit-btn {
   font-weight: bold;
   background-color: var(--medium-accent-color);
   font-size: var(--base-font-size);
@@ -77,7 +77,7 @@
 
 /* SEARCH TODO PROMPT */
 
-.search-todo-prompt {
+.task-manager__search-prompt {
   border-radius: 5px;
   overflow: hidden;
   transform: translateX(-600px);
@@ -85,18 +85,18 @@
   transition: max-height 1.25s , transform 1.25s;
 }
 
-.search-todo-prompt.active {
+.task-manager__search-prompt.active {
   max-height: 1000px;
   transform: translateX(0px);
 }
 
-.search-todo-prompt__container {
+.task-manager__search-prompt-inner-container {
   margin: 15px auto 30px;
   max-width: 400px;
   position: relative;
 }
 
-.search-todo-prompt__search-icon {
+.task-manager__search-svg {
   width: 1.4rem;
   position: absolute;
   top: 50%;
@@ -107,11 +107,11 @@
   color: var(--medium-accent-color);
 }
 
-.search-todo-prompt__search-icon.active {
+.task-manager__search-svg.active {
   display: none;
 }
 
-.search-todo-prompt__search-input {
+.task-manager__search-prompt-input {
   width: 100%;
   height: 100%;
   border: 2px solid var(--medium-accent-color);
@@ -122,13 +122,13 @@
   font-size: var(--base-font-size);
 }
 
-.search-todo-prompt__search-input:focus {
+.task-manager__search-prompt-input:focus {
   outline: none;
   opacity: 1;
   border: 2px solid var(--medium-accent-color);
 }
 
-.search-todo-prompt__close-btn {
+.task-manager__search-prompt-close-btn {
   line-height: 0;
   position: absolute;
   top: 50%;
@@ -140,11 +140,11 @@
   opacity: 0.3;
 }
 
-.search-todo-prompt__close-btn.active {
+.task-manager__search-prompt-close-btn.active {
   display: initial;
 }
 
-.search-todo-prompt__close-icon {
+.task-manager__search-prompt-close-btn {
   width: 1.85rem;
 }
 
@@ -153,7 +153,7 @@
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) {
-  .search-todo-prompt__close-btn:is(:hover, :focus-visible) {
+  .task-manager__search-prompt-close-btn:is(:hover, :focus-visible) {
     opacity: 1;
   }
 }
@@ -162,11 +162,11 @@
 
 /* ACTIVE */
 
-.add-todo-prompt__submit-btn:active  {
+.task-manager__add-prompt-submit-btn:active  {
   background-color: var(--contrast-color);
 }
 
-.search-todo-prompt__close-btn:active {
+.task-manager__search-prompt-close-btn:active {
   color: #ff4f33;
 }
 
@@ -175,35 +175,35 @@
 /* MEDIA QUERIES */
 
 @media screen and (max-height: 700px) and (min-width: 550px) {
-  .add-todo-prompt__form {
+  .task-manager__add-prompt-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
 
-  .add-todo-prompt__submit-btn {
+  .task-manager__add-prompt-submit-btn {
     grid-column: span 2;
   }
 
-  .add-todo-prompt {
+  .task-manager__add-prompt {
     transition: max-height 1.5s, transform 0.4s, margin 0.4s, background-color var(--base-transition-duration);
   }
 }
 
 @media screen and (max-width: 600px) {
-  .add-todo-prompt__submit-btn {
+  .task-manager__add-prompt-submit-btn {
     width: 100%;
   }
 }
 
 @media screen and (max-width: 500px) {
-  .add-todo-prompt__form {
+  .task-manager__add-prompt-form {
     padding: 30px 25px;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .add-todo-prompt__form {
+  .task-manager__add-prompt-form {
     padding: 30px 20px;
   }
 }

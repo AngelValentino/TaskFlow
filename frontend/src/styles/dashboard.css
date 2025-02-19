@@ -28,12 +28,12 @@
 
 /* _TODO APP */
 
-.todo-app-container {
+.task-manager-container {
   max-width: 600px;
   width: 100%;
 }
 
-.todo-app {
+.task-manager {
   display: flex;
   flex-flow: column;
   border-radius: 3px;
@@ -52,7 +52,7 @@
 
 /* _TODO APP INTRO */
 
-.todo-app-intro {
+.task-manager__dashboard {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 20px;
@@ -65,7 +65,7 @@
   transition: background-color var(--base-transition-duration);
 }
 
-.todo-app-intro__info {
+.task-manager__dashboard-info-container {
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -73,16 +73,16 @@
   text-align: center;
 }
 
-.todo-app-intro__current-date,
-.todo-app-intro__tasks-left {
+.task-manager__dashboard-date,
+.task-manager__dashboard-tasks-count {
   font-size: 1.32rem;
 }
 
-.todo-app-intro__tasks-left {
+.task-manager__dashboard-tasks-count {
   font-weight: normal;
 }
 
-.todo-app-intro__buttons-list {
+.task-manager__dashboard-btns-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -90,7 +90,7 @@
   justify-self: center;
 }
 
-.todo-app-intro__btn {
+.task-manager__dashboard-btn {
   width: 100%;
   height: 100%;
   background-color: var(--dark-accent-color);
@@ -100,16 +100,16 @@
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
-.todo-app-intro__add-button-container {
+.task-manager__dashboard-add-btn-container {
   grid-row: span 2;
 }
 
-.todo-app-intro__search-icon,
-.todo-app-intro__clear-icon {
+.task-manager__dashboard-search-svg,
+.task-manager__dashboard-clear-svg {
   width: 1.5rem;
 }
 
-.todo-app-intro__add-icon {
+.task-manager__dashboard-add-svg {
   width: 1.85rem;
 }
 
@@ -299,12 +299,12 @@
     padding: 30px 15px;
   }
 
-  .todo-app {
+  .task-manager {
     padding: 20px;
   }
 
-  .todo-app-intro__current-date,
-  .todo-app-intro__tasks-left {
+  .task-manager__dashboard-date,
+  .task-manager__dashboard-tasks-count {
     font-size: 1.2rem;
   }
 
@@ -322,7 +322,7 @@
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) {
-  .todo-app-intro__btn:is(:hover, :focus-visible) {
+  .task-manager__dashboard-btn:is(:hover, :focus-visible) {
     background-color: var(--medium-accent-color);
   }
 
@@ -335,7 +335,7 @@
 /* END OF HOVER CAPABLE DEVICES */
 
 /* ACTIVE */
-  .todo-app-intro__btn:active {
+  .task-manager__dashboard-btn:active {
     transition: none;
     opacity: 0.75;
   }

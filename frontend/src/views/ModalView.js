@@ -3,14 +3,14 @@ export default class ModalView {
     this.modalHandler = modalHandler;
 
     this.lms = {
-      confirmModalContainerLm: document.getElementById('confirm-dialog-container'),
-      confirmModalOverlayLm: document.getElementById('confirm-dialog-overlay'),
-      confirmModalLm: document.getElementById('confirm-dialog'),
-      confirmModalImgContainerLm: document.getElementById('confirm-dialog__image-container'),
-      confirmModalCloseBtn: document.getElementById('confirm-dialog__close-btn'),
-      confirmModalAcceptBtn: document.getElementById('confirm-dialog__accept-btn'),
-      confirmModalCancelBtn: document.getElementById('confirm-dialog__cancel-btn'),
-      confirmModalDescLm: document.getElementById('confirm-dialog__desc')
+      confirmModalContainerLm: document.getElementById('confirm-modal-container'),
+      confirmModalOverlayLm: document.getElementById('confirm-modal-overlay'),
+      confirmModalLm: document.getElementById('confirm-modal'),
+      confirmModalImgContainerLm: document.getElementById('confirm-modal__image-container'),
+      confirmModalCloseBtn: document.getElementById('confirm-modal__close-btn'),
+      confirmModalAcceptBtn: document.getElementById('confirm-modal__accept-btn'),
+      confirmModalCancelBtn: document.getElementById('confirm-modal__cancel-btn'),
+      confirmModalDescLm: document.getElementById('confirm-modal__desc')
     }
 
     this.timIds = {};
@@ -89,7 +89,7 @@ export default class ModalView {
     this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
     this.modalHandler.addModalEvents(
       'confirmModal',
-      '.confirm-dialog-overlay',
+      '.confirm-modal-overlay',
       this.lms.confirmModalContainerLm,
       this.lms.confirmModalLm,
       closelms,

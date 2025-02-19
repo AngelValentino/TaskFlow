@@ -67,7 +67,7 @@ export default class ModalHandler {
     return e => {
       if (
         e.key === 'Escape' && 
-        (className === '.add-todo-prompt' || className === '.search-todo-prompt') && 
+        (className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt') && 
         document.body.style.overflow === 'hidden'
       ) {
         return; // Prevents closing add or search task prompts at escape if a modal has been opened
@@ -87,7 +87,7 @@ export default class ModalHandler {
     // To prevent this, We can check if the modal container is still visible. This is possible because 
     // the modal has a 250ms timeout, giving us a small window to verify its visibility before it disappears.
     return (
-      !e.target.closest('.confirm-dialog-container') &&
+      !e.target.closest('.confirm-modal-container') &&
       !e.target.closest('.info-dialog-container') &&
       !e.target.closest('.edit-dialog-container')
     );
@@ -96,8 +96,8 @@ export default class ModalHandler {
   handleOutsideClickClose(closeHandler, className) {
     return e => {
       if (
-        !e.target.closest('.todo-app-container') &&
-        (className === '.add-todo-prompt' || className === '.search-todo-prompt') &&
+        !e.target.closest('.task-manager-container') &&
+        (className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt') &&
         this.isModalClosed(e)
       ) {
         closeHandler();
