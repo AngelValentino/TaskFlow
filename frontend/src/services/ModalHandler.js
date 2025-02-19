@@ -16,13 +16,11 @@ export default class ModalHandler {
 
   toggleModalFocus(focusBehaviour, firstFocusableLm, lastFocusedLm) {
     if (focusBehaviour === 'add') {
-      // Save the currently focused element
       const lastFocusedLm = document.activeElement;
       firstFocusableLm.focus();
       return lastFocusedLm;
     } 
     else if (focusBehaviour === 'return') {
-      // Restore focus to the last focused element before the modal was opened
       lastFocusedLm.focus();
     }
   }
@@ -67,13 +65,12 @@ export default class ModalHandler {
 
   handleEscapeKeyClose(closeHandler, className) {
     return e => {
-      // Prevent closing add or search task prompts at escape if a modal has been opened
       if (
         e.key === 'Escape' && 
         (className === '.add-todo-prompt' || className === '.search-todo-prompt') && 
         document.body.style.overflow === 'hidden'
       ) {
-        return;
+        return; // Prevents closing add or search task prompts at escape if a modal has been opened
       }
 
       if (e.key === 'Escape') {
@@ -83,11 +80,33 @@ export default class ModalHandler {
     }
   }
 
+  isModalClosed(e) {
+    // We cannot check for the document overflow directly because the close modal at overlay click 
+    // function is triggered before the prompt one, causing the body overflow to be not hidden 
+    // and the prompt to close automatically immediately after the modal was closed.
+    // To prevent this, We can check if the modal container is still visible. This is possible because 
+    // the modal has a 250ms timeout, giving us a small window to verify its visibility before it disappears.
+    return (
+      !e.target.closest('.confirm-dialog-container') &&
+      !e.target.closest('.info-dialog-container') &&
+      !e.target.closest('.edit-dialog-container')
+    );
+  }
+
   handleOutsideClickClose(closeHandler, className) {
     return e => {
-      if (e.target.matches(className)) {
-        console.warn('close at outside click');
+      if (
+        !e.target.closest('.todo-app-container') &&
+        (className === '.add-todo-prompt' || className === '.search-todo-prompt') &&
+        this.isModalClosed(e)
+      ) {
         closeHandler();
+        console.warn('close prompt at outside click');
+      } 
+
+      if (e.target.matches(className)) {        
+        closeHandler();
+        console.warn('close modal at outside click');
       }
     }
   }

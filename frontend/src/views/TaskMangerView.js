@@ -61,7 +61,7 @@ export default class TaskManagerView {
     this.modalHandler.addModalEvents(
       'addTaskPrompt',
       '.add-todo-prompt',
-      null,
+      document.body,
       this.lms.addTaskPromptLm,
       [this.lms.addTaskPromptCloseBtn],
       this.confirmDiscardPromptData.bind(this)
@@ -80,7 +80,7 @@ export default class TaskManagerView {
     // Remove event listeners
     this.modalHandler.removeModalEvents(
       'addTaskPrompt',
-      null,
+      document.body,
       this.lms.addTaskPromptLm,
       [this.lms.addTaskPromptCloseBtn]
     );
@@ -99,7 +99,7 @@ export default class TaskManagerView {
     this.modalHandler.addModalEvents(
       'searchTaskPrompt',
       '.search-todo-prompt',
-      null,
+      document.body,
       null,
       null,
       this.closeSearchTaskPrompt.bind(this)
@@ -117,7 +117,8 @@ export default class TaskManagerView {
 
     // Remove event listeners
     this.modalHandler.removeModalEvents(
-      'searchTaskPrompt'
+      'searchTaskPrompt',
+      document.body
     );
   }
 
