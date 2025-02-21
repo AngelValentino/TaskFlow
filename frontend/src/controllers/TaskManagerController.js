@@ -10,6 +10,39 @@ export default class TaskManagerController {
 
     this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
     this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
+  
+    this.lms.clearAllTasksBtn.addEventListener('click', this.getAllTasks.bind(this));
+  }
+
+  getAllTasks() {
+    if (!this.auth.isClientLogged()) {
+      console.warn('User is not logged in, get tasks from localStorage');
+      const tasks = this.taskModel.getTasksFromLocalStorage();
+      console.log(tasks);
+      return;
+    }
+
+    let wasFetchAborted = false;
+    this.lms.clearAllTasksBtn.innerText = 'Loading...';
+
+    this.taskModel.handleGetAllTasks()
+      .then(data => {
+        console.log(data);
+        //TODO Render tasks
+      })
+      .catch(error => {
+        if (error.name === 'AbortError') {
+          wasFetchAborted = true;
+          console.warn('Request aborted due to navigation change');
+          return;
+        }
+
+        console.error(error.message);
+      })
+      .finally(() => {
+        if (wasFetchAborted) return;
+        this.lms.clearAllTasksBtn.innerText = '';
+      });
   }
 
   submitTask(e) {

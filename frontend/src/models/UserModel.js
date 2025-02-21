@@ -4,7 +4,7 @@ export default class UserModel {
   }
 
   async handleUserRegistration(formData) {
-    const response = await fetch('http://localhost/taskflow-api/register', {
+    const response = await fetch('http://taskflow-api.com/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export default class UserModel {
   }
 
   async handleUserLogin(formData) {
-    const response = await fetch('http://localhost/taskflow-api/login', {
+    const response = await fetch('http://taskflow-api.com/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ export default class UserModel {
   }
 
   async handleUserLogout() {
-    const response = await fetch('http://localhost/taskflow-api/logout', {
+    const response = await fetch('http://taskflow-api.com/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

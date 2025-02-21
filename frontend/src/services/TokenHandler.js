@@ -8,7 +8,7 @@ export default class TokenHandler {
   async handleRefreshAccessToken() {
     const refreshToken = localStorage.getItem('refreshToken');
 
-    const response = await fetch('http://localhost/taskflow-api/refresh', {
+    const response = await fetch('http://taskflow-api.com/refresh', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

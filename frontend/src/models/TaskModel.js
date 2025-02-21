@@ -12,8 +12,12 @@ export default class TaskModel {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
+  getTasksFromLocalStorage() {
+    return JSON.parse(localStorage.getItem('tasks')) || [];
+  }
+
   async handleSubmitTask(taskData) {
-    const response = await fetch('http://localhost/taskflow-api/tasks', {
+    const response = await fetch('http://taskflow-api.com/tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +41,7 @@ export default class TaskModel {
         await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
         
         // Retry the initial request
-        const response = await fetch('http://localhost/taskflow-api/tasks', {
+        const response = await fetch('http://taskflow-api.com/tasks', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -76,5 +80,59 @@ export default class TaskModel {
     if (!response.ok) {
       throw new Error(`Couldn't properly submit the task, try again later`);
     }
+  }
+
+  async handleGetAllTasks() {
+    const response = await fetch('http://taskflow-api.com/tasks?sort_by=due_date', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+      },
+      signal: this.router.getAbortSignal()
+    });
+
+    // Handle Bad Request (400)
+    if (response.status === 400) {
+      const error = await response.json();
+      throw new Error(error.message);
+    }
+
+    if (response.status === 401) {
+      const error = await response.json();
+
+      if (error.message === 'Token has expired.') {
+        await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
+        
+        // Retry the initial request
+        const response = await fetch('http://taskflow-api.com/tasks?sort_by=due_date', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+          },
+          signal: this.router.getAbortSignal()
+        });
+
+        // Handle Bad Request (400)
+        if (response.status === 400) {
+          const error = await response.json();
+          throw new Error(error.message);
+        }
+
+        // API error
+        if (!response.ok) {
+          throw new Error(`Couldn't properly submit the task, try again later`);
+        }
+
+        return await response.json(); // The new request was successful, stop further error handling and return data
+      }
+    }
+
+    if (!response.ok) {
+      throw new Error(`Couldn't properly submit the task, try again later`);
+    }
+
+    return await response.json(); // The new request was successful, stop further error handling and return data
   }
 }
