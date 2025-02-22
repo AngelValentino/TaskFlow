@@ -26,12 +26,19 @@ export default class TaskManagerView {
     return this.lms;
   }
 
+  generateTasksPlaceholder() {
+    return 'Everything done.'
+  }
+
   generateTasks(taskData) {
-    const generatedTasksHtml = taskData
+    if (taskData.length === 0) {
+      this.lms.tasksContainerLm.innerHTML = this.generateTasksPlaceholder();
+      return;
+    }
+
+    this.lms.tasksContainerLm.innerHTML = taskData
       .map(task => this.taskComponent.getHtml(task))
       .join('');
-
-    this.lms.tasksContainerLm.innerHTML = generatedTasksHtml;
   }
 
   showPrompt(promptLm, btnLm, firstFocusableLm, hidePromptTimId, timeout) {

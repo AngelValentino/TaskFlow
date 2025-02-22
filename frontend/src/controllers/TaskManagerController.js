@@ -18,7 +18,7 @@ export default class TaskManagerController {
     if (!this.auth.isClientLogged()) {
       console.warn('User is not logged in, get tasks from localStorage');
       const tasks = this.taskModel.getTasksFromLocalStorage();
-      console.log(tasks);
+      this.taskManagerView.generateTasks(tasks);
       return;
     }
 
@@ -27,7 +27,6 @@ export default class TaskManagerController {
 
     this.taskModel.handleGetAllTasks()
       .then(data => {
-        console.log(data);
         this.taskManagerView.generateTasks(data);
       })
       .catch(error => {
@@ -57,6 +56,8 @@ export default class TaskManagerController {
     if (!this.auth.isClientLogged()) {
       console.warn('User is not logged in, insert in localStorage');
       this.taskModel.addTaskToLocalStorage(taskData);
+      this.taskManagerView.resetAddTaskForm();
+      this.getAllTasks();
       return;
     }
 

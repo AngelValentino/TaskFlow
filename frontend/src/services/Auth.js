@@ -3,6 +3,7 @@ export default class Auth {
     localStorage.setItem('accessToken', data.access_token);
     localStorage.setItem('refreshToken', data.refresh_token);
     localStorage.setItem('username', data.username);
+    localStorage.removeItem('tasks');
   }
 
   logoutClient() {

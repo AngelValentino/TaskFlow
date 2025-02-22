@@ -25,9 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Render tasks html and placeholder
     // TODO Finish task manager dashboard info section
-    // TODO Manage anonymous users differentiation
     // TODO Refactor class selector names for the rest of task manager
 
     // Task manager
