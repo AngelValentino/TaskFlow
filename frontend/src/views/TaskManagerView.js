@@ -1,3 +1,5 @@
+import TaskComponent from '../pages/dashboard/components/Task.js' ;
+
 export default class TaskManagerView {
   constructor(modalHandler, modalView) {
     this.modalHandler = modalHandler;
@@ -14,12 +16,22 @@ export default class TaskManagerView {
       searchTaskInputLm: document.getElementById('task-manager__search-prompt-input'),
       searchTaskDefaultIcon: document.getElementById('task-manager__search-svg'),
       searchTaskCloseIcon: document.getElementById('task-manager__search-prompt-close-btn'),
-      clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn')
+      clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn'),
+      tasksContainerLm: document.getElementById('todos-container')
     };
+    this.taskComponent = TaskComponent;
   }
 
   getDomRefs() {
     return this.lms;
+  }
+
+  generateTasks(taskData) {
+    const generatedTasksHtml = taskData
+      .map(task => this.taskComponent.getHtml(task))
+      .join('');
+
+    this.lms.tasksContainerLm.innerHTML = generatedTasksHtml;
   }
 
   showPrompt(promptLm, btnLm, firstFocusableLm, hidePromptTimId, timeout) {

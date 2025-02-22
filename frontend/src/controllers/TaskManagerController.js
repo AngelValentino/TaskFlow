@@ -10,8 +10,8 @@ export default class TaskManagerController {
 
     this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
     this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
-  
-    this.lms.clearAllTasksBtn.addEventListener('click', this.getAllTasks.bind(this));
+    
+    this.getAllTasks();
   }
 
   getAllTasks() {
@@ -23,12 +23,12 @@ export default class TaskManagerController {
     }
 
     let wasFetchAborted = false;
-    this.lms.clearAllTasksBtn.innerText = 'Loading...';
+    this.lms.tasksContainerLm.innerText = 'Loading...';
 
     this.taskModel.handleGetAllTasks()
       .then(data => {
         console.log(data);
-        //TODO Render tasks
+        this.taskManagerView.generateTasks(data);
       })
       .catch(error => {
         if (error.name === 'AbortError') {
@@ -41,7 +41,6 @@ export default class TaskManagerController {
       })
       .finally(() => {
         if (wasFetchAborted) return;
-        this.lms.clearAllTasksBtn.innerText = '';
       });
   }
 
@@ -66,6 +65,8 @@ export default class TaskManagerController {
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
       .then(() => {
         console.log('task submitted');
+        this.taskManagerView.resetAddTaskForm();
+        this.getAllTasks();
       })
       .catch(error => {
         if (error.name === 'AbortError') {
