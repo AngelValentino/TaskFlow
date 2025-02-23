@@ -79,7 +79,10 @@ export default class Router {
   }
 
   abortActiveFetch() {
-    this.abortController.abort();
+    if (!this.abortController.signal.aborted) {
+      console.log('aborted fetch')
+      this.abortController.abort();
+    }
   }
 
   getAbortSignal() {

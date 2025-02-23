@@ -1,7 +1,16 @@
+import ConfirmModal from "../components/ConfirmModal.js";
+
 export default class ModalView {
   constructor(modalHandler) {
     this.modalHandler = modalHandler;
 
+    this.lms = {};
+
+    this.timIds = {};
+    this.lastFocusedLmBeforeModal = null;
+  }
+
+  setModalDomRefs() {
     this.lms = {
       confirmModalContainerLm: document.getElementById('confirm-modal-container'),
       confirmModalOverlayLm: document.getElementById('confirm-modal-overlay'),
@@ -10,11 +19,9 @@ export default class ModalView {
       confirmModalCloseBtn: document.getElementById('confirm-modal__close-btn'),
       confirmModalAcceptBtn: document.getElementById('confirm-modal__accept-btn'),
       confirmModalCancelBtn: document.getElementById('confirm-modal__cancel-btn'),
-      confirmModalDescLm: document.getElementById('confirm-modal__desc')
-    }
-
-    this.timIds = {};
-    this.lastFocusedLmBeforeModal = null;
+      confirmModalDescLm: document.getElementById('confirm-modal__desc'),
+      confirmModalBtnsContainerLm: document.getElementById('confirm-modal__btns-container')
+    };
   }
 
   showModal(modalOverlayLm, modalContainerLm, modalLm, firstFocusableLm, timId) {
@@ -49,7 +56,20 @@ export default class ModalView {
     return timId; // Return the timeout ID
   }
 
-  openConfirmModal(confirmHandler) {
+  generateConfirmModal() {
+    if (this.lms.confirmModalContainerLm) {
+      this.lms.confirmModalContainerLm.remove();
+    }
+
+    const confirmModal = ConfirmModal.getHtml();
+    document.body.insertAdjacentHTML('afterbegin', confirmModal);
+    
+    this.setModalDomRefs();
+  }
+
+  openConfirmModal(confirmHandler, isFetch = false) {
+    this.generateConfirmModal();
+
     const closelms = [
       this.lms.confirmModalCloseBtn, 
       this.lms.confirmModalCancelBtn
@@ -64,6 +84,10 @@ export default class ModalView {
     );
 
     const closeConfirmModal = (returnFocus = true) => {
+      if (isFetch) {
+        clearTimeout(this.timIds.closeConfirmModalAfterFetch);
+      }
+      
       this.timIds.closeConfirmModal = this.hideModal(
         this.lms.confirmModalOverlayLm,
         this.lms.confirmModalContainerLm,
@@ -81,8 +105,13 @@ export default class ModalView {
     }
 
     const confirmAndDismissModal = () => {
-      closeConfirmModal(false);
-      confirmHandler();
+      if (isFetch) {
+        confirmHandler(closeConfirmModal.bind(this, true));
+      } 
+      else {
+        closeConfirmModal();
+        confirmHandler();
+      }
     }
 
     // Add event listeners

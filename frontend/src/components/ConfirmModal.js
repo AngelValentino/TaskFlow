@@ -12,7 +12,7 @@ export default class ConfirmModal {
             </svg>
           </button>
           <p class="confirm-modal__desc" id="confirm-modal__desc">Are you sure you want to discard all changes made in form?</p>
-          <div class="confirm-modal__btns">
+          <div id="confirm-modal__btns-container">
             <button class="confirm-modal__accept-btn" id="confirm-modal__accept-btn" type="button">Yes</button>
             <button class="confirm-modal__cancel-btn" id="confirm-modal__cancel-btn" type="button">No</button>
           </div>

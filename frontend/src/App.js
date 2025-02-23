@@ -25,9 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Finish task manager dashboard info section
-    // TODO Refactor class selector names for the rest of task manager
-
     // Task manager
     const auth = new Auth;
     const userModel = new UserModel(router);
@@ -37,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler);
 
-    new TaskManagerController(taskManagerView, taskModel, auth);
+    new TaskManagerController(taskManagerView, taskModel, auth, modalView);
   });
 
   router.addRoute('/register', () => {
