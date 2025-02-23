@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
+    // TODO Add complete task functionality
+    // TODO Refactor task model methods to be reusable
+    // TODO Decide whether to add the functionality to abort the fetch request at modal close, 
+    // TODO it may confuse users even more that actually aborting the fetch
+
     // Task manager
     const auth = new Auth;
     const userModel = new UserModel(router);

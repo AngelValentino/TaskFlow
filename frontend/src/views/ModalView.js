@@ -56,7 +56,7 @@ export default class ModalView {
     return timId; // Return the timeout ID
   }
 
-  generateConfirmModal() {
+  generateConfirmModal(description) {
     if (this.lms.confirmModalContainerLm) {
       this.lms.confirmModalContainerLm.remove();
     }
@@ -65,10 +65,11 @@ export default class ModalView {
     document.body.insertAdjacentHTML('afterbegin', confirmModal);
     
     this.setModalDomRefs();
+    this.lms.confirmModalDescLm.innerText = description;
   }
 
-  openConfirmModal(confirmHandler, isFetch = false) {
-    this.generateConfirmModal();
+  openConfirmModal(confirmHandler, isFetch = false, description) {
+    this.generateConfirmModal(description);
 
     const closelms = [
       this.lms.confirmModalCloseBtn, 

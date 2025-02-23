@@ -166,7 +166,11 @@ export default class TaskManagerView {
 
   confirmDiscardPromptData() {
     if (this.isAddTaskFormEdited()) {
-      this.modalView.openConfirmModal(this.resetAddTaskForm.bind(this));
+      this.modalView.openConfirmModal(
+        this.resetAddTaskForm.bind(this),
+        false,
+        'Are you sure you want to discard all changes made in form?'
+      );
     }
     else {
       this.closeAddTaskPrompt();
