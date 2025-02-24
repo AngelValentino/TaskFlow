@@ -3,6 +3,15 @@ export default class TaskModel {
     this.router = router;
     this.auth = auth;
     this.tokenHandler = tokenHandler;
+    this.baseEndpointUrl = 'http://taskflow-api.com/tasks';
+    this.customErrorHandlers = {
+      422: async (response) => {
+        const errorData = await response.json();
+        const error = new Error('Validation error occurred');
+        error.data = errorData;
+        throw error;
+      }
+    }
   }
 
   addTaskToLocalStorage(taskData) {
@@ -16,282 +25,101 @@ export default class TaskModel {
     return JSON.parse(localStorage.getItem('tasks')) || [];
   }
 
-  async handleSubmitTask(taskData) {
-    const response = await fetch('http://taskflow-api.com/tasks', {
-      method: 'POST',
+  async fetchRequest(apiUrl, options) {
+    return await fetch(apiUrl, {
+      ...options,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
       },
-      body: taskData,
-      signal: this.router.getAbortSignal()
+      signal: this.router.getAbortSignal() // TODO This needs review, works just at change view
     });
+  }
 
-    // Handle Bad Request (400)
-    if (response.status === 400) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
+  async handleAuthFetchRequest(apiUrl, options, returnData = false, errorMessage = 'Failed API connection.', errorHandlers = null) {
+    let response = await this.fetchRequest(apiUrl, options);
 
-    // Handle Unauthorized errors (401)
+    // Checks if token has expired (401)
     if (response.status === 401) {
       const error = await response.json();
 
+      // Get new refresh token and retry initial request
       if (error.message === 'Token has expired.') {
-        await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
-        
-        // Retry the initial request
-        const response = await fetch('http://taskflow-api.com/tasks', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-          },
-          body: taskData,
-          signal: this.router.getAbortSignal()
-        });
-
-        // Handle Validation errors (422)
-        if (response.status === 422) {
-          const errorData = await response.json();
-          const error = new Error('Validation error occurred');
-          error.data = errorData; // Attach the full error data
-          throw error;
-        }
-
-        // API error
-        if (!response.ok) {
-          throw new Error(`Couldn't properly submit the task, try again later.`);
-        }
-
-        return; // The new request was successful, stop further error handling
+        await this.tokenHandler.handleRefreshAccessToken(); 
+        response = await this.fetchRequest(apiUrl, options);
       }
     }
 
-    // Handle Validation errors (422)
-    if (response.status === 422) {
-      const errorData = await response.json();
-      const error = new Error('Validation error occurred');
-      error.data = errorData; // Attach the full error data
-      throw error;
+    // Custom staus errors
+    if (errorHandlers && errorHandlers[response.status]) {
+      await errorHandlers[response.status](response);
     }
 
-    // API error
+    // Generic status error
     if (!response.ok) {
-      throw new Error(`Couldn't properly submit the task, try again later.`);
+      throw new Error(errorMessage);
     }
+
+    return returnData ? await response.json() : null;
+  }
+
+  async handleSubmitTask(taskData) {
+    await this.handleAuthFetchRequest(
+      this.baseEndpointUrl,
+      {
+        method: 'POST',
+        body: taskData
+      },
+      false,
+      `Couldn't properly submit the task, try again later.`,
+      this.customErrorHandlers
+    );
   }
 
   async handleGetAllTasks() {
-    const response = await fetch('http://taskflow-api.com/tasks?sort_by=due_date', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    return await this.handleAuthFetchRequest(
+      `${this.baseEndpointUrl}?sort_by=due_date`,
+      {
+        method: 'GET'
       },
-      signal: this.router.getAbortSignal()
-    });
-
-    // Handle Bad Request (400)
-    if (response.status === 400) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
-
-    if (response.status === 401) {
-      const error = await response.json();
-
-      if (error.message === 'Token has expired.') {
-        await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
-        
-        // Retry the initial request
-        const response = await fetch('http://taskflow-api.com/tasks?sort_by=due_date', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-          },
-          signal: this.router.getAbortSignal()
-        });
-
-        // Handle Bad Request (400)
-        if (response.status === 400) {
-          const error = await response.json();
-          throw new Error(error.message);
-        }
-
-        // API error
-        if (!response.ok) {
-          throw new Error(`Couldn't properly get all the tasks, try again later.`);
-        }
-
-        return await response.json(); // The new request was successful, stop further error handling and return data
-      }
-    }
-
-    if (!response.ok) {
-      throw new Error(`Couldn't properly get all the tasks, try again later.`);
-    }
-
-    return await response.json(); // The new request was successful, stop further error handling and return data
+      true,
+      `Couldn't properly get all the tasks, try again later.`,
+    );
   }
 
   async handleDeleteTask(taskId) {
-    const response = await fetch('http://taskflow-api.com/tasks/' + taskId, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-      }
-    });
-
-    // Handle Bad Request (400)
-    if (response.status === 400) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
-
-    if (response.status === 401) {
-      const error = await response.json();
-
-      if (error.message === 'Token has expired.') {
-        await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
-        
-        // Retry the initial request
-        const response = await fetch('http://taskflow-api.com/tasks/' + taskId, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-          },
-        });
-
-        // Handle Bad Request (400)
-        if (response.status === 400) {
-          const error = await response.json();
-          throw new Error(error.message);
-        }
-
-        // API error
-        if (!response.ok) {
-          throw new Error(`Couldn't properly delete the task, try again later.`);
-        }
-
-        return; // The new request was successful, stop further error handling and return data
-      }
-    }
-
-    // API error
-    if (!response.ok) {
-      throw new Error(`Couldn't properly delete the task, try again later.`);
-    }
+    await this.handleAuthFetchRequest(
+      `${this.baseEndpointUrl}/${taskId}`,
+      {
+        method: 'DELETE'
+      },
+      false,
+      `Couldn't properly delete the task, try again later.`
+    );
   }
 
   async handleDeleteAllTasks() {
-    const response = await fetch('http://taskflow-api.com/tasks', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    await this.handleAuthFetchRequest(
+      this.baseEndpointUrl,
+      {
+        method: 'DELETE'
       },
-    });
-
-    // Handle Bad Request (400)
-    if (response.status === 400) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
-
-    if (response.status === 401) {
-      const error = await response.json();
-
-      if (error.message === 'Token has expired.') {
-        await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
-        
-        // Retry the initial request
-        const response = await fetch('http://taskflow-api.com/tasks', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-          },
-        });
-
-        // Handle Bad Request (400)
-        if (response.status === 400) {
-          const error = await response.json();
-          throw new Error(error.message);
-        }
-
-        // API error
-        if (!response.ok) {
-          throw new Error(`Couldn't properly delete all the tasks, try again later.`);
-        }
-
-        return; // The new request was successful, stop further error handling and return data
-      }
-    }
-
-    if (!response.ok) {
-      throw new Error(`Couldn't properly delete all the tasks, try again later.`);
-    }
+      false,
+      `Couldn't properly delete all the tasks, try again later.`
+    );
   }
 
   async handleCompleteTask(taskId) {
-    const response = await fetch('http://taskflow-api.com/tasks/' + taskId, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+    await this.handleAuthFetchRequest(
+      `${this.baseEndpointUrl}/${taskId}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          is_completed: true
+        })
       },
-      body: JSON.stringify({
-        is_completed: true
-      })
-    });
-
-    // Handle Bad Request (400)
-    if (response.status === 400) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
-
-    if (response.status === 401) {
-      const error = await response.json();
-
-      if (error.message === 'Token has expired.') {
-        await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
-        
-        const response = await fetch('http://taskflow-api.com/tasks/' + taskId, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-          },
-          body: JSON.stringify({
-            is_completed: true
-          })
-        });
-
-        // Handle Bad Request (400)
-        if (response.status === 400) {
-          const error = await response.json();
-          throw new Error(error.message);
-        }
-
-        // API error
-        if (!response.ok) {
-          throw new Error(`Couldn't properly delete the task, try again later.`);
-        }
-
-        return; // The new request was successful, stop further error handling and return data
-      }
-    }
-
-    // API error
-    if (!response.ok) {
-      throw new Error(`Couldn't properly delete the task, try again later.`);
-    }
-
-    return;
+      false,
+      `Couldn't properly complete the task, try again later.`
+    );
   }
 }
