@@ -1,4 +1,5 @@
 import TaskComponent from '../pages/dashboard/components/Task.js' ;
+import TaskCompletedComponent from '../pages/dashboard/components/CompletedTask.js';
 
 export default class TaskManagerView {
   constructor(modalHandler, modalView) {
@@ -19,7 +20,6 @@ export default class TaskManagerView {
       clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn'),
       tasksContainerLm: document.getElementById('todos-container')
     };
-    this.taskComponent = TaskComponent;
   }
 
   getDomRefs() {
@@ -37,7 +37,14 @@ export default class TaskManagerView {
     }
 
     this.lms.tasksContainerLm.innerHTML = taskData
-      .map(task => this.taskComponent.getHtml(task))
+      .map(task => {
+        if (task.is_completed) {
+          return TaskCompletedComponent.getHtml(task);
+        } 
+        else {
+          return TaskComponent.getHtml(task);
+        }
+      })
       .join('');
   }
 

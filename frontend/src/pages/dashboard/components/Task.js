@@ -3,7 +3,7 @@ export default class Task {
     return `
       <li aria-checked="false" id="task-${task.id}" aria-label="Task not completed." class="todo">
         <h4 aria-label="Task title." class="todo__task-name">${task.title}</h4>
-        <time class="todo__task-date" aria-label="Task due date." datetime="${task.due_date}">${task.due_date}</time>
+        <time class="todo__task-date" aria-label="Task due date." datetime="${task.due_date}">Due to ${task.due_date}</time>
         <p aria-label="Task description" class="todo__task-desc">${task.description}</p>
         <ul aria-label="Task controls." class="todo__control-buttons-list">
           <li>
