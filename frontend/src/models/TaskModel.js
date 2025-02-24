@@ -142,8 +142,7 @@ export default class TaskModel {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-      },
-      signal: this.router.getAbortSignal()
+      }
     });
 
     // Handle Bad Request (400)
@@ -236,5 +235,63 @@ export default class TaskModel {
     if (!response.ok) {
       throw new Error(`Couldn't properly delete all the tasks, try again later.`);
     }
+  }
+
+  async handleCompleteTask(taskId) {
+    const response = await fetch('http://taskflow-api.com/tasks/' + taskId, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify({
+        is_completed: true
+      })
+    });
+
+    // Handle Bad Request (400)
+    if (response.status === 400) {
+      const error = await response.json();
+      throw new Error(error.message);
+    }
+
+    if (response.status === 401) {
+      const error = await response.json();
+
+      if (error.message === 'Token has expired.') {
+        await this.tokenHandler.handleRefreshAccessToken(); // Get new refresh token
+        
+        const response = await fetch('http://taskflow-api.com/tasks/' + taskId, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+          },
+          body: JSON.stringify({
+            is_completed: true
+          })
+        });
+
+        // Handle Bad Request (400)
+        if (response.status === 400) {
+          const error = await response.json();
+          throw new Error(error.message);
+        }
+
+        // API error
+        if (!response.ok) {
+          throw new Error(`Couldn't properly delete the task, try again later.`);
+        }
+
+        return; // The new request was successful, stop further error handling and return data
+      }
+    }
+
+    // API error
+    if (!response.ok) {
+      throw new Error(`Couldn't properly delete the task, try again later.`);
+    }
+
+    return;
   }
 }

@@ -146,6 +146,25 @@ export default class TaskManagerController {
     );
   }
 
+  completeTask(taskId, closeConfirmModalHandler) {
+    this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
+
+    this.taskModel.handleCompleteTask(taskId)
+      .then(() => {
+        console.warn(`task with id:${taskId} was completed`);
+        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Task was successfully completed.';
+        const timId = setTimeout(() => {
+          closeConfirmModalHandler();
+          console.warn('closed confirm modal after successful task completion')
+        }, 500);
+        this.modalView.timIds.closeConfirmModalAfterFetch = timId;
+        this.getAllTasks();
+      })
+      .catch(error => {
+        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
+      });
+  }
+
   handleTaskAction(e) {
     if (e.target.closest('.todo__complete-btn')) {
       const taskId = this.getTaskId(e);
@@ -156,7 +175,11 @@ export default class TaskManagerController {
         return;
       }
 
-      // TODO handle Complete task request
+      this.modalView.openConfirmModal(
+        this.completeTask.bind(this, taskId),
+        true,
+        'Are you sure you want to complete this task?'
+      );
     } 
     else if (e.target.closest('.todo__edit-btn')) {
       const taskId = this.getTaskId(e);
@@ -179,7 +202,7 @@ export default class TaskManagerController {
       this.modalView.openConfirmModal(
         this.deleteTask.bind(this, taskId),
         true,
-        'Are you sure you want to delete this tasks'
+        'Are you sure you want to delete this task?'
       );
     }
   }
