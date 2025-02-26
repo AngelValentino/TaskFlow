@@ -35,7 +35,7 @@
   border-radius: 5px;
   text-align: center;
   transform: scale(0);
-  transition: transform 0.25s, opacity 0.25s;
+  transition: transform 0.25s, opacity 0.20s;
   scrollbar-width: thin;
   max-height: 95vh;
   overflow-y: auto;

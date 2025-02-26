@@ -1,4 +1,5 @@
 import ConfirmModal from "../components/ConfirmModal.js";
+import EditModal from "../components/EditModal.js";
 
 export default class ModalView {
   constructor(modalHandler) {
@@ -20,7 +21,12 @@ export default class ModalView {
       confirmModalAcceptBtn: document.getElementById('confirm-modal__accept-btn'),
       confirmModalCancelBtn: document.getElementById('confirm-modal__cancel-btn'),
       confirmModalDescLm: document.getElementById('confirm-modal__desc'),
-      confirmModalBtnsContainerLm: document.getElementById('confirm-modal__btns-container')
+      confirmModalBtnsContainerLm: document.getElementById('confirm-modal__btns-container'),
+      editModalContainerLm: document.getElementById('edit-dialog-container'),
+      editModalOverlayLm: document.getElementById('edit-dialog-overlay'),
+      editModalLm: document.getElementById('edit-dialog'),
+      editModalCloseBtn: document.getElementById('edit-dialog__close-btn'),
+      editModalFormLm: document.getElementById('edit-dialog__form')
     };
   }
 
@@ -39,7 +45,7 @@ export default class ModalView {
     });
   }
 
-  hideModal(modalOverlayLm, modalContainerLm, modalLm, returnFocus) {
+  hideModal(modalOverlayLm, modalContainerLm, modalLm, returnFocus = true) {
     document.body.style.overflow = ''; // Reset body overflow
     modalLm.style.transform = 'scale(0)'; // Scale down the modal content
     modalLm.style.opacity = 0; // Fade out the modal content
@@ -66,6 +72,17 @@ export default class ModalView {
     
     this.setModalDomRefs();
     this.lms.confirmModalDescLm.innerText = description;
+  }
+
+  generateEditModal() {
+    if (this.lms.editModalContainerLm) {
+      this.lms.editModalContainerLm.remove();
+    }
+
+    const editModal = EditModal.getHtml();
+    document.body.insertAdjacentHTML('afterbegin', editModal);
+    
+    this.setModalDomRefs();
   }
 
   openConfirmModal(confirmHandler, isFetch = false, description) {
@@ -128,10 +145,42 @@ export default class ModalView {
   }
 
   openInfoModal() {
-    console.log('open info modal');
+    console.log('open info modal')
   }
 
   openEditModal() {
-    console.log('open edit modal');
+    this.generateEditModal();
+
+    this.showModal(
+      this.lms.editModalOverlayLm,
+      this.lms.editModalContainerLm,
+      this.lms.editModalLm,
+      this.lms.editModalCloseBtn,
+      this.timIds.closeEditModal
+    );
+
+    const closeEditModal = () => {
+      this.timIds.closeEditModal = this.hideModal(
+        this.lms.editModalOverlayLm,
+        this.lms.editModalContainerLm,
+        this.lms.editModalLm
+      );
+
+      this.modalHandler.removeModalEvents(
+        'editModal',
+        this.lms.editModalContainerLm,
+        this.lms.editModalLm,
+        [this.lms.editModalCloseBtn]
+      );
+    }
+
+    this.modalHandler.addModalEvents(
+      'editModal',
+      '.edit-dialog-overlay',
+      this.lms.editModalContainerLm,
+      this.lms.editModalLm,
+      [this.lms.editModalCloseBtn],
+      closeEditModal
+    );
   }
 }

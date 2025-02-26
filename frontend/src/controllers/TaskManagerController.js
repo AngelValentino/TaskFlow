@@ -189,6 +189,11 @@ export default class TaskManagerController {
         console.warn('User is not logged in, edit task from localStorage');
         return;
       }
+
+      const taskContainerLm = document.getElementById(e.target.closest('.todo').id)
+      console.log(taskContainerLm)
+
+      this.modalView.openEditModal();
     } 
     else if (e.target.closest('.todo__delete-btn')) {
       const taskId = this.getTaskId(e);
