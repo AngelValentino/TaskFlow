@@ -11,15 +11,15 @@ export default class EditModal {
             </button>
             <div class="edit-dialog__task-container">
               <label for="edit-dialog__task">Task</label>
-              <input required class="edit-dialog__task" id="edit-dialog__task" type="text" name="task">
+              <input class="edit-dialog__task" id="edit-dialog__task" type="text" name="title">
               <label for="edit-dialog__date">Date</label>
-              <input required class="edit-dialog__date" id="edit-dialog__date" type="date" name="date">
+              <input class="edit-dialog__date" id="edit-dialog__date" type="date" name="due_date">
             </div>
             <div class="edit-dialog__desc-container">
               <label for="edit-dialog__desc">Description</label>
-              <textarea required class="edit-dialog__desc" id="edit-dialog__desc" name="description" rows="7"></textarea>
+              <textarea class="edit-dialog__desc" id="edit-dialog__desc" name="description" rows="7"></textarea>
             </div>
-            <button class="edit-dialog__submit-btn slide-button" type="submit">Edit todo</button>
+            <button id="edit-dialog__submit-btn" class="edit-dialog__submit-btn slide-button" type="submit">Edit task</button>
           </form>
         </div>
         <div id="edit-dialog-overlay" class="edit-dialog-overlay"></div>

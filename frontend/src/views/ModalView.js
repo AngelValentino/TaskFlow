@@ -26,7 +26,8 @@ export default class ModalView {
       editModalOverlayLm: document.getElementById('edit-dialog-overlay'),
       editModalLm: document.getElementById('edit-dialog'),
       editModalCloseBtn: document.getElementById('edit-dialog__close-btn'),
-      editModalFormLm: document.getElementById('edit-dialog__form')
+      editModalFormLm: document.getElementById('edit-dialog__form'),
+      editModalFormSubmitBtn: document.getElementById('edit-dialog__submit-btn')
     };
   }
 
@@ -85,7 +86,7 @@ export default class ModalView {
     this.setModalDomRefs();
   }
 
-  openConfirmModal(confirmHandler, isFetch = false, description) {
+  openConfirmModal(confirmHandler, isFetch = false, description, isEdit = false) {
     this.generateConfirmModal(description);
 
     const closelms = [
@@ -113,13 +114,24 @@ export default class ModalView {
         returnFocus
       );
 
-      this.lms.confirmModalAcceptBtn.removeEventListener('click', confirmAndDismissModal)
-      this.modalHandler.removeModalEvents(
-        'confirmModal',
-        this.lms.confirmModalContainerLm,
-        this.lms.confirmModalLm,
-        closelms
-      );
+      if (isEdit) {
+        this.lms.confirmModalAcceptBtn.removeEventListener('click', closeConfirmModal)
+        this.modalHandler.removeModalEvents(
+          'confirmModal',
+          this.lms.confirmModalContainerLm,
+          this.lms.confirmModalLm,
+          closelms
+        );
+      } 
+      else {
+        this.lms.confirmModalAcceptBtn.removeEventListener('click', confirmAndDismissModal)
+        this.modalHandler.removeModalEvents(
+          'confirmModal',
+          this.lms.confirmModalContainerLm,
+          this.lms.confirmModalLm,
+          closelms
+        );
+      }
     }
 
     const confirmAndDismissModal = () => {
@@ -133,23 +145,57 @@ export default class ModalView {
     }
 
     // Add event listeners
-    this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
-    this.modalHandler.addModalEvents(
-      'confirmModal',
-      '.confirm-modal-overlay',
-      this.lms.confirmModalContainerLm,
-      this.lms.confirmModalLm,
-      closelms,
-      closeConfirmModal
-    );
+
+    if (isEdit) {
+      this.lms.confirmModalAcceptBtn.addEventListener('click', closeConfirmModal);
+      this.modalHandler.addModalEvents(
+        'confirmModal',
+        '.confirm-modal-overlay',
+        this.lms.confirmModalContainerLm,
+        this.lms.confirmModalLm,
+        closelms,
+        confirmAndDismissModal
+      );
+    } 
+    else {
+      this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
+      this.modalHandler.addModalEvents(
+        'confirmModal',
+        '.confirm-modal-overlay',
+        this.lms.confirmModalContainerLm,
+        this.lms.confirmModalLm,
+        closelms,
+        closeConfirmModal
+      );
+    }
   }
 
   openInfoModal() {
     console.log('open info modal')
   }
 
-  openEditModal() {
+  openEditModal(taskData, editHandler, currentEdit = false) {
     this.generateEditModal();
+
+    const form = this.lms.editModalFormLm;
+
+    // Populates the inputs with task data or current edit
+    if (currentEdit) {
+      for (const key in currentEdit) {
+        const field = form.querySelector(`[name="${key}"]`);
+        if (currentEdit[key]) {
+          field.value = currentEdit[key];
+        }
+      }
+    } 
+    else {
+      for (const key in taskData) {
+        const field = form.querySelector(`[name="${key}"]`);
+        if (taskData[key]) {
+          field.value = taskData[key];
+        }
+      }
+    }
 
     this.showModal(
       this.lms.editModalOverlayLm,
@@ -166,6 +212,7 @@ export default class ModalView {
         this.lms.editModalLm
       );
 
+      this.lms.editModalFormLm.removeEventListener('submit', handleEdit);
       this.modalHandler.removeModalEvents(
         'editModal',
         this.lms.editModalContainerLm,
@@ -174,13 +221,73 @@ export default class ModalView {
       );
     }
 
+    const getFormData = () => {
+      const formData = new FormData(this.lms.editModalFormLm);
+      const data = {};
+  
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      return data
+    }
+
+    const isFormEdited = () => {
+      const currentEditedTask = getFormData();
+
+      console.log(taskData);
+      console.log(currentEditedTask);
+
+      return (
+        currentEditedTask.title !== taskData.title || 
+        currentEditedTask.due_date !== taskData.due_date || 
+        currentEditedTask.description !== taskData.description
+      );
+    }
+
+    const handleEdit = e => {
+      e.preventDefault();
+      if (isFormEdited()) {
+        console.log('submit');
+        editHandler(getFormData(), closeEditModal);
+      } 
+      else {
+        console.log('same data');
+        closeEditModal();
+      }
+    }
+
+    const exitAndReturnToEdit = () => {
+      setTimeout(() => {
+        this.openEditModal(taskData, editHandler, getFormData());
+      }, 100);
+    } 
+    
+    const handleUnsavedChanges = () => {
+      if (isFormEdited()) {
+        closeEditModal();
+        setTimeout(() => {
+          this.openConfirmModal(
+            exitAndReturnToEdit, 
+            false,
+            'Are you sure that you want to discard the updated task information?',
+            true
+          );
+        }, 100);
+      } 
+      else {
+        closeEditModal();
+      }
+    }
+
+    this.lms.editModalFormLm.addEventListener('submit', handleEdit);
     this.modalHandler.addModalEvents(
       'editModal',
       '.edit-dialog-overlay',
       this.lms.editModalContainerLm,
       this.lms.editModalLm,
       [this.lms.editModalCloseBtn],
-      closeEditModal
+      handleUnsavedChanges
     );
   }
 }

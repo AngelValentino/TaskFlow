@@ -165,6 +165,29 @@ export default class TaskManagerController {
       });
   }
 
+  editTask(taskId, editedTaskData, closeEditModalHandler) {
+    console.log('task id: ' + taskId);
+    console.log(editedTaskData);
+
+    this.modalView.lms.editModalFormSubmitBtn.innerText = 'Loading...';
+
+    this.taskModel.handleEditTask(taskId, JSON.stringify(editedTaskData))
+      .then(rowsUpdated => {
+        console.log(rowsUpdated)
+        console.warn(`task with id:${taskId} was updated`);
+        closeEditModalHandler();
+        console.warn('closed edit modal after successful task update');
+        this.getAllTasks();
+      })
+      .catch(error => {
+        console.error(error.message);
+        if (error.data) console.error(error.data?.errors);
+      })
+      .finally(() => {
+        this.modalView.lms.editModalFormSubmitBtn.innerText = 'Edit task';
+      });
+  }
+
   handleTaskAction(e) {
     if (e.target.closest('.todo__complete-btn')) {
       const taskId = this.getTaskId(e);
@@ -190,10 +213,18 @@ export default class TaskManagerController {
         return;
       }
 
-      const taskContainerLm = document.getElementById(e.target.closest('.todo').id)
-      console.log(taskContainerLm)
+      const taskLm = document.getElementById(e.target.closest('.todo').id)
 
-      this.modalView.openEditModal();
+      const taskData = {
+        title: taskLm.querySelector('.todo__task-name').innerText,
+        due_date: taskLm.querySelector('.todo__task-date').getAttribute('datetime'),
+        description: taskLm.querySelector('.todo__task-desc')?.innerHTML
+      };
+
+      this.modalView.openEditModal(
+        taskData, 
+        this.editTask.bind(this, taskId)
+      );
     } 
     else if (e.target.closest('.todo__delete-btn')) {
       const taskId = this.getTaskId(e);

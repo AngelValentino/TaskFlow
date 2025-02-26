@@ -122,4 +122,17 @@ export default class TaskModel {
       `Couldn't properly complete the task, try again later.`
     );
   }
+
+  async handleEditTask(taskId, editedTaskData) {
+    return await this.handleAuthFetchRequest(
+      `${this.baseEndpointUrl}/${taskId}`,
+      {
+        method: 'PATCH',
+        body: editedTaskData
+      },
+      true,
+      `Couldn't properly update the task, try again later.`,
+      this.customErrorHandlers
+    );
+  }
 }
