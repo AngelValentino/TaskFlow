@@ -1,5 +1,8 @@
-import ConfirmModal from "../components/ConfirmModal.js";
 import EditModal from "../components/EditModal.js";
+import ConfirmDiscardModal from "../components/ConfirmDiscardModal.js";
+import ConfirmDeleteAllTasksModal from "../components/ConfirmDeleteAllTasksModal.js";
+import ConfirmCompleteTaskModal from "../components/ConfirmCompleteTaskModal.js";
+import ConfirmDeleteTaskModal from "../components/ConfirmDeleteTaskModal.js";
 
 export default class ModalView {
   constructor(modalHandler) {
@@ -22,6 +25,8 @@ export default class ModalView {
       confirmModalCancelBtn: document.getElementById('confirm-modal__cancel-btn'),
       confirmModalDescLm: document.getElementById('confirm-modal__desc'),
       confirmModalBtnsContainerLm: document.getElementById('confirm-modal__btns-container'),
+      confirmModalDeleteIncompleteBtn: document.getElementById('confirm-modal__delete-incomplete-btn'),
+      confirmModalDeleteCompletedBtn: document.getElementById('confirm-modal__delete-completed-btn'),
       editModalContainerLm: document.getElementById('edit-dialog-container'),
       editModalOverlayLm: document.getElementById('edit-dialog-overlay'),
       editModalLm: document.getElementById('edit-dialog'),
@@ -63,16 +68,30 @@ export default class ModalView {
     return timId; // Return the timeout ID
   }
 
-  generateConfirmModal(description) {
+  generateConfirmModal(modalType) {
     if (this.lms.confirmModalContainerLm) {
       this.lms.confirmModalContainerLm.remove();
     }
 
-    const confirmModal = ConfirmModal.getHtml();
-    document.body.insertAdjacentHTML('afterbegin', confirmModal);
+    let confirmModalHtml;
     
-    this.setModalDomRefs();
-    this.lms.confirmModalDescLm.innerText = description;
+    switch (modalType) {
+      case 'confirmDiscardChanges':
+        confirmModalHtml = ConfirmDiscardModal.getHtml();
+        break;
+      case 'confirmDeleteAllTasks':
+        confirmModalHtml = ConfirmDeleteAllTasksModal.getHtml();
+        break;
+      case 'confirmDeleteTask':
+        confirmModalHtml = ConfirmDeleteTaskModal.getHtml();
+        break;
+      case 'confirmComplete':
+        confirmModalHtml = ConfirmCompleteTaskModal.getHtml();
+        break;
+    }
+
+  document.body.insertAdjacentHTML('afterbegin', confirmModalHtml);
+  this.setModalDomRefs();
   }
 
   generateEditModal() {
@@ -86,8 +105,8 @@ export default class ModalView {
     this.setModalDomRefs();
   }
 
-  openConfirmModal(confirmHandler, isFetch = false, description, isEdit = false) {
-    this.generateConfirmModal(description);
+  openConfirmModal(confirmHandler, isFetch = false, modalType, isEdit = false) {
+    this.generateConfirmModal(modalType);
 
     const closelms = [
       this.lms.confirmModalCloseBtn, 
@@ -124,6 +143,11 @@ export default class ModalView {
         );
       } 
       else {
+        if (modalType ===  'confirmDeleteAllTasks') {
+          this.lms.confirmModalDeleteIncompleteBtn.removeEventListener('click', deleteAllIncomplete);
+          this.lms.confirmModalDeleteCompletedBtn.removeEventListener('click', deleteAllCompelted);
+        }
+
         this.lms.confirmModalAcceptBtn.removeEventListener('click', confirmAndDismissModal)
         this.modalHandler.removeModalEvents(
           'confirmModal',
@@ -132,6 +156,16 @@ export default class ModalView {
           closelms
         );
       }
+    }
+
+    const deleteAllIncomplete = () => {
+      confirmHandler(closeConfirmModal.bind(this, true), false);
+      console.log('delete all incompleted')
+    };
+
+    const deleteAllCompelted = () => {
+      confirmHandler(closeConfirmModal.bind(this, true), true);
+      console.log('delete all completed')
     }
 
     const confirmAndDismissModal = () => {
@@ -158,6 +192,11 @@ export default class ModalView {
       );
     } 
     else {
+      if (modalType === 'confirmDeleteAllTasks') {
+        this.lms.confirmModalDeleteIncompleteBtn.addEventListener('click', deleteAllIncomplete);
+        this.lms.confirmModalDeleteCompletedBtn.addEventListener('click', deleteAllCompelted);
+      }
+
       this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
       this.modalHandler.addModalEvents(
         'confirmModal',
@@ -270,7 +309,7 @@ export default class ModalView {
           this.openConfirmModal(
             exitAndReturnToEdit, 
             false,
-            'Are you sure that you want to discard the updated task information?',
+            'confirmDiscardChanges',
             true
           );
         }, 100);

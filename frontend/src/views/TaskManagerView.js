@@ -177,7 +177,7 @@ export default class TaskManagerView {
       this.modalView.openConfirmModal(
         this.resetAddTaskForm.bind(this),
         false,
-        'Are you sure you want to discard all changes made in form?'
+        'confirmDiscardChanges'
       );
     }
     else {

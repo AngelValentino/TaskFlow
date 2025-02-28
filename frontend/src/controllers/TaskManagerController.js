@@ -108,8 +108,15 @@ export default class TaskManagerController {
     this.taskModel.handleGetAllTasksCount(false)
       .then(count => {
         console.log(count)
-        this.lms.taskMangerTaskCountLm.innerText = count + ' tasks left'
-
+        if (count === 0) {
+          this.lms.taskMangerTaskCountLm.innerText = 'No tasks left';
+        } 
+        else if (count === 1) {
+          this.lms.taskMangerTaskCountLm.innerText = count + ' task left';
+        } 
+        else {
+          this.lms.taskMangerTaskCountLm.innerText = count + ' tasks left';
+        }
       })
       .catch(error => {
         console.error(error);
@@ -137,13 +144,21 @@ export default class TaskManagerController {
       });
   }
 
-  deleteAllTasks(closeConfirmModalHandler) {
+  deleteAllTasks(closeConfirmModalHandler, completed = undefined) {
     this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
 
-    this.taskModel.handleDeleteAllTasks()
+    this.taskModel.handleDeleteAllTasks(completed)
       .then(() => {
         console.warn(`all tasks deleted`);
-        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All tasks were successfully deleted.';
+        if (completed === undefined) {
+          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All tasks were successfully deleted.';
+        } 
+        else if (completed === true) {
+          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All completed tasks were successfully deleted.';
+        } 
+        else if (completed === false) {
+          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All incompleted tasks were successfully deleted.';
+        }
         const timId = setTimeout(() => {
           closeConfirmModalHandler();
           console.warn('closed confirm modal after successful delete');
@@ -166,7 +181,7 @@ export default class TaskManagerController {
     this.modalView.openConfirmModal(
       this.deleteAllTasks.bind(this),
       true,
-      'Are you sure you want to delete all tasks?'
+      'confirmDeleteAllTasks'
     );
   }
 
@@ -226,7 +241,7 @@ export default class TaskManagerController {
       this.modalView.openConfirmModal(
         this.completeTask.bind(this, taskId),
         true,
-        'Are you sure you want to complete this task?'
+        'confirmComplete'
       );
     } 
     else if (e.target.closest('.todo__edit-btn')) {
@@ -263,7 +278,7 @@ export default class TaskManagerController {
       this.modalView.openConfirmModal(
         this.deleteTask.bind(this, taskId),
         true,
-        'Are you sure you want to delete this task?'
+        'confirmDeleteTask'
       );
     }
   }

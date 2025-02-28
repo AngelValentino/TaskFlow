@@ -111,9 +111,11 @@ export default class TaskModel {
     );
   }
 
-  async handleDeleteAllTasks() {
+  async handleDeleteAllTasks(completed) {
+    const completedQueryParam = completed !== undefined ? '?completed=' + completed : '';
+
     await this.handleAuthFetchRequest(
-      this.baseEndpointUrl,
+      this.baseEndpointUrl + completedQueryParam,
       {
         method: 'DELETE'
       },
