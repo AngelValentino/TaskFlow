@@ -87,6 +87,19 @@ export default class TaskModel {
     );
   }
 
+  async handleGetAllTasksCount(completed) {
+    const completedQueryParam = completed !== undefined ? '&completed=' + completed : '';
+
+    return await this.handleAuthFetchRequest(
+      `${this.baseEndpointUrl}?counter=true${completedQueryParam}`,
+      {
+        method: 'GET'
+      },
+      true,
+      `Couldn't properly get the task count, try again later.`,
+    );
+  }
+
   async handleDeleteTask(taskId) {
     await this.handleAuthFetchRequest(
       `${this.baseEndpointUrl}/${taskId}`,

@@ -18,7 +18,8 @@ export default class TaskManagerView {
       searchTaskDefaultIcon: document.getElementById('task-manager__search-svg'),
       searchTaskCloseIcon: document.getElementById('task-manager__search-prompt-close-btn'),
       clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn'),
-      tasksContainerLm: document.getElementById('todos-container')
+      tasksContainerLm: document.getElementById('todos-container'),
+      taskMangerTaskCountLm: document.getElementById('task-manager__dashboard-tasks-count')
     };
   }
 

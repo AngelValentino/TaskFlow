@@ -16,6 +16,7 @@ export default class TaskManagerController {
     this.lms.tasksContainerLm.addEventListener('click', this.handleTaskAction.bind(this));
     
     this.getAllTasks();
+    this.getActiveTasksCount();
   }
 
   getTaskId(e) {
@@ -49,6 +50,7 @@ export default class TaskManagerController {
         console.log('task submitted');
         this.taskManagerView.resetAddTaskForm();
         this.getAllTasks();
+        this.getActiveTasksCount();
       })
       .catch(error => {
         if (error.name === 'AbortError') {
@@ -95,6 +97,26 @@ export default class TaskManagerController {
       });
   }
 
+  getActiveTasksCount() {
+    if (!this.auth.isClientLogged()) {
+      console.warn('User is not logged in, get count from localStorage');
+      return;
+    }
+
+    this.lms.taskMangerTaskCountLm.innerText = 'Loading...'
+    
+    this.taskModel.handleGetAllTasksCount(false)
+      .then(count => {
+        console.log(count)
+        this.lms.taskMangerTaskCountLm.innerText = count + ' tasks left'
+
+      })
+      .catch(error => {
+        console.error(error);
+        this.lms.taskMangerTaskCountLm.innerText = error
+      });
+  }
+
   deleteTask(taskId, closeConfirmModalHandler) {
     this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
 
@@ -108,6 +130,7 @@ export default class TaskManagerController {
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
         this.getAllTasks();
+        this.getActiveTasksCount();
       })
       .catch(error => {
         this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
@@ -127,6 +150,7 @@ export default class TaskManagerController {
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
         this.getAllTasks();
+        this.getActiveTasksCount();
       })
       .catch(error => {
         this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
@@ -159,6 +183,7 @@ export default class TaskManagerController {
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
         this.getAllTasks();
+        this.getActiveTasksCount();
       })
       .catch(error => {
         this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;

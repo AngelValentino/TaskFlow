@@ -3,10 +3,22 @@ export default class TokenHandler {
     this.router = router;
     this.userModel = userModel;
     this.auth = auth;
+    this.isRefreshingToken = false;
+    this.refreshTokenQueue = [];
   }
 
   async handleRefreshAccessToken() {
     const refreshToken = localStorage.getItem('refreshToken');
+
+    // If a refresh is already in progress, queue the new request
+    if (this.isRefreshingToken) {
+      return new Promise((resolve, reject) => {
+        this.refreshTokenQueue.push({ resolve, reject });
+      });
+    }
+
+    // Mark that the refresh process is running
+    this.isRefreshingToken = true;
 
     const response = await fetch('http://taskflow-api.com/refresh', {
       method: 'POST',
@@ -25,10 +37,35 @@ export default class TokenHandler {
       // Logout user
       await this.userModel.handleUserLogout();
       this.auth.logoutClient();
-      throw new Error('Refresh token has expired or is no longer valid, logging out user.');
+      const error = new Error('Refresh token has expired or is no longer valid, logging out user.');
+      
+      // Reject queued promises and return
+      this.processTokenQueue(error);
+      throw error;
     }
 
     const data = await response.json();
     this.auth.loginClient(data);
+
+    // Process any queued refresh token requests
+    this.processTokenQueue(null, data);
+
+    // Reset the lock flag after the refresh process is done
+    this.isRefreshingToken = false;
+  }
+
+  processTokenQueue(error, data) {
+    // Process all the queued promises (resolve or reject them)
+    this.refreshTokenQueue.forEach(promise => {
+      if (error) {
+        promise.reject(error);  // Reject the promise if there was an error
+      } 
+      else {
+        promise.resolve(data);  // Resolve the promise with the new data
+      }
+    });
+
+    // Clear the queue after processing all promises
+    this.refreshTokenQueue = [];
   }
 }
