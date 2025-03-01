@@ -89,7 +89,7 @@ export default class ModalHandler {
     return (
       !e.target.closest('.confirm-modal-container') &&
       !e.target.closest('.info-dialog-container') &&
-      !e.target.closest('.edit-dialog-container')
+      !e.target.closest('.edit-modal-container')
     );
   }
 

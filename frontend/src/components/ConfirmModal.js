@@ -8,8 +8,8 @@ export default class ConfirmModal {
     const optionalActiveOrCompletedTasksDelete = () => {
       return `
         <div class="confirm-modal__delete-options-container">
-          <button id="confirm-modal__delete-incomplete-btn" class="confirm-modal__delete-option-btn">Only delete incomplete tasks</button>
-          <button id="confirm-modal__delete-completed-btn" class="confirm-modal__delete-option-btn">Only delete completed taks</button>
+          <button id="confirm-modal__delete-active-btn" class="confirm-modal__delete-option-btn">Only delete active tasks</button>
+          <button id="confirm-modal__delete-completed-btn" class="confirm-modal__delete-option-btn">Only delete completed tasks</button>
         </div>
       `;
     }
@@ -20,7 +20,7 @@ export default class ConfirmModal {
           <div id="confirm-modal__image-container">
             <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-1.jpg" alt="A drawing of a garbage collector taking out the trash." />
           </div>
-          <button title="Close dialog" aria-label="Close modal." type="button" class="confirm-modal__close-btn appear-bg-from-center rounded dark-soft" id="confirm-modal__close-btn">
+          <button title="Close modal" aria-label="Close modal." type="button" class="confirm-modal__close-btn appear-bg-from-center rounded dark-soft" id="confirm-modal__close-btn">
             <svg aria-hidden="true" focusable="false" role="presentation" class="confirm-modal__close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"></path>
             </svg>

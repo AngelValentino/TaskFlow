@@ -20,7 +20,7 @@ export default class TaskManagerController {
   }
 
   getTaskId(e) {
-    const strId = e.target.closest('.todo').id;
+    const strId = e.target.closest('.task-manager__task').id;
     const match = strId.match(/-(\d+)$/);
     return match ? match[1] : null;
   }
@@ -157,7 +157,7 @@ export default class TaskManagerController {
           this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All completed tasks were successfully deleted.';
         } 
         else if (completed === false) {
-          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All incompleted tasks were successfully deleted.';
+          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All active tasks were successfully deleted.';
         }
         const timId = setTimeout(() => {
           closeConfirmModalHandler();
@@ -229,7 +229,7 @@ export default class TaskManagerController {
   }
 
   handleTaskAction(e) {
-    if (e.target.closest('.todo__complete-btn')) {
+    if (e.target.closest('.task-manager__complete-task-btn')) {
       const taskId = this.getTaskId(e);
       console.log(taskId);
 
@@ -244,7 +244,7 @@ export default class TaskManagerController {
         'confirmComplete'
       );
     } 
-    else if (e.target.closest('.todo__edit-btn')) {
+    else if (e.target.closest('.task-manager__edit-task-btn')) {
       const taskId = this.getTaskId(e);
       console.log(taskId);
 
@@ -253,12 +253,12 @@ export default class TaskManagerController {
         return;
       }
 
-      const taskLm = document.getElementById(e.target.closest('.todo').id)
+      const taskLm = document.getElementById(e.target.closest('.task-manager__task').id)
 
       const taskData = {
-        title: taskLm.querySelector('.todo__task-name').innerText,
-        due_date: taskLm.querySelector('.todo__task-date').getAttribute('datetime'),
-        description: taskLm.querySelector('.todo__task-desc')?.innerHTML
+        title: taskLm.querySelector('.task-manager__task-title').innerText,
+        due_date: taskLm.querySelector('.task-manger__task-due-date').getAttribute('datetime'),
+        description: taskLm.querySelector('.task-manager__task-desc')?.innerHTML
       };
 
       this.modalView.openEditModal(
@@ -266,7 +266,7 @@ export default class TaskManagerController {
         this.editTask.bind(this, taskId)
       );
     } 
-    else if (e.target.closest('.todo__delete-btn')) {
+    else if (e.target.closest('.task-manager__delete-task-btn')) {
       const taskId = this.getTaskId(e);
       console.log(taskId);
 

@@ -117,7 +117,7 @@
 
 /* _TODO APP SECTIONS */
 
-.todo-sections {
+.task-manager__tabs-nav {
   padding: 10px 0;
   position: sticky;
   top: -31px;
@@ -128,11 +128,11 @@
   align-items: center;
 }
 
-.todo-sections__btn-container {
+.task-manager__tab-btn-container {
   display: inline-block;
 }
 
-.todo-sections__btn {
+.task-manager__tab-btn {
   background-color: #efefef;
   padding: 12px;
   border-radius: 50px;
@@ -140,22 +140,22 @@
   overflow: hidden;
 }
 
-.todo-sections__btn.active {
+.task-manager__tab-btn.active {
   background-color: var(--base-text-color);
   color: #fff;
   cursor: default;
 }
 
 /* Makes sure to remove the transtion when selecting a section. */
-.appear-bg-from-center.dark.todo-sections__btn.active::after {
+.appear-bg-from-center.dark.task-manager__tab-btn.active::after {
   transition: none;
 }
 
-.todo-sections__header {
+.task-manager__tab-btn-header {
   font-weight: normal;
 }
 
-.todo-sections__scroll-to-top-btn {
+.task-manger__scroll-to-top-btn {
   display: none;
   background-color: var(--medium-accent-color);
   line-height: 0;
@@ -166,11 +166,11 @@
   height: 40px;
 }
 
-.todo-sections__scroll-to-top-btn.show {
+.task-manger__scroll-to-top-btn.show {
   display: inline-block;
 }
 
-.todo-sections__scroll-to-top-icon {
+.task-manager__scroll-to-top-svg {
   width: 1.15rem;
 }
 
@@ -178,7 +178,7 @@
 
 /* _TODOS CONTAINER */
 
-  .todos-container {
+  .task-manager__tasks-list {
     margin-top: 25px;
     flex: 1;
   }
@@ -204,7 +204,7 @@
 
   /* _TODO */
 
-  .todo {
+  .task-manager__task {
     color: #fff;
     background-color: var(--dark-accent-color);
     padding: 20px;
@@ -214,19 +214,19 @@
     word-wrap: break-word;
   }
 
-  .todo.completed {
+  .task-manager__task.completed {
     background-color: var(--contrast-color);
     color: var(--base-text-color);
     text-decoration: line-through;
     transition: background-color var(--base-transition-duration);
   }
 
-  .todo__task-name {
+  .task-manager__task-title {
     margin: 0 0 5px;
     font-size: 1.375rem;
   }
 
-  .todo__task-date {
+  .task-manger__task-due-date {
     display: block;
     font-size: var(--base-font-size);
     opacity: 0.8;
@@ -235,48 +235,48 @@
     transition: color var(--base-transition-duration);
   }
 
-  .todo.completed .todo__task-date {
+  .task-manager__task.completed .task-manger__task-due-date {
     color: var(--base-text-color);
   }
 
-  .todo__task-desc {
+  .task-manager__task-desc {
     margin: 0 0 22px;
     font-size: var(--base-font-size);
   }
 
-  .todo__control-buttons-list {
+  .task-manager__control-btns-list {
     display: flex;
     justify-content: space-between;
     align-items: center;
     line-height: 0;
   }
 
-  .todo.completed .todo__control-btn-container {
+  .task-manager__task.completed .task-manager__control-btn-container {
     display: flex;
     justify-content: end;
   }
 
-  .todo__control-buttons-list > div {
+  .task-manager__control-btns-list > div {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  .todo__complete-btn,
-  .todo__edit-btn,
-  .todo__delete-btn {
+  .task-manager__complete-task-btn,
+  .task-manager__edit-task-btn,
+  .task-manager__delete-task-btn {
     padding: 5px;
     margin: -5px;
     line-height: 0;
   }
 
-  .todo__complete-icon,
-  .todo__edit-icon,
-  .todo__delete-icon {
+  .task-manager__complete-task-svg,
+  .task-manager__edit-task-svg,
+  .task-manager__delete-task-svg {
     width: 1.65rem;
   }
 
-  .todo__edit-icon {
+  .task-manager__edit-task-svg {
     margin-bottom: -2px;
   }
 
@@ -308,7 +308,7 @@
     font-size: 1.2rem;
   }
 
-  .todo-sections {
+  .task-manager__tabs-nav {
     top: -21px;
   }
 }
@@ -326,7 +326,7 @@
     background-color: var(--medium-accent-color);
   }
 
-  .todo-sections__scroll-to-top-btn:is(:hover, :focus-visible) {
+  .task-manger__scroll-to-top-btn:is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
     color: var(--base-text-color);
   }
@@ -340,7 +340,7 @@
     opacity: 0.75;
   }
 
-  .todo-sections__scroll-to-top-btn:active {
+  .task-manger__scroll-to-top-btn:active {
     transition: none;
     color: var(--base-text-color);
     background-color: var(--light-accent-color) ;

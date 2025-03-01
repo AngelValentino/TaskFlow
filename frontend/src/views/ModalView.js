@@ -25,14 +25,14 @@ export default class ModalView {
       confirmModalCancelBtn: document.getElementById('confirm-modal__cancel-btn'),
       confirmModalDescLm: document.getElementById('confirm-modal__desc'),
       confirmModalBtnsContainerLm: document.getElementById('confirm-modal__btns-container'),
-      confirmModalDeleteIncompleteBtn: document.getElementById('confirm-modal__delete-incomplete-btn'),
+      confirmModalDeleteActiveBtn: document.getElementById('confirm-modal__delete-active-btn'),
       confirmModalDeleteCompletedBtn: document.getElementById('confirm-modal__delete-completed-btn'),
-      editModalContainerLm: document.getElementById('edit-dialog-container'),
-      editModalOverlayLm: document.getElementById('edit-dialog-overlay'),
-      editModalLm: document.getElementById('edit-dialog'),
-      editModalCloseBtn: document.getElementById('edit-dialog__close-btn'),
-      editModalFormLm: document.getElementById('edit-dialog__form'),
-      editModalFormSubmitBtn: document.getElementById('edit-dialog__submit-btn')
+      editModalContainerLm: document.getElementById('edit-modal-container'),
+      editModalOverlayLm: document.getElementById('edit-modal-overlay'),
+      editModalLm: document.getElementById('edit-modal'),
+      editModalCloseBtn: document.getElementById('edit-modal__close-btn'),
+      editModalFormLm: document.getElementById('edit-modal__form'),
+      editModalFormSubmitBtn: document.getElementById('edit-modal__submit-btn')
     };
   }
 
@@ -144,7 +144,7 @@ export default class ModalView {
       } 
       else {
         if (modalType ===  'confirmDeleteAllTasks') {
-          this.lms.confirmModalDeleteIncompleteBtn.removeEventListener('click', deleteAllIncomplete);
+          this.lms.confirmModalDeleteActiveBtn.removeEventListener('click', deleteAllIncomplete);
           this.lms.confirmModalDeleteCompletedBtn.removeEventListener('click', deleteAllCompelted);
         }
 
@@ -193,7 +193,7 @@ export default class ModalView {
     } 
     else {
       if (modalType === 'confirmDeleteAllTasks') {
-        this.lms.confirmModalDeleteIncompleteBtn.addEventListener('click', deleteAllIncomplete);
+        this.lms.confirmModalDeleteActiveBtn.addEventListener('click', deleteAllIncomplete);
         this.lms.confirmModalDeleteCompletedBtn.addEventListener('click', deleteAllCompelted);
       }
 
@@ -322,7 +322,7 @@ export default class ModalView {
     this.lms.editModalFormLm.addEventListener('submit', handleEdit);
     this.modalHandler.addModalEvents(
       'editModal',
-      '.edit-dialog-overlay',
+      '.edit-modal-overlay',
       this.lms.editModalContainerLm,
       this.lms.editModalLm,
       [this.lms.editModalCloseBtn],

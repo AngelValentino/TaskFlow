@@ -1,24 +1,24 @@
 export default class TaskManagerTabs {
   static getHtml() {
     return `
-      <ul aria-label="Todo section tabs." class="todo-sections__btn-list">
-        <li class="todo-sections__btn-container">
-          <h3 class="todo-sections__header">
-            <button class="todo-sections__btn todo-sections__all-btn appear-bg-from-center dark rounded" id="todo-sections__all-btn" type="button" aria-expanded="false" aria-label="All todos." aria-controls="todos-container">
+      <ul aria-label="Tasks manager tab sections list.">
+        <li class="task-manager__tab-btn-container">
+          <h3 class="task-manager__tab-btn-header">
+            <button class="task-manager__tab-btn appear-bg-from-center dark rounded" id="task-manger__all-tasks-tab-btn" type="button" aria-expanded="false" aria-label="Ahow all tasks." aria-controls="task-manager__tasks-list">
               All
             </button>
           </h3>
         </li> 
-        <li class="todo-sections__btn-container">
-          <h3 class="todo-sections__header">
-            <button class="todo-sections__btn todo-sections__tasks-btn appear-bg-from-center dark rounded" id="todo-sections__tasks-btn" type="button" aria-expanded="false" aria-label="Uncompleted tasks." aria-controls="todos-container">
+        <li class="task-manager__tab-btn-container">
+          <h3 class="task-manager__tab-btn-header">
+            <button class="task-manager__tab-btn appear-bg-from-center dark rounded" id="task-manager__active-tasks-tab-btn" type="button" aria-expanded="false" aria-label="Show active tasks." aria-controls="task-manager__tasks-list">
               Tasks
             </button>
           </h3>
         </li>
-        <li class="todo-sections__btn-container">
-          <h3 class="todo-sections__header">
-            <button class="todo-sections__btn todo-sections__completed-btn appear-bg-from-center dark rounded" id="todo-sections__completed-btn" type="button" aria-expanded="false" aria-label="Completed tasks." aria-controls="todos-container">
+        <li class="task-manager__tab-btn-container">
+          <h3 class="task-manager__tab-btn-header">
+            <button class="task-manager__tab-btn appear-bg-from-center dark rounded" id="task-manger__completed-tasks-tab-btn" type="button" aria-expanded="false" aria-label="Show completed tasks." aria-controls="task-manager__tasks-list">
               Completed
             </button>
           </h3>

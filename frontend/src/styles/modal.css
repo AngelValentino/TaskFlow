@@ -1,7 +1,7 @@
 /* DIALOG */
 
 .confirm-modal-container,
-.edit-dialog-container,
+.edit-modal-container,
 .info-dialog-container { 
   font-size: 1.225rem;
   position: fixed;
@@ -14,7 +14,7 @@
   display: none;
 }
 
-.edit-dialog-overlay,
+.edit-modal-overlay,
 .confirm-modal-overlay,
 .info-dialog-overlay {
   position: absolute;
@@ -25,7 +25,7 @@
 }
 
 .confirm-modal,
-.edit-dialog,
+.edit-modal,
 .info-dialog {
   position: relative;
   max-width: 400px;
@@ -57,7 +57,7 @@
   width: 125px;
 }
 
-.edit-dialog__close-btn,
+.edit-modal__close-btn,
 .confirm-modal__close-btn,
 .info-dialog__close-btn {
   position: absolute !important;
@@ -82,7 +82,7 @@
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
-.edit-dialog__close-btn .edit-dialog__close-icon,
+.edit-modal__close-btn .edit-modal__close-icon,
 .confirm-modal__close-btn .confirm-modal__close-icon,
 .info-dialog__close-btn .info-dialog__close-icon {
   width: 1.35em;
@@ -106,16 +106,16 @@
 
 /* EDIT DIALOG */
 
-.form-dialog {
+.form-modal {
   max-width: 450px;
   text-align: start;
   padding: 30px 50px;
   width: 100%;
 }
 
-.edit-dialog__task, 
-.edit-dialog__date,
-.edit-dialog__desc {
+.edit-modal__title-input, 
+.edit-modal__due-date-input,
+.edit-modal__desc-textarea {
   width: 100%;
   border-radius: 3px;
   margin: 0 0 25px;
@@ -123,24 +123,24 @@
   border: 2px dashed var(--dark-accent-color);
 }
 
-.edit-dialog__task, 
-.edit-dialog__date {
+.edit-modal__title-input, 
+.edit-modal__due-date-input {
   background-color: var(--light--accent-color);
 }
 
-.edit-dialog__task:focus, 
-.edit-dialog__date:focus,
-.edit-dialog__desc:focus {
+.edit-modal__title-input:focus, 
+.edit-modal__due-date-input:focus,
+.edit-modal__desc-textarea:focus {
   outline: none;
   border: 2px solid var(--dark-accent-color);
 }
 
-.edit-dialog label {
+.edit-modal label {
   display: block;
   padding: 0 0 10px;
 }
 
-.edit-dialog__desc {
+.edit-modal__desc-textarea {
   resize: vertical;
   max-height: 250px;
   min-height: 100px;
@@ -148,7 +148,7 @@
   display: block;
 }
 
-.edit-dialog__submit-btn {
+.edit-modal__submit-btn {
   background-color: var(--medium-accent-color);
   border-radius: 5px;
   width: 100%;
@@ -165,7 +165,7 @@
     background-color: var(--contrast-color);
   }
 
-  .edit-dialog__submit-btn:is(:hover, :focus-visible) {
+  .edit-modal__submit-btn:is(:hover, :focus-visible) {
     opacity: 0.75;
   }
 
@@ -181,13 +181,13 @@
 .confirm-modal__accept-btn:active,
 .confirm-modal__cancel-btn:active,
 .info-dialog__accept-btn:active,
-.edit-dialog__submit-btn:active {
+.edit-modal__submit-btn:active {
   transition: none;
   background-color: var(--light-accent-color);
   color: var(--base-text-color);
 }
 
-.edit-dialog__submit-btn:active {
+.edit-modal__submit-btn:active {
   transition: padding 0.4s;
 }
 
@@ -196,22 +196,22 @@
 /* MEDIA QUERIES */
 
 @media screen and (max-height: 600px) and (min-width: 600px){
-  .form-dialog {
+  .form-modal {
     max-width: 700px;
   }
   
-  .edit-dialog__form {
+  .edit-modal__form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
   }
   
-  .edit-dialog__date,
-  .edit-dialog__desc {
+  .edit-modal__due-date-input,
+  .edit-modal__desc-textarea {
     margin: 0;
   }
 
-  .edit-dialog__submit-btn {
+  .edit-modal__submit-btn {
     grid-column: span 2;
     justify-self: center;
     margin: 20px 0 0;
@@ -219,13 +219,13 @@
 }
 
 @media screen and (max-width: 450px) {
-  .form-dialog {
+  .form-modal {
     padding: 30px;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .form-dialog {
+  .form-modal {
     padding: 30px 25px;
   }
 }
