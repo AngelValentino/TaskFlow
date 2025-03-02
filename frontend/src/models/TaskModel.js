@@ -32,7 +32,7 @@ export default class TaskModel {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
       },
-      signal: this.router.getAbortSignal() // TODO This needs review, works just at change view
+      signal: this.router.getAbortSignal()
     });
   }
 

@@ -133,6 +133,11 @@ export default class TaskManagerController {
         }
       })
       .catch(error => {
+        if (error.name === 'AbortError') {
+          console.warn('Request aborted due to navigation change');
+          return;
+        }
+
         console.error(error);
         this.lms.taskManagerTaskCountLm.innerText = error
       });
@@ -154,6 +159,11 @@ export default class TaskManagerController {
         this.getActiveTasksCount();
       })
       .catch(error => {
+        if (error.name === 'AbortError') {
+          console.warn('Request aborted due to navigation change');
+          return;
+        }
+
         this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
       });
   }
@@ -182,6 +192,11 @@ export default class TaskManagerController {
         this.getActiveTasksCount();
       })
       .catch(error => {
+        if (error.name === 'AbortError') {
+          console.warn('Request aborted due to navigation change');
+          return;
+        }
+
         this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
       });
   }
@@ -215,6 +230,11 @@ export default class TaskManagerController {
         this.getActiveTasksCount();
       })
       .catch(error => {
+        if (error.name === 'AbortError') {
+          console.warn('Request aborted due to navigation change');
+          return;
+        }
+
         this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
       });
   }
@@ -222,6 +242,7 @@ export default class TaskManagerController {
   editTask(taskId, editedTaskData, closeEditModalHandler) {
     console.log('task id: ' + taskId);
     console.log(editedTaskData);
+    let wasFetchAborted = false;
 
     this.modalView.lms.editModalFormSubmitBtn.innerText = 'Loading...';
 
@@ -234,10 +255,17 @@ export default class TaskManagerController {
         this.getAllTasks();
       })
       .catch(error => {
+        if (error.name === 'AbortError') {
+          wasFetchAborted = true;
+          console.warn('Request aborted due to navigation change');
+          return;
+        }
+
         console.error(error.message);
         if (error.data) console.error(error.data?.errors);
       })
       .finally(() => {
+        if (wasFetchAborted) return;
         this.modalView.lms.editModalFormSubmitBtn.innerText = 'Edit task';
       });
   }
