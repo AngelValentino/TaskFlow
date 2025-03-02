@@ -76,9 +76,11 @@ export default class TaskModel {
     );
   }
 
-  async handleGetAllTasks() {
+  async handleGetAllTasks(completed) {
+    const completedQueryParam = completed !== undefined ? '&completed=' + completed : '';
+
     return await this.handleAuthFetchRequest(
-      `${this.baseEndpointUrl}?sort_by=due_date`,
+      `${this.baseEndpointUrl}?sort_by=due_date${completedQueryParam}`,
       {
         method: 'GET'
       },

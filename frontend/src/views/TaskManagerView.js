@@ -19,7 +19,9 @@ export default class TaskManagerView {
       searchTaskCloseIcon: document.getElementById('task-manager__search-prompt-close-btn'),
       clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn'),
       tasksContainerLm: document.getElementById('task-manager__tasks-list'),
-      taskMangerTaskCountLm: document.getElementById('task-manager__dashboard-tasks-count')
+      taskManagerTaskCountLm: document.getElementById('task-manager__dashboard-tasks-count'),
+      taskManagerTabLms: document.querySelectorAll('.task-manager__tab-btn'),
+      taskManagerTabListLm: document.getElementById('task-manager__tab-list') 
     };
   }
 
@@ -47,6 +49,51 @@ export default class TaskManagerView {
         }
       })
       .join('');
+  }
+
+  setActiveTab(tab) {
+    tab.setAttribute('aria-selected', true);
+    tab.setAttribute('aria-expanded', true);
+    tab.classList.add('active');
+    localStorage.setItem('currentActiveTabId', tab.id);
+  }
+
+  setInactiveTab(tab) {
+    tab.setAttribute('aria-selected', false);
+    tab.setAttribute('aria-expanded', false);
+    tab.classList.remove('active');
+  }
+
+  toggleActiveTab(currentTab, tabId) {
+    this.lms.taskManagerTabLms.forEach(tab => {
+      if (tabId) {
+        if (tab.id === tabId) {
+          this.setActiveTab(tab);
+        }
+        return;
+      }
+
+      if (tab !== currentTab) {
+        this.setInactiveTab(tab);
+      } 
+      else {
+        this.setActiveTab(tab);
+      }
+    });
+  }
+
+  getActiveTabFilterParam() {
+    const currentTabId = localStorage.getItem('currentActiveTabId')
+    switch (currentTabId) {
+      case 'task-manger__all-tasks-tab-btn':
+        return undefined;
+      case 'task-manager__active-tasks-tab-btn':
+        return false;
+      case 'task-manger__completed-tasks-tab-btn':
+        return true;
+      default:
+        return undefined;
+    }
   }
 
   showPrompt(promptLm, btnLm, firstFocusableLm, hidePromptTimId, timeout) {

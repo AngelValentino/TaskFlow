@@ -26,7 +26,7 @@ export default class TaskManager {
             </svg>
           </button>
         </nav>
-        <ul aria-live="polite" aria-atomic="false" aria-label="Tasks list." id="task-manager__tasks-list" class="task-manager__tasks-list">
+        <ul aria-live="polite" role="tabpanel" aria-atomic="false" aria-label="Tasks list." id="task-manager__tasks-list" class="task-manager__tasks-list">
         </ul>
       </article>
     `;

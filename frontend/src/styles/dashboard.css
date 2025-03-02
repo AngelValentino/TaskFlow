@@ -151,10 +151,6 @@
   transition: none;
 }
 
-.task-manager__tab-btn-header {
-  font-weight: normal;
-}
-
 .task-manger__scroll-to-top-btn {
   display: none;
   background-color: var(--medium-accent-color);

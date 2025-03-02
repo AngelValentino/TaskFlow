@@ -12,9 +12,10 @@ export default class TaskManagerController {
     this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
     this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
     this.lms.clearAllTasksBtn.addEventListener('click', this.handleClearAllTasks.bind(this));
-
     this.lms.tasksContainerLm.addEventListener('click', this.handleTaskAction.bind(this));
+    this.lms.taskManagerTabListLm.addEventListener('click', this.handleSwitchTab.bind(this));
     
+    this.taskManagerView.toggleActiveTab(null, localStorage.getItem('currentActiveTabId') || 'task-manger__all-tasks-tab-btn');
     this.getAllTasks();
     this.getActiveTasksCount();
   }
@@ -23,6 +24,19 @@ export default class TaskManagerController {
     const strId = e.target.closest('.task-manager__task').id;
     const match = strId.match(/-(\d+)$/);
     return match ? match[1] : null;
+  }
+
+  handleSwitchTab(e) {
+    const clickedTab = e.target.closest('.task-manager__tab-btn');
+    if (clickedTab) {
+      if (clickedTab.id === localStorage.getItem('currentActiveTabId')) {
+        console.log('same tab')
+        return;
+      }
+
+      this.taskManagerView.toggleActiveTab(clickedTab);
+      this.getAllTasks();
+    }
   }
 
   submitTask(e) {
@@ -79,7 +93,7 @@ export default class TaskManagerController {
     let wasFetchAborted = false;
     this.lms.tasksContainerLm.innerText = 'Loading...';
 
-    this.taskModel.handleGetAllTasks()
+    this.taskModel.handleGetAllTasks(this.taskManagerView.getActiveTabFilterParam())
       .then(data => {
         this.taskManagerView.generateTasks(data);
       })
@@ -103,24 +117,24 @@ export default class TaskManagerController {
       return;
     }
 
-    this.lms.taskMangerTaskCountLm.innerText = 'Loading...'
+    this.lms.taskManagerTaskCountLm.innerText = 'Loading...'
     
     this.taskModel.handleGetAllTasksCount(false)
       .then(count => {
         console.log(count)
         if (count === 0) {
-          this.lms.taskMangerTaskCountLm.innerText = 'No tasks left';
+          this.lms.taskManagerTaskCountLm.innerText = 'No tasks left';
         } 
         else if (count === 1) {
-          this.lms.taskMangerTaskCountLm.innerText = count + ' task left';
+          this.lms.taskManagerTaskCountLm.innerText = count + ' task left';
         } 
         else {
-          this.lms.taskMangerTaskCountLm.innerText = count + ' tasks left';
+          this.lms.taskManagerTaskCountLm.innerText = count + ' tasks left';
         }
       })
       .catch(error => {
         console.error(error);
-        this.lms.taskMangerTaskCountLm.innerText = error
+        this.lms.taskManagerTaskCountLm.innerText = error
       });
   }
 
