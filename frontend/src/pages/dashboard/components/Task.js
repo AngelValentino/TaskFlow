@@ -4,7 +4,7 @@ export default class Task {
       <li aria-checked="false" id="task-manager__task-${task.id}" aria-label="Active task." class="task-manager__task">
         <h4 class="task-manager__task-title">${task.title}</h4>
         <time class="task-manger__task-due-date" datetime="${task.due_date}">Due to ${task.due_date}</time>
-        <p class="task-manager__task-desc">${task.description}</p>
+        ${task.description === null ? '' : `<p class="task-manager__task-desc">${task.description}</p>`}
         <ul aria-label="Task controls." class="task-manager__control-btns-list">
           <li>
             <button title="Complete task" class="task-manager__complete-task-btn appear-bg-from-center rounded" aria-label="Complete task." type="button">

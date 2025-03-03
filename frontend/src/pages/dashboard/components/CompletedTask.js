@@ -4,7 +4,7 @@ export default class CompletedTask {
       <li aria-checked="true" id="task-manager__task-${task.id}" aria-label="Completed task." class="task-manager__task completed">
         <h4 aria-label="Task title." class="task-manager__task-title">${task.title}</h4>
         <time class="task-manger__task-due-date" aria-label="Task due date." datetime="${task.due_date}">Due to ${task.due_date}</time>
-        <p aria-label="Task description." class="task-manager__task-desc">${task.description}</p>
+        ${task.description === null ? '' : `<p class="task-manager__task-desc">${task.description}</p>`}
         <div class="task-manager__control-btn-container">
           <button title="Delete completed task" class="task-manager__delete-task-btn appear-bg-from-center rounded light" aria-label="Delete completed task." type="button">
             <svg aria-hidden="true" focusable="false" role="presentation" class="task-manager__delete-task-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

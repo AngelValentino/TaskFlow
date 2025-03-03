@@ -1,9 +1,10 @@
 export default class TaskManagerController {
-  constructor(taskManagerView, taskModel, auth, modalView) {
+  constructor(taskManagerView, taskModel, auth, modalView, utils) {
     this.taskManagerView = taskManagerView;
     this.taskModel = taskModel;
     this.auth = auth;
-    this.modalView = modalView
+    this.modalView = modalView;
+    this.utils = utils;
 
     this.lms = this.taskManagerView.getDomRefs();
 
@@ -107,8 +108,15 @@ export default class TaskManagerController {
     let wasFetchAborted = false;
 
     formData.forEach((value, key) => {
-      taskData[key] = value;
+      if (key === 'description' && value === '') {
+        taskData[key] = null;
+      } 
+      else {
+        taskData[key] = value;
+      }
     });
+
+    console.log(taskData)
 
     if (parseInt(localStorage.getItem('taskCount')) >= 2) {
       this.modalView.openInfoModal(
@@ -119,17 +127,18 @@ export default class TaskManagerController {
       return;
     }
 
+    // Manage anonymous users task submit
     if (!this.auth.isClientLogged()) {
       console.warn('User is not logged in, submit task to localStorage');
       this.submitTaskToLocalStorage(taskData);
       return;
     }
 
+    // Manage logged in users task submit
     this.taskManagerView.updateAddTodoPromptSubmitBtn('Loading...');
     
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
       .then(() => {
-        console.log('task submitted');
         this.taskManagerView.resetAddTaskForm();
         this.getAllTasks();
         this.getActiveTasksCount();
@@ -159,17 +168,21 @@ export default class TaskManagerController {
   }
 
   getAllTasks() {
-    if (!this.auth.isClientLogged(this.taskManagerView.getActiveTabFilterParam())) {
-      const tasks = this.taskModel.getTasksFromLocalStorage();
+    // Manage anonymous users task render
+    if (!this.auth.isClientLogged()) {
+      const tasks = this.taskModel.getTasksFromLocalStorage(this.utils.getActiveTabFilterParam());
+      console.log(tasks)
       this.taskManagerView.generateTasks(tasks);
       return;
     }
 
+    // Manage logged in users task render
     let wasFetchAborted = false;
     this.lms.tasksContainerLm.innerText = 'Loading...';
 
-    this.taskModel.handleGetAllTasks(this.taskManagerView.getActiveTabFilterParam())
+    this.taskModel.handleGetAllTasks(this.utils.getActiveTabFilterParam())
       .then(data => {
+        console.log(data)
         this.taskManagerView.generateTasks(data);
       })
       .catch(error => {
@@ -179,6 +192,7 @@ export default class TaskManagerController {
           return;
         }
 
+        this.lms.tasksContainerLm.innerText = error.message;
         console.error(error.message);
       })
       .finally(() => {
@@ -187,6 +201,7 @@ export default class TaskManagerController {
   }
 
   getActiveTasksCount() {
+    // Manage anonymous users task count
     if (!this.auth.isClientLogged()) {
       console.warn('User is not logged in, get count from localStorage');
       const count = this.taskModel.getTaskCountFromLocalStorage(false);
@@ -195,7 +210,8 @@ export default class TaskManagerController {
       return;
     }
 
-    this.lms.taskManagerTaskCountLm.innerText = 'Loading...'
+    // Manage logged in users task count
+    this.taskManagerView.updateTaskCountLm('Loading...');
     
     this.taskModel.handleGetAllTasksCount(false)
       .then(count => {
@@ -208,7 +224,7 @@ export default class TaskManagerController {
           return;
         }
 
-        this.lms.taskManagerView.setTaskCountError(error);
+        this.taskManagerView.updateTaskCountLm(error.message);
         console.error(error);
       });
   }
@@ -238,26 +254,31 @@ export default class TaskManagerController {
       });
   }
 
-  deleteAllTasks(closeConfirmModalHandler, completed = undefined) {
-    this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
+  deleteAllTasks(closeConfirmModalHandler, completed) {
+    // Manage anonymous users all task delete
+    if (!this.auth.isClientLogged()) {
+      console.warn('user is not logged in, delete all tasks from local storage');
+      this.taskModel.deleteAllTasksFromLocalStorage(completed);
+      this.getAllTasks();
+      this.getActiveTasksCount();
+      return;
+    }
+    
+    // Manage logged in users all task delete
+    this.modalView.updateConfirmModalBtnsContainer(null, 'Loading...');
+    this.modalView.lms.confirmModalDeleteOptionsContainerLm.style.display = 'none';
 
     this.taskModel.handleDeleteAllTasks(completed)
       .then(() => {
         console.warn(`all tasks deleted`);
-        if (completed === undefined) {
-          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All tasks were successfully deleted.';
-        } 
-        else if (completed === true) {
-          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All completed tasks were successfully deleted.';
-        } 
-        else if (completed === false) {
-          this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'All active tasks were successfully deleted.';
-        }
+        this.modalView.updateConfirmModalBtnsContainer(completed);
+
         const timId = setTimeout(() => {
           closeConfirmModalHandler();
           console.warn('closed confirm modal after successful delete');
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
+        
         this.getAllTasks();
         this.getActiveTasksCount();
       })
@@ -267,19 +288,24 @@ export default class TaskManagerController {
           return;
         }
 
-        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
+        this.modalView.updateConfirmModalBtnsContainer(null, error.message);
+        console.error(error);
       });
   }
 
   handleClearAllTasks() {
-    if (!this.auth.isClientLogged()) {
-      console.warn('User is not logged in, delete all tasks from localStorage');
+    if (parseInt(localStorage.getItem('taskCount')) === 0) {
+      this.modalView.openInfoModal(
+        null,
+        'InfoEmptyTaskList',
+        false
+      );
       return;
     }
 
     this.modalView.openConfirmModal(
       this.deleteAllTasks.bind(this),
-      true,
+      this.auth.isClientLogged(),
       'confirmDeleteAllTasks'
     );
   }

@@ -29,10 +29,10 @@ export default class TaskModel {
       return tasks;
     } 
     else if (completed === false) {
-      return tasks.filter(task => task.is_completed === false)
+      return tasks.filter(task => task.is_completed === false);
     } 
     else if (completed === true) {
-      return tasks.filter(task => task.is_completed === true)
+      return tasks.filter(task => task.is_completed === true);
     }
   }
 
@@ -51,6 +51,23 @@ export default class TaskModel {
       return tasks.reduce((count, task) => {
         return task.is_completed === true ? count + 1 : count;
       }, 0);
+    }
+  }
+
+  deleteAllTasksFromLocalStorage(completed) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    if (completed === undefined) {
+      tasks.length = 0;
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+    else if (completed === false) {
+      const completedTasks = tasks.filter(task => task.is_completed === true);
+      localStorage.setItem('tasks', JSON.stringify(completedTasks));
+    } 
+    else if (completed === true) {
+      const activeTasks = tasks.filter(task => task.is_completed === false);
+      localStorage.setItem('tasks', JSON.stringify(activeTasks));
     }
   }
 
@@ -114,7 +131,7 @@ export default class TaskModel {
         method: 'GET'
       },
       true,
-      `Couldn't properly get all the tasks, try again later.`,
+      `We couldn't properly get all of your the tasks. Please try again later.`,
     );
   }
 
@@ -151,7 +168,7 @@ export default class TaskModel {
         method: 'DELETE'
       },
       false,
-      `Couldn't properly delete all the tasks, try again later.`
+      `We couldn't delete all your tasks. Please try again later.`
     );
   }
 

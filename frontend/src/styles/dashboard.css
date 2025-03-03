@@ -226,7 +226,6 @@
     display: block;
     font-size: var(--base-font-size);
     opacity: 0.8;
-    margin: 0 0 15px;
     color: var(--light-accent-color);
     transition: color var(--base-transition-duration);
   }
@@ -236,7 +235,8 @@
   }
 
   .task-manager__task-desc {
-    margin: 0 0 22px;
+
+    margin: 15px 0 0;
     font-size: var(--base-font-size);
   }
 
@@ -245,11 +245,13 @@
     justify-content: space-between;
     align-items: center;
     line-height: 0;
+    margin: 22px 0 0;
   }
 
   .task-manager__task.completed .task-manager__control-btn-container {
     display: flex;
     justify-content: end;
+    margin: 22px 0 0;
   }
 
   .task-manager__control-btns-list > div {

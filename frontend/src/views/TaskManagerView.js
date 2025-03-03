@@ -67,8 +67,8 @@ export default class TaskManagerView {
     }
   }
 
-  setTaskCountError(error) {
-    this.lms.taskManagerTaskCountLm.innerText = error.message;
+  updateTaskCountLm(text) {
+    this.lms.taskManagerTaskCountLm.innerText = text;
   }
 
   setActiveTab(tab) {
@@ -100,20 +100,6 @@ export default class TaskManagerView {
         this.setActiveTab(tab);
       }
     });
-  }
-
-  getActiveTabFilterParam() {
-    const currentTabId = localStorage.getItem('currentActiveTabId')
-    switch (currentTabId) {
-      case 'task-manger__all-tasks-tab-btn':
-        return undefined;
-      case 'task-manager__active-tasks-tab-btn':
-        return false;
-      case 'task-manger__completed-tasks-tab-btn':
-        return true;
-      default:
-        return undefined;
-    }
   }
 
   showPrompt(promptLm, btnLm, firstFocusableLm, hidePromptTimId, timeout) {

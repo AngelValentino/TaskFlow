@@ -7,7 +7,7 @@ export default class ConfirmModal {
   ) {
     const optionalActiveOrCompletedTasksDelete = () => {
       return `
-        <div class="confirm-modal__delete-options-container">
+        <div id="confirm-modal__delete-options-container" class="confirm-modal__delete-options-container">
           <button id="confirm-modal__delete-active-btn" class="confirm-modal__delete-option-btn">Only delete active tasks</button>
           <button id="confirm-modal__delete-completed-btn" class="confirm-modal__delete-option-btn">Only delete completed tasks</button>
         </div>

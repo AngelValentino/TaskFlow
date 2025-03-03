@@ -4,6 +4,7 @@ import ConfirmDeleteAllTasksModal from "../components/ConfirmDeleteAllTasksModal
 import ConfirmCompleteTaskModal from "../components/ConfirmCompleteTaskModal.js";
 import ConfirmDeleteTaskModal from "../components/ConfirmDeleteTaskModal.js";
 import InfoMaxTasksModal from "../components/InfoMaxTasksModal.js";
+import InfoEmptyTaskListModal from "../components/InfoEmptyTaskListModal.js";
 
 export default class ModalView {
   constructor(modalHandler) {
@@ -34,6 +35,7 @@ export default class ModalView {
       confirmModalBtnsContainerLm: document.getElementById('confirm-modal__btns-container'),
       confirmModalDeleteActiveBtn: document.getElementById('confirm-modal__delete-active-btn'),
       confirmModalDeleteCompletedBtn: document.getElementById('confirm-modal__delete-completed-btn'),
+      confirmModalDeleteOptionsContainerLm: document.getElementById('confirm-modal__delete-options-container'),
       editModalContainerLm: document.getElementById('edit-modal-container'),
       editModalOverlayLm: document.getElementById('edit-modal-overlay'),
       editModalLm: document.getElementById('edit-modal'),
@@ -85,6 +87,9 @@ export default class ModalView {
     switch (modalType) {
       case 'infoMaxTasks':
         infoModalHtml = InfoMaxTasksModal.getHtml();
+        break;
+      case 'InfoEmptyTaskList':
+        infoModalHtml = InfoEmptyTaskListModal.getHtml();
         break;
     }
 
@@ -159,7 +164,9 @@ export default class ModalView {
 
     const confirmAndDismissModal = () => {
       closeInfoModal(returnFocus);
-      confirmHandler();
+      if (confirmHandler) {
+        confirmHandler();
+      }
     }
 
     this.lms.infoModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
@@ -213,7 +220,7 @@ export default class ModalView {
       else {
         if (modalType ===  'confirmDeleteAllTasks') {
           this.lms.confirmModalDeleteActiveBtn.removeEventListener('click', deleteAllIncomplete);
-          this.lms.confirmModalDeleteCompletedBtn.removeEventListener('click', deleteAllCompelted);
+          this.lms.confirmModalDeleteCompletedBtn.removeEventListener('click', deleteAllCompleted);
         }
 
         this.lms.confirmModalAcceptBtn.removeEventListener('click', confirmAndDismissModal)
@@ -228,11 +235,17 @@ export default class ModalView {
 
     const deleteAllIncomplete = () => {
       confirmHandler(closeConfirmModal.bind(this, true), false);
+      if (isFetch === false) {
+        closeConfirmModal();
+      }
       console.log('delete all incompleted')
     };
 
-    const deleteAllCompelted = () => {
+    const deleteAllCompleted = () => {
       confirmHandler(closeConfirmModal.bind(this, true), true);
+      if (isFetch === false) {
+        closeConfirmModal();
+      }
       console.log('delete all completed')
     }
 
@@ -262,7 +275,7 @@ export default class ModalView {
     else {
       if (modalType === 'confirmDeleteAllTasks') {
         this.lms.confirmModalDeleteActiveBtn.addEventListener('click', deleteAllIncomplete);
-        this.lms.confirmModalDeleteCompletedBtn.addEventListener('click', deleteAllCompelted);
+        this.lms.confirmModalDeleteCompletedBtn.addEventListener('click', deleteAllCompleted);
       }
 
       this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
@@ -392,5 +405,23 @@ export default class ModalView {
       [this.lms.editModalCloseBtn],
       handleUnsavedChanges
     );
+  }
+
+  updateConfirmModalBtnsContainer(completed, message) {
+    if (completed !== null) {
+      if (completed === undefined) {
+        this.lms.confirmModalBtnsContainerLm.innerHTML = 'All tasks were successfully deleted.';
+      } 
+      else if (completed === true) {
+        this.lms.confirmModalBtnsContainerLm.innerHTML = 'All completed tasks were successfully deleted.';
+      } 
+      else if (completed === false) {
+        this.lms.confirmModalBtnsContainerLm.innerHTML = 'All active tasks were successfully deleted.';
+      }
+    }
+
+    if (message) {
+      this.lms.confirmModalBtnsContainerLm.innerHTML = message;
+    }
   }
 }

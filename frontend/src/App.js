@@ -16,6 +16,7 @@ import ModalHandler from "./services/ModalHandler.js";
 import TaskModel from "./models/TaskModel.js";
 import TokenHandler from "./services/TokenHandler.js";
 import ModalView from "./views/ModalView.js";
+import Utils from "./services/Utils.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router;
@@ -35,8 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskManagerView = new TaskManagerView(modalHandler, modalView);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler);
+    const utils = new Utils;
 
-    new TaskManagerController(taskManagerView, taskModel, auth, modalView);
+    new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
   });
 
   router.addRoute('/register', () => {
