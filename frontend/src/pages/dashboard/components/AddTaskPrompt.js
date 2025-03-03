@@ -11,13 +11,17 @@ export default class AddTaskPrompt {
           <div>
             <label for="task-manager__add-prompt-title-input">Title</label>
             <input type="text" name="title" id="task-manager__add-prompt-title-input" aria-required="true"/>
+            <p id="task-manager__add-prompt-title-error" class="task-manager__add-prompt-input-error"></p>
             <label for="task-manager__add-prompt-date-input">Due date</label>
-            <input type="date" name="due_date" id="task-manager__add-prompt-date-input" aria-required="true"/>   
+            <input type="date" name="due_date" id="task-manager__add-prompt-date-input" aria-required="true"/>  
+            <p id="task-manager__add-prompt-due-date-error" class="task-manager__add-prompt-input-error"></p> 
           </div>
           <div>
             <label for="task-manager__add-prompt-desc-textarea">Description</label>
             <textarea name="description" id="task-manager__add-prompt-desc-textarea" rows="7"></textarea>
+            <p id="task-manager__add-prompt-desc-error" class="task-manager__add-prompt-input-error task-manager__add-prompt-desc-error"></p> 
           </div>
+          <p id="task-manager__add-prompt-error" class="task-manager__add-prompt-error"></p>
           <button id="task-manager__add-prompt-submit-btn" class="task-manager__add-prompt-submit-btn slide-button" type="submit">Add new task</button>
         </form>
       </div>

@@ -12,6 +12,10 @@ export default class TaskManagerView {
       addTaskPromptCloseBtn: document.getElementById('task-manager__add-prompt-close-btn'),
       addTaskPromptFormLm: document.getElementById('task-manager__add-prompt-form'),
       submitTaskBtn: document.getElementById('task-manager__add-prompt-submit-btn'),
+      addTaskPromptTitleErrorLm: document.getElementById('task-manager__add-prompt-title-error'),
+      addTaskPromptDueDateErrorLm: document.getElementById('task-manager__add-prompt-due-date-error'),
+      addTaskPromptDescErrorLm: document.getElementById('task-manager__add-prompt-desc-error'),
+      addTaskPromptErrorLm: document.getElementById('task-manager__add-prompt-error'),
       searchTaskPromptLm: document.getElementById('task-manager__search-prompt'),
       searchTaskBtn: document.getElementById('task-manager__dashboard-search-btn'),
       searchTaskInputLm: document.getElementById('task-manager__search-prompt-input'),
@@ -49,6 +53,22 @@ export default class TaskManagerView {
         }
       })
       .join('');
+  }
+
+  renderTaskCount(count) {
+    if (count === 0) {
+      this.lms.taskManagerTaskCountLm.innerText = 'No tasks left';
+    } 
+    else if (count === 1) {
+      this.lms.taskManagerTaskCountLm.innerText = count + ' task left';
+    } 
+    else {
+      this.lms.taskManagerTaskCountLm.innerText = count + ' tasks left';
+    }
+  }
+
+  setTaskCountError(error) {
+    this.lms.taskManagerTaskCountLm.innerText = error.message;
   }
 
   setActiveTab(tab) {
@@ -144,6 +164,8 @@ export default class TaskManagerView {
   }
 
   closeAddTaskPrompt() {
+    this.clearAddTaskPromptErrors();
+
     this.hidePrompt(
       this.lms.addTaskPromptLm,
       this.lms.addTaskBtn,
@@ -230,5 +252,55 @@ export default class TaskManagerView {
     else {
       this.closeAddTaskPrompt();
     }
+  }
+
+  renderAddTaskPromptErrors(errors) {
+    if (errors.title && errors.title !== null) {
+      this.lms.addTaskPromptTitleErrorLm.innerText = `*${errors.title}`
+      this.lms.addTaskPromptTitleErrorLm.classList.add('active');
+    } 
+    else {
+      this.lms.addTaskPromptTitleErrorLm.classList.remove('active');
+      this.lms.addTaskPromptTitleErrorLm.innerText = '';
+    }
+
+    if (errors.due_date && errors.due_date !== null) {
+      this.lms.addTaskPromptDueDateErrorLm.innerText = `*${errors.due_date}`
+      this.lms.addTaskPromptDueDateErrorLm.classList.add('active');
+    } 
+    else {
+      this.lms.addTaskPromptDueDateErrorLm.classList.remove('active');
+      this.lms.addTaskPromptDueDateErrorLm.innerText = '';
+    }
+    
+    if (errors.description && errors.description !== null) {
+      this.lms.addTaskPromptDescErrorLm.innerText = `*${errors.description}`
+      this.lms.addTaskPromptDescErrorLm.classList.add('active');
+    } 
+    else {
+      this.lms.addTaskPromptDescErrorLm.classList.remove('active');
+      this.lms.addTaskPromptDescErrorLm.innerText = '';
+    }
+  }
+
+  renderGeneralAddTaskPromptError(error) {
+    this.lms.addTaskPromptErrorLm.classList.add('active');
+    this.lms.addTaskPromptErrorLm.innerText = error.message;
+  }
+
+  clearAddTaskPromptErrors() {
+    this.lms.addTaskPromptTitleErrorLm.innerText = '';
+    this.lms.addTaskPromptTitleErrorLm.classList.remove('active');
+    this.lms.addTaskPromptDueDateErrorLm.innerText = '';
+    this.lms.addTaskPromptDueDateErrorLm.classList.remove('active');
+    this.lms.addTaskPromptDescErrorLm.innerText = '';
+    this.lms.addTaskPromptDescErrorLm.classList.remove('active');
+    
+    this.lms.addTaskPromptErrorLm.innerText = '';
+    this.lms.addTaskPromptErrorLm.classList.remove('active');
+  }
+
+  updateAddTodoPromptSubmitBtn(text) {
+    this.lms.submitTaskBtn.innerText = text;
   }
 }

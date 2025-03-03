@@ -17,13 +17,41 @@ export default class TaskModel {
   addTaskToLocalStorage(taskData) {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     taskData.id = Date.now();
-    console.log(taskData)
+    taskData.is_completed = false;
     tasks.push(taskData);
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  getTasksFromLocalStorage() {
-    return JSON.parse(localStorage.getItem('tasks')) || [];
+  getTasksFromLocalStorage(completed) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    if (completed === undefined) {
+      return tasks;
+    } 
+    else if (completed === false) {
+      return tasks.filter(task => task.is_completed === false)
+    } 
+    else if (completed === true) {
+      return tasks.filter(task => task.is_completed === true)
+    }
+  }
+
+  getTaskCountFromLocalStorage(completed) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    if (completed === undefined) {
+      return tasks.length;
+    } 
+    else if (completed === false) {
+      return tasks.reduce((count, task) => {
+        return task.is_completed === false ? count + 1 : count;
+      }, 0);
+    } 
+    else if (completed === true) {
+      return tasks.reduce((count, task) => {
+        return task.is_completed === true ? count + 1 : count;
+      }, 0);
+    }
   }
 
   async fetchRequest(apiUrl, options) {
@@ -58,7 +86,7 @@ export default class TaskModel {
 
     // Generic status error
     if (!response.ok) {
-      throw new Error(errorMessage);
+      throw new Error(`Oops! Error ${response.status}: ${errorMessage}`);
     }
 
     return returnData ? await response.json() : null;
@@ -72,7 +100,7 @@ export default class TaskModel {
         body: taskData
       },
       false,
-      `Couldn't properly submit the task, try again later.`,
+      `We couldn't submit your task. Please try again later.`,
       this.customErrorHandlers
     );
   }
@@ -99,7 +127,7 @@ export default class TaskModel {
         method: 'GET'
       },
       true,
-      `Couldn't properly get the task count, try again later.`,
+      `We couldn't get your task count. Please try again later.`,
     );
   }
 

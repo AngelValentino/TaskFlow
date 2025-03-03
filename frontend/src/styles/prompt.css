@@ -36,7 +36,6 @@
 .task-manager__add-prompt input {
   width: 100%;
   border-radius: 3px;
-  margin: 0 0 25px;
   background-color: var(--light-accent-color);
   transition: background-color var(--base-transition-duration);
   font-size: var(--base-font-size);
@@ -49,8 +48,31 @@
   min-height: 100px;
   max-height: 250px;
   border-radius: 3px;
-  margin: 0 0 25px;
   font-size: var(--base-font-size);
+}
+
+.task-manager__add-prompt-input-error {
+  color: white;
+  border-radius: 2px;
+  margin: 10px 0 20px;
+  font-size: 1.05rem;
+}
+
+.task-manager__add-prompt-input-error.active {
+  background-color: var(--dark-to-medium-accent-color);
+  padding: 5px;
+}
+
+.task-manager__add-prompt-error {
+  color: white;
+  border-radius: 2px;
+  font-size: 1.05rem;
+}
+
+.task-manager__add-prompt-error.active {
+  margin: 10px 0 10px;
+  padding: 10px;
+  background-color: var(--dark-to-medium-accent-color);
 }
 
 .task-manager__add-prompt-close-btn {
@@ -174,7 +196,7 @@
 
 /* MEDIA QUERIES */
 
-@media screen and (max-height: 700px) and (min-width: 550px) {
+@media screen and (min-width: 551px) {
   .task-manager__add-prompt-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -183,6 +205,20 @@
 
   .task-manager__add-prompt-submit-btn {
     grid-column: span 2;
+  }
+
+  .task-manager__add-prompt-error.active {
+    display: block;
+    grid-column: span 2;
+    margin: 0 0 -10px;
+  }
+
+  .task-manager__add-prompt-error {
+    display: none;
+  }
+
+  .task-manager__add-prompt-desc-error {
+    margin-bottom: 0;
   }
 
   .task-manager__add-prompt {

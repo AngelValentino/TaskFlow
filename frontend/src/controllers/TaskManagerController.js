@@ -39,6 +39,67 @@ export default class TaskManagerController {
     }
   }
 
+  getTitleError(title) {
+    if (!title) {
+      return 'Title field is required.';
+    } 
+    else if (title.length > 75) {
+      return 'Title must be less than or equal to 75 characters.';
+    }
+
+    return null;
+  }
+
+  getDueDateError(dueDate) {
+    if (!dueDate) {
+      return 'Due date field is required.';
+    } 
+    else if (!this.validateDueDate(dueDate)) {
+      return 'Due date must be in YYYY-MM-DD format and also be valid.';
+    }
+
+    return null;
+  }
+
+  getDescriptionError(description) {
+    if (description && description.length > 500) {
+      return 'Description must be less than or equal to 500 characters.';
+    }
+
+    return null;
+  }
+
+  validateDueDate(date) {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(date)) return false;
+    const parsedDate = new Date(date);
+    console.log(parsedDate.getTime())
+    return !isNaN(parsedDate.getTime());
+  }
+
+  getValidationErrors(taskData) {
+    return {
+      title: this.getTitleError(taskData.title),
+      due_date: this.getDueDateError(taskData.due_date),
+      description: this.getDescriptionError(taskData.description)
+    };
+  }
+
+  submitTaskToLocalStorage(taskData) {
+    const errors = this.getValidationErrors(taskData);
+
+    if (Object.values(errors).some(val => val !== null)) {
+      this.taskManagerView.renderAddTaskPromptErrors(errors);
+      return;
+    }
+
+    this.taskModel.addTaskToLocalStorage(taskData);
+    this.taskManagerView.resetAddTaskForm();
+    this.getActiveTasksCount();
+    this.getAllTasks();
+    return;
+  }
+
   submitTask(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -49,7 +110,7 @@ export default class TaskManagerController {
       taskData[key] = value;
     });
 
-    if (parseInt(localStorage.getItem('tasksCount')) >= 2) {
+    if (parseInt(localStorage.getItem('taskCount')) >= 2) {
       this.modalView.openInfoModal(
         this.taskManagerView.resetAddTaskForm.bind(this.taskManagerView),
         'infoMaxTasks',
@@ -59,15 +120,13 @@ export default class TaskManagerController {
     }
 
     if (!this.auth.isClientLogged()) {
-      console.warn('User is not logged in, insert in localStorage');
-      this.taskModel.addTaskToLocalStorage(taskData);
-      this.taskManagerView.resetAddTaskForm();
-      this.getAllTasks();
+      console.warn('User is not logged in, submit task to localStorage');
+      this.submitTaskToLocalStorage(taskData);
       return;
     }
 
-    this.lms.submitTaskBtn.innerText = 'Loading...';
-    console.log(taskData);
+    this.taskManagerView.updateAddTodoPromptSubmitBtn('Loading...');
+    
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
       .then(() => {
         console.log('task submitted');
@@ -82,18 +141,25 @@ export default class TaskManagerController {
           return;
         }
 
-        console.error(error.message);
-        if (error.data) console.error(error.data?.errors);
+        if (error.data) {
+          console.error(error.data.errors);
+          this.taskManagerView.renderAddTaskPromptErrors(error.data.errors);
+        } 
+        else {
+          this.taskManagerView.clearAddTaskPromptErrors();
+          this.taskManagerView.renderGeneralAddTaskPromptError(error);
+        }
+
+        console.error(error);
       })
       .finally(() => {
         if (wasFetchAborted) return;
-        this.lms.submitTaskBtn.innerText = 'Add new task';
+        this.taskManagerView.updateAddTodoPromptSubmitBtn('Add new task');
       });
   }
 
   getAllTasks() {
-    if (!this.auth.isClientLogged()) {
-      console.warn('User is not logged in, get tasks from localStorage');
+    if (!this.auth.isClientLogged(this.taskManagerView.getActiveTabFilterParam())) {
       const tasks = this.taskModel.getTasksFromLocalStorage();
       this.taskManagerView.generateTasks(tasks);
       return;
@@ -123,6 +189,9 @@ export default class TaskManagerController {
   getActiveTasksCount() {
     if (!this.auth.isClientLogged()) {
       console.warn('User is not logged in, get count from localStorage');
+      const count = this.taskModel.getTaskCountFromLocalStorage(false);
+      localStorage.setItem('taskCount', count);
+      this.taskManagerView.renderTaskCount(count);
       return;
     }
 
@@ -130,17 +199,8 @@ export default class TaskManagerController {
     
     this.taskModel.handleGetAllTasksCount(false)
       .then(count => {
-        localStorage.setItem('tasksCount', count);
-
-        if (count === 0) {
-          this.lms.taskManagerTaskCountLm.innerText = 'No tasks left';
-        } 
-        else if (count === 1) {
-          this.lms.taskManagerTaskCountLm.innerText = count + ' task left';
-        } 
-        else {
-          this.lms.taskManagerTaskCountLm.innerText = count + ' tasks left';
-        }
+        localStorage.setItem('taskCount', count);
+        this.taskManagerView.renderTaskCount(count);
       })
       .catch(error => {
         if (error.name === 'AbortError') {
@@ -148,8 +208,8 @@ export default class TaskManagerController {
           return;
         }
 
+        this.lms.taskManagerView.setTaskCountError(error);
         console.error(error);
-        this.lms.taskManagerTaskCountLm.innerText = error
       });
   }
 

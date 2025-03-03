@@ -174,3 +174,15 @@ main {
 .appear-bg-from-center:active svg {
   opacity: 0.75;
 }
+
+@media screen and (max-width: 500px) {
+  html {
+    font-size: 15px !important;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  main {
+    padding: 30px 15px !important;
+  }
+}

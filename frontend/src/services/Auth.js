@@ -4,13 +4,14 @@ export default class Auth {
     localStorage.setItem('refreshToken', data.refresh_token);
     localStorage.setItem('username', data.username);
     localStorage.removeItem('tasks');
+    localStorage.setItem('taskCount', 0);
   }
 
   logoutClient() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('username');
-    localStorage.removeItem('tasksCount');
+    localStorage.removeItem('taskCount');
   }
 
   isClientLogged() {
