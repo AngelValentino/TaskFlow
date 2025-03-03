@@ -49,6 +49,15 @@ export default class TaskManagerController {
       taskData[key] = value;
     });
 
+    if (parseInt(localStorage.getItem('tasksCount')) >= 2) {
+      this.modalView.openInfoModal(
+        this.taskManagerView.resetAddTaskForm.bind(this.taskManagerView),
+        'infoMaxTasks',
+        false
+      )
+      return;
+    }
+
     if (!this.auth.isClientLogged()) {
       console.warn('User is not logged in, insert in localStorage');
       this.taskModel.addTaskToLocalStorage(taskData);
@@ -121,7 +130,8 @@ export default class TaskManagerController {
     
     this.taskModel.handleGetAllTasksCount(false)
       .then(count => {
-        console.log(count)
+        localStorage.setItem('tasksCount', count);
+
         if (count === 0) {
           this.lms.taskManagerTaskCountLm.innerText = 'No tasks left';
         } 

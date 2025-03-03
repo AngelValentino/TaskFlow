@@ -3,6 +3,7 @@ import ConfirmDiscardModal from "../components/ConfirmDiscardModal.js";
 import ConfirmDeleteAllTasksModal from "../components/ConfirmDeleteAllTasksModal.js";
 import ConfirmCompleteTaskModal from "../components/ConfirmCompleteTaskModal.js";
 import ConfirmDeleteTaskModal from "../components/ConfirmDeleteTaskModal.js";
+import InfoMaxTasksModal from "../components/InfoMaxTasksModal.js";
 
 export default class ModalView {
   constructor(modalHandler) {
@@ -16,6 +17,12 @@ export default class ModalView {
 
   setModalDomRefs() {
     this.lms = {
+      infoModalContainerLm: document.getElementById('info-modal-container'),
+      infoModalOverlayLm: document.getElementById('info-modal-overlay'),
+      infoModalLm: document.getElementById('info-modal'),
+      infoModalCloseBtn: document.getElementById('info-modal__close-btn'),
+      infoModalAcceptBtn: document.getElementById('info-modal__accept-btn'),
+      infoModalDescLm: document.getElementById('info-modal__desc'),
       confirmModalContainerLm: document.getElementById('confirm-modal-container'),
       confirmModalOverlayLm: document.getElementById('confirm-modal-overlay'),
       confirmModalLm: document.getElementById('confirm-modal'),
@@ -68,6 +75,23 @@ export default class ModalView {
     return timId; // Return the timeout ID
   }
 
+  generateInfoModal(modalType) {
+    if (this.lms.infoModalContainerLm) {
+      this.lms.infoModalContainerLm.remove();
+    }
+
+    let infoModalHtml;
+
+    switch (modalType) {
+      case 'infoMaxTasks':
+        infoModalHtml = InfoMaxTasksModal.getHtml();
+        break;
+    }
+
+    document.body.insertAdjacentHTML('afterbegin', infoModalHtml);
+    this.setModalDomRefs();
+  }
+
   generateConfirmModal(modalType) {
     if (this.lms.confirmModalContainerLm) {
       this.lms.confirmModalContainerLm.remove();
@@ -103,6 +127,50 @@ export default class ModalView {
     document.body.insertAdjacentHTML('afterbegin', editModal);
     
     this.setModalDomRefs();
+  }
+
+  openInfoModal(confirmHandler, modalType, returnFocus = true) {
+    this.generateInfoModal(modalType);
+
+    this.showModal(
+      this.lms.infoModalOverlayLm,
+      this.lms.infoModalContainerLm,
+      this.lms.infoModalLm,
+      this.lms.infoModalCloseBtn,
+      this.timIds.closeInfoModal
+    );
+
+    const closeInfoModal = (returnFocus = true) => {
+      this.timIds.closeInfoModal = this.hideModal(
+        this.lms.infoModalOverlayLm,
+        this.lms.infoModalContainerLm,
+        this.lms.infoModalLm,
+        returnFocus
+      );
+
+      this.lms.infoModalAcceptBtn.removeEventListener('click', confirmAndDismissModal);
+      this.modalHandler.removeModalEvents(
+        'infoModal',
+        this.lms.infoModalContainerLm,
+        this.lms.infoModalLm,
+        [this.lms.infoModalCloseBtn]
+      );
+    }
+
+    const confirmAndDismissModal = () => {
+      closeInfoModal(returnFocus);
+      confirmHandler();
+    }
+
+    this.lms.infoModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
+    this.modalHandler.addModalEvents(
+      'infoModal',
+      '.info-modal-overlay',
+      this.lms.infoModalContainerLm,
+      this.lms.infoModalLm,
+      [this.lms.infoModalCloseBtn],
+      closeInfoModal
+    );
   }
 
   openConfirmModal(confirmHandler, isFetch = false, modalType, isEdit = false) {
@@ -141,7 +209,7 @@ export default class ModalView {
           this.lms.confirmModalLm,
           closelms
         );
-      } 
+      }
       else {
         if (modalType ===  'confirmDeleteAllTasks') {
           this.lms.confirmModalDeleteActiveBtn.removeEventListener('click', deleteAllIncomplete);
@@ -207,10 +275,6 @@ export default class ModalView {
         closeConfirmModal
       );
     }
-  }
-
-  openInfoModal() {
-    console.log('open info modal')
   }
 
   openEditModal(taskData, editHandler, currentEdit = false) {

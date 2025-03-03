@@ -17,6 +17,7 @@ export default class TaskModel {
   addTaskToLocalStorage(taskData) {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     taskData.id = Date.now();
+    console.log(taskData)
     tasks.push(taskData);
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }

@@ -2,7 +2,7 @@
 
 .confirm-modal-container,
 .edit-modal-container,
-.info-dialog-container { 
+.info-modal-container { 
   font-size: 1.225rem;
   position: fixed;
   inset: 0;
@@ -16,7 +16,7 @@
 
 .edit-modal-overlay,
 .confirm-modal-overlay,
-.info-dialog-overlay {
+.info-modal-overlay {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
@@ -26,7 +26,7 @@
 
 .confirm-modal,
 .edit-modal,
-.info-dialog {
+.info-modal {
   position: relative;
   max-width: 400px;
   background-color: #fff;
@@ -44,7 +44,7 @@
 }
 
 .confirm-modal img,
-.info-dialog img {
+.info-modal img {
   display: block;
   margin: 0 auto 15px;
 }
@@ -59,7 +59,7 @@
 
 .edit-modal__close-btn,
 .confirm-modal__close-btn,
-.info-dialog__close-btn {
+.info-modal__close-btn {
   position: absolute !important;
   right: 15px;
   top: 15px;
@@ -68,13 +68,13 @@
 }
 
 .confirm-modal__desc,
-.info-dialog__desc {
+.info-modal__desc {
   margin: 0 0 30px;
 } 
 
 .confirm-modal__accept-btn,
 .confirm-modal__cancel-btn,
-.info-dialog__accept-btn {
+.info-modal__accept-btn {
   background-color: var(--dark-accent-color);
   padding: 12px 18px;
   color: #fff;
@@ -84,7 +84,7 @@
 
 .edit-modal__close-btn .edit-modal__close-icon,
 .confirm-modal__close-btn .confirm-modal__close-icon,
-.info-dialog__close-btn .info-dialog__close-icon {
+.info-modal__close-btn .info-modal__close-icon {
   width: 1.35em;
 }
 
@@ -161,7 +161,7 @@
 @media screen and (pointer: fine) and (hover: hover) {
   .confirm-modal__accept-btn:is(:hover, :focus-visible),
   .confirm-modal__cancel-btn:is(:hover, :focus-visible),
-  .info-dialog__accept-btn:is(:hover, :focus-visible) {
+  .info-modal__accept-btn:is(:hover, :focus-visible) {
     background-color: var(--contrast-color);
   }
 
@@ -180,7 +180,7 @@
 
 .confirm-modal__accept-btn:active,
 .confirm-modal__cancel-btn:active,
-.info-dialog__accept-btn:active,
+.info-modal__accept-btn:active,
 .edit-modal__submit-btn:active {
   transition: none;
   background-color: var(--light-accent-color);

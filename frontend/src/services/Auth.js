@@ -10,6 +10,7 @@ export default class Auth {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('username');
+    localStorage.removeItem('tasksCount');
   }
 
   isClientLogged() {

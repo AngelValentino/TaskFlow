@@ -88,7 +88,7 @@ export default class ModalHandler {
     // the modal has a 250ms timeout, giving us a small window to verify its visibility before it disappears.
     return (
       !e.target.closest('.confirm-modal-container') &&
-      !e.target.closest('.info-dialog-container') &&
+      !e.target.closest('.info-modal-container') &&
       !e.target.closest('.edit-modal-container')
     );
   }
