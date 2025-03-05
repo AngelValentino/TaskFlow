@@ -110,6 +110,22 @@ export default class TaskModel {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
+  deleteTaskFromLocalStorage(taskId) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    const matchedTaskIndex = tasks.findIndex(task => String(task.id) === taskId);
+
+    if (matchedTaskIndex !== -1) {
+      tasks.splice(matchedTaskIndex, 1);
+    } 
+    else {
+      console.error('Task not found');
+      return;
+    }
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
   async fetchRequest(apiUrl, options) {
     return await fetch(apiUrl, {
       ...options,

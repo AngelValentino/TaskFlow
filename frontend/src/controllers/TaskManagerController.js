@@ -230,6 +230,14 @@ export default class TaskManagerController {
   }
 
   deleteTask(taskId, closeConfirmModalHandler) {
+    if (!this.auth.isClientLogged()) {
+      console.warn(`task with id:${taskId} deleted`);
+      this.taskModel.deleteTaskFromLocalStorage(taskId);
+      this.getAllTasks();
+      this.getActiveTasksCount();
+      return;
+    }
+
     this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
 
     this.taskModel.handleDeleteTask(taskId)
@@ -415,14 +423,9 @@ export default class TaskManagerController {
       const taskId = this.getTaskId(e);
       console.log(taskId);
 
-      if (!this.auth.isClientLogged()) {
-        console.warn('User is not logged in, delete task from localStorage');
-        return;
-      }
-
       this.modalView.openConfirmModal(
         this.deleteTask.bind(this, taskId),
-        true,
+        this.auth.isClientLogged(),
         'confirmDeleteTask'
       );
     }
