@@ -7,8 +7,9 @@ import InfoMaxTasksModal from "../components/InfoMaxTasksModal.js";
 import InfoEmptyTaskListModal from "../components/InfoEmptyTaskListModal.js";
 
 export default class ModalView {
-  constructor(modalHandler) {
+  constructor(modalHandler, utils) {
     this.modalHandler = modalHandler;
+    this.utils = utils;
 
     this.lms = {};
 
@@ -66,12 +67,15 @@ export default class ModalView {
     modalLm.style.opacity = 0; // Fade out the modal content
     modalOverlayLm.style.opacity = 0; // Fade out the overlay
 
+    if (returnFocus) {
+      // Return focus to the last focused element
+      console.log('last focused element before modal: ' + this.lastFocusedLmBeforeModal);
+      this.modalHandler.toggleModalFocus('return', null, this.lastFocusedLmBeforeModal);
+      console.log('returned focus')
+    }
+
     const timId = setTimeout(() => {
       modalContainerLm.style.display = 'none'; // Hide the modal container
-      if (returnFocus) {
-        // Return focus to the last focused element
-        this.modalHandler.toggleModalFocus('return', null, this.lastFocusedLmBeforeModal);
-      }
     }, 250);
   
     return timId; // Return the timeout ID
@@ -180,7 +184,7 @@ export default class ModalView {
     );
   }
 
-  openConfirmModal(confirmHandler, isFetch = false, modalType, isEdit = false) {
+  openConfirmModal(confirmHandler, isFetch = false, modalType, isEdit = false, returnFocusAtConfirmHandler = true, taskId) {
     this.generateConfirmModal(modalType);
 
     const closelms = [
@@ -209,7 +213,7 @@ export default class ModalView {
       );
 
       if (isEdit) {
-        this.lms.confirmModalAcceptBtn.removeEventListener('click', closeConfirmModal)
+        this.lms.confirmModalAcceptBtn.removeEventListener('click', confirmAndDiscardEdit);
         this.modalHandler.removeModalEvents(
           'confirmModal',
           this.lms.confirmModalContainerLm,
@@ -234,7 +238,7 @@ export default class ModalView {
     }
 
     const deleteAllIncomplete = () => {
-      confirmHandler(closeConfirmModal.bind(this, true), false);
+      confirmHandler(closeConfirmModal, false);
       if (isFetch === false) {
         closeConfirmModal();
       }
@@ -242,7 +246,7 @@ export default class ModalView {
     };
 
     const deleteAllCompleted = () => {
-      confirmHandler(closeConfirmModal.bind(this, true), true);
+      confirmHandler(closeConfirmModal, true);
       if (isFetch === false) {
         closeConfirmModal();
       }
@@ -251,18 +255,25 @@ export default class ModalView {
 
     const confirmAndDismissModal = () => {
       if (isFetch) {
-        confirmHandler(closeConfirmModal.bind(this, true));
+        confirmHandler(closeConfirmModal.bind(this, returnFocusAtConfirmHandler));
       } 
       else {
-        closeConfirmModal();
+        closeConfirmModal(returnFocusAtConfirmHandler);
         confirmHandler();
       }
+    }
+
+    const confirmAndDiscardEdit = () => {
+      console.log(taskId)
+      closeConfirmModal(returnFocusAtConfirmHandler);
+      const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
+      editTaskBtn.focus();
     }
 
     // Add event listeners
 
     if (isEdit) {
-      this.lms.confirmModalAcceptBtn.addEventListener('click', closeConfirmModal);
+      this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDiscardEdit);
       this.modalHandler.addModalEvents(
         'confirmModal',
         '.confirm-modal-overlay',
@@ -290,28 +301,13 @@ export default class ModalView {
     }
   }
 
-  openEditModal(taskData, editHandler, currentEdit = false) {
+  openEditModal(taskData, editHandler, currentEdit = false, isFetch = false, taskId) {
     this.generateEditModal();
 
     const form = this.lms.editModalFormLm;
 
     // Populates the inputs with task data or current edit
-    if (currentEdit) {
-      for (const key in currentEdit) {
-        const field = form.querySelector(`[name="${key}"]`);
-        if (currentEdit[key]) {
-          field.value = currentEdit[key];
-        }
-      }
-    } 
-    else {
-      for (const key in taskData) {
-        const field = form.querySelector(`[name="${key}"]`);
-        if (taskData[key]) {
-          field.value = taskData[key];
-        }
-      }
-    }
+    this.utils.populateFormInputs(form, currentEdit ? currentEdit : taskData);
 
     this.showModal(
       this.lms.editModalOverlayLm,
@@ -365,8 +361,15 @@ export default class ModalView {
     const handleEdit = e => {
       e.preventDefault();
       if (isFormEdited()) {
+        if (isFetch) {
+          editHandler(getFormData(), closeEditModal.bind(this, false));
+        } 
+        else {
+          editHandler(getFormData());
+          closeEditModal(false);
+        }
         console.log('submit');
-        editHandler(getFormData(), closeEditModal);
+        
       } 
       else {
         console.log('same data');
@@ -376,7 +379,7 @@ export default class ModalView {
 
     const exitAndReturnToEdit = () => {
       setTimeout(() => {
-        this.openEditModal(taskData, editHandler, getFormData());
+        this.openEditModal(taskData, editHandler, getFormData(), isFetch, taskId);
       }, 100);
     } 
     
@@ -388,7 +391,9 @@ export default class ModalView {
             exitAndReturnToEdit, 
             false,
             'confirmDiscardChanges',
-            true
+            true,
+            false,
+            taskId
           );
         }, 100);
       } 

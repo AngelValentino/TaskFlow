@@ -30,13 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Task manager
     const auth = new Auth;
+    const utils = new Utils;
     const userModel = new UserModel(router);
     const modalHandler = new ModalHandler;
-    const modalView = new ModalView(modalHandler);
+    const modalView = new ModalView(modalHandler, utils);
     const taskManagerView = new TaskManagerView(modalHandler, modalView);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler);
-    const utils = new Utils;
 
     new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
   });

@@ -232,7 +232,9 @@ export default class TaskManagerView {
       this.modalView.openConfirmModal(
         this.resetAddTaskForm.bind(this),
         false,
-        'confirmDiscardChanges'
+        'confirmDiscardChanges',
+        false,
+        false
       );
     }
     else {
@@ -288,5 +290,14 @@ export default class TaskManagerView {
 
   updateAddTodoPromptSubmitBtn(text) {
     this.lms.submitTaskBtn.innerText = text;
+  }
+
+  focusAddTaskBtn() {
+    this.lms.addTaskBtn.focus();
+  }
+
+  returnFocusToEditTaskBtn(taskId) {
+    const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
+    editTaskBtn.focus();
   }
 }
