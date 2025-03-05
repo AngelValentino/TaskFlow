@@ -71,6 +71,27 @@ export default class TaskModel {
     }
   }
 
+  editTaskFromLocalStorage(taskId, editedTaskData) {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    // Step 2: Find the task to be edited by matching taskId
+    const matchedTaskIndex = tasks.findIndex(task => String(task.id) === taskId);
+
+    // Step 3: If the task is found, update it with the new data
+    if (matchedTaskIndex !== -1) {
+      if (editedTaskData.description === '') {
+        editedTaskData.description = null;
+      }
+      tasks[matchedTaskIndex] = { ...tasks[matchedTaskIndex], ...editedTaskData };
+    } 
+    else {
+      console.error("Task not found");
+      return;
+    }
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
   async fetchRequest(apiUrl, options) {
     return await fetch(apiUrl, {
       ...options,

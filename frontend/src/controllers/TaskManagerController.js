@@ -338,6 +338,15 @@ export default class TaskManagerController {
   editTask(taskId, editedTaskData, closeEditModalHandler) {
     console.log('task id: ' + taskId);
     console.log(editedTaskData);
+
+    if (!this.auth.isClientLogged()) {
+      this.taskModel.editTaskFromLocalStorage(taskId, editedTaskData);
+      console.warn(`task with id:${taskId} was updated from local storage`);
+      closeEditModalHandler();
+      this.getAllTasks();
+      return;
+    }
+
     let wasFetchAborted = false;
 
     this.modalView.lms.editModalFormSubmitBtn.innerText = 'Loading...';
@@ -386,17 +395,12 @@ export default class TaskManagerController {
       const taskId = this.getTaskId(e);
       console.log(taskId);
 
-      if (!this.auth.isClientLogged()) {
-        console.warn('User is not logged in, edit task from localStorage');
-        return;
-      }
-
       const taskLm = document.getElementById(e.target.closest('.task-manager__task').id)
 
       const taskData = {
         title: taskLm.querySelector('.task-manager__task-title').innerText,
         due_date: taskLm.querySelector('.task-manger__task-due-date').getAttribute('datetime'),
-        description: taskLm.querySelector('.task-manager__task-desc')?.innerHTML
+        description: taskLm.querySelector('.task-manager__task-desc')?.innerHTML || ''
       };
 
       this.modalView.openEditModal(

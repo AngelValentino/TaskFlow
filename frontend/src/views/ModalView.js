@@ -321,11 +321,12 @@ export default class ModalView {
       this.timIds.closeEditModal
     );
 
-    const closeEditModal = () => {
+    const closeEditModal = (returnFocus = true) => {
       this.timIds.closeEditModal = this.hideModal(
         this.lms.editModalOverlayLm,
         this.lms.editModalContainerLm,
-        this.lms.editModalLm
+        this.lms.editModalLm,
+        returnFocus
       );
 
       this.lms.editModalFormLm.removeEventListener('submit', handleEdit);
@@ -381,7 +382,7 @@ export default class ModalView {
     
     const handleUnsavedChanges = () => {
       if (isFormEdited()) {
-        closeEditModal();
+        closeEditModal(false);
         setTimeout(() => {
           this.openConfirmModal(
             exitAndReturnToEdit, 
