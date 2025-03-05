@@ -311,6 +311,14 @@ export default class TaskManagerController {
   }
 
   completeTask(taskId, closeConfirmModalHandler) {
+    if (!this.auth.isClientLogged()) {
+      this.taskModel.completeTaskFromLocalStorage(taskId);
+      console.warn(`task with id:${taskId} was completed`);
+      this.getAllTasks();
+      this.getActiveTasksCount();
+      return;
+    }
+
     this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
 
     this.taskModel.handleCompleteTask(taskId)
@@ -380,14 +388,9 @@ export default class TaskManagerController {
       const taskId = this.getTaskId(e);
       console.log(taskId);
 
-      if (!this.auth.isClientLogged()) {
-        console.warn('User is not logged in, complete task from localStorage');
-        return;
-      }
-
       this.modalView.openConfirmModal(
         this.completeTask.bind(this, taskId),
-        true,
+        this.auth.isClientLogged(),
         'confirmComplete'
       );
     } 
