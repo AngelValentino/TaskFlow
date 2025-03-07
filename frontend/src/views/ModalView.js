@@ -46,11 +46,11 @@ export default class ModalView {
     };
   }
 
-  showModal(modalOverlayLm, modalContainerLm, modalLm, firstFocusableLm, timId) {
+  showModal(modalOverlayLm, modalContainerLm, modalLm, firstFocusableLm, timId, lastFocusedLmBeforeModal) {
     clearTimeout(timId); // Clear any existing timeout
     document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
     modalContainerLm.style.display = 'flex'; // Show the modal container
-    this.lastFocusedLmBeforeModal = this.modalHandler.toggleModalFocus('add', firstFocusableLm); // Focus the first element inside the modal
+    this.lastFocusedLmBeforeModal = this.modalHandler.toggleModalFocus('add', firstFocusableLm, lastFocusedLmBeforeModal); // Focus the first element inside the modal
   
     // Added a timeout to ensure the animations always play 
     setTimeout(() => {
@@ -69,7 +69,7 @@ export default class ModalView {
 
     if (returnFocus) {
       // Return focus to the last focused element
-      console.log('last focused element before modal: ' + this.lastFocusedLmBeforeModal);
+      console.log(this.lastFocusedLmBeforeModal);
       this.modalHandler.toggleModalFocus('return', null, this.lastFocusedLmBeforeModal);
       console.log('returned focus')
     }
@@ -184,7 +184,14 @@ export default class ModalView {
     );
   }
 
-  openConfirmModal(confirmHandler, isFetch = false, modalType, isEdit = false, returnFocusAtConfirmHandler = true, taskId) {
+  openConfirmModal(
+    confirmHandler, 
+    isFetch = false, 
+    modalType, 
+    isEdit = false, 
+    returnFocusAtConfirmHandler = true, 
+    taskId
+  ) {
     this.generateConfirmModal(modalType);
 
     const closelms = [
@@ -301,7 +308,14 @@ export default class ModalView {
     }
   }
 
-  openEditModal(taskData, editHandler, currentEdit = false, isFetch = false, taskId) {
+  openEditModal(
+    taskData, 
+    editHandler, 
+    currentEdit = false, 
+    isFetch = false, 
+    taskId, 
+    lastFocusedLmBeforeModal
+  ) {
     this.generateEditModal();
 
     const form = this.lms.editModalFormLm;
@@ -314,7 +328,8 @@ export default class ModalView {
       this.lms.editModalContainerLm,
       this.lms.editModalLm,
       this.lms.editModalCloseBtn,
-      this.timIds.closeEditModal
+      this.timIds.closeEditModal,
+      lastFocusedLmBeforeModal
     );
 
     const closeEditModal = (returnFocus = true) => {
@@ -334,19 +349,8 @@ export default class ModalView {
       );
     }
 
-    const getFormData = () => {
-      const formData = new FormData(this.lms.editModalFormLm);
-      const data = {};
-  
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
-
-      return data
-    }
-
     const isFormEdited = () => {
-      const currentEditedTask = getFormData();
+      const currentEditedTask = this.utils.getFormData(this.lms.editModalFormLm);
 
       console.log(taskData);
       console.log(currentEditedTask);
@@ -362,10 +366,10 @@ export default class ModalView {
       e.preventDefault();
       if (isFormEdited()) {
         if (isFetch) {
-          editHandler(getFormData(), closeEditModal.bind(this, false));
+          editHandler(this.utils.getFormData(this.lms.editModalFormLm), closeEditModal.bind(this, false));
         } 
         else {
-          editHandler(getFormData());
+          editHandler(this.utils.getFormData(this.lms.editModalFormLm));
           closeEditModal(false);
         }
         console.log('submit');
@@ -378,8 +382,16 @@ export default class ModalView {
     }
 
     const exitAndReturnToEdit = () => {
+      const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
       setTimeout(() => {
-        this.openEditModal(taskData, editHandler, getFormData(), isFetch, taskId);
+        this.openEditModal(
+          taskData, 
+          editHandler, 
+          this.utils.getFormData(this.lms.editModalFormLm), 
+          isFetch, 
+          taskId, 
+          editTaskBtn
+        );
       }, 100);
     } 
     

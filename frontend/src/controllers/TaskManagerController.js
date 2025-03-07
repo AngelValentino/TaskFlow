@@ -103,18 +103,10 @@ export default class TaskManagerController {
 
   submitTask(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const taskData = {};
-    let wasFetchAborted = false;
-
-    formData.forEach((value, key) => {
-      if (key === 'description' && value === '') {
-        taskData[key] = null;
-      } 
-      else {
-        taskData[key] = value;
-      }
-    });
+    const taskData = this.utils.getFormData(
+      e.target, 
+      (value, key) => key === 'description' && value === '' ? null : value
+    );
 
     console.log(taskData)
 
@@ -134,6 +126,7 @@ export default class TaskManagerController {
       return;
     }
 
+    let wasFetchAborted = false;
     // Manage logged in users task submit
     this.taskManagerView.updateAddTodoPromptSubmitBtn('Loading...');
     
@@ -361,6 +354,8 @@ export default class TaskManagerController {
     console.log(editedTaskData);
 
     if (!this.auth.isClientLogged()) {
+      //TODO Validate task data
+
       this.taskModel.editTaskFromLocalStorage(taskId, editedTaskData);
       console.warn(`task with id:${taskId} was updated from local storage`);
       this.getAllTasks();
@@ -461,7 +456,7 @@ export default class TaskManagerController {
     } 
     else {
       // Check if add task form has been edited
-      if (this.taskManagerView.isAddTaskFormEdited()) {
+      if (this.utils.isFormPopulated(this.lms.addTaskPromptFormLm)) {
         this.taskManagerView.confirmDiscardPromptData();
         return;
       }

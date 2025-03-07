@@ -6,7 +6,7 @@ export default class LoginUserForm {
         <input autocomplete="email" class="login-form__email-input" id="login-form__email-input" type="email" name="email">
 
         <label class="login-form__password-label" for="login-form__password-input">Password</label>
-        <input class="login-form__password-input" id="login-form__password-input" type="password" name="password">
+        <input class="login-form__password-input" id="login-form__password-input" type="password" name="password" autocomplete="current-password">
 
         <div id="login-error" class="error-message"></div>  
         

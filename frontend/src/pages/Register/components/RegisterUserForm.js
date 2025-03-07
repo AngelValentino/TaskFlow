@@ -11,11 +11,11 @@ export default class RegisterUserForm {
         <div id="email-error" class="error-message"></div>  
 
         <label class="register-form__password-label" for="register-form__password-input">Password</label>
-        <input class="register-form__password-input" id="register-form__password-input" type="password" name="password">
+        <input class="register-form__password-input" id="register-form__password-input" type="password" name="password" autocomplete="new-password">
         <div id="password-error" class="error-message"></div>
 
         <label class="register-form__repeat-password-label" for="register-form__repeat-password-input">Repeat password</label>
-        <input class="register-form__repeat-password-input" id="register-form__repeat-password-input" type="password" name="repeated_password">
+        <input class="register-form__repeat-password-input" id="register-form__repeat-password-input" type="password" name="repeated_password" autocomplete="new-password">
 
         <button id="register-form__submit-btn" class="register-form__submit-btn" type="submit">Register</button
       </form>

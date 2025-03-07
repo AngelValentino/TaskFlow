@@ -2,9 +2,10 @@ import TaskComponent from '../pages/dashboard/components/Task.js' ;
 import TaskCompletedComponent from '../pages/dashboard/components/CompletedTask.js';
 
 export default class TaskManagerView {
-  constructor(modalHandler, modalView) {
+  constructor(modalHandler, modalView, utils) {
     this.modalHandler = modalHandler;
     this.modalView = modalView;
+    this.utils = utils;
     this.timIds = {};
     this.lms = {
       addTaskBtn: document.getElementById('task-manager__dashboard-add-btn'),
@@ -205,30 +206,13 @@ export default class TaskManagerView {
     );
   }
 
-  isAddTaskFormEdited() {
-    const formData = new FormData(this.lms.addTaskPromptFormLm);
-    const taskData = {};
-
-    formData.forEach((value, key) => {
-      taskData[key] = value;
-    });
-
-    for (const key in taskData) {
-      if (taskData[key]) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   resetAddTaskForm() {
     this.lms.addTaskPromptFormLm.reset();
     this.closeAddTaskPrompt();
   }
 
   confirmDiscardPromptData() {
-    if (this.isAddTaskFormEdited()) {
+    if (this.utils.isFormPopulated(this.lms.addTaskPromptFormLm)) {
       this.modalView.openConfirmModal(
         this.resetAddTaskForm.bind(this),
         false,

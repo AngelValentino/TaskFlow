@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userModel = new UserModel(router);
     const modalHandler = new ModalHandler;
     const modalView = new ModalView(modalHandler, utils);
-    const taskManagerView = new TaskManagerView(modalHandler, modalView);
+    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler);
 

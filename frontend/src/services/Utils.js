@@ -22,4 +22,34 @@ export default class Utils {
       }
     }
   }
+
+  getFormData(formLm, handler) {
+    const formData = new FormData(formLm);
+    const data = {}
+
+    formData.forEach((value, key) => {
+      if (handler) {
+        data[key] = handler(value, key);
+      } 
+      else {
+        data[key] = value;
+      }
+    });
+
+    return data;
+  }
+
+  isFormPopulated(formLm) {
+    const formData = this.getFormData(formLm)
+
+    console.log(formData)
+
+    for (const key in formData) {
+      if (formData[key]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

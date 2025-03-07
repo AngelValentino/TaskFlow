@@ -16,9 +16,9 @@ export default class ModalHandler {
 
   toggleModalFocus(focusBehaviour, firstFocusableLm, lastFocusedLm) {
     if (focusBehaviour === 'add') {
-      const lastFocusedLm = document.activeElement;
+      const storedLastFocusedLm = lastFocusedLm ? lastFocusedLm : document.activeElement
       firstFocusableLm.focus();
-      return lastFocusedLm;
+      return storedLastFocusedLm;
     } 
     else if (focusBehaviour === 'return') {
       lastFocusedLm.focus();
