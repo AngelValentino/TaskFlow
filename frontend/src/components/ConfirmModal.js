@@ -2,6 +2,7 @@ export default class ConfirmModal {
   static getHtml(
     { 
       description = 'Are you sure you want to discard your changes?',
+      imgLm = '<img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-1.jpg" alt="A drawing of a garbage collector taking out the trash." />',
       isDeleteAllTasksModal = false
     } = {}
   ) {
@@ -18,7 +19,7 @@ export default class ConfirmModal {
       <div id="confirm-modal-container" class="confirm-modal-container">
         <div class="confirm-modal" id="confirm-modal" role="alertdialog" aria-describedby="confirm-modal__desc">
           <div id="confirm-modal__image-container">
-            <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-1.jpg" alt="A drawing of a garbage collector taking out the trash." />
+            ${imgLm}
           </div>
           <button title="Close modal" aria-label="Close modal." type="button" class="confirm-modal__close-btn appear-bg-from-center rounded dark-soft" id="confirm-modal__close-btn">
             <svg aria-hidden="true" focusable="false" role="presentation" class="confirm-modal__close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

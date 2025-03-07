@@ -110,7 +110,7 @@ export default class TaskManagerController {
 
     console.log(taskData)
 
-    if (parseInt(localStorage.getItem('taskCount')) >= 2) {
+    if (parseInt(localStorage.getItem('taskCount')) >= 100) {
       this.modalView.openInfoModal(
         this.taskManagerView.resetAddTaskForm.bind(this.taskManagerView),
         'infoMaxTasks',
@@ -165,18 +165,18 @@ export default class TaskManagerController {
     if (!this.auth.isClientLogged()) {
       const tasks = this.taskModel.getTasksFromLocalStorage(this.utils.getActiveTabFilterParam());
       console.log(tasks)
-      this.taskManagerView.generateTasks(tasks);
+      this.taskManagerView.renderTasks(tasks);
       return;
     }
 
     // Manage logged in users task render
     let wasFetchAborted = false;
-    this.lms.tasksContainerLm.innerText = 'Loading...';
+    this.taskManagerView.renderTasksLoader();
 
     this.taskModel.handleGetAllTasks(this.utils.getActiveTabFilterParam())
       .then(data => {
         console.log(data)
-        this.taskManagerView.generateTasks(data);
+        this.taskManagerView.renderTasks(data);
         if (returnFocusHandler) returnFocusHandler();
       })
       .catch(error => {

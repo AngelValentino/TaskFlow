@@ -35,26 +35,54 @@ export default class TaskManagerView {
   }
 
   generateTasksPlaceholder() {
-    return 'Everything done.'
+    return `
+      <li class="task-manager__empty-list-placeholder-container">
+        <img id="task-manager__empty-list-placeholder-img" class="task-manager__empty-list-placeholder-img" src="public/assets/images/drawings/everything-done-placeholder.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile">
+      </li>
+    `;
   }
 
-  generateTasks(taskData) {
+  //TODO SVG spinner does not load properly on page load, it needs to be changed
+  renderTasksLoader() {
+    this.lms.tasksContainerLm.innerHTML = `
+      <li class="task-manager__list-loader-container">
+        <svg class="task-manager__list-loader-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g stroke="currentColor" stroke-width="1">
+            <circle cx="12" cy="12" r="9.5" fill="none" stroke-linecap="round" stroke-width="3">
+              <animate attributeName="stroke-dasharray" calcMode="spline" dur="1.725s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0 150;42 150;42 150;42 150" />
+              <animate attributeName="stroke-dashoffset" calcMode="spline" dur="1.725s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0;-16;-59;-59" />
+            </circle>
+            <animateTransform attributeName="transform" dur="2.3s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+          </g>
+        </svg>
+      </li>
+    `;
+  }
+
+  renderTasks(taskData) {
     if (taskData.length === 0) {
       this.lms.tasksContainerLm.innerHTML = this.generateTasksPlaceholder();
       return;
     }
 
-    this.lms.tasksContainerLm.innerHTML = taskData
-      .map(task => {
-        if (task.is_completed) {
-          return TaskCompletedComponent.getHtml(task);
-        } 
-        else {
-          return TaskComponent.getHtml(task);
-        }
-      })
+    const sortedTasks = taskData.sort((a, b) => {
+      // If both are completed, keep their order
+      if (a.is_completed && b.is_completed) return 0;
+      
+      // If one is completed, move it down
+      if (a.is_completed) return 1;
+      if (b.is_completed) return -1;
+  
+      // Sort by due_date (ascending)
+      return new Date(a.due_date) - new Date(b.due_date);
+    });
+
+    this.lms.tasksContainerLm.innerHTML = sortedTasks
+      .map(task => task.is_completed 
+        ? TaskCompletedComponent.getHtml(task) 
+        : TaskComponent.getHtml(task))
       .join('');
-  }
+    }
 
   renderTaskCount(count) {
     if (count === 0) {

@@ -181,7 +181,7 @@
 
   /* PLACEHOLDER IMAGE */
 
-  .todos-container__img-container {
+  .task-manager__empty-list-placeholder-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -192,8 +192,22 @@
     border-radius: 5px;
   }
 
-  .todos-container__empty-section-image {
+  .task-manager__empty-list-placeholder-img {
     width: 200px;
+  }
+
+  .task-manager__list-loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(248, 248, 248);
+    border-radius: 5px;
+  }
+
+  .task-manager__list-loader-svg {
+    width: 3rem;
   }
 
   /* END OF PLACEHOLDER IMAGE*/
