@@ -19,6 +19,7 @@ export default class TaskManagerController {
     this.taskManagerView.toggleActiveTab(null, localStorage.getItem('currentActiveTabId') || 'task-manger__all-tasks-tab-btn');
     this.getAllTasks();
     this.getActiveTasksCount();
+    this.taskManagerView.updateCurrentDashboardDate();
   }
 
   getTaskId(e) {

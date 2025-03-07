@@ -73,5 +73,34 @@ export default class Utils {
     }
   }
 
-  static getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+  formatDate(dateInput) {
+    // Check if the input is a string (assumed to be an ISO date string)
+    const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+    
+    // Function to add ordinal suffix to the day
+    const getOrdinalSuffix = day => {
+      const suffixes = ['th', 'st', 'nd', 'rd'];
+      const value = day % 100;
+      return suffixes[(value - 20) % 10] || suffixes[value] || suffixes[0];
+    };
+
+    // Get the weekday, month, year, and day of the month
+    const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const month = date.toLocaleDateString('en-US', { month: 'long' });
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    const dayWithSuffix = day + getOrdinalSuffix(day);
+
+    // Format the date in the desired format: "Friday, March 7th 2025"
+    const longFormat = `${weekday}, ${month} ${dayWithSuffix} ${year}`;
+
+    console.log(longFormat)
+    // Format the date in ISO 8601 format "YYYY-MM-DD"
+    const isoFormat = date.toISOString().split('T')[0]; // e.g., "2024-01-01"
+  
+    return { longFormat, isoFormat };
+  };
+
+  getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 }

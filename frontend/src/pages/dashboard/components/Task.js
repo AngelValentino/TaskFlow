@@ -1,9 +1,13 @@
+import Utils from "../../../services/Utils.js";
+
 export default class Task {
+  static utils = new Utils;
+
   static getHtml(task) {
     return `
       <li aria-checked="false" id="task-manager__task-${task.id}" aria-label="Active task." class="task-manager__task">
         <h4 class="task-manager__task-title">${task.title}</h4>
-        <time class="task-manger__task-due-date" datetime="${task.due_date}">Due to ${task.due_date}</time>
+        <time class="task-manger__task-due-date" datetime="${task.due_date}">Due to ${this.utils.formatDate(task.due_date).longFormat}</time>
         ${task.description === null ? '' : `<p class="task-manager__task-desc">${task.description}</p>`}
         <ul aria-label="Task controls." class="task-manager__control-btns-list">
           <li>

@@ -25,8 +25,9 @@ export default class TaskManagerView {
       clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn'),
       tasksContainerLm: document.getElementById('task-manager__tasks-list'),
       taskManagerTaskCountLm: document.getElementById('task-manager__dashboard-tasks-count'),
+      currentDateLm: document.getElementById('task-manager__dashboard-date'),
       taskManagerTabLms: document.querySelectorAll('.task-manager__tab-btn'),
-      taskManagerTabListLm: document.getElementById('task-manager__tab-list') 
+      taskManagerTabListLm: document.getElementById('task-manager__tab-list')
     };
   }
 
@@ -40,6 +41,13 @@ export default class TaskManagerView {
         <img id="task-manager__empty-list-placeholder-img" class="task-manager__empty-list-placeholder-img" src="public/assets/images/drawings/everything-done-placeholder.png" alt="Drawing of a capybara, with an orange on its head, riding another capybara that at the same time is riding a crocodile">
       </li>
     `;
+  }
+
+  updateCurrentDashboardDate() {
+    const currentDate = new Date();
+    
+    this.lms.currentDateLm.innerText = this.utils.formatDate(currentDate).longFormat;
+    this.lms.currentDateLm.setAttribute('datetime', this.utils.formatDate(currentDate).isoFormat);
   }
 
   //TODO SVG spinner does not load properly on page load, it needs to be changed
