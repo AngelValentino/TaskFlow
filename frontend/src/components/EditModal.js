@@ -12,13 +12,17 @@ export default class EditModal {
             <div>
               <label for="edit-modal__title-input">Title</label>
               <input class="edit-modal__title-input" id="edit-modal__title-input" type="text" name="title">
+              <p id="edit-modal__title-error" class="edit-modal__input-error"></p>
               <label for="edit-modal__due-date-input">Due date</label>
               <input class="edit-modal__due-date-input" id="edit-modal__due-date-input" type="date" name="due_date">
+              <p id="edit-modal__due-date-error" class="edit-modal__input-error"></p>
             </div>
             <div>
               <label for="edit-modal__desc-textarea">Description</label>
               <textarea class="edit-modal__desc-textarea" id="edit-modal__desc-textarea" name="description" rows="7"></textarea>
+              <p id="edit-modal__desc-error" class="edit-modal__input-error edit-modal__desc-error"></p> 
             </div>
+            <p id="edit-modal__error" class="edit-modal__error"></p>
             <button id="edit-modal__submit-btn" class="edit-modal__submit-btn slide-button" type="submit">Edit task</button>
           </form>
         </div>

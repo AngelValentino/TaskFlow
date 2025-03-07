@@ -349,17 +349,27 @@ export default class TaskManagerController {
       });
   }
 
+  editTaskFromLocalStorage(taskId, editedTaskData, closeEditModalHandler) {
+    const errors = this.getValidationErrors(editedTaskData);
+
+    if (Object.values(errors).some(val => val !== null)) {
+      this.modalView.renderEditTaskFormErrors(errors);
+      return;
+    }
+
+    this.taskModel.editTaskFromLocalStorage(taskId, editedTaskData);
+    console.warn(`task with id:${taskId} was updated from local storage`);
+    closeEditModalHandler();
+    this.getAllTasks();
+    this.taskManagerView.returnFocusToEditTaskBtn(taskId);
+  }
+
   editTask(taskId, editedTaskData, closeEditModalHandler) {
     console.log('task id: ' + taskId);
     console.log(editedTaskData);
 
     if (!this.auth.isClientLogged()) {
-      //TODO Validate task data
-
-      this.taskModel.editTaskFromLocalStorage(taskId, editedTaskData);
-      console.warn(`task with id:${taskId} was updated from local storage`);
-      this.getAllTasks();
-      this.taskManagerView.returnFocusToEditTaskBtn(taskId);
+      this.editTaskFromLocalStorage(taskId, editedTaskData, closeEditModalHandler);
       return;
     }
 
@@ -382,8 +392,16 @@ export default class TaskManagerController {
           return;
         }
 
+        if (error.data) {
+          console.error(error.data.errors);
+          this.modalView.renderEditTaskFormErrors(error.data.errors);
+        } 
+        else {
+          this.modalView.clearEditTaskFormErrors();
+          this.modalView.renderGeneralEditTaskFormError(error);
+        }
+
         console.error(error.message);
-        if (error.data) console.error(error.data?.errors);
       })
       .finally(() => {
         if (wasFetchAborted) return;
@@ -420,7 +438,6 @@ export default class TaskManagerController {
         taskData, 
         this.editTask.bind(this, taskId),
         false,
-        this.auth.isClientLogged(),
         taskId
       );
     } 

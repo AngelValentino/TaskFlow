@@ -226,50 +226,26 @@ export default class TaskManagerView {
     }
   }
 
-  renderAddTaskPromptErrors(errors) {
-    if (errors.title && errors.title !== null) {
-      this.lms.addTaskPromptTitleErrorLm.innerText = `*${errors.title}`
-      this.lms.addTaskPromptTitleErrorLm.classList.add('active');
-    } 
-    else {
-      this.lms.addTaskPromptTitleErrorLm.classList.remove('active');
-      this.lms.addTaskPromptTitleErrorLm.innerText = '';
-    }
-
-    if (errors.due_date && errors.due_date !== null) {
-      this.lms.addTaskPromptDueDateErrorLm.innerText = `*${errors.due_date}`
-      this.lms.addTaskPromptDueDateErrorLm.classList.add('active');
-    } 
-    else {
-      this.lms.addTaskPromptDueDateErrorLm.classList.remove('active');
-      this.lms.addTaskPromptDueDateErrorLm.innerText = '';
-    }
-    
-    if (errors.description && errors.description !== null) {
-      this.lms.addTaskPromptDescErrorLm.innerText = `*${errors.description}`
-      this.lms.addTaskPromptDescErrorLm.classList.add('active');
-    } 
-    else {
-      this.lms.addTaskPromptDescErrorLm.classList.remove('active');
-      this.lms.addTaskPromptDescErrorLm.innerText = '';
-    }
-  }
-
   renderGeneralAddTaskPromptError(error) {
     this.lms.addTaskPromptErrorLm.classList.add('active');
     this.lms.addTaskPromptErrorLm.innerText = error.message;
   }
 
+  renderAddTaskPromptErrors(errors) {
+    this.utils.renderFormErrors(errors, {
+      title: this.lms.addTaskPromptTitleErrorLm,
+      due_date: this.lms.addTaskPromptDueDateErrorLm,
+      description: this.lms.addTaskPromptDescErrorLm
+    });
+  }
+
   clearAddTaskPromptErrors() {
-    this.lms.addTaskPromptTitleErrorLm.innerText = '';
-    this.lms.addTaskPromptTitleErrorLm.classList.remove('active');
-    this.lms.addTaskPromptDueDateErrorLm.innerText = '';
-    this.lms.addTaskPromptDueDateErrorLm.classList.remove('active');
-    this.lms.addTaskPromptDescErrorLm.innerText = '';
-    this.lms.addTaskPromptDescErrorLm.classList.remove('active');
-    
-    this.lms.addTaskPromptErrorLm.innerText = '';
-    this.lms.addTaskPromptErrorLm.classList.remove('active');
+    this.utils.clearFormErrors([
+      this.lms.addTaskPromptTitleErrorLm,
+      this.lms.addTaskPromptDueDateErrorLm,
+      this.lms.addTaskPromptDescErrorLm,
+      this.lms.addTaskPromptErrorLm
+    ]);
   }
 
   updateAddTodoPromptSubmitBtn(text) {

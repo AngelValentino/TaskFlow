@@ -42,7 +42,11 @@ export default class ModalView {
       editModalLm: document.getElementById('edit-modal'),
       editModalCloseBtn: document.getElementById('edit-modal__close-btn'),
       editModalFormLm: document.getElementById('edit-modal__form'),
-      editModalFormSubmitBtn: document.getElementById('edit-modal__submit-btn')
+      editModalFormSubmitBtn: document.getElementById('edit-modal__submit-btn'),
+      editModalTitleErrorLm: document.getElementById('edit-modal__title-error'),
+      editModalDueDateErrorLm: document.getElementById('edit-modal__due-date-error'),
+      editModalDescErrorLm: document.getElementById('edit-modal__desc-error'),
+      editModalErrorLm: document.getElementById('edit-modal__error'),
     };
   }
 
@@ -311,8 +315,7 @@ export default class ModalView {
   openEditModal(
     taskData, 
     editHandler, 
-    currentEdit = false, 
-    isFetch = false, 
+    currentEdit = false,
     taskId, 
     lastFocusedLmBeforeModal
   ) {
@@ -365,16 +368,9 @@ export default class ModalView {
     const handleEdit = e => {
       e.preventDefault();
       if (isFormEdited()) {
-        if (isFetch) {
-          editHandler(this.utils.getFormData(this.lms.editModalFormLm), closeEditModal.bind(this, false));
-        } 
-        else {
-          editHandler(this.utils.getFormData(this.lms.editModalFormLm));
-          closeEditModal(false);
-        }
-        console.log('submit');
-        
-      } 
+        editHandler(this.utils.getFormData(this.lms.editModalFormLm), closeEditModal.bind(this, false));
+        console.log('submit'); 
+      }
       else {
         console.log('same data');
         closeEditModal();
@@ -387,8 +383,7 @@ export default class ModalView {
         this.openEditModal(
           taskData, 
           editHandler, 
-          this.utils.getFormData(this.lms.editModalFormLm), 
-          isFetch, 
+          this.utils.getFormData(this.lms.editModalFormLm),
           taskId, 
           editTaskBtn
         );
@@ -441,5 +436,27 @@ export default class ModalView {
     if (message) {
       this.lms.confirmModalBtnsContainerLm.innerHTML = message;
     }
+  }
+
+  renderGeneralEditTaskFormError(error) {
+    this.lms.editModalErrorLm.classList.add('active');
+    this.lms.editModalErrorLm.innerText = error.message;
+  }
+
+  renderEditTaskFormErrors(errors) {
+    this.utils.renderFormErrors(errors, {
+      title: this.lms.editModalTitleErrorLm,
+      due_date: this.lms.editModalDueDateErrorLm,
+      description: this.lms.editModalDescErrorLm
+    });
+  }
+
+  clearEditTaskFormErrors() {
+    this.utils.clearFromErrors([
+      this.lms.editModalTitleErrorLm,
+      this.lms.editModalDueDateErrorLm,
+      this.lms.editModalDescErrorLm,
+      this.lms.editModalErrorLm
+    ]);
   }
 }
