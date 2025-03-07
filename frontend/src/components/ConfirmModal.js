@@ -1,11 +1,19 @@
+import Utils from "../services/Utils.js";
+
 export default class ConfirmModal {
   static getHtml(
     { 
       description = 'Are you sure you want to discard your changes?',
-      imgLm = '<img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-1.jpg" alt="A drawing of a garbage collector taking out the trash." />',
+      imgLm = null,
       isDeleteAllTasksModal = false
     } = {}
   ) {
+      imgLm === null 
+        ? imgLm = `
+          <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-${Utils.getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash." />
+        `
+        : imgLm
+
     const optionalActiveOrCompletedTasksDelete = () => {
       return `
         <div id="confirm-modal__delete-options-container" class="confirm-modal__delete-options-container">
