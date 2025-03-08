@@ -221,8 +221,7 @@ export default class TaskManagerController {
     if (parseInt(localStorage.getItem('taskCount')) <= 0) {
       this.modalView.openInfoModal(
         null,
-        'InfoEmptyTaskList',
-        false
+        'InfoEmptyTaskList'
       );
       return;
     }

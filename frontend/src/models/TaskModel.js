@@ -186,7 +186,7 @@ export default class TaskModel {
         method: 'GET'
       },
       true,
-      `We couldn't properly get all of your tasks. Please try again later.`,
+      `We couldn't get all of your tasks. Please try again later.`,
     );
   }
 
