@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    //TODO Refactor and finish task manager
+    //TODO Implement search functionality
 
     // Task manager
     const auth = new Auth;

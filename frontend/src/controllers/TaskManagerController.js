@@ -22,70 +22,6 @@ export default class TaskManagerController {
     this.taskManagerView.updateCurrentDashboardDate();
   }
 
-  getTaskId(e) {
-    const strId = e.target.closest('.task-manager__task').id;
-    const match = strId.match(/-(\d+)$/);
-    return match ? match[1] : null;
-  }
-
-  handleSwitchTab(e) {
-    const clickedTab = e.target.closest('.task-manager__tab-btn');
-    if (clickedTab) {
-      // User clicked the same tab
-      if (clickedTab.id === localStorage.getItem('currentActiveTabId')) {
-        return;
-      }
-
-      this.taskManagerView.toggleActiveTab(clickedTab);
-      this.getAllTasks();
-    }
-  }
-
-  getTitleError(title) {
-    if (!title) {
-      return 'Title field is required.';
-    } 
-    else if (title.length > 75) {
-      return 'Title must be less than or equal to 75 characters.';
-    }
-
-    return null;
-  }
-
-  getDueDateError(dueDate) {
-    if (!dueDate) {
-      return 'Due date field is required.';
-    } 
-    else if (!this.validateDueDate(dueDate)) {
-      return 'Due date must be in YYYY-MM-DD format and also be valid.';
-    }
-
-    return null;
-  }
-
-  getDescriptionError(description) {
-    if (description && description.length > 500) {
-      return 'Description must be less than or equal to 500 characters.';
-    }
-
-    return null;
-  }
-
-  validateDueDate(date) {
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!regex.test(date)) return false;
-    const parsedDate = new Date(date);
-    return !isNaN(parsedDate.getTime());
-  }
-
-  getValidationErrors(taskData) {
-    return {
-      title: this.getTitleError(taskData.title),
-      due_date: this.getDueDateError(taskData.due_date),
-      description: this.getDescriptionError(taskData.description)
-    };
-  }
-
   submitTask(e) {
     e.preventDefault();
     const taskData = this.utils.getFormData(
@@ -102,7 +38,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Manage anonymous users task submit
+    // Handle task submission for anonymous users
     if (!this.auth.isClientLogged()) {
       const errors = this.getValidationErrors(taskData);
 
@@ -118,7 +54,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Manage logged in users task submit
+    // Handle task submission for logged-in users
     let wasFetchAborted = false;
     this.taskManagerView.updateAddTodoPromptSubmitBtn('Loading...');
     
@@ -152,14 +88,14 @@ export default class TaskManagerController {
   }
 
   getAllTasks(returnFocusHandler) {
-    // Manage anonymous users task render
+    // Handle task render for anonymous users
     if (!this.auth.isClientLogged()) {
       const tasks = this.taskModel.getTasksFromLocalStorage(this.utils.getActiveTabFilterParam());
       this.taskManagerView.renderTasks(tasks);
       return;
     }
 
-    // Manage logged in users task render
+    // Handle task render for logged-in users
     let wasFetchAborted = false;
     this.taskManagerView.renderTasksListLoader();
 
@@ -183,7 +119,7 @@ export default class TaskManagerController {
   }
 
   getActiveTasksCount() {
-    // Manage anonymous users task count
+    // Handle task count for anonymous users
     if (!this.auth.isClientLogged()) {
       const count = this.taskModel.getTaskCountFromLocalStorage(false);
       localStorage.setItem('taskCount', count);
@@ -191,7 +127,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Manage logged in users task count
+    // Handle task count for logged-in users
     this.taskManagerView.updateTaskCount('Loading...');
     
     this.taskModel.handleGetAllTasksCount(false)
@@ -212,7 +148,7 @@ export default class TaskManagerController {
   }
 
   deleteTask(taskId, closeConfirmModalHandler) {
-    // Manage anonymous users task delete
+    // Handle task deletion for anonymous users
     if (!this.auth.isClientLogged()) {
       this.taskModel.deleteTaskFromLocalStorage(taskId);
       this.getAllTasks();
@@ -221,7 +157,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Manage logged in users task delete
+    // Handle task deletion for logged-in users
     this.modalView.updateConfirmModalInfoMessage('Loading...');
 
     this.taskModel.handleDeleteTask(taskId)
@@ -248,7 +184,7 @@ export default class TaskManagerController {
   }
 
   deleteAllTasks(closeConfirmModalHandler, completed) {
-    // Manage anonymous users all task delete
+    // Handle all task deletion for anonymous users 
     if (!this.auth.isClientLogged()) {
       this.taskModel.deleteAllTasksFromLocalStorage(completed);
       this.getAllTasks();
@@ -256,7 +192,7 @@ export default class TaskManagerController {
       return;
     }
     
-    // Manage logged in users all task delete
+    // Handle all task deletion for logged-in users
     this.modalView.updateConfirmModalInfoMessage('Loading...');
 
     this.taskModel.handleDeleteAllTasks(completed)
@@ -282,7 +218,7 @@ export default class TaskManagerController {
   }
 
   handleClearAllTasks() {
-    if (parseInt(localStorage.getItem('taskCount')) === 0) {
+    if (parseInt(localStorage.getItem('taskCount')) <= 0) {
       this.modalView.openInfoModal(
         null,
         'InfoEmptyTaskList',
@@ -299,7 +235,7 @@ export default class TaskManagerController {
   }
 
   completeTask(taskId, closeConfirmModalHandler) {
-    // Manage anonymous users complete task functionality
+    // Handle task completion for anonymous users  
     if (!this.auth.isClientLogged()) {
       this.taskModel.completeTaskFromLocalStorage(taskId);
       this.getAllTasks();
@@ -308,7 +244,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Manage logged in users complete task functionality
+    // Handle task completion for logged-in users  
     this.modalView.updateConfirmModalInfoMessage('Loading...');
 
     this.taskModel.handleCompleteTask(taskId)
@@ -335,7 +271,7 @@ export default class TaskManagerController {
   }
 
   editTask(taskId, editedTaskData, closeEditModalHandler) {
-    // Manage anonymous users edit task functionality
+    // Handle task editing for anonymous users
     if (!this.auth.isClientLogged()) {
       const errors = this.getValidationErrors(editedTaskData);
 
@@ -351,7 +287,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Manage logged in users edit task functionality
+    // Handle task editing for logged-in users 
     let wasFetchAborted = false;
     this.modalView.updateEditModalSubmitBtn('Loading...');
 
@@ -394,7 +330,7 @@ export default class TaskManagerController {
         false,
         false
       );
-    } 
+    }
     else if (e.target.closest('.task-manager__edit-task-btn')) {
       const taskId = this.getTaskId(e);
       const taskLm = document.getElementById(e.target.closest('.task-manager__task').id)
@@ -410,7 +346,7 @@ export default class TaskManagerController {
         false,
         taskId
       );
-    } 
+    }
     else if (e.target.closest('.task-manager__delete-task-btn')) {
       const taskId = this.getTaskId(e);
 
@@ -452,5 +388,69 @@ export default class TaskManagerController {
       }
       this.taskManagerView.openSearchTaskPrompt();      
     }
+  }
+
+  getTaskId(e) {
+    const strId = e.target.closest('.task-manager__task').id;
+    const match = strId.match(/-(\d+)$/);
+    return match ? match[1] : null;
+  }
+
+  handleSwitchTab(e) {
+    const clickedTab = e.target.closest('.task-manager__tab-btn');
+    if (clickedTab) {
+      // User clicked the same tab
+      if (clickedTab.id === localStorage.getItem('currentActiveTabId')) {
+        return;
+      }
+
+      this.taskManagerView.toggleActiveTab(clickedTab);
+      this.getAllTasks();
+    }
+  }
+
+  validateDueDate(date) {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(date)) return false;
+    const parsedDate = new Date(date);
+    return !isNaN(parsedDate.getTime());
+  }
+
+  getTitleError(title) {
+    if (!title) {
+      return 'Title field is required.';
+    } 
+    else if (title.length > 75) {
+      return 'Title must be less than or equal to 75 characters.';
+    }
+
+    return null;
+  }
+
+  getDueDateError(dueDate) {
+    if (!dueDate) {
+      return 'Due date field is required.';
+    } 
+    else if (!this.validateDueDate(dueDate)) {
+      return 'Due date must be in YYYY-MM-DD format and also be valid.';
+    }
+
+    return null;
+  }
+
+  getDescriptionError(description) {
+    if (description && description.length > 500) {
+      return 'Description must be less than or equal to 500 characters.';
+    }
+
+    return null;
+  }
+
+  getValidationErrors(taskData) {
+    return {
+      title: this.getTitleError(taskData.title),
+      due_date: this.getDueDateError(taskData.due_date),
+      description: this.getDescriptionError(taskData.description)
+    };
   }
 }

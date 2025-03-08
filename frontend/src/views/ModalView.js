@@ -74,9 +74,7 @@ export default class ModalView {
 
     if (returnFocus) {
       // Return focus to the last focused element
-      console.log(this.lastFocusedLmBeforeModal);
       this.modalHandler.toggleModalFocus('return', null, this.lastFocusedLmBeforeModal);
-      console.log('returned focus')
     }
 
     const timId = setTimeout(() => {
@@ -254,7 +252,6 @@ export default class ModalView {
       if (isFetch === false) {
         closeConfirmModal();
       }
-      console.log('delete all incompleted')
     };
 
     const deleteAllCompleted = () => {
@@ -262,7 +259,6 @@ export default class ModalView {
       if (isFetch === false) {
         closeConfirmModal();
       }
-      console.log('delete all completed')
     }
 
     const confirmAndDismissModal = () => {
@@ -276,7 +272,6 @@ export default class ModalView {
     }
 
     const confirmAndDiscardEdit = () => {
-      console.log(taskId)
       closeConfirmModal(returnFocusAtConfirmHandler);
       const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
       editTaskBtn.focus();
@@ -356,9 +351,6 @@ export default class ModalView {
     const isFormEdited = () => {
       const currentEditedTask = this.utils.getFormData(this.lms.editModalFormLm);
 
-      console.log(taskData);
-      console.log(currentEditedTask);
-
       return (
         currentEditedTask.title !== taskData.title || 
         currentEditedTask.due_date !== taskData.due_date || 
@@ -370,10 +362,8 @@ export default class ModalView {
       e.preventDefault();
       if (isFormEdited()) {
         editHandler(this.utils.getFormData(this.lms.editModalFormLm), closeEditModal.bind(this, false));
-        console.log('submit'); 
       }
       else {
-        console.log('same data');
         closeEditModal();
       }
     }

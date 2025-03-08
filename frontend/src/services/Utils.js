@@ -95,7 +95,6 @@ export default class Utils {
     // Format the date in the desired format: "Friday, March 7th 2025"
     const longFormat = `${weekday}, ${month} ${dayWithSuffix} ${year}`;
 
-    console.log(longFormat)
     // Format the date in ISO 8601 format "YYYY-MM-DD"
     const isoFormat = date.toISOString().split('T')[0]; // e.g., "2024-01-01"
   
