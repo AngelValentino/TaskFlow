@@ -7,6 +7,7 @@ export default class TaskManagerDashboard {
             <time aria-label="Current date." class="task-manager__dashboard-date" id="task-manager__dashboard-date"></time>
           </h3>
           <h3 aria-live="polite" class="task-manager__dashboard-tasks-count" id="task-manager__dashboard-tasks-count"></h3>
+          <p id="task-manager__dashboard-tasks-count-error" class="task-manager__dashboard-tasks-count-error"></p>
         </div>
         <ul aria-label="Task manager control buttons." class="task-manager__dashboard-btns-list">
           <li class="task-manager__dashboard-add-btn-container">

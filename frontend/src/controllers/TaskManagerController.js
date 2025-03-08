@@ -31,8 +31,8 @@ export default class TaskManagerController {
   handleSwitchTab(e) {
     const clickedTab = e.target.closest('.task-manager__tab-btn');
     if (clickedTab) {
+      // User clicked the same tab
       if (clickedTab.id === localStorage.getItem('currentActiveTabId')) {
-        console.log('same tab')
         return;
       }
 
@@ -75,7 +75,6 @@ export default class TaskManagerController {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
     if (!regex.test(date)) return false;
     const parsedDate = new Date(date);
-    console.log(parsedDate.getTime())
     return !isNaN(parsedDate.getTime());
   }
 
@@ -87,29 +86,12 @@ export default class TaskManagerController {
     };
   }
 
-  submitTaskToLocalStorage(taskData) {
-    const errors = this.getValidationErrors(taskData);
-
-    if (Object.values(errors).some(val => val !== null)) {
-      this.taskManagerView.renderAddTaskPromptErrors(errors);
-      return;
-    }
-
-    this.taskModel.addTaskToLocalStorage(taskData);
-    this.taskManagerView.resetAddTaskForm();
-    this.getActiveTasksCount();
-    this.getAllTasks();
-    return;
-  }
-
   submitTask(e) {
     e.preventDefault();
     const taskData = this.utils.getFormData(
       e.target, 
       (value, key) => key === 'description' && value === '' ? null : value
     );
-
-    console.log(taskData)
 
     if (parseInt(localStorage.getItem('taskCount')) >= 100) {
       this.modalView.openInfoModal(
@@ -122,13 +104,22 @@ export default class TaskManagerController {
 
     // Manage anonymous users task submit
     if (!this.auth.isClientLogged()) {
-      console.warn('User is not logged in, submit task to localStorage');
-      this.submitTaskToLocalStorage(taskData);
+      const errors = this.getValidationErrors(taskData);
+
+      if (Object.values(errors).some(val => val !== null)) {
+        this.taskManagerView.renderAddTaskPromptErrors(errors);
+        return;
+      }
+  
+      this.taskModel.addTaskToLocalStorage(taskData);
+      this.taskManagerView.resetAddTaskForm();
+      this.getActiveTasksCount();
+      this.getAllTasks();
       return;
     }
 
-    let wasFetchAborted = false;
     // Manage logged in users task submit
+    let wasFetchAborted = false;
     this.taskManagerView.updateAddTodoPromptSubmitBtn('Loading...');
     
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
@@ -140,7 +131,6 @@ export default class TaskManagerController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
@@ -165,30 +155,27 @@ export default class TaskManagerController {
     // Manage anonymous users task render
     if (!this.auth.isClientLogged()) {
       const tasks = this.taskModel.getTasksFromLocalStorage(this.utils.getActiveTabFilterParam());
-      console.log(tasks)
       this.taskManagerView.renderTasks(tasks);
       return;
     }
 
     // Manage logged in users task render
     let wasFetchAborted = false;
-    this.taskManagerView.renderTasksLoader();
+    this.taskManagerView.renderTasksListLoader();
 
     this.taskModel.handleGetAllTasks(this.utils.getActiveTabFilterParam())
       .then(data => {
-        console.log(data)
         this.taskManagerView.renderTasks(data);
         if (returnFocusHandler) returnFocusHandler();
       })
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
-        this.lms.tasksContainerLm.innerText = error.message;
-        console.error(error.message);
+        this.taskManagerView.renderTasksListError(error.message);
+        console.error(error);
       })
       .finally(() => {
         if (wasFetchAborted) return;
@@ -198,7 +185,6 @@ export default class TaskManagerController {
   getActiveTasksCount() {
     // Manage anonymous users task count
     if (!this.auth.isClientLogged()) {
-      console.warn('User is not logged in, get count from localStorage');
       const count = this.taskModel.getTaskCountFromLocalStorage(false);
       localStorage.setItem('taskCount', count);
       this.taskManagerView.renderTaskCount(count);
@@ -206,27 +192,28 @@ export default class TaskManagerController {
     }
 
     // Manage logged in users task count
-    this.taskManagerView.updateTaskCountLm('Loading...');
+    this.taskManagerView.updateTaskCount('Loading...');
     
     this.taskModel.handleGetAllTasksCount(false)
       .then(count => {
         localStorage.setItem('taskCount', count);
         this.taskManagerView.renderTaskCount(count);
+        this.taskManagerView.clearTaskCountError();
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
-        this.taskManagerView.updateTaskCountLm(error.message);
+        this.taskManagerView.updateTaskCount('');
+        this.taskManagerView.renderTaskCountError(error.message);
         console.error(error);
       });
   }
 
   deleteTask(taskId, closeConfirmModalHandler) {
+    // Manage anonymous users task delete
     if (!this.auth.isClientLogged()) {
-      console.warn(`task with id:${taskId} deleted`);
       this.taskModel.deleteTaskFromLocalStorage(taskId);
       this.getAllTasks();
       this.getActiveTasksCount();
@@ -234,53 +221,16 @@ export default class TaskManagerController {
       return;
     }
 
-    this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
+    // Manage logged in users task delete
+    this.modalView.updateConfirmModalInfoMessage('Loading...');
 
     this.taskModel.handleDeleteTask(taskId)
       .then(() => {
-        console.warn(`task with id:${taskId} deleted`);
-        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Task was successfully deleted.';
+        this.modalView.updateConfirmModalInfoMessage('Task was successfully deleted.', true);
+
         const timId = setTimeout(() => {
           closeConfirmModalHandler();
-          console.warn('closed confirm modal after successful delete')
           this.taskManagerView.focusAddTaskBtn();
-        }, 500);
-        this.modalView.timIds.closeConfirmModalAfterFetch = timId;
-        this.getAllTasks();
-        this.getActiveTasksCount();
-      })
-      .catch(error => {
-        if (error.name === 'AbortError') {
-          console.warn('Request aborted due to navigation change');
-          return;
-        }
-
-        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
-      });
-  }
-
-  deleteAllTasks(closeConfirmModalHandler, completed) {
-    // Manage anonymous users all task delete
-    if (!this.auth.isClientLogged()) {
-      console.warn('user is not logged in, delete all tasks from local storage');
-      this.taskModel.deleteAllTasksFromLocalStorage(completed);
-      this.getAllTasks();
-      this.getActiveTasksCount();
-      return;
-    }
-    
-    // Manage logged in users all task delete
-    this.modalView.updateConfirmModalBtnsContainer(null, 'Loading...');
-    this.modalView.lms.confirmModalDeleteOptionsContainerLm.style.display = 'none';
-
-    this.taskModel.handleDeleteAllTasks(completed)
-      .then(() => {
-        console.warn(`all tasks deleted`);
-        this.modalView.updateConfirmModalBtnsContainer(completed);
-
-        const timId = setTimeout(() => {
-          closeConfirmModalHandler();
-          console.warn('closed confirm modal after successful delete');
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
         
@@ -289,11 +239,44 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
-        this.modalView.updateConfirmModalBtnsContainer(null, error.message);
+        this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
+        console.error(error);
+      });
+  }
+
+  deleteAllTasks(closeConfirmModalHandler, completed) {
+    // Manage anonymous users all task delete
+    if (!this.auth.isClientLogged()) {
+      this.taskModel.deleteAllTasksFromLocalStorage(completed);
+      this.getAllTasks();
+      this.getActiveTasksCount();
+      return;
+    }
+    
+    // Manage logged in users all task delete
+    this.modalView.updateConfirmModalInfoMessage('Loading...');
+
+    this.taskModel.handleDeleteAllTasks(completed)
+      .then(() => {
+        this.modalView.updateConfirmModalDeleteMessage(completed);
+
+        const timId = setTimeout(() => {
+          closeConfirmModalHandler();
+        }, 500);
+        this.modalView.timIds.closeConfirmModalAfterFetch = timId;
+        
+        this.getAllTasks();
+        this.getActiveTasksCount();
+      })
+      .catch(error => {
+        if (error.name === 'AbortError') {
+          return;
+        }
+
+        this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
         console.error(error);
       });
   }
@@ -316,80 +299,70 @@ export default class TaskManagerController {
   }
 
   completeTask(taskId, closeConfirmModalHandler) {
+    // Manage anonymous users complete task functionality
     if (!this.auth.isClientLogged()) {
       this.taskModel.completeTaskFromLocalStorage(taskId);
-      console.warn(`task with id:${taskId} was completed`);
       this.getAllTasks();
       this.getActiveTasksCount();
       this.taskManagerView.focusAddTaskBtn();
       return;
     }
 
-    this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Loading...';
+    // Manage logged in users complete task functionality
+    this.modalView.updateConfirmModalInfoMessage('Loading...');
 
     this.taskModel.handleCompleteTask(taskId)
       .then(() => {
-        console.warn(`task with id:${taskId} was completed`);
-        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = 'Task was successfully completed.';
+        this.modalView.updateConfirmModalInfoMessage('Task was successfully completed.', true);
+        
         const timId = setTimeout(() => {
           closeConfirmModalHandler();
-          console.warn('closed confirm modal after successful task completion')
           this.taskManagerView.focusAddTaskBtn();
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
+        
         this.getAllTasks(this.taskManagerView.focusAddTaskBtn.bind(this.taskManagerView));
         this.getActiveTasksCount();
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
-        this.modalView.lms.confirmModalBtnsContainerLm.innerHTML = error.message;
+        this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
+        console.error(error);
       });
   }
 
-  editTaskFromLocalStorage(taskId, editedTaskData, closeEditModalHandler) {
-    const errors = this.getValidationErrors(editedTaskData);
-
-    if (Object.values(errors).some(val => val !== null)) {
-      this.modalView.renderEditTaskFormErrors(errors);
-      return;
-    }
-
-    this.taskModel.editTaskFromLocalStorage(taskId, editedTaskData);
-    console.warn(`task with id:${taskId} was updated from local storage`);
-    closeEditModalHandler();
-    this.getAllTasks();
-    this.taskManagerView.returnFocusToEditTaskBtn(taskId);
-  }
-
   editTask(taskId, editedTaskData, closeEditModalHandler) {
-    console.log('task id: ' + taskId);
-    console.log(editedTaskData);
-
+    // Manage anonymous users edit task functionality
     if (!this.auth.isClientLogged()) {
-      this.editTaskFromLocalStorage(taskId, editedTaskData, closeEditModalHandler);
+      const errors = this.getValidationErrors(editedTaskData);
+
+      if (Object.values(errors).some(val => val !== null)) {
+        this.modalView.renderEditTaskFormErrors(errors);
+        return;
+      }
+  
+      this.taskModel.editTaskFromLocalStorage(taskId, editedTaskData);
+      closeEditModalHandler();
+      this.getAllTasks();
+      this.taskManagerView.returnFocusToEditTaskBtn(taskId);
       return;
     }
 
+    // Manage logged in users edit task functionality
     let wasFetchAborted = false;
-
-    this.modalView.lms.editModalFormSubmitBtn.innerText = 'Loading...';
+    this.modalView.updateEditModalSubmitBtn('Loading...');
 
     this.taskModel.handleEditTask(taskId, JSON.stringify(editedTaskData))
       .then(rowsUpdated => {
-        console.log(rowsUpdated)
-        console.warn(`task with id:${taskId} was updated`);
         closeEditModalHandler();
-        console.warn('closed edit modal after successful task update');
         this.getAllTasks(this.taskManagerView.returnFocusToEditTaskBtn.bind(this.taskManagerView, taskId));
       })
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
@@ -406,14 +379,13 @@ export default class TaskManagerController {
       })
       .finally(() => {
         if (wasFetchAborted) return;
-        this.modalView.lms.editModalFormSubmitBtn.innerText = 'Edit task';
+        this.modalView.updateEditModalSubmitBtn('Edit task');
       });
   }
 
   handleTaskAction(e) {
     if (e.target.closest('.task-manager__complete-task-btn')) {
       const taskId = this.getTaskId(e);
-      console.log(taskId);
 
       this.modalView.openConfirmModal(
         this.completeTask.bind(this, taskId),
@@ -425,10 +397,7 @@ export default class TaskManagerController {
     } 
     else if (e.target.closest('.task-manager__edit-task-btn')) {
       const taskId = this.getTaskId(e);
-      console.log(taskId);
-
       const taskLm = document.getElementById(e.target.closest('.task-manager__task').id)
-
       const taskData = {
         title: taskLm.querySelector('.task-manager__task-title').innerText,
         due_date: taskLm.querySelector('.task-manger__task-due-date').getAttribute('datetime'),
@@ -444,7 +413,6 @@ export default class TaskManagerController {
     } 
     else if (e.target.closest('.task-manager__delete-task-btn')) {
       const taskId = this.getTaskId(e);
-      console.log(taskId);
 
       this.modalView.openConfirmModal(
         this.deleteTask.bind(this, taskId),

@@ -82,6 +82,17 @@
   font-weight: normal;
 }
 
+.task-manager__dashboard-tasks-count-error {
+  font-size: 1.05rem;
+}
+
+.task-manager__dashboard-tasks-count-error.active {
+  padding: 5px;
+  background-color: var(--contrast-color);
+  color: #fff;
+  margin-top: 5px;
+}
+
 .task-manager__dashboard-btns-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -210,6 +221,13 @@
     width: 3rem;
   }
 
+  .task-manager__list-error {
+    background-color: var(--contrast-color);
+    color: #fff;
+    padding: 10px;
+    border-radius: 2px;
+    font-size: 1.05rem;
+  }
   /* END OF PLACEHOLDER IMAGE*/
 
   /* _TODO */

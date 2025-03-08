@@ -37,7 +37,8 @@ export default class ConfirmModal {
             </svg>
           </button>
           <p class="confirm-modal__desc" id="confirm-modal__desc">${description}</p>
-          <div id="confirm-modal__btns-container">
+          <p id="confirm-modal__info-message" class="confirm-modal__info-message"></p>
+          <div id="confirm-modal__btns-container" class="confirm-modal__btns-container">
             <button class="confirm-modal__accept-btn" id="confirm-modal__accept-btn" type="button">Yes</button>
             <button class="confirm-modal__cancel-btn" id="confirm-modal__cancel-btn" type="button">No</button>
           </div>

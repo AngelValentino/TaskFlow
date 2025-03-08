@@ -186,7 +186,7 @@ export default class TaskModel {
         method: 'GET'
       },
       true,
-      `We couldn't properly get all of your the tasks. Please try again later.`,
+      `We couldn't properly get all of your tasks. Please try again later.`,
     );
   }
 
@@ -210,7 +210,7 @@ export default class TaskModel {
         method: 'DELETE'
       },
       false,
-      `Couldn't properly delete the task, try again later.`
+      `We couldn't delete your task. Please try again later.`
     );
   }
 
@@ -237,7 +237,7 @@ export default class TaskModel {
         })
       },
       false,
-      `Couldn't properly complete the task, try again later.`
+      `We couldn't complete your task. Please try again later.`
     );
   }
 
@@ -249,7 +249,7 @@ export default class TaskModel {
         body: editedTaskData
       },
       true,
-      `Couldn't properly update the task, try again later.`,
+      `We couldn't update your task. Please try again later.`,
       this.customErrorHandlers
     );
   }

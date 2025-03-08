@@ -25,6 +25,7 @@ export default class TaskManagerView {
       clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn'),
       tasksContainerLm: document.getElementById('task-manager__tasks-list'),
       taskManagerTaskCountLm: document.getElementById('task-manager__dashboard-tasks-count'),
+      taskManagerTaskCountErrorLm: document.getElementById('task-manager__dashboard-tasks-count-error'),
       currentDateLm: document.getElementById('task-manager__dashboard-date'),
       taskManagerTabLms: document.querySelectorAll('.task-manager__tab-btn'),
       taskManagerTabListLm: document.getElementById('task-manager__tab-list')
@@ -51,7 +52,7 @@ export default class TaskManagerView {
   }
 
   //TODO SVG spinner does not load properly on page load, it needs to be changed
-  renderTasksLoader() {
+  renderTasksListLoader() {
     this.lms.tasksContainerLm.innerHTML = `
       <li class="task-manager__list-loader-container">
         <svg class="task-manager__list-loader-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -63,6 +64,14 @@ export default class TaskManagerView {
             <animateTransform attributeName="transform" dur="2.3s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
           </g>
         </svg>
+      </li>
+    `;
+  }
+
+  renderTasksListError(error) {
+    this.lms.tasksContainerLm.innerHTML = `
+      <li class="task-manager__list-error-container">
+        <p class="task-manager__list-error">${error}</p>
       </li>
     `;
   }
@@ -92,20 +101,30 @@ export default class TaskManagerView {
       .join('');
     }
 
+  updateTaskCount(text) {
+    this.lms.taskManagerTaskCountLm.innerText = text;
+  }
+
   renderTaskCount(count) {
     if (count === 0) {
-      this.lms.taskManagerTaskCountLm.innerText = 'No tasks left';
+      this.updateTaskCount('No tasks left');
     } 
     else if (count === 1) {
-      this.lms.taskManagerTaskCountLm.innerText = count + ' task left';
+      this.updateTaskCount(count + ' task left');
     } 
     else {
-      this.lms.taskManagerTaskCountLm.innerText = count + ' tasks left';
+      this.updateTaskCount(count + ' tasks left');
     }
   }
 
-  updateTaskCountLm(text) {
-    this.lms.taskManagerTaskCountLm.innerText = text;
+  renderTaskCountError(message) {
+    this.lms.taskManagerTaskCountErrorLm.innerText = message;
+    this.lms.taskManagerTaskCountErrorLm.classList.add('active');
+  }
+
+  clearTaskCountError() {
+    this.lms.taskManagerTaskCountErrorLm.innerText = '';
+    this.lms.taskManagerTaskCountErrorLm.classList.remove('active');
   }
 
   setActiveTab(tab) {

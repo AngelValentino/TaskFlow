@@ -37,6 +37,7 @@ export default class ModalView {
       confirmModalDeleteActiveBtn: document.getElementById('confirm-modal__delete-active-btn'),
       confirmModalDeleteCompletedBtn: document.getElementById('confirm-modal__delete-completed-btn'),
       confirmModalDeleteOptionsContainerLm: document.getElementById('confirm-modal__delete-options-container'),
+      confirmModalInfoMessageLm: document.getElementById('confirm-modal__info-message'),
       editModalContainerLm: document.getElementById('edit-modal-container'),
       editModalOverlayLm: document.getElementById('edit-modal-overlay'),
       editModalLm: document.getElementById('edit-modal'),
@@ -420,22 +421,40 @@ export default class ModalView {
     );
   }
 
-  updateConfirmModalBtnsContainer(completed, message) {
+  updateConfirmModalInfoMessage(message, success, error) {
+    this.lms.confirmModalBtnsContainerLm.classList.add('hidden');
+    this.lms.confirmModalDeleteOptionsContainerLm?.classList.add('hidden');
+    this.lms.confirmModalInfoMessageLm.innerText = message
+    this.lms.confirmModalInfoMessageLm.classList.add('active');
+
+    if (success) {
+      this.lms.confirmModalInfoMessageLm.classList.add('success');
+    } 
+    else if (error) {
+      this.lms.confirmModalInfoMessageLm.classList.add('error');
+    }
+  }
+
+  updateConfirmModalDeleteMessage(completed, message) {
     if (completed !== null) {
       if (completed === undefined) {
-        this.lms.confirmModalBtnsContainerLm.innerHTML = 'All tasks were successfully deleted.';
+        this.updateConfirmModalInfoMessage('All tasks were successfully deleted.', true);
       } 
       else if (completed === true) {
-        this.lms.confirmModalBtnsContainerLm.innerHTML = 'All completed tasks were successfully deleted.';
+        this.updateConfirmModalInfoMessage('All completed tasks were successfully deleted.', true);
       } 
       else if (completed === false) {
-        this.lms.confirmModalBtnsContainerLm.innerHTML = 'All active tasks were successfully deleted.';
+        this.updateConfirmModalInfoMessage('All active tasks were successfully deleted.', true);
       }
     }
 
     if (message) {
       this.lms.confirmModalBtnsContainerLm.innerHTML = message;
     }
+  }
+
+  updateEditModalSubmitBtn(message) {
+    this.lms.editModalFormSubmitBtn.innerText = message;
   }
 
   renderGeneralEditTaskFormError(error) {

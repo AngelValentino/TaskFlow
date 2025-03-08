@@ -88,9 +88,17 @@
   width: 1.35em;
 }
 
+.confirm-modal__btns-container.hidden {
+  display: none;
+}
+
 .confirm-modal__delete-options-container {
   font-size: 1.1rem;
   margin-top: 20px;
+}
+
+.confirm-modal__delete-options-container.hidden {
+  display: none;
 }
 
 .confirm-modal__delete-option-btn {
@@ -102,6 +110,26 @@
   margin-bottom: 5px;
 }
 
+.confirm-modal__info-message {
+  background-color: var(--dark-to-medium-accent-color);
+  border-radius: 2px;
+  color: white;
+  font-size: 1.15rem;
+}
+
+.confirm-modal__info-message.active {
+  padding: 10px;
+  display: inline-block !important;
+}
+
+.confirm-modal__info-message.success {
+  background-color: var(--contrast-color);
+}
+
+.confirm-modal__info-message.error {
+  background-color: var(--light-accent-color);
+  color: var(--base-text-color);
+}
 /* END OF DIALOG */
 
 /* EDIT DIALOG */
