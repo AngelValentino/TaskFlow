@@ -7,8 +7,12 @@ export default class TaskManagerController {
     this.utils = utils;
 
     this.lms = this.taskManagerView.getDomRefs();
+    this.taskManagerView.setControllerMethods({
+      getAllTasks: this.getAllTasks.bind(this)
+    });
 
     this.lms.addTaskPromptFormLm.addEventListener('submit', this.submitTask.bind(this));
+    this.lms.searchTaskInputLm.addEventListener('input', this.utils.debounce(this.searchTask.bind(this), 500, 'searchTask'));
 
     this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
     this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
@@ -20,6 +24,13 @@ export default class TaskManagerController {
     this.getAllTasks();
     this.getActiveTasksCount();
     this.taskManagerView.updateCurrentDashboardDate();
+  }
+
+  searchTask(e) {
+    const targetValue = e.target.value.trim();
+    this.taskManagerView.setCurrentSearchValue(targetValue);
+    console.log(targetValue)
+    this.getAllTasks();
   }
 
   submitTask(e) {
@@ -90,7 +101,10 @@ export default class TaskManagerController {
   getAllTasks(returnFocusHandler) {
     // Handle task render for anonymous users
     if (!this.auth.isClientLogged()) {
-      const tasks = this.taskModel.getTasksFromLocalStorage(this.utils.getActiveTabFilterParam());
+      const tasks = this.taskModel.getTasksFromLocalStorage(
+        this.utils.getActiveTabFilterParam(), 
+        this.taskManagerView.getCurrentSearchValue()
+      );
       this.taskManagerView.renderTasks(tasks);
       return;
     }
@@ -99,7 +113,10 @@ export default class TaskManagerController {
     let wasFetchAborted = false;
     this.taskManagerView.renderTasksListLoader();
 
-    this.taskModel.handleGetAllTasks(this.utils.getActiveTabFilterParam())
+    this.taskModel.handleGetAllTasks(
+      this.utils.getActiveTabFilterParam(), 
+      this.taskManagerView.getCurrentSearchValue()
+    )
       .then(data => {
         this.taskManagerView.renderTasks(data);
         if (returnFocusHandler) returnFocusHandler();

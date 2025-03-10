@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    //TODO Implement search functionality
+    // TODO Add search value highlighter
+    // TODO Add quote machine logic
 
     // Task manager
     const auth = new Auth;

@@ -10,6 +10,8 @@ export default class TaskManagerView {
     this.modalView = modalView;
     this.utils = utils;
     this.timIds = {};
+    this.controllerMethods = {};
+    this.lastSearchValue = '';
     this.lms = {
       addTaskBtn: document.getElementById('task-manager__dashboard-add-btn'),
       addTaskPromptLm: document.getElementById('task-manager__add-prompt'),
@@ -37,6 +39,20 @@ export default class TaskManagerView {
 
   getDomRefs() {
     return this.lms;
+  }
+
+  getCurrentSearchValue() {
+    return this.lastSearchValue;
+  }
+
+  setCurrentSearchValue(value) {
+    this.lastSearchValue = value;
+  }
+
+  setControllerMethods(methods) {
+    Object.keys(methods).forEach(key => {
+      this.controllerMethods[key] = methods[key];
+    });
   }
 
   showPrompt(promptLm, btnLm, firstFocusableLm, hidePromptTimId, timeout) {
@@ -126,7 +142,16 @@ export default class TaskManagerView {
     );
   }
 
+  resetSearchTaskInput() {
+    this.lms.searchTaskInputLm.value = '';
+    this.setCurrentSearchValue('');
+    this.utils.clearDebounce('searchTask');
+    this.controllerMethods.getAllTasks();
+  }
+
   closeSearchTaskPrompt() {
+    this.resetSearchTaskInput();
+
     this.hidePrompt(
       this.lms.searchTaskPromptLm,
       this.lms.searchTaskBtn,

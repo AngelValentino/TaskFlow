@@ -1,4 +1,6 @@
 export default class Utils {
+  debouncedHandlers = {};
+
   getActiveTabFilterParam() {
     const currentTabId = localStorage.getItem('currentActiveTabId');
     
@@ -102,4 +104,31 @@ export default class Utils {
   };
 
   getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+  debounce(callback, delay = 1000, key) {
+    let timeout;
+
+    const debounced = (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        callback(...args);
+      }, delay);
+    };
+
+    // Return the debounced function along with a cancel method
+    debounced.cancel = () => {
+      clearTimeout(timeout);
+      console.log('cleared debounced timeout')
+    };
+
+    this.debouncedHandlers[key] = debounced;
+
+    return debounced;
+  }
+
+  clearDebounce(key) {
+    if (this.debouncedHandlers[key]) {
+      this.debouncedHandlers[key].cancel();
+    }
+  }
 }

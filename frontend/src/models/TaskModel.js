@@ -22,9 +22,13 @@ export default class TaskModel {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  getTasksFromLocalStorage(completed) {
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  getTasksFromLocalStorage(completed, targetValue) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
+    if (targetValue) {
+      tasks = tasks.filter(task => task.title.toLowerCase().includes(targetValue.trim().toLowerCase()));
+    }
+    
     if (completed === undefined) {
       return tasks;
     } 
@@ -177,11 +181,16 @@ export default class TaskModel {
     );
   }
 
-  async handleGetAllTasks(completed) {
-    const completedQueryParam = completed !== undefined ? '&completed=' + completed : '';
+  async handleGetAllTasks(completed, targetValue) {
+    const params = new URLSearchParams();
+    if (completed !== undefined) params.append('completed', completed);
+    if (targetValue) params.append('title', targetValue);
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+
+    console.log(`${this.baseEndpointUrl}${queryString}`);
 
     return await this.handleAuthFetchRequest(
-      `${this.baseEndpointUrl}?sort_by=due_date${completedQueryParam}`,
+      `${this.baseEndpointUrl}${queryString}`,
       {
         method: 'GET'
       },
