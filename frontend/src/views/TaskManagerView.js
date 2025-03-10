@@ -3,6 +3,7 @@ import TaskCompleted from '../pages/dashboard/components/CompletedTask.js';
 import TasksListPlaceholder from '../pages/dashboard/components/TasksListPlaceholder.js';
 import TasksListLoader from '../pages/dashboard/components/TasksListLoader.js';
 import TasksListError from '../pages/dashboard/components/TasksListError.js';
+import EmptyTasksListPlaceholder from '../pages/dashboard/components/emptyTasksListPlacehodler.js';
 
 export default class TaskManagerView {
   constructor(modalHandler, modalView, utils) {
@@ -246,7 +247,9 @@ export default class TaskManagerView {
 
   renderTasks(taskData) {
     if (taskData.length === 0) {
-      this.lms.tasksContainerLm.innerHTML = TasksListPlaceholder.getHtml();
+      this.lms.tasksContainerLm.innerHTML = this.getCurrentSearchValue() 
+        ? EmptyTasksListPlaceholder.getHtml() 
+        : TasksListPlaceholder.getHtml() 
       return;
     }
 
