@@ -18,6 +18,7 @@ export default class TaskManagerController {
         ? this.utils.debounce(this.searchTask.bind(this), 500, 'searchTask')
         : this.searchTask.bind(this)
     );
+    this.lms.searchTaskCloseIcon.addEventListener('click', this.taskManagerView.resetSearchTaskInput.bind(this.taskManagerView, true));
 
     this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
     this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
@@ -33,9 +34,8 @@ export default class TaskManagerController {
 
   searchTask(e) {
     const targetValue = e.target.value.trim();
-    this.taskManagerView.setCurrentSearchValue(targetValue);
-    console.log(targetValue)
     this.getAllTasks();
+    this.taskManagerView.toggleClearSearchIcon(targetValue);
   }
 
   submitTask(e) {

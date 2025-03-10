@@ -11,7 +11,6 @@ export default class TaskManagerView {
     this.utils = utils;
     this.timIds = {};
     this.controllerMethods = {};
-    this.lastSearchValue = '';
     this.lms = {
       addTaskBtn: document.getElementById('task-manager__dashboard-add-btn'),
       addTaskPromptLm: document.getElementById('task-manager__add-prompt'),
@@ -42,11 +41,7 @@ export default class TaskManagerView {
   }
 
   getCurrentSearchValue() {
-    return this.lastSearchValue;
-  }
-
-  setCurrentSearchValue(value) {
-    this.lastSearchValue = value;
+    return this.lms.searchTaskInputLm.value.trim();
   }
 
   setControllerMethods(methods) {
@@ -142,11 +137,27 @@ export default class TaskManagerView {
     );
   }
 
-  resetSearchTaskInput() {
+  toggleClearSearchIcon(searchValue) {
+    if (searchValue === '') {
+      // If input is empty, show the default search icon and hide the close icon
+      this.lms.searchTaskCloseIcon.classList.remove('active');
+      this.lms.searchTaskDefaultIcon.classList.remove('active');
+    } 
+    else {
+      // If input has text, show the close icon and hide the default search icon
+      this.lms.searchTaskCloseIcon.classList.add('active');
+      this.lms.searchTaskDefaultIcon.classList.add('active');
+    }
+  }
+
+  resetSearchTaskInput(returnFocus) {
     this.lms.searchTaskInputLm.value = '';
-    this.setCurrentSearchValue('');
+    this.toggleClearSearchIcon(this.getCurrentSearchValue());
     this.utils.clearDebounce('searchTask');
     this.controllerMethods.getAllTasks();
+    if (returnFocus) {
+      this.lms.searchTaskInputLm.focus();
+    }
   }
 
   closeSearchTaskPrompt() {

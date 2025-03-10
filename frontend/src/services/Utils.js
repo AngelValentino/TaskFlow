@@ -118,7 +118,6 @@ export default class Utils {
     // Return the debounced function along with a cancel method
     debounced.cancel = () => {
       clearTimeout(timeout);
-      console.log('cleared debounced timeout')
     };
 
     this.debouncedHandlers[key] = debounced;
