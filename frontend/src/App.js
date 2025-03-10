@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Add search value highlighter
     // TODO Add quote machine logic
 
     // Task manager

@@ -253,8 +253,8 @@ export default class TaskManagerView {
 
     this.lms.tasksContainerLm.innerHTML = sortedTasks
       .map(task => task.is_completed 
-        ? TaskCompleted.getHtml(task) 
-        : Task.getHtml(task))
+        ? TaskCompleted.getHtml(task, this.getCurrentSearchValue()) 
+        : Task.getHtml(task, this.getCurrentSearchValue()))
       .join('');
   }
 

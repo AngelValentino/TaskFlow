@@ -131,4 +131,28 @@ export default class Utils {
       this.debouncedHandlers[key].cancel();
     }
   }
+
+  highlighter(text, searchValue, isCompleted) {
+    // If searchValue is empty or only whitespace, return the original text
+    if (!searchValue.trim()) return text;
+  
+    // Create a regular expression to match occurrences of the 'searchValue' string, ignoring case
+    const regex = new RegExp(`(${searchValue.trim()})`, 'gi');
+    
+    // Split the text into parts based on the regular expression also including the regex split 
+    // value thanks to using a capture group '()'
+    const parts = text.split(regex);
+  
+    // Map through the parts, wrapping highlighted parts in a span with a specific class
+    return parts.map(part => {
+      if (regex.test(part)) {
+        // If the part matches the highlight, wrap it in a span
+        return `<span class="${isCompleted ? 'highlighted-2' : 'highlighted'}">${part}</span>`;
+      } 
+      else {
+        // Otherwise, return the part as is
+        return part;
+      }
+    }).join(''); // Join the parts back into a single string
+  }
 }

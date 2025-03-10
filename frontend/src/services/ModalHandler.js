@@ -101,10 +101,12 @@ export default class ModalHandler {
         this.isModalClosed(e)
       ) {
         closeHandler();
-        console.warn('close prompt at outside click');
       } 
-
-      if (e.target.matches(className)) {        
+      
+      if (
+        e.target.matches(className) && 
+        !(className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt')
+      ) {        
         closeHandler();
         console.warn('close modal at outside click');
       }

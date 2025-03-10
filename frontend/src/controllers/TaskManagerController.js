@@ -12,7 +12,12 @@ export default class TaskManagerController {
     });
 
     this.lms.addTaskPromptFormLm.addEventListener('submit', this.submitTask.bind(this));
-    this.lms.searchTaskInputLm.addEventListener('input', this.utils.debounce(this.searchTask.bind(this), 500, 'searchTask'));
+    this.lms.searchTaskInputLm.addEventListener(
+      'input', 
+      this.auth.isClientLogged() 
+        ? this.utils.debounce(this.searchTask.bind(this), 500, 'searchTask')
+        : this.searchTask.bind(this)
+    );
 
     this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
     this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
