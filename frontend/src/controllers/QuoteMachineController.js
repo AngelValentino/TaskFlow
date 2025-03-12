@@ -1,14 +1,24 @@
 export default class QuoteMachineController {
-  constructor(quoteModel, quoteMachineView, utils) {
+  constructor(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView) {
     this.quoteModel = quoteModel;
     this.quoteMachineView = quoteMachineView;
     this.utils = utils;
+    this.themeHandler = themeHandler;
+    this.taskManagerView = taskManagerView;
 
     this.lms = this.quoteMachineView.getDomRefs();
 
     this.getAllQuotes();
 
-    this.lms.getNewQuoteBtn.addEventListener('click', this.setQuote.bind(this));
+    this.lms.getNewQuoteBtn.addEventListener('click', this.setQuoteAndTheme.bind(this));
+  }
+
+  setQuoteAndTheme() {
+    if (this.taskManagerView.isAddTaskFormEdited()) {
+      return;
+    }
+    this.setQuote();
+    this.themeHandler.setRandomTheme(1050);
   }
 
   setQuote() {

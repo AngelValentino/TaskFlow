@@ -184,8 +184,12 @@ export default class TaskManagerView {
     this.closeAddTaskPrompt();
   }
 
+  isAddTaskFormEdited() {
+    return this.utils.isFormPopulated(this.lms.addTaskPromptFormLm);
+  }
+
   confirmDiscardPromptData() {
-    if (this.utils.isFormPopulated(this.lms.addTaskPromptFormLm)) {
+    if (this.isAddTaskFormEdited()) {
       this.modalView.openConfirmModal(
         this.resetAddTaskForm.bind(this),
         false,

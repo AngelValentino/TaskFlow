@@ -45,8 +45,6 @@ export default class Utils {
   isFormPopulated(formLm) {
     const formData = this.getFormData(formLm)
 
-    console.log(formData)
-
     for (const key in formData) {
       if (formData[key]) {
         return true;

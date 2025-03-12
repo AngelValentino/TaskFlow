@@ -20,6 +20,7 @@ import Utils from "./services/Utils.js";
 import QuoteMachineController from "./controllers/QuoteMachineController.js";
 import QuoteModel from "./models/QuoteModel.js";
 import QuoteMachineView from "./views/QuoteMachineView.js";
+import ThemeHandler from "./services/ThemeHandler.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router;
@@ -29,16 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Add theme changer functionality
     // TODO Refactor PomodoroTimer into OOP
 
     const utils = new Utils;
-
-    // Quote machine
-    const quoteModel = new QuoteModel(utils);
-    const quoteMachineView = new QuoteMachineView(utils);
-
-    new QuoteMachineController(quoteModel, quoteMachineView, utils);
+    const themeHandler = new ThemeHandler(utils);
 
     // Task manager
     const auth = new Auth;
@@ -50,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskModel = new TaskModel(router, auth, tokenHandler);
 
     new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
+  
+    // Quote machine
+    const quoteModel = new QuoteModel(utils);
+    const quoteMachineView = new QuoteMachineView(utils);
+
+    new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
   });
 
   router.addRoute('/register', () => {
