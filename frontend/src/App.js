@@ -17,6 +17,9 @@ import TaskModel from "./models/TaskModel.js";
 import TokenHandler from "./services/TokenHandler.js";
 import ModalView from "./views/ModalView.js";
 import Utils from "./services/Utils.js";
+import QuoteMachineController from "./controllers/QuoteMachineController.js";
+import QuoteModel from "./models/QuoteModel.js";
+import QuoteMachineView from "./views/QuoteMachineView.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router;
@@ -26,11 +29,19 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
-    // TODO Add quote machine logic
+    // TODO Add theme changer functionality
+    // TODO Refactor PomodoroTimer into OOP
+
+    const utils = new Utils;
+
+    // Quote machine
+    const quoteModel = new QuoteModel(utils);
+    const quoteMachineView = new QuoteMachineView(utils);
+
+    new QuoteMachineController(quoteModel, quoteMachineView, utils);
 
     // Task manager
     const auth = new Auth;
-    const utils = new Utils;
     const userModel = new UserModel(router);
     const modalHandler = new ModalHandler;
     const modalView = new ModalView(modalHandler, utils);

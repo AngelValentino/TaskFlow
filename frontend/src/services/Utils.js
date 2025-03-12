@@ -1,5 +1,6 @@
 export default class Utils {
   debouncedHandlers = {};
+  lastIndexes = {};
 
   getActiveTabFilterParam() {
     const currentTabId = localStorage.getItem('currentActiveTabId');
@@ -104,6 +105,26 @@ export default class Utils {
   };
 
   getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+  // Returns a random index from the array that is not equal to the lastIndex
+  getNonRepeatingRandomIndex(array, lastIndexKey) {
+    const lastIndex = this.lastIndexes[lastIndexKey];
+
+    // Generate a random index between 0 and array.length - 1
+    const randomIndex = Math.floor(Math.random() * array.length);
+
+    if (randomIndex === lastIndex) {
+      console.log('recalculating index')
+      // Otherwise, recursively call the function until a different index is found
+      return this.getNonRepeatingRandomIndex(array, lastIndexKey);
+    }
+
+    // Update the lastIndexes to store the new random index
+    this.lastIndexes[lastIndexKey] = randomIndex;
+
+    // If the random index is different from the last index, return it
+    return randomIndex;
+  }
 
   debounce(callback, delay = 1000, key) {
     let timeout;
