@@ -173,4 +173,20 @@ export default class Utils {
       }
     }).join(''); // Join the parts back into a single string
   }
+
+  playSound(audio) {
+    audio.currentTime = 0; // Reset to the start
+    audio.play().catch(error => {
+      console.error('Playback error:', error);
+    });
+  }
+  
+  stopSound(audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+  
+  isSoundPlaying(audio) {
+    return !audio.paused && audio.currentTime > 0;
+  }
 }

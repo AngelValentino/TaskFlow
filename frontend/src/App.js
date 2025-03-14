@@ -21,6 +21,8 @@ import QuoteMachineController from "./controllers/QuoteMachineController.js";
 import QuoteModel from "./models/QuoteModel.js";
 import QuoteMachineView from "./views/QuoteMachineView.js";
 import ThemeHandler from "./services/ThemeHandler.js";
+import PomodoroTimerController from "./controllers/PomodoroTimerController.js";
+import PomodoroTimerView from "./views/PomodoroTimerView.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router;
@@ -29,8 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
-
-    // TODO Refactor PomodoroTimer into OOP
 
     const utils = new Utils;
     const themeHandler = new ThemeHandler(utils);
@@ -51,6 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const quoteMachineView = new QuoteMachineView(utils);
 
     new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
+  
+    // Pomodoro Timer
+    const pomodoroTimerView = new PomodoroTimerView(utils);
+
+    new PomodoroTimerController(pomodoroTimerView, taskManagerView);
   });
 
   router.addRoute('/register', () => {
