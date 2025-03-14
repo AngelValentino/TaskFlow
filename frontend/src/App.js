@@ -23,6 +23,8 @@ import QuoteMachineView from "./views/QuoteMachineView.js";
 import ThemeHandler from "./services/ThemeHandler.js";
 import PomodoroTimerController from "./controllers/PomodoroTimerController.js";
 import PomodoroTimerView from "./views/PomodoroTimerView.js";
+import UserMenuView from "./views/UserMenuView.js";
+import UserMenuController from "./controllers/UserMenuController.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router;
@@ -34,32 +36,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const utils = new Utils;
     const themeHandler = new ThemeHandler(utils);
+    const modalHandler = new ModalHandler;
+
+    // User menu
+    const userMenuView = new UserMenuView(modalHandler);
+    new UserMenuController(userMenuView);
 
     // Task manager
     const auth = new Auth;
     const userModel = new UserModel(router);
-    const modalHandler = new ModalHandler;
     const modalView = new ModalView(modalHandler, utils);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler);
-
     new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
   
     // Quote machine
     const quoteModel = new QuoteModel(utils);
     const quoteMachineView = new QuoteMachineView(utils);
-
     new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
   
     // Pomodoro Timer
     const pomodoroTimerView = new PomodoroTimerView(utils);
-
     new PomodoroTimerController(pomodoroTimerView, taskManagerView);
   });
 
   router.addRoute('/register', () => {
     appLm.innerHTML = RegisterPage.getHtml();
+    
+    const modalHandler = new ModalHandler;
+
+    // User menu
+    const userMenuView = new UserMenuView(modalHandler);
+    new UserMenuController(userMenuView);
+
     const userModel = new UserModel(router);
     const registerView = new RegisterView;
     new RegisterController(router, userModel, registerView);
@@ -67,6 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/login', () => {
     appLm.innerHTML = LoginPage.getHtml();
+
+    const modalHandler = new ModalHandler;
+
+    // User menu
+    const userMenuView = new UserMenuView(modalHandler);
+    new UserMenuController(userMenuView)
+
     const auth = new Auth;
     const userModel = new UserModel(router);
     const loginView = new LoginView;

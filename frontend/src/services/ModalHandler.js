@@ -95,6 +95,13 @@ export default class ModalHandler {
 
   handleOutsideClickClose(closeHandler, className) {
     return e => {
+      if (className === 'user-menu') {
+        if (!e.target.closest('.user-menu') && !e.target.closest('.user-menu-btn')) {
+          closeHandler();
+        }
+        return;
+      }
+
       if (
         !e.target.closest('.task-manager-container') &&
         (className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt') &&

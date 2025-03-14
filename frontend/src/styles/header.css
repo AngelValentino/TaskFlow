@@ -1,35 +1,84 @@
-.navbar {
-  padding: 10px 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.09);
-  position: fixed;
+
+
+.user-menu-btn {
+  right: 20px;
+  top: 20px;
   z-index: 10;
-  background-color: white;
-  top: 0;
+  position: fixed;
+  background-color: #fff;
+  border-radius: 50%;
+  line-height: 0;
+  padding: 5px;
+  border: 2px solid var(--dark-accent-color);
+  will-change: transform;
+  transition: transform 0.15s, border var(--base-transition-duration);
+}
+
+.user-menu-btn-svg {
+  width: 1.8rem;
+  color: var(--dark-accent-color);
+  transition: color var(--base-transition-duration); 
+  line-height: 0;
+}
+
+.user-menu-btn:hover {
+  transform: scale(1.05);
+}
+
+.user-menu-btn:active {
+  border: 2px solid var(--dark-to-medium-accent-color);
+  transition: transform 0.075s;
+  transform: scale(1);
+}
+
+.user-menu-btn:active .user-menu-btn-svg {
+  width: 1.8rem;
+  color: var(--dark-to-medium-accent-color);
+  transition: none; 
+  line-height: 0;
+}
+
+.user-menu {
+  background-color: #fff;
+  position: fixed;
+  top: 73px;
+  right: 20px;
+  max-width: 175px;
   width: 100%;
+  z-index: 20;
+  border-radius: 12px;
+  box-shadow: 0px 0px 20px -6px rgba(0, 0, 0, 0.12);
+  padding: 10px 0;
+  overflow-x: hidden;
+  display: none;
+  scrollbar-width: thin;
 }
 
-.navbar__links-list {
+.user-menu.active {
+  display: block;
+}
+
+.user-menu__link {
   display: flex;
+  align-items: center;
   gap: 12px;
-  justify-content: space-between;
+  font-size: 1.05rem;
+  width: 100%;
+  padding: 8px 17px;
+  overflow: hidden;
 }
 
-.navbar__links-list li {
-  display: inline-block;
+.user-menu__link-svg {
+  width: 1.6rem;
+  line-height: 0;
 }
 
-.navbar__link:hover {
-  color: green;
+.user-menu__link:hover,
+.user-menu__link:focus-visible {
+  background-color: rgba(0, 0, 0, 0.07);
+  outline: none;
 }
 
-.navbar__logout-btn:hover {
-  color: rgb(240, 74, 74);
-}
-.navbar__auth-links-container {
-  gap: 8px;
-  display: flex;
-}
-
-.navbar__greeting-message {
-  opacity: 0.5;
+.user-menu__link:active {
+  background-color: rgba(0, 0, 0, 0.15);
 }
