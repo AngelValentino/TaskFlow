@@ -32,14 +32,22 @@ body {
   white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 }
 
+body.theme-changer {
+  background-color: var(--light-accent-color);
+  position: relative;
+  transition: background-color 0.5s;
+}
+
 body {
   font-family: sans-serif;
   margin: 0 auto;
-  background-color: var(--light-accent-color);
   min-width: 360px;
-  position: relative;
-  transition: background-color 0.5s;
   color: var(--base-text-color);
+}
+
+main {
+  min-height: 100vh;
+  padding: 50px 30px 30px;
 }
 
 .background-image {
@@ -49,10 +57,6 @@ body {
   background-size: cover;
   inset: 0;
   opacity: 0;
-}
-
-main {
-  padding-top: 50px;
 }
 
 /* UI COMPONENTS */

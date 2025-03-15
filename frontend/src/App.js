@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/register', () => {
     appLm.innerHTML = RegisterPage.getHtml();
+    document.body.classList.add('register-view');
     
     const modalHandler = new ModalHandler;
 

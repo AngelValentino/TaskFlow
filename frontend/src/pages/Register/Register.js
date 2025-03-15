@@ -8,7 +8,7 @@ export default class RegisterPage {
 
     return `
       ${header}
-      <main>
+      <main class="register-view">
         ${registerUserForm}
       </main>
     `;

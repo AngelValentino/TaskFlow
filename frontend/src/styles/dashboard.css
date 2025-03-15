@@ -1,6 +1,4 @@
-.dashboard {
-  min-height: 100vh;
-  padding: 50px 30px 30px;
+main.dashboard-view {
   max-width: 1400px;
   margin: 0 auto;
   display: flex;

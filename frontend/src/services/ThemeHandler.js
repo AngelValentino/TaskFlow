@@ -73,6 +73,7 @@ export default class ThemeHandler {
     };
     this.timIds = {};
 
+    document.body.classList.add('theme-changer');
     this.setRandomTheme();
   }
 

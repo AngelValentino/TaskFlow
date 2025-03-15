@@ -43,6 +43,7 @@ export default class Router {
 
     // Avoid rendering the same view
     if (formerView === currentView) return;
+    document.body.className = '';
 
     // Before navigating to the new view, cancel any active fetch
     this.abortActiveFetch();
