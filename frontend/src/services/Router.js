@@ -1,10 +1,11 @@
 export default class Router {
-  constructor() {
+  constructor(modalHandler) {
     if (Router.instance) return Router.instance; // Prevents multiple instances
     this.routes = [];
     this.init();
     this.appLm = document.getElementById('App');
     this.abortController = new AbortController();
+    this.modalHandler = modalHandler;
     Router.instance = this; // Store the instance
   }
 
@@ -45,6 +46,8 @@ export default class Router {
     if (formerView === currentView) return;
     document.body.className = '';
 
+    this.modalHandler.clearRemainingDocumentBodyEvents();
+
     // Before navigating to the new view, cancel any active fetch
     this.abortActiveFetch();
   
@@ -68,9 +71,12 @@ export default class Router {
   // Set up event listener for links with the 'data-link' attribute
   setupLinkNavigation() {
     document.body.addEventListener('click', e => {
-      if (e.target.matches('[data-link]')) {
+      const link = e.target.closest('[data-link]');
+      
+      if (link) {
         e.preventDefault();
-        this.navigateTo(e.target.href);
+        e.stopPropagation();
+        this.navigateTo(link.href);
       }
     });
   }

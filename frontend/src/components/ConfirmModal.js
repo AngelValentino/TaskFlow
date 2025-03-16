@@ -4,17 +4,17 @@ export default class ConfirmModal {
   static utils = new Utils;
 
   static getHtml(
-    { 
+    {
       description = 'Are you sure you want to discard your changes?',
       imgLm = null,
       isDeleteAllTasksModal = false
     } = {}
   ) {
-      imgLm === null 
-        ? imgLm = `
-          <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-${this.utils.getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash." />
-        `
-        : imgLm
+    imgLm === null 
+      ? imgLm = `
+        <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-${this.utils.getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash." />
+      `
+      : imgLm
 
     const optionalActiveOrCompletedTasksDelete = () => {
       return `

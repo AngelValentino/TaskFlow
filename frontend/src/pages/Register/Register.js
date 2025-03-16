@@ -3,7 +3,7 @@ import RegisterUserForm from "./components/RegisterUserForm.js";
 
 export default class RegisterPage {
   static getHtml() {
-    const header = Header.getHtml();
+    const header = Header.getHtml({ returnBackHome: true });
     const registerUserForm = RegisterUserForm.getHtml();
 
     return `

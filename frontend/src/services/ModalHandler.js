@@ -1,6 +1,8 @@
 export default class ModalHandler {
   constructor() {
+    if (ModalHandler.instance) return ModalHandler.instance; // Prevents multiple instances
     this.eventsHandler = {};
+    ModalHandler.instance = this; // Store the instance
   }
 
   setActiveBtn(btnLm) {
@@ -120,6 +122,19 @@ export default class ModalHandler {
     }
   }
 
+  clearRemainingDocumentBodyEvents() {
+    const documentEvents = this.eventsHandler.documentBody;
+
+    if (documentEvents) {
+      documentEvents.forEach(eventHandler => {
+        console.log('cleared', eventHandler.type)
+        document.body.removeEventListener(eventHandler.type, eventHandler.reference);
+      });
+
+      documentEvents.length = 0;
+    }
+  }
+
   addModalEvents(eventHandlerKey, className, modalContainerLm, modalLm, closeLms, closeHandler) {
     const escapeKeyHandler = this.handleEscapeKeyClose(closeHandler, className);
     const outsideClickHandler = this.handleOutsideClickClose(closeHandler, className);
@@ -148,6 +163,21 @@ export default class ModalHandler {
     modalLm && (eventsHandler.trapFocusHandler = trapFocusHandler);
     closeLms && (eventsHandler.closeHandler = closeHandler);
 
+    // Store document body related events to manage them in the view via the router.
+    // Since the body doesn't re-render, previous events may persist if the user switches views
+    // without closing the modal, potentially causing issues within the SPA routing.
+    
+    if (!this.eventsHandler.documentBody) {
+      this.eventsHandler.documentBody = [];
+    };
+    const documentEvents = this.eventsHandler.documentBody;
+
+    documentEvents.push({ type: 'keydown', reference: escapeKeyHandler });
+    if (modalContainerLm === document.body) {
+      documentEvents.push({ type: 'click', reference: outsideClickHandler });
+    }
+
+    console.log(this.eventsHandler);
     console.log('event listeners added');
   }
 
@@ -166,11 +196,15 @@ export default class ModalHandler {
     }
 
     // Clean up stored handlers
-    delete eventsHandler.escKeyHandler;
+    delete eventsHandler.escapeKeyHandler;
     modalLm && delete eventsHandler.trapFocusHandler;
     modalContainerLm && delete eventsHandler.outsideClickHandler;
     closeLms && delete eventsHandler.closeHandler;
 
+    // Clear store document body event handler references
+    this.eventsHandler.documentBody.length = 0;
+
+    console.log(this.eventsHandler);
     console.log('event listeners removed');
   }
 }

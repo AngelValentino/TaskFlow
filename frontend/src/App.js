@@ -27,16 +27,17 @@ import UserMenuView from "./views/UserMenuView.js";
 import UserMenuController from "./controllers/UserMenuController.js";
 
 document.addEventListener('DOMContentLoaded', () => {
-  const router = new Router;
+  const modalHandler = new ModalHandler;
+  const router = new Router(modalHandler);
+  const utils = new Utils;
   const appLm = document.getElementById('App');
+
+  // TODO Refactor and finish application
 
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
-
-    const utils = new Utils;
     const themeHandler = new ThemeHandler(utils);
-    const modalHandler = new ModalHandler;
 
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
