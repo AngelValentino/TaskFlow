@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/login', () => {
     appLm.innerHTML = LoginPage.getHtml();
+    document.body.classList.add('login-view');
 
     const modalHandler = new ModalHandler;
 

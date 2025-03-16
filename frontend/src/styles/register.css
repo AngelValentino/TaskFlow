@@ -12,7 +12,6 @@ main.register-view {
 
 .register-view-container {
   width: 100%;
-  margin-bottom: 50px;
 }
 
 .register-view-title {
@@ -80,10 +79,13 @@ main.register-view {
   transform: scale(1.4);
 }
 
+.register-form__submit-btn-container {
+  text-align: center;
+}
+
 .register-form__submit-btn[disabled] {
-  border-color: transparent;
-  background-color: #b1b1b1;
-  color: #dfdfdf;
+  opacity: 0.35;
+  color: #f0f0f0;
   cursor: default;
   pointer-events: none;
 }
@@ -95,65 +97,32 @@ main.register-view {
   font-size: 1rem;
   background-color: var(--dark-accent-color);
   color: #fff;
+}
+
+.login-account-container {
+  margin: 40px 0 0;
   text-align: center;
 }
 
-.register-form__submit-btn-container {
-  text-align: center;
+.login-account-message {
+  font-size: 0.95rem;
+  color: #6e6e6e;
+  margin-bottom: 18px;
 }
 
-
-
-
-
-
-
-
-.login-form {
+.login-account-link {
+  padding: 9px 20px;
+  border: 2px solid var(--medium-accent-color);
+  border-radius: 50px;
   display: inline-block;
-  padding: 15px;
-  background-color: #fff;
-  border: 2px solid red;
-  max-width: 325px;
-  width: 100%;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration), border var(--base-transition-duration);
 }
 
-.login-form label,
-.login-form input {
-  display: block;
-  width: 100%;
-}
-
-.login-form label {
-  padding: 0 0 8px;
-}
-
-
-.login-form input {
-  padding: 2px 5px;
-  margin: 0 0 15px;
-}
-
-.register-form .error-message {
-  margin: 0 0 15px;
-}
-
-.login-form__submit-btn {
-  background-color: green;
+.login-account-link:hover {
   color: #fff;
-  padding: 10px;
-  border-radius: 2px;
-  margin: 10px 0 0;
+  background-color: var(--medium-accent-color);
+  border: 2px solid var(--medium-accent-color);
 }
-
-.login-form__submit-btn {
-  background-color: black;
-}
-
-
-
-
-
 
 
 @media screen and (max-width: 900px) {

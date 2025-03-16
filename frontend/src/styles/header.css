@@ -4,7 +4,7 @@
   right: 20px;
   top: 20px;
   z-index: 10;
-  position: fixed;
+  position: absolute;
   background-color: #fff;
   border-radius: 50%;
   line-height: 0;

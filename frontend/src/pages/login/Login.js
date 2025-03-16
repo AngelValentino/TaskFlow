@@ -8,7 +8,7 @@ export default class LoginPage {
 
     return `
       ${header}
-      <main>
+      <main class="login-view">
         ${loginUserForm}
       </main>
     `;

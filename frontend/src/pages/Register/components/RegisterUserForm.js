@@ -37,9 +37,13 @@ export default class RegisterUserForm {
           </div>
 
           <div class="register-form__submit-btn-container">
-            <button id="register-form__submit-btn" class="register-form__submit-btn" type="submit">Register</button
+            <button id="register-form__submit-btn" class="register-form__submit-btn" type="submit" disabled>Register</button>
           </div>
         </form>
+        <div class="login-account-container">
+          <p class="login-account-message">Already have an account?</p>
+          <a href="/login" class="login-account-link" data-link>Log into your TaskFlow account</a>
+        </div>
       </div>
     `;
   }
