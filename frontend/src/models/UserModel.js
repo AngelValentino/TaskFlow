@@ -23,7 +23,7 @@ export default class UserModel {
 
     // API error
     if (!response.ok) {
-      throw new Error(`Couldn't properly register the user, try again later`);
+      throw new Error(`Oops! Error ${response.status}: We couldn't register your user data into our storage. Please try again later.`);
     }
 
     const data = await response.json();

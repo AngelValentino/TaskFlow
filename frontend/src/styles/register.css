@@ -34,22 +34,26 @@ main.register-view {
   font-size: 0.95rem;
 }
 
-.register-form__input-label-contaner {
+.register-form__input-label-container {
   display: flex;
   margin: 30px 0 0;
   align-items: center;
 }
 
-.register-form__input-label-contaner label {
+.register-form__input-label-container label {
   border-left: thick solid #333;
   padding-left: 10px;
   flex: 1;
   font-size: 0.95rem;
+  align-self: start;
 }
 
-.register-form__input-label-contaner input {
+.register-form__input-label-container .register-form__input-container {
   width: 62%;
-  display: block;
+}
+
+.register-form__input-label-container input {
+  width: 100%;
   min-height: 40px;
   margin: 0;
   padding: 6px 14px;
@@ -58,9 +62,28 @@ main.register-view {
   font-size: 0.95rem;
 }
 
-.register-form__input-label-contaner input::placeholder {
+.register-form__input-label-container input::placeholder {
   opacity: 0.5;
 }
+
+.register-form__input-label-container input.error {
+  border-color: #d90b1b;
+  background-color: #ffe4e4;
+}
+
+.register-form__input-error-message {
+  color: #d90b1b;
+  font-size: 0.825rem;
+  margin-top: 5px;
+}
+
+
+.register-form__general-error {
+  color: #d90b1b;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
 
 
 .register-form__terms-and-conditions {
@@ -97,6 +120,11 @@ main.register-view {
   font-size: 1rem;
   background-color: var(--dark-accent-color);
   color: #fff;
+  transition: opacity var(--base-transition-duration);
+}
+
+.register-form__submit-btn:hover {
+  opacity: 0.75;
 }
 
 .login-account-container {
@@ -126,19 +154,19 @@ main.register-view {
 
 
 @media screen and (max-width: 900px) {
-  .register-form__input-label-contaner {
+  .register-form__input-label-container {
     display: flex;
     margin: 30px 0 0;
     align-items: center;
     display: block;
   }
 
-  .register-form__input-label-contaner label {
+  .register-form__input-label-container label {
     margin: 0 0 10px;
     display: block;
   }
-  
-  .register-form__input-label-contaner input {
+
+  .register-form__input-label-container .register-form__input-container {
     width: 100%;
   }
 }

@@ -172,6 +172,9 @@ export default class ModalHandler {
     };
     const documentEvents = this.eventsHandler.documentBody;
 
+    // Clear stored document body event handler references
+    documentEvents.length = 0;
+
     documentEvents.push({ type: 'keydown', reference: escapeKeyHandler });
     if (modalContainerLm === document.body) {
       documentEvents.push({ type: 'click', reference: outsideClickHandler });
@@ -200,9 +203,6 @@ export default class ModalHandler {
     modalLm && delete eventsHandler.trapFocusHandler;
     modalContainerLm && delete eventsHandler.outsideClickHandler;
     closeLms && delete eventsHandler.closeHandler;
-
-    // Clear store document body event handler references
-    this.eventsHandler.documentBody.length = 0;
 
     console.log(this.eventsHandler);
     console.log('event listeners removed');
