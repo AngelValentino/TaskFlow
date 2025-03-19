@@ -3,8 +3,7 @@ export default class UserMenuView {
     this.modalHandler = modalHandler;
     this.lms = {
       userMenuBtn: document.getElementById('user-menu-btn'),
-      userMenuLm: document.getElementById('user-menu'),
-      loginLink: document.getElementById('user-menu__login-link')
+      userMenuLm: document.getElementById('user-menu')
     }
     this.lastFocusedLmBeforeModal = null;
   }
@@ -15,8 +14,8 @@ export default class UserMenuView {
 
   openUserMenu() {
     this.lms.userMenuLm.classList.add('active');
-
-    this.lastFocusedLmBeforeModal = this.modalHandler.toggleModalFocus('add', this.lms.loginLink);
+    const firstFocusableLm = this.lms.userMenuLm.children[0].querySelector('.user-menu__link')
+    this.lastFocusedLmBeforeModal = this.modalHandler.toggleModalFocus('add', firstFocusableLm);
 
     this.modalHandler.addModalEvents(
       'userMenu',
