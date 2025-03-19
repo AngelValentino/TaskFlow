@@ -61,7 +61,6 @@ export default class RegisterView {
   toggleSubmitBtn(errors) {
     const isValid = Object.values(errors).every(error => error === false);
     this.lms.submitBtn.disabled = !isValid;
-    console.log(isValid)
   }
 
   updateSubmitBtn(text) {

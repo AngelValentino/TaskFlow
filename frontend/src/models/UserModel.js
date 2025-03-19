@@ -46,7 +46,7 @@ export default class UserModel {
     }
 
     if (!response.ok) {
-      throw new Error(`Couldn't properly login the user, try again later`);
+      throw new Error(`Oops! Error ${response.status}: We couldn't login into your account. Please try again later.`);
     }
 
     const data = await response.json();

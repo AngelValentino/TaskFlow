@@ -5,9 +5,57 @@ export default class LoginController {
     this.userModel = userModel;
     this.loginView = loginView;
 
+    this.errors = {
+      email: null,
+      password: null
+    };
+
     this.lms = this.loginView.getDomRefs();
 
     this.lms.loginFormLm.addEventListener('submit', this.loginUser.bind(this));
+    this.addValidationEventsOnInputChange();
+  }
+
+  addValidationEventsOnInputChange() {
+    this.lms.loginFormInputLms.forEach(input => {
+      input.addEventListener('input', this.handleValidation.bind(this));
+    })
+  }
+
+  getPasswordValidationError(username) {
+    if (username.length <= 0) {
+      return 'Password is required.';
+    }
+
+    return false;
+  }
+
+  getEmailValidationError(email) {
+    if (email.length <= 0) {
+      return 'Email address is required.';
+    }
+
+    return false;
+  }
+
+  handleValidation(e) {
+    if (e.target.tagName !== 'INPUT') return;
+
+    const input = e.target;
+    const value = input.value.trim();
+
+    switch (input.name) {
+      case 'email':
+        this.errors.email = this.getEmailValidationError(value);
+        break;
+
+      case 'password':
+        this.errors.password = this.getPasswordValidationError(value);
+        break;
+    }
+
+    console.log(this.errors);
+    this.loginView.toggleSubmitBtn(this.errors);
   }
 
   loginUser(e) {
@@ -39,7 +87,7 @@ export default class LoginController {
       })
       .finally(() => {
         if (wasFetchAborted) return;
-        this.loginView.updateSubmitBtn('Register');
+        this.loginView.updateSubmitBtn('Log in');
       });
   }
 }

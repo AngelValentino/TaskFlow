@@ -9,7 +9,7 @@ export default class RegisterController {
       email: null,
       password: null,
       repeated_password: null,
-      terms: null,
+      terms: null
     };
 
     // Track if each field has been blurred at least once
@@ -24,7 +24,7 @@ export default class RegisterController {
 
     this.lms.registerFormLm.addEventListener('submit', this.registerUser.bind(this));
     this.lms.registerFormLm.addEventListener('blur', this.handleValidationOnBlur.bind(this), true);
-    this.addValidatonEventsOnInputChange();
+    this.addValidatonEventOnInputChange();
   }
 
   handleValidationOnBlur(e) {
@@ -33,7 +33,7 @@ export default class RegisterController {
     this.handleValidation(e);
   }
 
-  addValidatonEventsOnInputChange() {
+  addValidatonEventOnInputChange() {
     this.lms.registerFormInputLms.forEach(input => {
       input.addEventListener('input', e => {
         // Only validate if input has been blurred before

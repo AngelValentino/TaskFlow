@@ -77,14 +77,11 @@ main.register-view {
   margin-top: 5px;
 }
 
-
 .register-form__general-error {
   color: #d90b1b;
   font-size: 0.95rem;
   margin-top: 10px;
 }
-
-
 
 .register-form__terms-and-conditions {
   border-top: 2px solid #dfdfdf;

@@ -20,7 +20,6 @@ main.login-view {
 .login-view-container {
   max-width: 458px;
   width: 100%;
-/*   margin-bottom: 60px; */
 }
 
 .login-form {
@@ -90,6 +89,11 @@ main.login-view {
   font-size: 1rem;
   background-color: var(--dark-accent-color);
   color: #fff;
+  transition: opacity var(--base-transition-duration);
+}
+
+.login-form__submit-btn:hover {
+  opacity: 0.75;
 }
 
 .create-new-account-container {
@@ -117,6 +121,13 @@ main.login-view {
   border: 2px solid var(--medium-accent-color);
 }
 
+.login-form__error {
+  color: #d90b1b;
+  font-size: 0.95rem;
+  background-color: #fff;
+  padding: 0 50px 15px;
+}
+
 @media screen and (max-width: 450px) {
   .login-form__inputs-container {
     padding: 30px;
@@ -124,5 +135,9 @@ main.login-view {
   
   .login-form__submit-btn-container {
     padding: 30px;
+  }
+
+  .login-form__error {
+    padding: 0 30px 15px;
   }
 }
