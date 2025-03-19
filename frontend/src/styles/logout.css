@@ -1,0 +1,30 @@
+.logout-message {
+  background-color: var(--dark-to-medium-accent-color);
+  padding: 10px;
+  border-radius: 3px;
+  color: #fff;
+  display: inline-block;
+  font-size: 1.05rem;
+}
+
+.logout-message.error {
+  background-color: #ee4a31;
+}
+
+.return-home-message {
+  font-size: 1.05rem;
+  margin-top: 10px;
+  display: none;
+}
+
+.logout-message.error + .return-home-message {
+  display: block;
+}
+
+.return-home-link {
+  color: var(--dark-to-medium-accent-color);
+}
+
+.return-home-link:hover {
+  text-decoration: underline;
+}

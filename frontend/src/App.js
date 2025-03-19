@@ -25,6 +25,7 @@ import PomodoroTimerController from "./controllers/PomodoroTimerController.js";
 import PomodoroTimerView from "./views/PomodoroTimerView.js";
 import UserMenuView from "./views/UserMenuView.js";
 import UserMenuController from "./controllers/UserMenuController.js";
+import LogoutView from "./views/LogoutView.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Task manager
     const auth = new Auth;
-    const userModel = new UserModel(router);
+    const userModel = new UserModel(router, auth);
     const modalView = new ModalView(modalHandler, utils);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils);
     const tokenHandler = new TokenHandler(router, userModel, auth);
@@ -97,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     appLm.innerHTML = LogoutPage.getHtml();
     const auth = new Auth;
     const userModel = new UserModel(router);
-    new LogoutController(router, auth, userModel);
+    const logoutView = new LogoutView;
+    new LogoutController(router, auth, userModel, logoutView);
   });
 
   // Dispatch to the correct route

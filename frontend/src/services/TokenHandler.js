@@ -35,10 +35,9 @@ export default class TokenHandler {
 
     if (!response.ok) {
       // Logout user
-      await this.userModel.handleUserLogout();
-      this.auth.logoutClient();
-      const error = new Error('Refresh token has expired or is no longer valid, logging out user.');
-      
+      const errorMessage = await this.userModel.handleUserLogout(false);
+      const error = new Error(errorMessage);
+      console.log(error)
       // Reject queued promises and return
       this.processTokenQueue(error);
       throw error;

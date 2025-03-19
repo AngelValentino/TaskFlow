@@ -1,6 +1,7 @@
 export default class UserModel {
-  constructor(router) {
-    this.router = router
+  constructor(router, auth) {
+    this.router = router;
+    this.auth = auth;
   }
 
   async handleUserRegistration(formData) {
@@ -53,30 +54,34 @@ export default class UserModel {
     return data;
   }
 
-  async handleUserLogout() {
+  async handleUserLogout(throwErrors = true) {
     const response = await fetch('http://taskflow-api.com/logout', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json' 
       },
       body: JSON.stringify({
-        token: localStorage.getItem('refreshToken')
+        token: localStorage.getItem('refreshToken') 
       }),
       signal: this.router.getAbortSignal()
     });
 
     if (response.status === 401) {
-      // If the refresh token has expired, just logout the client
-      // Any logout request will throw errors as the token is no longer valid
       const error = await response.json();
       if (error.message === 'Token has expired.') {
         console.warn('Expired refresh token.');
-        return;
+        this.auth.logoutClient();
+        return 'Oops! Refresh token has expired or is no longer valid. Please try again later, refresh the page or clear browser history.';
       }
     }
 
     if (!response.ok) {
-      throw new Error(`Couldn't properly logout the user, try again later`);
+      if (throwErrors) {
+        throw new Error(`Oops! Error ${response.status}: We couldn't log you out from the app. Please try again later, refresh the page or clear browser history.`);
+      } 
+      else {
+        return `Oops! Error ${response.status}: We couldn't log you out from the app. Please try again later, refresh the page or clear browser history.`;
+      }
     }
   }
 }
