@@ -18,7 +18,7 @@ export default class ConfirmModal {
 
         return `
           <div style="background-image: url('public/assets/images/recycle/garbage-collector-low-res-${randomNumber}.jpg')" class="confirm-modal__image-container blur-img-loader">
-            <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-${randomNumber}.jpg" alt="A drawing of a garbage collector taking out the trash." />
+            <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-${randomNumber}.jpg" alt="A drawing of a garbage collector taking out the trash.">
           </div>
         `;
       }

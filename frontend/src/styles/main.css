@@ -59,6 +59,36 @@ main {
   opacity: 0;
 }
 
+/* LOADERS */
+
+.loading-circle {
+  display: flex;
+  justify-content: center;
+}
+
+.loading-circle::after {
+  content: "";
+  width: 45px;
+  height: 45px;
+  border: 0.55rem solid transparent;
+  border-top-color: var(--base-text-color);
+  border-radius: 50%;
+  transform: rotate(0.16turn);
+  animation: spinLoader 1s ease infinite;
+}
+
+@keyframes spinLoader {
+  /* Safari support */
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* END OF LOADERS */
+
 /* BLUR IMAGE PROGRESSIVE LOADER */
 
 .blur-img-loader {
@@ -221,6 +251,12 @@ main {
 @media screen and (max-width: 500px) {
   html {
     font-size: 15px !important;
+  }
+
+  .loading-circle::after {
+    width: 40px;
+    height: 40px;
+    border-width: 0.52rem;
   }
 }
 

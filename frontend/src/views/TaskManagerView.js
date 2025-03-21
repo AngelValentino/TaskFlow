@@ -241,7 +241,6 @@ export default class TaskManagerView {
     this.lms.currentDateLm.setAttribute('datetime', this.utils.formatDate(currentDate).isoFormat);
   }
 
-  //TODO SVG spinner does not load properly on page load, it needs to be changed
   renderTasksListLoader() {
     this.lms.tasksContainerLm.innerHTML = TasksListLoader.getHtml();
   }
