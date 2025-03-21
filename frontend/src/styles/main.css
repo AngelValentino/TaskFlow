@@ -59,6 +59,47 @@ main {
   opacity: 0;
 }
 
+/* BLUR IMAGE PROGRESSIVE LOADER */
+
+.blur-img-loader {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.blur-img-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  animation: pulse 1.25s infinite ease-in-out alternate;
+}
+
+.blur-img-loader.loaded::before {
+  content: none;
+}
+
+.blur-img-loader img {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+  object-fit: cover;
+  object-position: center;
+}
+
+.blur-img-loader.loaded img {
+  opacity: 1;
+}
+
+@keyframes pulse {
+  from {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  to {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+}
+
+/* END OF BLUR IMAGE PROGRESSIVE LOADER */
+
 /* UI COMPONENTS */
 
 .appear-bg-from-center,

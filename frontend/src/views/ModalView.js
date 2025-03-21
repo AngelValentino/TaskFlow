@@ -7,9 +7,10 @@ import InfoMaxTasksModal from "../components/InfoMaxTasksModal.js";
 import InfoEmptyTaskListModal from "../components/InfoEmptyTaskListModal.js";
 
 export default class ModalView {
-  constructor(modalHandler, utils) {
+  constructor(modalHandler, utils, loadHandler) {
     this.modalHandler = modalHandler;
     this.utils = utils;
+    this.loadHandler = loadHandler;
 
     this.lms = {};
 
@@ -102,6 +103,7 @@ export default class ModalView {
 
     document.body.insertAdjacentHTML('afterbegin', infoModalHtml);
     this.setModalDomRefs();
+    this.loadHandler.blurLoadImages();
   }
 
   generateConfirmModal(modalType) {
@@ -126,8 +128,9 @@ export default class ModalView {
         break;
     }
 
-  document.body.insertAdjacentHTML('afterbegin', confirmModalHtml);
-  this.setModalDomRefs();
+    document.body.insertAdjacentHTML('afterbegin', confirmModalHtml);
+    this.setModalDomRefs();
+    this.loadHandler.blurLoadImages();
   }
 
   generateEditModal() {

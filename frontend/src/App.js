@@ -26,19 +26,23 @@ import PomodoroTimerView from "./views/PomodoroTimerView.js";
 import UserMenuView from "./views/UserMenuView.js";
 import UserMenuController from "./controllers/UserMenuController.js";
 import LogoutView from "./views/LogoutView.js";
+import LoadHandler from "./services/LoadHandler.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
   const router = new Router(modalHandler);
   const utils = new Utils;
   const appLm = document.getElementById('App');
+  const loadHandler = new LoadHandler;
 
   // TODO Refactor and finish application
 
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
+    loadHandler.blurLoadImages();
     const themeHandler = new ThemeHandler(utils);
+    themeHandler.setRandomTheme();
 
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
@@ -47,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Task manager
     const auth = new Auth;
     const userModel = new UserModel(router, auth);
-    const modalView = new ModalView(modalHandler, utils);
-    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils);
+    const modalView = new ModalView(modalHandler, utils, loadHandler);
+    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler);
     new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);

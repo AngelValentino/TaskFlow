@@ -43,19 +43,25 @@
   opacity: 0;
 }
 
-.confirm-modal img,
-.info-modal img {
-  display: block;
+.confirm-modal__image-container {
+  width: 125px;
+  height: 125px;
   margin: 0 auto 15px;
 }
 
-.confirm-modal__recycle-placeholder-img {
-  width: 100px;
+.info-modal__image-container {
+  width: 125px;
+  height: 125px;
+  margin: 0 auto 15px;
 }
 
+.confirm-modal__recycle-placeholder-img,
 .capybara-placeholder-img {
-  width: 125px;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
+
 
 .edit-modal__close-btn,
 .confirm-modal__close-btn,

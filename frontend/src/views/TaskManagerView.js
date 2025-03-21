@@ -3,13 +3,14 @@ import TaskCompleted from '../pages/dashboard/components/CompletedTask.js';
 import TasksListPlaceholder from '../pages/dashboard/components/TasksListPlaceholder.js';
 import TasksListLoader from '../pages/dashboard/components/TasksListLoader.js';
 import TasksListError from '../pages/dashboard/components/TasksListError.js';
-import EmptyTasksListPlaceholder from '../pages/dashboard/components/emptyTasksListPlacehodler.js';
+import EmptyTasksListPlaceholder from '../pages/dashboard/components/EmptyTasksListPlacehodler.js';
 
 export default class TaskManagerView {
-  constructor(modalHandler, modalView, utils) {
+  constructor(modalHandler, modalView, utils, loadHandler) {
     this.modalHandler = modalHandler;
     this.modalView = modalView;
     this.utils = utils;
+    this.loadHandler = loadHandler;
     this.timIds = {};
     this.controllerMethods = {};
     this.lms = {
@@ -253,7 +254,9 @@ export default class TaskManagerView {
     if (taskData.length === 0) {
       this.lms.tasksContainerLm.innerHTML = this.getCurrentSearchValue() 
         ? EmptyTasksListPlaceholder.getHtml() 
-        : TasksListPlaceholder.getHtml() 
+        : TasksListPlaceholder.getHtml()
+
+      this.loadHandler.blurLoadImages();
       return;
     }
 

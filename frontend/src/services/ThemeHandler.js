@@ -74,7 +74,6 @@ export default class ThemeHandler {
     this.timIds = {};
 
     document.body.classList.add('theme-changer');
-    this.setRandomTheme();
   }
 
   changeRootTheme({ darkAccent, mediumToDarkAccent, mediumAccent, lightAccent, contrast }) {
@@ -115,6 +114,8 @@ export default class ThemeHandler {
   }
 
   setRandomTheme(time = 0) {
+    console.log(this.lms.backgroundImgLm)
+
     this.lms.backgroundImgLm.style.opacity = 0;
     clearTimeout(this.timIds.loadBgIm);
 

@@ -105,16 +105,26 @@ export default class Utils {
   getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
   // Returns a random index from the array that is not equal to the lastIndex
-  getNonRepeatingRandomIndex(array, lastIndexKey) {
+  getNonRepeatingRandomIndex(array, lastIndexKey, notIndexed = false) {
     const lastIndex = this.lastIndexes[lastIndexKey];
+    let randomIndex = 0;
 
     // Generate a random index between 0 and array.length - 1
-    const randomIndex = Math.floor(Math.random() * array.length);
+    if (notIndexed) {
+      console.log(array)
+      console.log(array.length)
+      // Generate random index between 1 and array.length (inclusive)
+      randomIndex = Math.floor(Math.random() * array.length) + 1;
+    } 
+    else {
+      // Generate random index between 0 and array.length - 1
+      randomIndex = Math.floor(Math.random() * array.length);
+    }
 
     if (randomIndex === lastIndex) {
       console.log('recalculating index')
       // Otherwise, recursively call the function until a different index is found
-      return this.getNonRepeatingRandomIndex(array, lastIndexKey);
+      return this.getNonRepeatingRandomIndex(array, lastIndexKey, notIndexed);
     }
 
     // Update the lastIndexes to store the new random index

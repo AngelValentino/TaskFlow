@@ -6,8 +6,10 @@ export default class InfoModal {
   ) {
     return `
       <div id="info-modal-container" class="info-modal-container">
-        <div class="info-modal" id="info-modal" role="dialog" aria-describedby="dialog__desc">
-          <img class="capybara-placeholder-img" src="public/assets/images/drawings/chilling-capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>
+        <div class="info-modal" id="info-modal" role="dialog" aria-describedby="info-modal__desc">
+          <div style="background-image: url('public/assets/images/drawings/chilling-capybara-low-res.jpg')" class="info-modal__image-container blur-img-loader">
+            <img class="capybara-placeholder-img" src="public/assets/images/drawings/chilling-capybara.jpg" alt="A drawing of capybara having a bath in a hot tub with a rubber duck on its head."/>
+          </div>  
           <button title="Close dialog" aria-label="Close dialog." type="button" class="info-modal__close-btn appear-bg-from-center rounded dark-soft" id="info-modal__close-btn">
             <svg aria-hidden="true" focusable="false" role="presentation" class="info-modal__close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"></path>

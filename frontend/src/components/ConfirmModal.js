@@ -10,11 +10,22 @@ export default class ConfirmModal {
       isDeleteAllTasksModal = false
     } = {}
   ) {
-    imgLm === null 
-      ? imgLm = `
-        <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-${this.utils.getRandomNumber(1, 6)}.jpg" alt="A drawing of a garbage collector taking out the trash." />
-      `
-      : imgLm
+
+    const getImgLm = () => {
+      if (imgLm === null) {
+        const array = new Array(6);
+        const randomNumber = this.utils.getNonRepeatingRandomIndex(array, 'confirmModal', true);
+
+        return `
+          <div style="background-image: url('public/assets/images/recycle/garbage-collector-low-res-${randomNumber}.jpg')" class="confirm-modal__image-container blur-img-loader">
+            <img class="confirm-modal__recycle-placeholder-img" src="public/assets/images/recycle/garbage-collector-${randomNumber}.jpg" alt="A drawing of a garbage collector taking out the trash." />
+          </div>
+        `;
+      }
+      else {
+        return imgLm;
+      }
+    }
 
     const optionalActiveOrCompletedTasksDelete = () => {
       return `
@@ -28,9 +39,7 @@ export default class ConfirmModal {
     return `
       <div id="confirm-modal-container" class="confirm-modal-container">
         <div class="confirm-modal" id="confirm-modal" role="alertdialog" aria-describedby="confirm-modal__desc">
-          <div id="confirm-modal__image-container">
-            ${imgLm}
-          </div>
+          ${getImgLm()}
           <button title="Close modal" aria-label="Close modal." type="button" class="confirm-modal__close-btn appear-bg-from-center rounded dark-soft" id="confirm-modal__close-btn">
             <svg aria-hidden="true" focusable="false" role="presentation" class="confirm-modal__close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"></path>

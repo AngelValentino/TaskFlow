@@ -37,7 +37,7 @@ export default class TokenHandler {
       // Logout user
       const errorMessage = await this.userModel.handleUserLogout(false);
       const error = new Error(errorMessage);
-      console.log(error)
+      console.log(error);
       // Reject queued promises and return
       this.processTokenQueue(error);
       throw error;
