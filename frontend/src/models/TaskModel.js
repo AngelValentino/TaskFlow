@@ -18,6 +18,8 @@ export default class TaskModel {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     taskData.id = Date.now();
     taskData.is_completed = false;
+    taskData.completed_at = null;
+    console.log(taskData)
     tasks.push(taskData);
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
@@ -98,6 +100,8 @@ export default class TaskModel {
 
   completeTaskFromLocalStorage(taskId) {
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const currentDate = new Date();
+    const formattedCurrentDate = currentDate.toISOString().split('T')[0];
 
     // Step 2: Find the task to be edited by matching taskId
     const matchedTaskIndex = tasks.findIndex(task => String(task.id) === taskId);
@@ -105,6 +109,7 @@ export default class TaskModel {
     // Step 3: If the task is found, update it with the new data
     if (matchedTaskIndex !== -1) {
       tasks[matchedTaskIndex].is_completed = true;
+      tasks[matchedTaskIndex].completed_at = formattedCurrentDate;
     } 
     else {
       console.error('Task not found');

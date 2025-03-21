@@ -130,7 +130,7 @@ main.dashboard-view {
   padding: 10px 0;
   position: sticky;
   top: -31px;
-  width: 100%;
+  width: 101%;
   background-color: #fff;
   z-index: 10;
   display: flex;
@@ -234,7 +234,7 @@ main.dashboard-view {
     border-radius: 2px;
     font-size: 1.05rem;
   }
-  /* END OF PLACEHOLDER IMAGE*/
+  /* END OF PLACEHOLDER IMAGE */
 
   /* _TODO */
 
@@ -251,8 +251,20 @@ main.dashboard-view {
   .task-manager__task.completed {
     background-color: var(--contrast-color);
     color: var(--base-text-color);
-    text-decoration: line-through;
     transition: background-color var(--base-transition-duration);
+  }
+
+  .task-manager__task.completed .task-manager__task-title,
+  .task-manager__task.completed .task-manger__task-due-date,
+  .task-manager__task.completed .task-manager__task-desc {
+    text-decoration: line-through;
+  }
+
+  .task-manager__completed-date {
+    text-align: end;
+    font-size: 1.05rem;
+    opacity: 0.8;
+    margin-top: 10px;
   }
 
   .task-manager__task-title {
@@ -262,7 +274,7 @@ main.dashboard-view {
 
   .task-manger__task-due-date {
     display: block;
-    font-size: var(--base-font-size);
+    font-size: 1.1rem;
     opacity: 0.8;
     color: var(--light-accent-color);
     transition: color var(--base-transition-duration);
@@ -273,7 +285,6 @@ main.dashboard-view {
   }
 
   .task-manager__task-desc {
-
     margin: 15px 0 0;
     font-size: var(--base-font-size);
   }
