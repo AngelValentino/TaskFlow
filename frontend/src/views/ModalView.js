@@ -15,6 +15,7 @@ export default class ModalView {
     this.lms = {};
 
     this.timIds = {};
+    this.lastGeneratedModalHtml = {}
     this.lastFocusedLmBeforeModal = null;
   }
 
@@ -86,10 +87,6 @@ export default class ModalView {
   }
 
   generateInfoModal(modalType) {
-    if (this.lms.infoModalContainerLm) {
-      this.lms.infoModalContainerLm.remove();
-    }
-
     let infoModalHtml;
 
     switch (modalType) {
@@ -101,16 +98,23 @@ export default class ModalView {
         break;
     }
 
+    if (this.lastGeneratedModalHtml.infoModal === infoModalHtml) {
+      console.log('same as before do not re-render');
+      return;
+    }
+
+    if (this.lms.infoModalContainerLm) {
+      this.lms.infoModalContainerLm.remove();
+    }
+
+    this.lastGeneratedModalHtml.infoModal = infoModalHtml;
+
     document.body.insertAdjacentHTML('afterbegin', infoModalHtml);
     this.setModalDomRefs();
     this.loadHandler.blurLoadImages();
   }
 
   generateConfirmModal(modalType) {
-    if (this.lms.confirmModalContainerLm) {
-      this.lms.confirmModalContainerLm.remove();
-    }
-
     let confirmModalHtml;
     
     switch (modalType) {
@@ -128,18 +132,37 @@ export default class ModalView {
         break;
     }
 
+    
+    if (this.lastGeneratedModalHtml.confirmModal === confirmModalHtml) {
+      console.log('same as before do not re-render');
+      return;
+    }
+
+    if (this.lms.confirmModalContainerLm) {
+      this.lms.confirmModalContainerLm.remove();
+    } 
+
+    this.lastGeneratedModalHtml.confirmModal = confirmModalHtml;
     document.body.insertAdjacentHTML('afterbegin', confirmModalHtml);
     this.setModalDomRefs();
     this.loadHandler.blurLoadImages();
   }
 
   generateEditModal() {
+    const editModalHtml = EditModal.getHtml();
+
+    if (this.lastGeneratedModalHtml.editModal === editModalHtml) {
+      console.log('same as before do not re-render');
+      return;
+    }
+
     if (this.lms.editModalContainerLm) {
       this.lms.editModalContainerLm.remove();
     }
 
-    const editModal = EditModal.getHtml();
-    document.body.insertAdjacentHTML('afterbegin', editModal);
+    this.lastGeneratedModalHtml.editModal = editModalHtml;
+
+    document.body.insertAdjacentHTML('afterbegin', editModalHtml);
     
     this.setModalDomRefs();
   }
