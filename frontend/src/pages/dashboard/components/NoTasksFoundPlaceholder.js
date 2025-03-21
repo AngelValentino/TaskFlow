@@ -1,4 +1,4 @@
-export default class EmptyTasksListPlaceholder {
+export default class NoTasksFoundPlaceholder {
   static getHtml() {
     return `
       <li class="task-manager__empty-list-placeholder-container">

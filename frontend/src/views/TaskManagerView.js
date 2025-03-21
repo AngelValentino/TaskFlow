@@ -1,9 +1,9 @@
 import Task from '../pages/dashboard/components/Task.js' ;
 import TaskCompleted from '../pages/dashboard/components/CompletedTask.js';
-import TasksListPlaceholder from '../pages/dashboard/components/TasksListPlaceholder.js';
-import TasksListLoader from '../pages/dashboard/components/TasksListLoader.js';
-import TasksListError from '../pages/dashboard/components/TasksListError.js';
-import EmptyTasksListPlaceholder from '../pages/dashboard/components/EmptyTasksListPlacehodler.js';
+import TaskListPlaceholder from '../pages/dashboard/components/TaskListPlaceholder.js';
+import TaskListLoader from '../pages/dashboard/components/TaskListLoader.js';
+import TaskListError from '../pages/dashboard/components/TaskListError.js';
+import NoTasksFoundPlaceholder from '../pages/dashboard/components/NoTasksFoundPlaceholder.js';
 
 export default class TaskManagerView {
   constructor(modalHandler, modalView, utils, loadHandler) {
@@ -242,18 +242,18 @@ export default class TaskManagerView {
   }
 
   renderTasksListLoader() {
-    this.lms.tasksContainerLm.innerHTML = TasksListLoader.getHtml();
+    this.lms.tasksContainerLm.innerHTML = TaskListLoader.getHtml();
   }
 
   renderTasksListError(error) {
-    this.lms.tasksContainerLm.innerHTML = TasksListError.getHtml(error);
+    this.lms.tasksContainerLm.innerHTML = TaskListError.getHtml(error);
   }
 
   renderTasks(taskData) {
     if (taskData.length === 0) {
       this.lms.tasksContainerLm.innerHTML = this.getCurrentSearchValue() 
-        ? EmptyTasksListPlaceholder.getHtml() 
-        : TasksListPlaceholder.getHtml()
+        ? NoTasksFoundPlaceholder.getHtml() 
+        : TaskListPlaceholder.getHtml()
 
       this.loadHandler.blurLoadImages();
       return;

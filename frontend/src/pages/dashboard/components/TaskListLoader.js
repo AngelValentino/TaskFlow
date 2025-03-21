@@ -1,4 +1,4 @@
-export default class TasksListLoader {
+export default class TaskListLoader {
   static getHtml() {
     return `
       <li class="task-manager__list-loader-container">
