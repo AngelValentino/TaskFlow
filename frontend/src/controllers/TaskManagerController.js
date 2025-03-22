@@ -83,6 +83,7 @@ export default class TaskManagerController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
+          console.warn('aborted submit task fetch due to navigation change')
           return;
         }
 
@@ -129,6 +130,7 @@ export default class TaskManagerController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
+          console.warn('aborted get all tasks fetch due to navigation change')
           return;
         }
 
@@ -160,6 +162,7 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
+          console.warn('aborted get active task count fetch due to navigation change')
           return;
         }
 
@@ -197,6 +200,7 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
+          console.warn('aborted delete task fetch due to navigation change')
           return;
         }
 
@@ -231,6 +235,7 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
+          console.warn('aborted delete all tasks fetch due to navigation change')
           return;
         }
 
@@ -283,6 +288,7 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
+          console.warn('aborted completed task fetch due to navigation change')
           return;
         }
 
@@ -320,6 +326,7 @@ export default class TaskManagerController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
+          console.warn('aborted edit task fetch due to navigation change')
           return;
         }
 

@@ -5,13 +5,15 @@ export default class UserModel {
   }
 
   async handleUserRegistration(formData) {
-    const response = await fetch('http://taskflow-api.com/register', {
+    const endpoint = 'http://taskflow-api.com/register';
+
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: formData,
-      signal: this.router.getAbortSignal()
+      signal: this.router.getAbortSignal('POST' + endpoint)
     });
 
     // Validation error
@@ -32,13 +34,15 @@ export default class UserModel {
   }
 
   async handleUserLogin(formData) {
-    const response = await fetch('http://taskflow-api.com/login', {
+    const endpoint = 'http://taskflow-api.com/login';
+
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: formData,
-      signal: this.router.getAbortSignal()
+      signal: this.router.getAbortSignal('POST' + endpoint)
     });
 
     if (response.status === 400 || response.status === 401) {
@@ -55,7 +59,9 @@ export default class UserModel {
   }
 
   async handleUserLogout(throwErrors = true) {
-    const response = await fetch('http://taskflow-api.com/logout', {
+    const endpoint = 'http://taskflow-api.com/logout';
+
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json' 
@@ -63,7 +69,7 @@ export default class UserModel {
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken') 
       }),
-      signal: this.router.getAbortSignal()
+      signal: this.router.getAbortSignal('POST' + endpoint)
     });
 
     if (response.status === 401) {

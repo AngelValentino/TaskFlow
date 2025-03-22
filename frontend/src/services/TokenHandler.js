@@ -5,6 +5,7 @@ export default class TokenHandler {
     this.auth = auth;
     this.isRefreshingToken = false;
     this.refreshTokenQueue = [];
+    this.baseEndpointUrl = 'http://taskflow-api.com/refresh';
   }
 
   async handleRefreshAccessToken() {
@@ -20,13 +21,14 @@ export default class TokenHandler {
     // Mark that the refresh process is running
     this.isRefreshingToken = true;
 
-    const response = await fetch('http://taskflow-api.com/refresh', {
+    console.log('POST' + this.baseEndpointUrl)
+
+    const response = await fetch(this.baseEndpointUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: refreshToken }),
-      signal: this.router.getAbortSignal()
+      body: JSON.stringify({ token: refreshToken })
     });
 
     // If the user aborts the request before the new refresh token is set, they will be logged out during future interactions.

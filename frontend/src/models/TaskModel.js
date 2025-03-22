@@ -136,13 +136,16 @@ export default class TaskModel {
   }
 
   async fetchRequest(apiUrl, options) {
+    console.log(options.method + apiUrl);
+    const methodsWithBody = ['POST', 'PUT', 'PATCH'];
+
     return await fetch(apiUrl, {
       ...options,
       headers: {
-        'Content-Type': 'application/json',
+        ...(methodsWithBody.includes(options.method) ? { 'Content-Type': 'application/json' } : {}),
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
       },
-      signal: this.router.getAbortSignal()
+      signal: this.router.getAbortSignal(options.method + apiUrl)
     });
   }
 
@@ -191,8 +194,6 @@ export default class TaskModel {
     if (completed !== undefined) params.append('completed', completed);
     if (targetValue) params.append('title', targetValue);
     const queryString = params.toString() ? `?${params.toString()}` : '';
-
-    console.log(`${this.baseEndpointUrl}${queryString}`);
 
     return await this.handleAuthFetchRequest(
       `${this.baseEndpointUrl}${queryString}`,

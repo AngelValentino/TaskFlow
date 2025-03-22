@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
   
     // Quote machine
-    const quoteModel = new QuoteModel(utils);
+    const quoteModel = new QuoteModel(utils, router);
     const quoteMachineView = new QuoteMachineView(utils);
     new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
   

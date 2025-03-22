@@ -4,7 +4,7 @@ export default class Router {
     this.routes = [];
     this.init();
     this.appLm = document.getElementById('App');
-    this.abortController = new AbortController();
+    this.abortControllers = {};
     this.modalHandler = modalHandler;
     Router.instance = this; // Store the instance
   }
@@ -49,7 +49,7 @@ export default class Router {
     this.modalHandler.clearRemainingDocumentBodyEvents();
 
     // Before navigating to the new view, cancel any active fetch
-    this.abortActiveFetch();
+    this.abortActiveFetches();
   
     route.view();
   }
@@ -81,18 +81,23 @@ export default class Router {
     });
   }
 
-  getNewAbortSignal() {
-    this.abortController = new AbortController(); 
+  setNewAbortSignal(fetchKey) {
+    this.abortControllers[fetchKey] = new AbortController()
   }
 
-  abortActiveFetch() {
-    if (!this.abortController.signal.aborted) {
-      this.abortController.abort();
-    }
+  abortActiveFetches() {
+    console.log(this.abortControllers)
+    Object.values(this.abortControllers).forEach(controller => {
+      if (!controller.signal.aborted) {
+        console.log('aborted fetch')
+        controller.abort();
+      }
+    });
   }
 
-  getAbortSignal() {
-    this.getNewAbortSignal();
-    return this.abortController.signal;
+  getAbortSignal(fetchKey) {
+    this.setNewAbortSignal(fetchKey);
+    console.log(this.abortControllers)
+    return this.abortControllers[fetchKey].signal;
   }
 }

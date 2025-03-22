@@ -4,24 +4,6 @@ export default class CompletedTask {
   static utils = new Utils;
 
   static getHtml(task, searchValue) {
-    function calculateDaysBetweenDates(startDate, endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-  
-      const timeDifference = end - start; // Difference in milliseconds
-      const daysDifference = Math.round(timeDifference / (1000 * 3600 * 24)); // Round to the nearest whole day
-  
-      if (daysDifference === 0) {
-        return "Completed on the due date";
-      } 
-      else if (daysDifference > 0) {
-        return `Completed ${daysDifference} day${daysDifference > 1 ? 's' : ''} after the due date`;
-      } 
-      else {
-        return `Completed ${Math.abs(daysDifference)} day${Math.abs(daysDifference) > 1 ? 's' : ''} before the due date`;
-      }
-    }
-
     return `
       <li aria-checked="true" id="task-manager__task-${task.id}" aria-label="Completed task." class="task-manager__task completed">
         <h4 aria-label="Task title." class="task-manager__task-title">${searchValue ? this.utils.highlighter(task.title, searchValue, true) : task.title}</h4>
@@ -37,7 +19,6 @@ export default class CompletedTask {
             </svg>
           </button>
         </div>
-        <p class="task-manager__completed-date">${calculateDaysBetweenDates(task.due_date, task.completed_at)}</p>
       </li>
     `;
   }

@@ -1,6 +1,7 @@
 export default class QuoteModel {
-  constructor(utils) {
+  constructor(utils, router) {
     this.utils = utils;
+    this.router = router;
     this.baseEndpointUrl = 'http://taskflow-api.com/quotes';
   }
 
@@ -20,7 +21,9 @@ export default class QuoteModel {
   }
 
   async handleGetAllQuotes() {
-    const response = await fetch(this.baseEndpointUrl);
+    const response = await fetch(this.baseEndpointUrl, {
+      signal: this.router.getAbortSignal('GET' + this.baseEndpointUrl)
+    });
 
     if (!response.ok) {
       throw new Error("We couldn't get the quotes data. Please try again later.");
