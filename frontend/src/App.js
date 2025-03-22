@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const userModel = new UserModel(router);
     const registerView = new RegisterView;
-    new RegisterController(router, userModel, registerView);
+    new RegisterController(router, userModel, registerView, utils);
   });
 
   router.addRoute('/login', () => {
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const auth = new Auth;
     const userModel = new UserModel(router);
     const loginView = new LoginView;
-    new LoginController(router, auth, userModel, loginView);
+    new LoginController(router, auth, userModel, loginView, utils);
   });
 
   router.addRoute('/logout', () => {

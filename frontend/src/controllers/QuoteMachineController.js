@@ -37,7 +37,10 @@ export default class QuoteMachineController {
       return;
     }
 
-    this.quoteMachineView.updateQuoteLoader(true);
+    let wasFetchAborted = false;
+    const loadingTimId = this.utils.handleLoading(
+      this.quoteMachineView.updateQuoteLoader.bind(this.quoteMachineView, true)
+    );
 
     this.quoteModel.handleGetAllQuotes()
       .then(quotes => {
@@ -45,9 +48,17 @@ export default class QuoteMachineController {
         this.setQuote();
       })
       .catch(error => {
+        if (error.name === 'AbortError') {
+          wasFetchAborted = true;
+          console.warn('aborted get all quotes due to navigation change')
+          return;
+        }
+
         console.error(error);
       })
-      .then(() => {
+      .finally(() => {
+        clearTimeout(loadingTimId);
+        if (wasFetchAborted) return;
         this.quoteMachineView.updateQuoteLoader(false);
       });
   }

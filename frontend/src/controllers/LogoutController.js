@@ -16,11 +16,6 @@ export default class LogoutController {
         this.router.navigateTo('/');
       })
       .catch(error => {
-        if (error.name === 'AbortError') {
-          console.warn('Request aborted due to navigation change');
-          return;
-        }
-
         this.logoutView.updateLogoutMessage(error.message, true);
         console.error(error);
       });

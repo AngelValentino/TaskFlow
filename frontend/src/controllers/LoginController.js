@@ -1,9 +1,10 @@
 export default class LoginController {
-  constructor(router, auth, userModel, loginView) {
+  constructor(router, auth, userModel, loginView, utils) {
     this.router = router;
     this.auth = auth;
     this.userModel = userModel;
     this.loginView = loginView;
+    this.utils = utils;
 
     this.activeRequest = false;
 
@@ -77,7 +78,9 @@ export default class LoginController {
     }
 
     this.activeRequest = true;
-    this.loginView.updateSubmitBtn('Loading...');
+    const loadingTimId = this.utils.handleLoading(
+      this.loginView.updateSubmitBtn.bind(this.loginView, 'Loading...')
+    );
 
     this.userModel.handleUserLogin(JSON.stringify(loginData))
       .then(data => {
@@ -95,6 +98,7 @@ export default class LoginController {
         this.loginView.updateErrorMessage(error.message);
       })
       .finally(() => {
+        clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
         this.loginView.updateSubmitBtn('Log in');

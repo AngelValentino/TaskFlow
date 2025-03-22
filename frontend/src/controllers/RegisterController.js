@@ -1,8 +1,9 @@
 export default class RegisterController {
-  constructor(router, userModel, registerView) {
+  constructor(router, userModel, registerView, utils) {
     this.router = router;
     this.userModel = userModel
     this.registerView = registerView;
+    this.utils = utils;
 
     this.activeRequest = false;
 
@@ -159,8 +160,9 @@ export default class RegisterController {
     }
 
     this.activeRequest = true;
-
-    this.registerView.updateSubmitBtn('Loading...');
+    const loadingTimId = this.utils.handleLoading(
+      this.registerView.updateSubmitBtn.bind(this.registerView, 'Loading...')
+    );
 
     this.userModel.handleUserRegistration(JSON.stringify(registerData))
       .then(() => {
@@ -186,6 +188,7 @@ export default class RegisterController {
         console.error(error);
       })
       .finally(() => {
+        clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
         this.registerView.updateSubmitBtn('Register');

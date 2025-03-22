@@ -199,4 +199,10 @@ export default class Utils {
   isSoundPlaying(audio) {
     return !audio.paused && audio.currentTime > 0;
   }
+
+  handleLoading(callback) {
+    return setTimeout(() => {
+      callback();
+    }, 125);
+  }
 }

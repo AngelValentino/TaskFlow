@@ -79,7 +79,10 @@ export default class TaskManagerController {
     this.activeRequests.submitTask = true;
     // Handle task submission for logged-in users
     let wasFetchAborted = false;
-    this.taskManagerView.updateAddTodoPromptSubmitBtn('Loading...');
+
+    const loadingTimId = this.utils.handleLoading(
+      this.taskManagerView.updateAddTodoPromptSubmitBtn.bind(this.taskManagerView, 'Loading...')
+    );
     
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
       .then(() => {
@@ -108,6 +111,7 @@ export default class TaskManagerController {
       })
       .finally(() => {
         this.activeRequests.submitTask = false;
+        clearTimeout(loadingTimId);
         if (wasFetchAborted) return;
         this.taskManagerView.updateAddTodoPromptSubmitBtn('Add new task');
       });
@@ -126,7 +130,10 @@ export default class TaskManagerController {
 
     // Handle task render for logged-in users
     let wasFetchAborted = false;
-    this.taskManagerView.renderTasksListLoader();
+
+    const loadingTimId = this.utils.handleLoading(
+      this.taskManagerView.renderTasksListLoader.bind(this.taskManagerView)
+    );
 
     this.taskModel.handleGetAllTasks(
       this.utils.getActiveTabFilterParam(), 
@@ -147,6 +154,7 @@ export default class TaskManagerController {
         console.error(error);
       })
       .finally(() => {
+        clearTimeout(loadingTimId);
         if (wasFetchAborted) return;
       });
   }
@@ -161,7 +169,9 @@ export default class TaskManagerController {
     }
 
     // Handle task count for logged-in users
-    this.taskManagerView.updateTaskCount('Loading...');
+    const loadingTimId = this.utils.handleLoading(
+      this.taskManagerView.updateTaskCount.bind(this.taskManagerView, 'Loading...')
+    );
     
     this.taskModel.handleGetAllTasksCount(false)
       .then(count => {
@@ -178,6 +188,9 @@ export default class TaskManagerController {
         this.taskManagerView.updateTaskCount('');
         this.taskManagerView.renderTaskCountError(error.message);
         console.error(error);
+      })
+      .finally(() => {
+        clearTimeout(loadingTimId);
       });
   }
 
@@ -192,7 +205,9 @@ export default class TaskManagerController {
     }
 
     // Handle task deletion for logged-in users
-    this.modalView.updateConfirmModalInfoMessage('Loading...');
+    const loadingTimId = this.utils.handleLoading(
+      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'Loading...')
+    );
 
     this.taskModel.handleDeleteTask(taskId)
       .then(() => {
@@ -215,6 +230,9 @@ export default class TaskManagerController {
 
         this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
         console.error(error);
+      })
+      .finally(() => {
+        clearTimeout(loadingTimId);
       });
   }
 
@@ -228,7 +246,9 @@ export default class TaskManagerController {
     }
     
     // Handle all task deletion for logged-in users
-    this.modalView.updateConfirmModalInfoMessage('Loading...');
+    const loadingTimId = this.utils.handleLoading(
+      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'Loading...')
+    );
 
     this.taskModel.handleDeleteAllTasks(completed)
       .then(() => {
@@ -250,6 +270,9 @@ export default class TaskManagerController {
 
         this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
         console.error(error);
+      })
+      .finally(() => {
+        clearTimeout(loadingTimId);
       });
   }
 
@@ -279,8 +302,10 @@ export default class TaskManagerController {
       return;
     }
 
-    // Handle task completion for logged-in users  
-    this.modalView.updateConfirmModalInfoMessage('Loading...');
+    // Handle task completion for logged-in users
+    const loadingTimId = this.utils.handleLoading(
+      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'Loading...')
+    );
 
     this.taskModel.handleCompleteTask(taskId)
       .then(() => {
@@ -303,6 +328,9 @@ export default class TaskManagerController {
 
         this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
         console.error(error);
+      })
+      .finally(() => {
+        clearTimeout(loadingTimId);
       });
   }
 
@@ -332,7 +360,9 @@ export default class TaskManagerController {
     this.activeRequests.editTask = true;
     // Handle task editing for logged-in users 
     let wasFetchAborted = false;
-    this.modalView.updateEditModalSubmitBtn('Loading...');
+    const loadingTimId = this.utils.handleLoading(
+      this.modalView.updateEditModalSubmitBtne.bind(this.modalView, 'Loading...')
+    );
 
     this.taskModel.handleEditTask(taskId, JSON.stringify(editedTaskData))
       .then(rowsUpdated => {
@@ -359,6 +389,7 @@ export default class TaskManagerController {
         console.error(error.message);
       })
       .finally(() => {
+        clearTimeout(loadingTimId);
         this.activeRequests.editTask = false;
         if (wasFetchAborted) return;
         this.modalView.updateEditModalSubmitBtn('Edit task');

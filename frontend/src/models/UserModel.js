@@ -68,8 +68,7 @@ export default class UserModel {
       },
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken') 
-      }),
-      signal: this.router.getAbortSignal('POST' + endpoint)
+      })
     });
 
     if (response.status === 401 || response.status === 400) {
