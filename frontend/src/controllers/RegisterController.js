@@ -4,6 +4,8 @@ export default class RegisterController {
     this.userModel = userModel
     this.registerView = registerView;
 
+    this.activeRequest = false;
+
     this.errors = {
       username: null,
       email: null,
@@ -150,6 +152,14 @@ export default class RegisterController {
       registerData[key] = value;
     });
 
+    if (this.activeRequest) {
+      console.warn('register request is already active');
+      this.registerView.renderGeneralErrorMessage('Your request is being processed. Please wait a moment.');
+      return;
+    }
+
+    this.activeRequest = true;
+
     this.registerView.updateSubmitBtn('Loading...');
 
     this.userModel.handleUserRegistration(JSON.stringify(registerData))
@@ -165,15 +175,18 @@ export default class RegisterController {
 
         if (error.data) {
           console.error(error.data.errors);
+          this.registerView.renderGeneralErrorMessage('');
           this.registerView.renderErrorMessages(error.data.errors);
         } 
         else {
+          this.registerView.renderErrorMessages();
           this.registerView.renderGeneralErrorMessage(error.message);
         }
 
         console.error(error);
       })
       .finally(() => {
+        this.activeRequest = false;
         if (wasFetchAborted) return;
         this.registerView.updateSubmitBtn('Register');
       });

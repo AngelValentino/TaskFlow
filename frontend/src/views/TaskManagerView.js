@@ -204,9 +204,14 @@ export default class TaskManagerView {
     }
   }
 
-  renderGeneralAddTaskPromptError(error) {
+  renderGeneralAddTaskPromptError(message) {
     this.lms.addTaskPromptErrorLm.classList.add('active');
-    this.lms.addTaskPromptErrorLm.innerText = error.message;
+    this.lms.addTaskPromptErrorLm.innerText = message;
+  }
+
+  clearGeneralAddTaskPromptError() {
+    this.lms.addTaskPromptErrorLm.innerText = '';
+    this.lms.addTaskPromptErrorLm.classList.remove('active');
   }
 
   renderAddTaskPromptErrors(errors) {

@@ -502,9 +502,14 @@ export default class ModalView {
     this.lms.editModalFormSubmitBtn.innerText = message;
   }
 
-  renderGeneralEditTaskFormError(error) {
+  renderGeneralEditTaskFormError(message) {
     this.lms.editModalErrorLm.classList.add('active');
-    this.lms.editModalErrorLm.innerText = error.message;
+    this.lms.editModalErrorLm.innerText = message;
+  }
+
+  clearGeneralEditTaskFormError() {
+    this.lms.editModalErrorLm.classList.remove('active');
+    this.lms.editModalErrorLm.innerText = '';
   }
 
   renderEditTaskFormErrors(errors) {

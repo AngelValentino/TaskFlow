@@ -5,6 +5,8 @@ export default class LoginController {
     this.userModel = userModel;
     this.loginView = loginView;
 
+    this.activeRequest = false;
+
     this.errors = {
       email: null,
       password: null
@@ -68,6 +70,13 @@ export default class LoginController {
       loginData[key] = value;
     });
 
+    if (this.activeRequest) {
+      console.warn('login fetch request active');
+      this.loginView.updateErrorMessage('Your request is being processed. Please wait a moment.');
+      return;
+    }
+
+    this.activeRequest = true;
     this.loginView.updateSubmitBtn('Loading...');
 
     this.userModel.handleUserLogin(JSON.stringify(loginData))
@@ -86,6 +95,7 @@ export default class LoginController {
         this.loginView.updateErrorMessage(error.message);
       })
       .finally(() => {
+        this.activeRequest = false;
         if (wasFetchAborted) return;
         this.loginView.updateSubmitBtn('Log in');
       });

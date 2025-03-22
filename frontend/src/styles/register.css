@@ -81,6 +81,7 @@ main.register-view {
   color: #d90b1b;
   font-size: 0.95rem;
   margin-top: 10px;
+  text-align: center;
 }
 
 .register-form__terms-and-conditions {

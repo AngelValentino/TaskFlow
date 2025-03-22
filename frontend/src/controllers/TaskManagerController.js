@@ -5,6 +5,7 @@ export default class TaskManagerController {
     this.auth = auth;
     this.modalView = modalView;
     this.utils = utils;
+    this.activeRequests = {};
 
     this.lms = this.taskManagerView.getDomRefs();
     this.taskManagerView.setControllerMethods({
@@ -70,6 +71,12 @@ export default class TaskManagerController {
       return;
     }
 
+    if (this.activeRequests.submitTask) {
+      console.warn('submit request active');
+      this.taskManagerView.renderGeneralAddTaskPromptError('Your request is being processed. Please wait a moment.');
+      return
+    }
+    this.activeRequests.submitTask = true;
     // Handle task submission for logged-in users
     let wasFetchAborted = false;
     this.taskManagerView.updateAddTodoPromptSubmitBtn('Loading...');
@@ -89,16 +96,18 @@ export default class TaskManagerController {
 
         if (error.data) {
           console.error(error.data.errors);
+          this.taskManagerView.clearGeneralAddTaskPromptError();
           this.taskManagerView.renderAddTaskPromptErrors(error.data.errors);
         } 
         else {
           this.taskManagerView.clearAddTaskPromptErrors();
-          this.taskManagerView.renderGeneralAddTaskPromptError(error);
+          this.taskManagerView.renderGeneralAddTaskPromptError(error.message);
         }
 
         console.error(error);
       })
       .finally(() => {
+        this.activeRequests.submitTask = false;
         if (wasFetchAborted) return;
         this.taskManagerView.updateAddTodoPromptSubmitBtn('Add new task');
       });
@@ -314,6 +323,13 @@ export default class TaskManagerController {
       return;
     }
 
+    if (this.activeRequests.editTask) {
+      console.warn('Active edit fetch request');
+      this.modalView.renderGeneralEditTaskFormError('Your request is being processed. Please wait a moment.')
+      return;
+    }
+
+    this.activeRequests.editTask = true;
     // Handle task editing for logged-in users 
     let wasFetchAborted = false;
     this.modalView.updateEditModalSubmitBtn('Loading...');
@@ -333,15 +349,17 @@ export default class TaskManagerController {
         if (error.data) {
           console.error(error.data.errors);
           this.modalView.renderEditTaskFormErrors(error.data.errors);
+          this.modalView.clearGeneralEditTaskFormError();
         } 
         else {
           this.modalView.clearEditTaskFormErrors();
-          this.modalView.renderGeneralEditTaskFormError(error);
+          this.modalView.renderGeneralEditTaskFormError(error.message);
         }
 
         console.error(error.message);
       })
       .finally(() => {
+        this.activeRequests.editTask = false;
         if (wasFetchAborted) return;
         this.modalView.updateEditModalSubmitBtn('Edit task');
       });

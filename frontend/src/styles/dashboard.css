@@ -82,11 +82,12 @@ main.dashboard-view {
 
 .task-manager__dashboard-tasks-count-error {
   font-size: 1.05rem;
+  transition: background-color var(--base-transition-duration);
 }
 
 .task-manager__dashboard-tasks-count-error.active {
   padding: 5px;
-  background-color: var(--contrast-color);
+  background-color: var(--medium-accent-color);
   color: #fff;
   margin-top: 5px;
 }
@@ -228,7 +229,8 @@ main.dashboard-view {
   }
 
   .task-manager__list-error {
-    background-color: var(--contrast-color);
+    transition: background-color var(--base-transition-duration);
+    background-color: var(--medium-accent-color);
     color: #fff;
     padding: 10px;
     border-radius: 2px;

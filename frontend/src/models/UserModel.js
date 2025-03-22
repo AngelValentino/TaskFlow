@@ -72,7 +72,7 @@ export default class UserModel {
       signal: this.router.getAbortSignal('POST' + endpoint)
     });
 
-    if (response.status === 401) {
+    if (response.status === 401 || response.status === 400) {
       const error = await response.json();
       if (error.message === 'Token has expired.') {
         console.warn('Expired refresh token.');

@@ -137,6 +137,7 @@ export default class TaskModel {
 
   async fetchRequest(apiUrl, options) {
     console.log(options.method + apiUrl);
+    const requestKey = options.method + apiUrl;
     const methodsWithBody = ['POST', 'PUT', 'PATCH'];
 
     return await fetch(apiUrl, {
@@ -145,7 +146,7 @@ export default class TaskModel {
         ...(methodsWithBody.includes(options.method) ? { 'Content-Type': 'application/json' } : {}),
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
       },
-      signal: this.router.getAbortSignal(options.method + apiUrl)
+      signal: this.router.getAbortSignal(requestKey)
     });
   }
 
