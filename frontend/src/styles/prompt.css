@@ -185,7 +185,8 @@
 /* ACTIVE */
 
 .task-manager__add-prompt-submit-btn:active  {
-  background-color: var(--contrast-color);
+  opacity: 0.85;
+  transition: padding 0.4s, opacity 0s !important;
 }
 
 .task-manager__search-prompt-close-btn:active {

@@ -219,11 +219,7 @@
   .confirm-modal__accept-btn:is(:hover, :focus-visible),
   .confirm-modal__cancel-btn:is(:hover, :focus-visible),
   .info-modal__accept-btn:is(:hover, :focus-visible) {
-    background-color: var(--contrast-color);
-  }
-
-  .edit-modal__submit-btn:is(:hover, :focus-visible) {
-    opacity: 0.75;
+    background-color: var(--medium-accent-color);
   }
 
   .confirm-modal__delete-option-btn:is(:hover, :focus-visible) {
@@ -240,12 +236,11 @@
 .info-modal__accept-btn:active,
 .edit-modal__submit-btn:active {
   transition: none;
-  background-color: var(--light-accent-color);
-  color: var(--base-text-color);
+  opacity: 0.75;
 }
 
 .edit-modal__submit-btn:active {
-  transition: padding 0.4s;
+  transition: padding 0.4s, opacity 0s !important;
 }
 
 /* END OF ACTIVE */
