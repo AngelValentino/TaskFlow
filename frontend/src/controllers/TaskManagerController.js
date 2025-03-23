@@ -317,7 +317,7 @@ export default class TaskManagerController {
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
         
-        this.getAllTasks(this.taskManagerView.focusAddTaskBtn.bind(this.taskManagerView));
+        this.getAllTasks();
         this.getActiveTasksCount();
       })
       .catch(error => {

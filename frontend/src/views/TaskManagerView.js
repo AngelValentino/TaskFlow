@@ -342,6 +342,6 @@ export default class TaskManagerView {
 
   returnFocusToEditTaskBtn(taskId) {
     const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
-    editTaskBtn.focus();
+    editTaskBtn ? editTaskBtn.focus() : this.lms.searchTaskInputLm.focus();
   }
 }
