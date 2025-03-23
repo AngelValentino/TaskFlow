@@ -99,8 +99,12 @@
 }
 
 .confirm-modal__delete-options-container {
-  font-size: 1.1rem;
-  margin-top: 20px;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  line-height: 0;
+  display: inline-flex;
+  gap: 3px;
 }
 
 .confirm-modal__delete-options-container.hidden {
@@ -108,12 +112,13 @@
 }
 
 .confirm-modal__delete-option-btn {
-  color: var(--medium-accent-color);
+  line-height: 0;
   transition: opacity var(--base-transition-duration);
 }
 
-.confirm-modal__delete-option-btn:first-child {
-  margin-bottom: 5px;
+.confirm-modal__delete-active-svg,
+.confirm-modal__delete-completed-svg {
+  width: 2rem;
 }
 
 .confirm-modal__info-message {
@@ -129,7 +134,7 @@
 }
 
 .confirm-modal__info-message.success {
-  background-color: var(--contrast-color);
+  background-color: var(--medium-accent-color);
 }
 
 .confirm-modal__info-message.error {

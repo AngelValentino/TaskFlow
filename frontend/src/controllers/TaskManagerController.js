@@ -361,7 +361,7 @@ export default class TaskManagerController {
     // Handle task editing for logged-in users 
     let wasFetchAborted = false;
     const loadingTimId = this.utils.handleLoading(
-      this.modalView.updateEditModalSubmitBtne.bind(this.modalView, 'Loading...')
+      this.modalView.updateEditModalSubmitBtn.bind(this.modalView, 'Loading...')
     );
 
     this.taskModel.handleEditTask(taskId, JSON.stringify(editedTaskData))
