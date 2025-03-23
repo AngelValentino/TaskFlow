@@ -1,12 +1,15 @@
 export default class UserMenuController {
-  constructor(userMenuView) {
+  constructor(userMenuView, auth) {
     this.userMenuView = userMenuView;
+    this.auth = auth;
     this.lms = this.userMenuView.getDomRefs();
 
     this.lms.userMenuBtn.addEventListener('click', this.toggleUserMenu.bind(this));
   
-    this.userMenuView.renderUserRandomMessage();
-    this.setRandomUserMessage();
+    if (this.auth.isClientLogged()) {
+      this.userMenuView.renderUserRandomMessage();
+      this.setRandomUserMessage();
+    }
   }
 
   setRandomUserMessage() {

@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // User menu
     const userModel = new UserModel(router, auth);
     const userMenuView = new UserMenuView(modalHandler, userModel);
-    new UserMenuController(userMenuView);
+    new UserMenuController(userMenuView, auth);
 
     // Task manager
     const modalView = new ModalView(modalHandler, utils, loadHandler);
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
-    new UserMenuController(userMenuView);
+    new UserMenuController(userMenuView, auth);
 
     const userModel = new UserModel(router, auth);
     const registerView = new RegisterView;
@@ -90,9 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
-    new UserMenuController(userMenuView)
+    new UserMenuController(userMenuView, auth);
 
-    const auth = new Auth;
     const userModel = new UserModel(router);
     const loginView = new LoginView;
     new LoginController(router, auth, userModel, loginView, utils);
@@ -100,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/logout', () => {
     appLm.innerHTML = LogoutPage.getHtml();
-    const auth = new Auth;
     const userModel = new UserModel(router);
     const logoutView = new LogoutView;
     new LogoutController(router, auth, userModel, logoutView);
