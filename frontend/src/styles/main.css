@@ -262,6 +262,6 @@ main {
 
 @media screen and (max-width: 550px) {
   main {
-    padding: 30px 15px !important;
+    padding: 80px 15px 30px !important;
   }
 }

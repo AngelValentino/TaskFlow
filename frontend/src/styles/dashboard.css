@@ -341,6 +341,10 @@ main.dashboard-view {
     flex-flow: column;
     gap: 7rem;
   }
+
+  main {
+    padding: 80px 15px 30px !important;
+  }
 }
 
 @media screen and (max-width: 550px) {

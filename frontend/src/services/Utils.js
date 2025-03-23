@@ -102,8 +102,6 @@ export default class Utils {
     return { longFormat, isoFormat };
   };
 
-  getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-
   // Returns a random index from the array that is not equal to the lastIndex
   getNonRepeatingRandomIndex(array, lastIndexKey, notIndexed = false) {
     const lastIndex = this.lastIndexes[lastIndexKey];

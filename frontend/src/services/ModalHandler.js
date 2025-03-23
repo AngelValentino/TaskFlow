@@ -98,7 +98,7 @@ export default class ModalHandler {
   handleOutsideClickClose(closeHandler, className) {
     return e => {
       if (className === 'user-menu') {
-        if (!e.target.closest('.user-menu') && !e.target.closest('.user-menu-btn')) {
+        if (!e.target.closest('.user-menu') && !e.target.closest('.user-menu__btn')) {
           closeHandler();
         }
         return;

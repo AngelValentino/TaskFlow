@@ -4,6 +4,15 @@ export default class UserMenuController {
     this.lms = this.userMenuView.getDomRefs();
 
     this.lms.userMenuBtn.addEventListener('click', this.toggleUserMenu.bind(this));
+  
+    this.userMenuView.renderUserRandomMessage();
+    this.setRandomUserMessage();
+  }
+
+  setRandomUserMessage() {
+    setInterval(() => {
+      this.userMenuView.renderUserRandomMessage();
+    }, 25000);
   }
 
   toggleUserMenu() {

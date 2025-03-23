@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const utils = new Utils;
   const appLm = document.getElementById('App');
   const loadHandler = new LoadHandler;
+  const auth = new Auth;
 
   // TODO Refactor and finish application
 
@@ -45,12 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
     themeHandler.setRandomTheme();
 
     // User menu
-    const userMenuView = new UserMenuView(modalHandler);
+    const userModel = new UserModel(router, auth);
+    const userMenuView = new UserMenuView(modalHandler, userModel);
     new UserMenuController(userMenuView);
 
     // Task manager
-    const auth = new Auth;
-    const userModel = new UserModel(router, auth);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler);
     const tokenHandler = new TokenHandler(router, userModel, auth);
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userMenuView = new UserMenuView(modalHandler);
     new UserMenuController(userMenuView);
 
-    const userModel = new UserModel(router);
+    const userModel = new UserModel(router, auth);
     const registerView = new RegisterView;
     new RegisterController(router, userModel, registerView, utils);
   });
