@@ -27,6 +27,7 @@ import UserMenuView from "./views/UserMenuView.js";
 import UserMenuController from "./controllers/UserMenuController.js";
 import LogoutView from "./views/LogoutView.js";
 import LoadHandler from "./services/LoadHandler.js";
+import TimerModel from "./models/TimerModel.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -63,8 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
     new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
   
     // Pomodoro Timer
-    const pomodoroTimerView = new PomodoroTimerView(utils);
-    new PomodoroTimerController(pomodoroTimerView, taskManagerView);
+    const pomodoroTimerView = new PomodoroTimerView;
+    const timeModel = new TimerModel(pomodoroTimerView, utils);
+    new PomodoroTimerController(pomodoroTimerView, taskManagerView, timeModel);
   });
 
   router.addRoute('/register', () => {

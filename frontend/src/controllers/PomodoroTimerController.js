@@ -1,10 +1,11 @@
 export default class PomodoroTimerController {
-  constructor(pomodroTimerView, taskManagerView) {
+  constructor(pomodroTimerView, taskManagerView, timerModel) {
     this.pomodoroTimerView = pomodroTimerView;
-    this.lms = this.pomodoroTimerView.getDomRefs();
     this.taskManagerView = taskManagerView;
+    this.timerModel = timerModel;
+    this.lms = this.pomodoroTimerView.getDomRefs();
 
-    this.pomodoroTimerView.updateTimerDisplay();
+    this.pomodoroTimerView.updateTimerDisplay(this.timerModel.getTimerSeconds());
 
     this.lms.actionBtn.addEventListener('click', this.toggleTimer.bind(this));
     this.lms.resetBtn.addEventListener('click', this.handleRestartTimer.bind(this));
@@ -12,23 +13,21 @@ export default class PomodoroTimerController {
 
   toggleTimer() {
     // If the timer is currently running or add todo form is edited, exit the function
-    if (this.pomodoroTimerView.isTimer || this.taskManagerView.isAddTaskFormEdited()) return; 
+    if (
+      this.timerModel.isResetAnimationActive() || 
+      this.taskManagerView.isAddTaskFormEdited()
+    ) {
+      console.log('reset animation is ACTIVE or add task form is filled')
+      return;
+    }
 
-    // If there's no active interval (timer is not running)
-    if (!this.pomodoroTimerView.interval) {
-      // Check if the current phase is rest
-      if (this.pomodoroTimerView.isRest) {
-        // Start the rest timer
-        this.pomodoroTimerView.startTimer('rest');
-      } 
-      else {
-        // Start the work timer
-        this.pomodoroTimerView.startTimer('work');
-      }
+    if (this.timerModel.isTimerRunning()) {
+      console.log('timer is running, stop time')
+      this.timerModel.stopTimer();
     } 
     else {
-      // If the timer is running, stop the timer
-      this.pomodoroTimerView.stopTimer();
+      console.log('start time')
+      this.timerModel.startTimer();
     }
   }
 
@@ -36,14 +35,14 @@ export default class PomodoroTimerController {
     /* If the timer is currently running or the remaining seconds are equal to the work time 
     or add todo form is edited, exit the function */
     if (
-      this.pomodoroTimerView.isTimer || 
-      this.pomodoroTimerView.remainingSeconds === this.pomodoroTimerView.workTime || 
-      this.taskManagerView.isAddTaskFormEdited()
-    ) return;
+      this.timerModel.isResetAnimationActive() || 
+      this.taskManagerView.isAddTaskFormEdited() ||
+      this.timerModel.isInitialTime()
+    ) {
+      console.log('reset animation is ACTIVE, add task form is filled or timer SOCONDS === WORKTIME')
+      return;
+    }
 
-    // Reset to the work phase
-    this.pomodoroTimerView.isRest = false;
-    // Restart the timer with the work time
-    this.pomodoroTimerView.restartTimer(this.pomodoroTimerView.workTime);
+    this.timerModel.restartTimer(false);
   }
 }
