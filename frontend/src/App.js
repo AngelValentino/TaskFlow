@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // User menu
     const userModel = new UserModel(router, auth);
-    const userMenuView = new UserMenuView(modalHandler, userModel);
+    const userMenuView = new UserMenuView(modalHandler, userModel, utils);
     new UserMenuController(userMenuView, auth);
 
     // Task manager

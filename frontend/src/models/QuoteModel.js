@@ -16,7 +16,7 @@ export default class QuoteModel {
   getRandomQuoteFromCache() {
     const quotes = this.getQuotesFromCache();
     if (!quotes) return null;
-    const index = this.utils.getNonRepeatingRandomIndex(quotes, 'quotes')
+    const index = this.utils.getNonRepeatingRandomIndex(quotes, 'quotes');
     return quotes[index];
   }
 
