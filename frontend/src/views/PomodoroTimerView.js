@@ -1,16 +1,33 @@
 export default class PomodoroTimerView {
   constructor() {
     this.lms = {
-      clockLm: document.querySelector('.timer__clock'),
-      minutesLm: document.querySelector('.timer__minutes'),
-      secondsLm: document.querySelector('.timer__seconds'),
-      actionBtn: document.querySelector('.timer__control-btn'),
-      resetBtn: document.querySelector('.timer__reset-btn')
+      clockLm: document.getElementById('pomodoro-timer__clock'),
+      minutesLm: document.getElementById('pomodoro-timer__minutes'),
+      secondsLm: document.getElementById('pomodoro-timer__seconds'),
+      actionBtn: document.getElementById('pomodoro-timer__control-btn'),
+      resetBtn: document.getElementById('pomodoro-timer__reset-btn'),
+      timerOptionsLm: document.getElementById('pomodoro-timer__options'),
+      longSessionBtn: document.getElementById('pomodoro-timer__long-session-btn'),
+      shortSessionBtn: document.getElementById('pomodoro-timer__short-session-btn')
     }
   }
 
   getDomRefs() {
     return this.lms;
+  }
+
+  setLongSessionBtnActive() {
+    this.lms.longSessionBtn.classList.add('active');
+    this.lms.longSessionBtn.setAttribute('aria-pressed', 'true');
+    this.lms.shortSessionBtn.classList.remove('active');
+    this.lms.shortSessionBtn.setAttribute('aria-pressed', 'false');
+  }
+
+  setShortSessionBtnActive() {
+    this.lms.longSessionBtn.classList.remove('active');
+    this.lms.longSessionBtn.setAttribute('aria-pressed', 'false');
+    this.lms.shortSessionBtn.classList.add('active');
+    this.lms.shortSessionBtn.setAttribute('aria-pressed', 'true');
   }
 
   updateTimerDisplay(time) {

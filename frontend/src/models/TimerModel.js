@@ -19,6 +19,7 @@ export default class TimerModel {
     this.isWork = true;
     this.isRest = false;
     this.isResetAnimation = false;
+    this.resetAnimationTimId = null;
   }
 
   getTimerSeconds() {
@@ -83,7 +84,19 @@ export default class TimerModel {
     this.pomodoroTimerView.updateBtnsCursor(this.isResetAnimation);
   }
 
-  restartTimer(restartLoop = true) {
+  setLongSession() {
+    this.workTime = 45 * 60;
+    this.restTime = 10 * 60;
+  }
+
+  setShortSession() {
+    this.workTime = 25 * 60;
+    this.restTime = 5 * 60;
+  }
+
+  restartTimer(restartLoop = true, sessionType = null) {
+    clearTimeout(this.resetAnimationTimId);
+
     if (restartLoop) {
       this.isWork = !this.isWork;
       this.isRest = !this.isRest;
@@ -100,16 +113,26 @@ export default class TimerModel {
       this.isRest = false;
 
       this.stopTimer();
+
+      if (sessionType) {
+        if (sessionType === 'long') {
+          this.setLongSession();
+        } 
+        else if (sessionType === 'short') {
+          this.setShortSession();
+        }
+      }
+
       this.setTimer(this.workTime);
     }
 
-    setTimeout(() => {
+    this.resetAnimationTimId = setTimeout(() => {
       this.isResetAnimation = false;
       this.stopAlarmSound();
       this.pomodoroTimerView.stopAlarmNotice();
       this.pomodoroTimerView.updateBtnsCursor();
       if (restartLoop) {
-        this.startTimer()
+        this.startTimer();
       };
     }, 2600);
   }

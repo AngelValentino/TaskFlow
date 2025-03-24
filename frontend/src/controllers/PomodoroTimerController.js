@@ -9,6 +9,36 @@ export default class PomodoroTimerController {
 
     this.lms.actionBtn.addEventListener('click', this.toggleTimer.bind(this));
     this.lms.resetBtn.addEventListener('click', this.handleRestartTimer.bind(this));
+  
+    this.lms.timerOptionsLm.addEventListener('click', this.switchTimerSession.bind(this));
+  }
+
+  switchTimerSession(e) {    
+    if (
+      this.timerModel.isResetAnimationActive() || 
+      this.taskManagerView.isAddTaskFormEdited()
+    ) {
+      console.log('reset animation is ACTIVE or add task form is filled')
+      return;
+    }
+
+    const target = e.target.closest('.pomodoro-timer__long-session-btn') || e.target.closest('.pomodoro-timer__short-session-btn');
+    if (!target) return;
+
+    const isLongSessionBtn = target.classList.contains('pomodoro-timer__long-session-btn');
+    const isShortSessionBtn = target.classList.contains('pomodoro-timer__short-session-btn');
+    const isActive = target.classList.contains('active');
+
+    if (!isActive) {
+      if (isLongSessionBtn) {
+        this.pomodoroTimerView.setLongSessionBtnActive();
+        this.timerModel.restartTimer(false, 'long');
+      } 
+      else if (isShortSessionBtn) {
+        this.pomodoroTimerView.setShortSessionBtnActive();
+        this.timerModel.restartTimer(false, 'short');
+      }
+    } 
   }
 
   toggleTimer() {
@@ -32,7 +62,7 @@ export default class PomodoroTimerController {
   }
 
   handleRestartTimer() {
-    /* If the timer is currently running or the remaining seconds are equal to the work time 
+    /* If the timer is currently running, the remaining seconds are equal to the work time 
     or add todo form is edited, exit the function */
     if (
       this.timerModel.isResetAnimationActive() || 

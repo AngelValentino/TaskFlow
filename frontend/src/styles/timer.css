@@ -1,28 +1,51 @@
-/* TIMER */
-
-.timer {
+.pomodoro-timer {
+  position: relative;
   background-color: #fff;
   justify-self: center;
   padding: 30px;
   border-radius: 50px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 0.6rem;
   margin-bottom: 50px;
   font-size: 1.5rem;
   transition: color var(--base-transition-duration);
+  min-width: 234px;
 }
 
-.timer__clock {
+.pomodoro-timer__options {
+  position: absolute;
+  left: 30px;
+  top: 15px;
+  display: flex;
+  gap: 0.30rem;
+}
+
+.pomodoro-timer__long-session-btn,
+.pomodoro-timer__short-session-btn {
+  background-color: var(--base-text-color);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 0.25;
+}
+
+.pomodoro-timer__long-session-btn.active,
+.pomodoro-timer__short-session-btn.active {
+  opacity: 1;
+}
+
+.pomodoro-timer__clock {
   color: var(--dark-accent-color);
   transition: background-color var(--base-transition-duration);
 }
 
-.timer__clock.active {
+.pomodoro-timer__clock.active {
   animation: flash .1s infinite alternate ease-in-out;
 }
 
-.timer__btn {
+.pomodoro-timer__btn {
   background-color: var(--dark-accent-color);
   color: white;
   line-height: 0;
@@ -36,34 +59,32 @@
   height: 40px;
 }
 
-.timer__btn.active {
+.pomodoro-timer__btn.active {
   background-color: var(--contrast-color);
   color: var(--base-text-color);
 }
 
-.timer__btn-icon {
+.pomodoro-timer__btn-icon {
   width: 1em;
 }
 
-.timer__reset-icon {
+.pomodoro-timer__reset-icon {
   width: 0.95em;
 }
-
-/* END OF TIMER */
 
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) {
-  .timer__btn:is(:hover, :focus-visible) {
+  .pomodoro-timer__btn:is(:hover, :focus-visible) {
     background-color: var(--medium-accent-color);
   }
 
-  .timer__control-btn.active:is(:hover, :focus-visible) {
+  .pomodoro-timer__control-btn.active:is(:hover, :focus-visible) {
     background-color: var(--dark-to-medium-accent-color);
     color: white;
   }
   
-  .timer__clock.active ~ .timer__btn:is(:hover, :focus-visible) {
+  .pomodoro-timer__clock.active ~ .pomodoro-timer__btn:is(:hover, :focus-visible) {
     background-color: var(--dark-accent-color);
   }
 }
@@ -72,10 +93,10 @@
 
 /* ACTIVE */
 
-  .timer__reset-btn:active:not(:is(.timer__clock.active ~ .timer__btn)) {
-    transition: none;
-    opacity: 0.75;
-  }
+.pomodoro-timer__reset-btn:active:not(:is(.pomodoro-timer__clock.active ~ .pomodoro-timer__btn)) {
+  transition: none;
+  opacity: 0.75;
+}
 
 /* END OF ACTIVE */
 
@@ -85,5 +106,13 @@
   }
   100% {
     color: var(--medium-accent-color); /* Flash color */
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .pomodoro-timer__long-session-btn,
+  .pomodoro-timer__short-session-btn {
+    width: 9px;
+    height: 9px;
   }
 }
