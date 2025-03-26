@@ -2,10 +2,6 @@ body {
   font-family: sans-serif;
 }
 
-.error-message {
-  color: red;
-}
-
 :root {
   --dark-accent-color: #55373d;
   --dark-to-medium-accent-color: #7a4f54;
@@ -16,7 +12,6 @@ body {
   --base-text-color: #272727;
   --base-font-size: 1.15rem;
 }
-
 
 .visually-hidden { 
   border: 0;
@@ -61,6 +56,70 @@ main {
 
 /* LOADERS */
 
+/* PAGE LOADER */
+
+.bouncer-container {
+  position: fixed;
+  background-color: #fff;
+  inset: 0;
+  z-index: 100;
+  transition: background-color 0.5s;
+}
+
+.bouncer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  padding-top: 100px;
+  gap: 0.4rem;
+  transition: opacity var(--base-transition-duration);
+}
+
+.bouncer div {
+  --bounce-animation-duration: 0.5s;
+  width: 1.35rem;
+  height: 1.35rem;
+  background: var(--contrast-color);
+  border-radius: 50%;
+  animation: 
+    bounce var(--bounce-animation-duration) cubic-bezier(.19,.57,.3,.98) infinite alternate 0.5s, 
+    fallDown var(--bounce-animation-duration) cubic-bezier(.67,.11,1,.43);
+}
+
+.bouncer div:nth-child(2) {
+  opacity: 0.8;
+  animation-delay: 0.6s, 0s;
+  animation-duration: var(--bounce-animation-duration), 0.6s;
+}
+
+.bouncer div:nth-child(3) {
+  opacity: 0.6;
+  animation-delay: 0.7s, 0s;
+  animation-duration: var(--bounce-animation-duration), 0.7s;
+}
+
+.bouncer div:nth-child(4) {
+  opacity: 0.4;
+  animation-delay: 0.8s, 0s;
+  animation-duration: var(--bounce-animation-duration), 0.8s;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0) }
+  to { transform: translateY(-100px) }
+}
+
+@keyframes fallDown {
+  from { transform: translateY(-100px) }
+  to { transform: translateY(0) }
+}
+
+/* END OF PAGE LOADER */
+
+/* LOADING CIRCLE */
+
 .loading-circle {
   display: flex;
   justify-content: center;
@@ -86,6 +145,8 @@ main {
     transform: rotate(1turn);
   }
 }
+
+/* END OF LOADING CIRCLE */
 
 /* END OF LOADERS */
 

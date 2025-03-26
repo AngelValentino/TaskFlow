@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadHandler = new LoadHandler;
   const auth = new Auth;
 
+  loadHandler.hidePageLoader();
+
   // TODO Refactor and finish application
 
   // Add routes

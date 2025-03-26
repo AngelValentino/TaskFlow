@@ -29,8 +29,15 @@
   height: 10px;
   border-radius: 50%;
   opacity: 0.25;
+  transition: transform 0.10s;
+  cursor: default;
 }
 
+.pomodoro-timer__long-session-btn[aria-pressed="false"]:hover,
+.pomodoro-timer__short-session-btn[aria-pressed="false"]:hover {
+  transform: scale(1.075);
+  cursor: pointer;
+}
 .pomodoro-timer__long-session-btn.active,
 .pomodoro-timer__short-session-btn.active {
   opacity: 1;
