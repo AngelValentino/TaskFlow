@@ -1,4 +1,6 @@
 export default class LoadHandler {
+  preloadedImgs = [];
+  
   blurLoadImages() {
     const elements = document.querySelectorAll('.blur-img-loader');
 
@@ -52,5 +54,23 @@ export default class LoadHandler {
     setTimeout(() => {
       bouncerLoaderContainerLm.style.display = 'none';
     }, 500);
+  }
+
+  preloadImage(imgUrl) {
+    const img = new Image();
+    img.src = imgUrl;
+    this.preloadedImgs.push(img);
+  }
+
+  preloadDashboardBlurImages() {
+    // Preload specific animal images
+    this.preloadImage('/public/assets/images/drawings/chilling-capybara-low-res.jpg');
+    this.preloadImage('/public/assets/images/drawings/empty-task-list-placeholder-low-res.jpg');
+    this.preloadImage('/public/assets/images/drawings/no-tasks-found-placeholder-low-res.jpg');
+    
+    // Preload a series of recycling icons
+    for (let i = 1; i <= 6; i++) {
+      this.preloadImage(`/public/assets/images/recycle/garbage-collector-low-res-${i}.jpg`);
+    }
   }
 }

@@ -38,14 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const auth = new Auth;
 
   loadHandler.hidePageLoader();
-  utils.preloadDashboardBlurImages();
+  loadHandler.preloadDashboardBlurImages();
 
   // TODO Refactor and finish application
 
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
-    loadHandler.blurLoadImages();
     const themeHandler = new ThemeHandler(utils);
     themeHandler.setRandomTheme();
 
