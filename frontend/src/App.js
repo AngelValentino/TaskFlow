@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const auth = new Auth;
 
   loadHandler.hidePageLoader();
+  utils.preloadDashboardBlurImages();
 
   // TODO Refactor and finish application
 
