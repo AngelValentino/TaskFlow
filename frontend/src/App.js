@@ -28,6 +28,7 @@ import UserMenuController from "./controllers/UserMenuController.js";
 import LogoutView from "./views/LogoutView.js";
 import LoadHandler from "./services/LoadHandler.js";
 import TimerModel from "./models/TimerModel.js";
+import NotFoundPage from "./pages/NotFound.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -106,6 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const userModel = new UserModel(router);
     const logoutView = new LogoutView;
     new LogoutController(router, auth, userModel, logoutView);
+  });
+
+  router.addRoute('*', () => {
+    appLm.innerHTML = NotFoundPage.getHtml();
   });
 
   // Dispatch to the correct route

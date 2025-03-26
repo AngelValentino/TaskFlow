@@ -24,34 +24,32 @@ export default class Router {
   dispatch() {
     const formerView = this.appLm.dataset.view
 
-    const { route } = this.routes
-      .map(route => {
-        return {
-          route,
-          isMatch: location.pathname === route.path
-        };
-      })
-      .find(route => route.isMatch) || {};
+    let matchedRoute = this.routes.find(route => location.pathname === route.path);
+    
+    if (!matchedRoute) {
+      matchedRoute = this.routes.find(route => route.path === '*');
+    }
 
-    if (!route) {
-      this.handleNotFound();
+    if (!matchedRoute) {
+      console.warn('Routing error: No matching route found, and no 404 route is defined.');
       return;
     }
 
     // Update current view
-    this.appLm.dataset.view = route.path;
+    this.appLm.dataset.view = matchedRoute.path;
     const currentView = this.appLm.dataset.view;
 
     // Avoid rendering the same view
-    if (formerView === currentView) return;
+    if (formerView === currentView) {
+      console.warn('Same route navigation detected, skipping re-render.')
+      return;
+    };
+   
     document.body.className = '';
-
     this.modalHandler.clearRemainingDocumentBodyEvents();
-
-    // Before navigating to the new view, cancel any active fetch
     this.abortActiveFetches();
   
-    route.view();
+    matchedRoute.view();
   }
 
   // Handle rendering for a 404 not found
