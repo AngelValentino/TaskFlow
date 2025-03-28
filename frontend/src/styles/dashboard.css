@@ -40,7 +40,8 @@ main.dashboard-view {
   height: 83.75vh;
   min-height: 620px;
   max-height: 800px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevents horizontal scroll caused by Chrome's subpixel rounding issue and having to increase element widht over its 100% */
   scrollbar-width: thin;
   scrollbar-gutter: stable both-edges;
   position: relative;
@@ -131,7 +132,7 @@ main.dashboard-view {
   padding: 10px 0;
   position: sticky;
   top: -31px;
-  width: 100%;
+  width: calc(100% + 1px); /* Chrome bug: Prevents 1px gap issue caused by subpixel rounding */
   background-color: #fff;
   z-index: 10;
   display: flex;
@@ -157,7 +158,7 @@ main.dashboard-view {
   cursor: default;
 }
 
-/* Makes sure to remove the transtion when selecting a section. */
+/* Makes sure to remove the transtion when selecting a section */
 .appear-bg-from-center.dark.task-manager__tab-btn.active::after {
   transition: none;
 }
@@ -385,8 +386,7 @@ main.dashboard-view {
 
   .task-manger__scroll-to-top-btn:active {
     transition: none;
-    color: var(--base-text-color);
-    background-color: var(--light-accent-color) ;
+    opacity: 0.75;
   }
 /* END OF ACTIVE */
 

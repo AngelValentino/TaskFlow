@@ -14,6 +14,7 @@ export default class TaskManagerView {
     this.timIds = {};
     this.controllerMethods = {};
     this.lms = {
+      taskManagerLm: document.getElementById('task-manager'),
       addTaskBtn: document.getElementById('task-manager__dashboard-add-btn'),
       addTaskPromptLm: document.getElementById('task-manager__add-prompt'),
       addTaskPromptCloseBtn: document.getElementById('task-manager__add-prompt-close-btn'),
@@ -33,13 +34,39 @@ export default class TaskManagerView {
       taskManagerTaskCountLm: document.getElementById('task-manager__dashboard-tasks-count'),
       taskManagerTaskCountErrorLm: document.getElementById('task-manager__dashboard-tasks-count-error'),
       currentDateLm: document.getElementById('task-manager__dashboard-date'),
+      taskManagerSectionHeader: document.getElementById('task-manager__tabs-nav'),
       taskManagerTabLms: document.querySelectorAll('.task-manager__tab-btn'),
-      taskManagerTabListLm: document.getElementById('task-manager__tab-list')
+      taskManagerTabListLm: document.getElementById('task-manager__tab-list'),
+      scrollToTopBtn: document.getElementById('task-manger__scroll-to-top-btn')
     };
   }
 
   getDomRefs() {
     return this.lms;
+  }
+
+  scrollToTop(behavior = 'smooth') {
+    // Check if the user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    // I they prefer reduced motion set scroll behaviour to auto
+    if (!prefersReducedMotion) behavior = 'auto';
+    // Scroll to the top of the container
+    this.lms.taskManagerLm.scrollTo({top: 0, behavior: behavior});
+  }
+
+  isSectionHeaderSticky() {
+    // Get the sticky element's bounding rect relative to the viewport
+    const stickyRect = this.lms.taskManagerSectionHeader.getBoundingClientRect();
+    // Get the container's bounding rect
+    const containerRect = this.lms.taskManagerLm.getBoundingClientRect();
+    // Calculate the top offset of the sticky element relative to the container
+    const stickyOffset = stickyRect.top - containerRect.top;
+    
+    return stickyOffset <= 0;
+  }
+
+  toggleScrollToTopBtn() {
+    this.lms.scrollToTopBtn.classList.toggle('show', this.isSectionHeaderSticky());
   }
 
   getCurrentSearchValue() {

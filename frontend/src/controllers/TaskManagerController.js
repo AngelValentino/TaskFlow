@@ -26,11 +26,17 @@ export default class TaskManagerController {
     this.lms.clearAllTasksBtn.addEventListener('click', this.handleClearAllTasks.bind(this));
     this.lms.tasksContainerLm.addEventListener('click', this.handleTaskAction.bind(this));
     this.lms.taskManagerTabListLm.addEventListener('click', this.handleSwitchTab.bind(this));
-    
+    this.lms.taskManagerLm.addEventListener('scroll', this.taskManagerView.toggleScrollToTopBtn.bind(this.taskManagerView));
+    this.lms.scrollToTopBtn.addEventListener('click', this.handleScrollToTop.bind(this));
+
     this.taskManagerView.toggleActiveTab(null, localStorage.getItem('currentActiveTabId') || 'task-manger__all-tasks-tab-btn');
     this.getAllTasks();
     this.getActiveTasksCount();
     this.taskManagerView.updateCurrentDashboardDate();
+  }
+
+  handleScrollToTop() {
+    this.taskManagerView.scrollToTop();
   }
 
   searchTask(e) {
@@ -481,6 +487,7 @@ export default class TaskManagerController {
         return;
       }
 
+      this.taskManagerView.scrollToTop('auto');
       this.taskManagerView.toggleActiveTab(clickedTab);
       this.getAllTasks();
     }

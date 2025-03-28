@@ -20,7 +20,7 @@ export default class TaskManager {
         </div>
         <nav id="task-manager__tabs-nav" class="task-manager__tabs-nav">
           ${taskManagerTabs}
-          <button title="Scroll to the top of the tasks list." id="task-manger__scroll-to-top-btn" class="task-manger__scroll-to-top-btn">
+          <button title="Scroll to top of list." id="task-manger__scroll-to-top-btn" class="task-manger__scroll-to-top-btn">
             <svg aria-hidden="true" focusable="false" role="presentation" class="task-manager__scroll-to-top-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path fill="currentColor" d="M15 20H9v-8H4.16L12 4.16L19.84 12H15z" />
             </svg>
