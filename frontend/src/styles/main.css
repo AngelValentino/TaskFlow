@@ -127,13 +127,37 @@ main {
 
 .loading-circle::after {
   content: "";
-  width: 45px;
-  height: 45px;
-  border: 0.55rem solid transparent;
-  border-top-color: var(--base-text-color);
   border-radius: 50%;
   transform: rotate(0.16turn);
   animation: spinLoader 1s ease infinite;
+}
+
+.loading-circle.extra-small::after {
+  width: 1.375rem; /* 22px */
+  height: 1.375rem; /* 22px */
+  border: 0.25rem solid transparent;
+  border-top-color: inherit;
+}
+
+.loading-circle.small::after {
+  width: 1.6875rem; /* 27px */
+  height: 1.6875rem; /* 27px */
+  border: 0.330rem solid transparent;
+  border-top-color: inherit;
+}
+
+.loading-circle.medium::after {
+  width: 2.4375rem; /* 39px */
+  height: 2.4375rem; /* 39px */
+  border: 0.478rem solid transparent;
+  border-top-color: inherit;
+}
+
+.loading-circle.large::after {
+  width: 2.8125rem;
+  height: 2.8125rem;
+  border: 0.55rem solid transparent;
+  border-top-color: inherit;
 }
 
 @keyframes spinLoader {
@@ -354,12 +378,6 @@ main {
 @media screen and (max-width: 500px) {
   html {
     font-size: 15px !important;
-  }
-
-  .loading-circle::after {
-    width: 40px;
-    height: 40px;
-    border-width: 0.52rem;
   }
 }
 

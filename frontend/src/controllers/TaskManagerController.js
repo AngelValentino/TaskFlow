@@ -176,7 +176,7 @@ export default class TaskManagerController {
 
     // Handle task count for logged-in users
     const loadingTimId = this.utils.handleLoading(
-      this.taskManagerView.updateTaskCount.bind(this.taskManagerView, 'Loading...')
+      this.taskManagerView.updateTaskCount.bind(this.taskManagerView, 'loader')
     );
     
     this.taskModel.handleGetAllTasksCount(false)
@@ -212,7 +212,7 @@ export default class TaskManagerController {
 
     // Handle task deletion for logged-in users
     const loadingTimId = this.utils.handleLoading(
-      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'Loading...')
+      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'loader')
     );
 
     this.taskModel.handleDeleteTask(taskId)
@@ -250,10 +250,10 @@ export default class TaskManagerController {
       this.getActiveTasksCount();
       return;
     }
-    
+
     // Handle all task deletion for logged-in users
     const loadingTimId = this.utils.handleLoading(
-      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'Loading...')
+      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'loader')
     );
 
     this.taskModel.handleDeleteAllTasks(completed)
@@ -310,7 +310,7 @@ export default class TaskManagerController {
 
     // Handle task completion for logged-in users
     const loadingTimId = this.utils.handleLoading(
-      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'Loading...')
+      this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'loader')
     );
 
     this.taskModel.handleCompleteTask(taskId)

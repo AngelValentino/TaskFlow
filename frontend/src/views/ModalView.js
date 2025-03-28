@@ -5,12 +5,14 @@ import ConfirmCompleteTaskModal from "../components/ConfirmCompleteTaskModal.js"
 import ConfirmDeleteTaskModal from "../components/ConfirmDeleteTaskModal.js";
 import InfoMaxTasksModal from "../components/InfoMaxTasksModal.js";
 import InfoEmptyTaskListModal from "../components/InfoEmptyTaskListModal.js";
+import LoadingCircle from "../components/LoadingCircle.js";
 
 export default class ModalView {
   constructor(modalHandler, utils, loadHandler) {
     this.modalHandler = modalHandler;
     this.utils = utils;
     this.loadHandler = loadHandler;
+    this.mediumCircleLoader = LoadingCircle.getHtml('medium');
 
     this.lms = {};
 
@@ -469,18 +471,25 @@ export default class ModalView {
   updateConfirmModalInfoMessage(message, success, error) {
     this.lms.confirmModalBtnsContainerLm.classList.add('hidden');
     this.lms.confirmModalDeleteOptionsContainerLm?.classList.add('hidden');
-    this.lms.confirmModalInfoMessageLm.innerText = message
-    this.lms.confirmModalInfoMessageLm.classList.add('active');
+    if (message === 'loader') {
+      this.lms.confirmModalInfoMessageLm.innerHTML = this.mediumCircleLoader;
+      this.lms.confirmModalInfoMessageLm.classList.add('loading');
+    } 
+    else {
+      this.lms.confirmModalInfoMessageLm.innerText = message;
+    }
 
     if (success) {
+      this.lms.confirmModalInfoMessageLm.classList.remove('loading');
       this.lms.confirmModalInfoMessageLm.classList.add('success');
     } 
     else if (error) {
+      this.lms.confirmModalInfoMessageLm.classList.remove('loading');
       this.lms.confirmModalInfoMessageLm.classList.add('error');
     }
   }
 
-  updateConfirmModalDeleteMessage(completed, message) {
+  updateConfirmModalDeleteMessage(completed) {
     if (completed !== null) {
       if (completed === undefined) {
         this.updateConfirmModalInfoMessage('All tasks were successfully deleted.', true);
@@ -491,10 +500,6 @@ export default class ModalView {
       else if (completed === false) {
         this.updateConfirmModalInfoMessage('All active tasks were successfully deleted.', true);
       }
-    }
-
-    if (message) {
-      this.lms.confirmModalBtnsContainerLm.innerHTML = message;
     }
   }
 

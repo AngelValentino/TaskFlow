@@ -194,10 +194,6 @@
   padding: 40px;
 }
 
-.task-manager__list-loader-svg {
-  width: 3rem;
-}
-
 .task-manager__list-error {
   transition: background-color var(--base-transition-duration);
   background-color: var(--medium-accent-color);

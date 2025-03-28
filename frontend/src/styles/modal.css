@@ -122,24 +122,26 @@
 }
 
 .confirm-modal__info-message {
-  background-color: var(--dark-to-medium-accent-color);
   border-radius: 2px;
   color: white;
   font-size: 1.15rem;
 }
 
-.confirm-modal__info-message.active {
-  padding: 10px;
-  display: inline-block !important;
+.confirm-modal__info-message.loading {
+  color: var(--base-text-color);
 }
 
 .confirm-modal__info-message.success {
   background-color: var(--medium-accent-color);
+  display: inline-block;
+  padding: 10px;
 }
 
 .confirm-modal__info-message.error {
   background-color: var(--light-accent-color);
+  display: inline-block;
   color: var(--base-text-color);
+  padding: 10px;
 }
 
 /* END OF MODAL */

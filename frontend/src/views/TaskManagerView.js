@@ -4,6 +4,7 @@ import TaskListPlaceholder from '../pages/dashboard/components/TaskListPlacehold
 import TaskListLoader from '../pages/dashboard/components/TaskListLoader.js';
 import TaskListError from '../pages/dashboard/components/TaskListError.js';
 import NoTasksFoundPlaceholder from '../pages/dashboard/components/NoTasksFoundPlaceholder.js';
+import LoadingCircle from '../components/LoadingCircle.js';
 
 export default class TaskManagerView {
   constructor(modalHandler, modalView, utils, loadHandler) {
@@ -13,6 +14,7 @@ export default class TaskManagerView {
     this.loadHandler = loadHandler;
     this.timIds = {};
     this.controllerMethods = {};
+    this.smallCircleLoader = LoadingCircle.getHtml('small');
     this.lms = {
       taskManagerLm: document.getElementById('task-manager'),
       addTaskBtn: document.getElementById('task-manager__dashboard-add-btn'),
@@ -322,7 +324,12 @@ export default class TaskManagerView {
   }
 
   updateTaskCount(text) {
-    this.lms.taskManagerTaskCountLm.innerText = text;
+    if (text === 'loader') {
+      this.lms.taskManagerTaskCountLm.innerHTML = this.smallCircleLoader;
+    }
+    else {
+      this.lms.taskManagerTaskCountLm.innerText = text;
+    }
   }
 
   renderTaskCount(count) {
