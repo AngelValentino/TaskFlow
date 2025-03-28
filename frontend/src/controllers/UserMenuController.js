@@ -1,7 +1,8 @@
 export default class UserMenuController {
-  constructor(userMenuView, auth) {
+  constructor(userMenuView, auth, router) {
     this.userMenuView = userMenuView;
     this.auth = auth;
+    this.router = router;
     this.lms = this.userMenuView.getDomRefs();
 
     this.lms.userMenuBtn.addEventListener('click', this.toggleUserMenu.bind(this));
@@ -13,9 +14,11 @@ export default class UserMenuController {
   }
 
   setRandomUserMessage() {
-    setInterval(() => {
+    const setRandomGreetingMessageTimId = setInterval(() => {
       this.userMenuView.renderUserRandomMessage();
     }, 25000);
+
+    this.router.setActiveInterval(setRandomGreetingMessageTimId);
   }
 
   toggleUserMenu() {

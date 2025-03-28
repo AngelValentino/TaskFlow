@@ -5,8 +5,18 @@ export default class Router {
     this.init();
     this.appLm = document.getElementById('App');
     this.abortControllers = {};
+    this.intervalIds = [];
+    this.timeoutIds = [];
     this.modalHandler = modalHandler;
     Router.instance = this; // Store the instance
+  }
+
+  setActiveInterval(intId) {
+    this.intervalIds.push(intId);
+  }
+
+  setActiveTimeout(timId) {
+    this.timeoutIds.push(timId);
   }
 
   // Adds a route
@@ -41,23 +51,17 @@ export default class Router {
 
     // Avoid rendering the same view
     if (formerView === currentView) {
-      console.warn('Same route navigation detected, skipping re-render.')
+      console.warn('Same route navigation detected, skipping re-render.');
       return;
     };
    
     document.body.className = '';
     this.modalHandler.clearRemainingDocumentBodyEvents();
     this.abortActiveFetches();
+    this.clearActiveIntervals();
+    this.clearActiveTimeouts();
   
     matchedRoute.view();
-  }
-
-  // Handle rendering for a 404 not found
-  handleNotFound() {
-    this.appLm.innerHTML = `
-      <h1>404</h1>
-      <p>Resource not found</p>
-    `;
   }
 
   // Utility method to navigate to a new URL
@@ -91,6 +95,22 @@ export default class Router {
         controller.abort();
       }
     });
+  }
+
+  clearActiveTimeouts() {
+    this.timeoutIds.forEach(timId => {
+      clearTimeout(timId);
+    });
+
+    this.timeoutIds.length = 0;
+  }
+
+  clearActiveIntervals() {
+    this.intervalIds.forEach(intId => {
+      clearInterval(intId);
+    });
+
+    this.intervalIds.length = 0;
   }
 
   getAbortSignal(fetchKey) {

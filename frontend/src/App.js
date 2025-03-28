@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // User menu
     const userModel = new UserModel(router, auth);
     const userMenuView = new UserMenuView(modalHandler, userModel, utils);
-    new UserMenuController(userMenuView, auth);
+    new UserMenuController(userMenuView, auth, router);
 
     // Task manager
     const modalView = new ModalView(modalHandler, utils, loadHandler);
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
-    new UserMenuController(userMenuView, auth);
+    new UserMenuController(userMenuView, auth, router);
 
     const userModel = new UserModel(router, auth);
     const registerView = new RegisterView;
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
-    new UserMenuController(userMenuView, auth);
+    new UserMenuController(userMenuView, auth, router);
 
     const userModel = new UserModel(router);
     const loginView = new LoginView;
