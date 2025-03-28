@@ -58,23 +58,6 @@
   line-height: 0;
 }
 
-.user-menu__btn:hover {
-  transform: scale(1.05);
-}
-
-.user-menu__btn:active {
-  border: 2px solid var(--dark-to-medium-accent-color);
-  transition: transform 0.075s;
-  transform: scale(1);
-}
-
-.user-menu__btn:active .user-menu__btn-svg {
-  width: 1.8rem;
-  color: var(--dark-to-medium-accent-color);
-  transition: none; 
-  line-height: 0;
-}
-
 .user-menu {
   background-color: #fff;
   position: fixed;
@@ -110,12 +93,38 @@
   line-height: 0;
 }
 
-.user-menu__link:hover,
-.user-menu__link:focus-visible {
-  background-color: rgba(0, 0, 0, 0.07);
-  outline: none;
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .user-menu__btn:is(:hover, :focus-visible) {
+    transform: scale(1.05);
+  }
+  
+  .user-menu__link:is(:hover, :focus-visible) {
+    background-color: rgba(0, 0, 0, 0.07);
+    outline: none;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.user-menu__btn:active {
+  border: 2px solid var(--dark-to-medium-accent-color);
+  transition: transform 0.075s;
+  transform: scale(1);
+}
+
+.user-menu__btn:active .user-menu__btn-svg {
+  width: 1.8rem;
+  color: var(--dark-to-medium-accent-color);
+  transition: none; 
+  line-height: 0;
 }
 
 .user-menu__link:active {
   background-color: rgba(0, 0, 0, 0.15);
 }
+
+/* END OF ACTIVE */

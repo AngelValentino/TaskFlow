@@ -312,6 +312,8 @@ main {
 
 /* END OF MODIFIERS */
 
+/* HOVER CAPABLE DEVICES */
+
 @media screen and (pointer: fine) and (hover: hover) {
   .appear-bg-from-center:not(.active):is(:hover, :focus-visible)::after {
     transform: scale(1);
@@ -337,9 +339,17 @@ main {
   }
 }
 
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
 .appear-bg-from-center:active svg {
   opacity: 0.75;
 }
+
+/* END OF ACTIVE */
+
+/* MEDIA QUERIES */
 
 @media screen and (max-width: 500px) {
   html {
@@ -358,3 +368,5 @@ main {
     padding: 80px 15px 30px !important;
   }
 }
+
+/* END OF MEDIA QUERIES */

@@ -1,4 +1,4 @@
-/* DIALOG */
+/* MODAL */
 
 .confirm-modal-container,
 .edit-modal-container,
@@ -141,9 +141,10 @@
   background-color: var(--light-accent-color);
   color: var(--base-text-color);
 }
-/* END OF DIALOG */
 
-/* EDIT DIALOG */
+/* END OF MODAL */
+
+/* EDIT MODAL */
 
 .form-modal {
   max-width: 450px;
@@ -216,7 +217,7 @@
   background-color: var(--light-accent-color);
 }
 
-/* END OF EDIT DIALOG */
+/* END OF EDIT MODAL */
 
 /* HOVER CAPABLE DEVICES */
 

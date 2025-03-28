@@ -1,4 +1,4 @@
-/* ADD TODO PROMPT */
+/* ADD TASK PROMPT */
 
 .task-manager__add-prompt {
   position: relative;
@@ -95,9 +95,9 @@
   border-radius: 2px;
 }
 
-/* END OF ADD TODO PROMPT */
+/* END OF ADD TASK PROMPT */
 
-/* SEARCH TODO PROMPT */
+/* SEARCH TASK PROMPT */
 
 .task-manager__search-prompt {
   border-radius: 5px;
@@ -170,7 +170,7 @@
   width: 1.85rem;
 }
 
-/* END OF SEARCH TODO PROMPT */
+/* END OF SEARCH TASK PROMPT */
 
 /* HOVER CAPABLE DEVICES */
 

@@ -121,10 +121,6 @@ main.register-view {
   transition: opacity var(--base-transition-duration);
 }
 
-.register-form__submit-btn:hover {
-  opacity: 0.75;
-}
-
 .login-account-container {
   margin: 40px 0 0;
   text-align: center;
@@ -144,12 +140,23 @@ main.register-view {
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration), border var(--base-transition-duration);
 }
 
-.login-account-link:hover {
-  color: #fff;
-  background-color: var(--medium-accent-color);
-  border: 2px solid var(--medium-accent-color);
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .register-form__submit-btn:is(:hover, :focus-visible) {
+    opacity: 0.75;
+  }
+
+  .login-account-link:is(:hover, :focus-visible) {
+    color: #fff;
+    background-color: var(--medium-accent-color);
+    border: 2px solid var(--medium-accent-color);
+  }
 }
 
+/* END OF HOVER CAPABLE DEVICES */
+
+/* MEDIA QUERIES */
 
 @media screen and (max-width: 900px) {
   .register-form__input-label-container {
@@ -198,3 +205,5 @@ main.register-view {
     margin: 42px 0 0;
   }
 }
+
+/* END OF MEDIA QUERIES */

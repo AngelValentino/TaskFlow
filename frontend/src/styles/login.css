@@ -92,10 +92,6 @@ main.login-view {
   transition: opacity var(--base-transition-duration);
 }
 
-.login-form__submit-btn:hover {
-  opacity: 0.75;
-}
-
 .create-new-account-container {
   margin: 40px 0 0;
   text-align: center;
@@ -115,18 +111,30 @@ main.login-view {
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration), border var(--base-transition-duration);
 }
 
-.create-new-account-link:hover {
-  color: #fff;
-  background-color: var(--medium-accent-color);
-  border: 2px solid var(--medium-accent-color);
-}
-
 .login-form__error {
   color: #d90b1b;
   font-size: 0.95rem;
   background-color: #fff;
   padding: 0 50px 15px;
 }
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) { 
+  .login-form__submit-btn:is(:hover, :focus-visible) {
+    opacity: 0.75;
+  }
+
+  .create-new-account-link:is(:hover, :focus-visible) {
+    color: #fff;
+    background-color: var(--medium-accent-color);
+    border: 2px solid var(--medium-accent-color);
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* MEDIA QUERIES */
 
 @media screen and (max-width: 450px) {
   .login-form__inputs-container {
@@ -141,3 +149,5 @@ main.login-view {
     padding: 0 30px 15px;
   }
 }
+
+/* END OF MEDIA QUERIES */

@@ -25,6 +25,12 @@
   color: var(--dark-to-medium-accent-color);
 }
 
-.return-home-link:hover {
-  text-decoration: underline;
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) { 
+  .return-home-link:is(:hover, :focus-visible) {
+    text-decoration: underline;
+  }
 }
+
+/* END OF HOVER CAPABLE DEVICES */

@@ -30,8 +30,14 @@ main.not-found-view {
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration), border var(--base-transition-duration);
 }
 
-.not-found-return-link:hover {
-  color: #fff;
-  background-color: var(--medium-accent-color);
-  border: 2px solid var(--medium-accent-color);
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .not-found-return-link:is(:hover, :focus-visible) {
+    color: #fff;
+    background-color: var(--medium-accent-color);
+    border: 2px solid var(--medium-accent-color);
+  }
 }
+
+/* END OF HOVER CAPABLE DEVICES */
