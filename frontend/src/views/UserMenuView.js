@@ -28,10 +28,17 @@ export default class UserMenuView {
     this.lms.userMessageLm.innerText = this.getRandomMessage();
   }
 
+  setUserMenuBtnAria(ariaExpanded, title) {
+    this.lms.userMenuBtn.setAttribute('aria-expanded', ariaExpanded);
+    this.lms.userMenuBtn.setAttribute('aria-label', title + '.');
+    this.lms.userMenuBtn.setAttribute('title', title);
+  }
+
   openUserMenu() {
     this.lms.userMenuLm.classList.add('active');
     const firstFocusableLm = this.lms.userMenuLm.children[0].querySelector('.user-menu__link')
     this.lastFocusedLmBeforeModal = this.modalHandler.toggleModalFocus('add', firstFocusableLm);
+    this.setUserMenuBtnAria('true', 'Close user menu');
 
     this.modalHandler.addModalEvents(
       'userMenu',
@@ -46,6 +53,7 @@ export default class UserMenuView {
   closeUserMenu() {
     this.lms.userMenuLm.classList.remove('active');
     this.modalHandler.toggleModalFocus('return', null, this.lastFocusedLmBeforeModal);
+    this.setUserMenuBtnAria('false', 'Open user menu');
 
     this.modalHandler.removeModalEvents(
       'userMenu',
