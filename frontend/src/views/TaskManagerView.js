@@ -79,11 +79,22 @@ export default class TaskManagerView {
     });
   }
 
+  setActiveBtn(btnLm) {
+    if (btnLm.getAttribute('aria-expanded') === 'false') {
+      btnLm.classList.add('active');
+      btnLm.setAttribute('aria-expanded', true);
+    } 
+    else {  
+      btnLm.classList.remove('active');
+      btnLm.setAttribute('aria-expanded', false);
+    }
+  }
+
   showPrompt(promptLm, btnLm, firstFocusableLm, hidePromptTimId, timeout) {
     clearTimeout(hidePromptTimId);
 
     promptLm.removeAttribute('hidden');
-    this.modalHandler.setActiveBtn(btnLm);
+    this.setActiveBtn(btnLm);
 
     setTimeout(() => {
       promptLm.classList.add('active');
@@ -98,7 +109,7 @@ export default class TaskManagerView {
     clearTimeout(focusFirstPromptLmTimId);
 
     this.modalHandler.toggleModalFocus('return', null, btnLm);
-    this.modalHandler.setActiveBtn(btnLm);
+    this.setActiveBtn(btnLm);
     promptLm.classList.remove('active');
     
     this.timIds[hidePromptKey] = setTimeout(() => {

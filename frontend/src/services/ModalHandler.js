@@ -5,17 +5,6 @@ export default class ModalHandler {
     ModalHandler.instance = this; // Store the instance
   }
 
-  setActiveBtn(btnLm) {
-    if (btnLm.getAttribute('aria-expanded') === 'false') {
-      btnLm.classList.add('btn--active');
-      btnLm.setAttribute('aria-expanded', true);
-    } 
-    else {  
-      btnLm.classList.remove('btn--active');
-      btnLm.setAttribute('aria-expanded', false);
-    }
-  }
-
   toggleModalFocus(focusBehaviour, firstFocusableLm, lastFocusedLm) {
     if (focusBehaviour === 'add') {
       const storedLastFocusedLm = lastFocusedLm ? lastFocusedLm : document.activeElement

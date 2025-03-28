@@ -97,14 +97,13 @@
   .quote__buttons button:active::after {
     transition: none;
     color: var(--base-text-color);
-    background-color: var(--contrast-color)
+    background-color: var(--contrast-color);
   }
 
   .quote__share-with-twitter-btn:active,
   .quote__share-with-tumblr-btn:active {
-    color: var(--base-text-color);
     transition: none;
-    background-color: var(--light-accent-color);
+    opacity: 0.75;
   }
 
 /* END OF ACTIVE */
