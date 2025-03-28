@@ -1,14 +1,13 @@
 .logout-message {
-  background-color: var(--dark-to-medium-accent-color);
   padding: 10px;
   border-radius: 3px;
-  color: #fff;
   display: inline-block;
   font-size: 1.05rem;
 }
 
 .logout-message.error {
   background-color: #ee4a31;
+  color: #fff;
 }
 
 .return-home-message {
@@ -22,14 +21,14 @@
 }
 
 .return-home-link {
-  color: var(--dark-to-medium-accent-color);
+  text-decoration: underline;
 }
 
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) { 
   .return-home-link:is(:hover, :focus-visible) {
-    text-decoration: underline;
+    opacity: 0.75;
   }
 }
 

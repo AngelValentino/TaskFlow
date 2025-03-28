@@ -54,6 +54,7 @@ export default class QuoteMachineController {
           return;
         }
 
+        this.quoteMachineView.setQuoteError(error.message);
         console.error(error);
       })
       .finally(() => {

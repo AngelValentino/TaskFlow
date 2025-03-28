@@ -26,7 +26,7 @@ export default class QuoteModel {
     });
 
     if (!response.ok) {
-      throw new Error("We couldn't get the quotes data. Please try again later.");
+      throw new Error(`Oops! Error ${response.status}: We couldn't get the quotes data. Please try again later.`);
     }
     
     return await response.json();
