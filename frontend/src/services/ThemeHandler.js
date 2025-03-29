@@ -1,4 +1,5 @@
 export default class ThemeHandler {
+  loadToken = null;
   static themes = [
     {
       darkAccent: '#593e7f',
@@ -93,9 +94,17 @@ export default class ThemeHandler {
     const preloadImgLm = document.createElement('img');
     preloadImgLm.src = bgImgUrl;
 
+    // Avoid race condition using a unique symbol
+    const loadToken = Symbol();
+    this.currentLoadToken = loadToken;
+
     this.changeRootTheme(theme);
 
     const loadBgImg = url => {
+      if (this.currentLoadToken !== loadToken) {
+        console.warn('different theme while former event active, return');
+        return;
+      };
       this.lms.backgroundImgLm.style.opacity = 1;
       this.lms.backgroundImgLm.style.backgroundImage = `url(${url})`;
     }
@@ -108,7 +117,7 @@ export default class ThemeHandler {
         loadBgImgHandler();
       }
       else {
-        preloadImgLm.addEventListener('load', loadBgImgHandler);
+        preloadImgLm.addEventListener('load', loadBgImgHandler, { once: true });
       }
     }, time);
   }
@@ -116,6 +125,7 @@ export default class ThemeHandler {
   setRandomTheme(time = 0) {
     this.lms.backgroundImgLm.style.opacity = 0;
     clearTimeout(this.timIds.loadBgIm);
+    this.currentLoadToken = null;
 
     const index = this.utils.getNonRepeatingRandomIndex(ThemeHandler.themes, 'themes');
     const currentTheme = ThemeHandler.themes[index];

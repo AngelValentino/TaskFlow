@@ -28,7 +28,7 @@ export default class UserMenuView {
     const randomGreeting = this.userModel.greetings[this.utils.getNonRepeatingRandomIndex(this.userModel.greetings, 'userGreetings')];
     const randomIcon = this.userModel.greetingIcons[this.utils.getNonRepeatingRandomIndex(this.userModel.greetingIcons, 'userGreetingIcons')];
 
-    const username = localStorage.getItem('username') || 'User';
+    const username = localStorage.getItem('username') || 'Jack';
     return `${randomGreeting}, ${username}! ${randomIcon}`;
   }
 
