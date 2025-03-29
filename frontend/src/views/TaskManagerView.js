@@ -81,7 +81,7 @@ export default class TaskManagerView {
     });
   }
 
-  setActiveBtn(btnLm) {
+  toggleActiveBtn(btnLm) {
     if (btnLm.getAttribute('aria-expanded') === 'false') {
       btnLm.classList.add('active');
       btnLm.setAttribute('aria-expanded', true);
@@ -96,7 +96,7 @@ export default class TaskManagerView {
     clearTimeout(hidePromptTimId);
 
     promptLm.removeAttribute('hidden');
-    this.setActiveBtn(btnLm);
+    this.toggleActiveBtn(btnLm);
 
     setTimeout(() => {
       promptLm.classList.add('active');
@@ -107,11 +107,13 @@ export default class TaskManagerView {
     }, timeout);
   }
 
-  hidePrompt(promptLm, btnLm, focusFirstPromptLmTimId, hidePromptKey, timeout) {
+  hidePrompt(promptLm, btnLm, focusFirstPromptLmTimId, hidePromptKey, timeout, returnFocus) {
     clearTimeout(focusFirstPromptLmTimId);
 
-    this.modalHandler.toggleModalFocus('return', null, btnLm);
-    this.setActiveBtn(btnLm);
+    if (returnFocus) {
+      this.modalHandler.toggleModalFocus('return', null, btnLm);
+    }
+    this.toggleActiveBtn(btnLm);
     promptLm.classList.remove('active');
     
     this.timIds[hidePromptKey] = setTimeout(() => {
@@ -139,7 +141,7 @@ export default class TaskManagerView {
     );
   }
 
-  closeAddTaskPrompt() {
+  closeAddTaskPrompt(returnFocus = true) {
     this.clearAddTaskPromptErrors();
 
     this.hidePrompt(
@@ -147,7 +149,8 @@ export default class TaskManagerView {
       this.lms.addTaskBtn,
       this.timIds.focusFirstPromptLm,
       'hideAddTaskPrompt',
-      1500
+      1500,
+      returnFocus
     );
 
     // Remove event listeners
@@ -202,7 +205,7 @@ export default class TaskManagerView {
     }
   }
 
-  closeSearchTaskPrompt() {
+  closeSearchTaskPrompt(returnFocus = true) {
     this.resetSearchTaskInput();
 
     this.hidePrompt(
@@ -210,7 +213,8 @@ export default class TaskManagerView {
       this.lms.searchTaskBtn,
       this.timIds.focusFirstPromptLm,
       'hideSearchTaskPrompt',
-      1250
+      1250,
+      returnFocus
     );
 
     // Remove event listeners

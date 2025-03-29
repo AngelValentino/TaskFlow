@@ -448,8 +448,9 @@ export default class TaskManagerController {
       this.taskManagerView.confirmDiscardPromptData();
     } 
     else {
+      // Close neighbour prompt if active
       if (this.lms.searchTaskPromptLm.classList.contains('active')) {
-        this.taskManagerView.closeSearchTaskPrompt();
+        this.taskManagerView.closeSearchTaskPrompt(false);
       }
       this.taskManagerView.openAddTaskPrompt();
     }
@@ -466,8 +467,9 @@ export default class TaskManagerController {
         return;
       }
       
+      // Close neighbour prompt if active
       if (this.lms.addTaskPromptLm.classList.contains('active')) {
-        this.taskManagerView.closeAddTaskPrompt();
+        this.taskManagerView.closeAddTaskPrompt(false);
       }
       this.taskManagerView.openSearchTaskPrompt();      
     }
