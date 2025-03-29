@@ -340,7 +340,7 @@
   }
 
   .task-manager { 
-    min-height: 740px;
+    height: 740px;
   }
 }
 
@@ -356,14 +356,14 @@
 
   .task-manager {
     padding: 20px;
-    min-height: 720px;
+    height: 720px;
   }
 }
 
 @media screen and (max-width: 380px) {
   .task-manager {
     padding: 15px;
-    min-height: 700px;
+    height: 700px;
   }
 }
 /* END OF MEDIA QUERIES */

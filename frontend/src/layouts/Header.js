@@ -77,7 +77,12 @@ export default class Header {
 
     const getUserMessage = () => {
       return `
-        <p id="user-menu__user-message" class="user-menu__user-message"></p>
+        <div class="user-menu__greeting-message-container">
+          <p id="user-menu__greeting-message" class="user-menu__greeting-message"></p>
+          <div class="user-menu__greeting-message-progress-bar-container">
+            <div id="user-menu__greeting-message-progress-bar" class="user-menu__greeting-message-progress-bar"></div>
+          </div>
+        </div>
       `;
     }
 

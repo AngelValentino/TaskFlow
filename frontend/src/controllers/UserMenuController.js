@@ -14,8 +14,13 @@ export default class UserMenuController {
   }
 
   setRandomUserMessage() {
+    setTimeout(() => {
+      this.userMenuView.startProgressBar();
+    });
+
     const setRandomGreetingMessageTimId = setInterval(() => {
       this.userMenuView.renderUserRandomMessage();
+      this.userMenuView.startProgressBar();
     }, 25000);
 
     this.router.setActiveInterval(setRandomGreetingMessageTimId);

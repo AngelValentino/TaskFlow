@@ -6,14 +6,22 @@ export default class UserMenuView {
     this.lms = {
       userMenuBtn: document.getElementById('user-menu__btn'),
       userMenuLm: document.getElementById('user-menu'),
-      userMessageLm: document.getElementById('user-menu__user-message')
-
+      userMessageLm: document.getElementById('user-menu__greeting-message'),
+      greetingMessageProgressBar: document.getElementById('user-menu__greeting-message-progress-bar')
     }
     this.lastFocusedLmBeforeModal = null;
   }
 
   getDomRefs() {
     return this.lms;
+  }
+
+  startProgressBar() {
+    this.lms.greetingMessageProgressBar.style.transform = 'scaleX(0)';
+    this.lms.greetingMessageProgressBar.style.transition = 'none';
+    this.lms.greetingMessageProgressBar.offsetHeight;
+    this.lms.greetingMessageProgressBar.style.transition = 'transform 25s linear, background-color var(--base-transition-duration)';
+    this.lms.greetingMessageProgressBar.style.transform = 'scaleX(1)';
   }
 
   getRandomMessage() {

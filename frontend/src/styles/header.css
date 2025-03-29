@@ -34,11 +34,35 @@
   gap: 8px;
 }
 
-.user-menu__user-message {
+.user-menu__greeting-message-container {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.user-menu__greeting-message {
   background-color: #272727a1;
   color: #fff;
-  border-radius: 3px;
   padding: 0.45rem 0.31rem;
+}
+
+.user-menu__greeting-message-progress-bar-container {
+  left: -2px;
+  bottom: -2px;
+  position: absolute;
+  width: 102%;
+  background-color: #141414a1;
+}
+
+.user-menu__greeting-message-progress-bar {
+  width: 100%;
+  transform: translateZ(0) scaleX(0);
+  height: 0.325rem;
+  background-color: var(--contrast-color);
+  transition: transform 25s linear, background-color var(--base-transition-duration);
+  will-change: transform;
+  transform-origin: left;
+  
 }
 
 .user-menu__btn {
