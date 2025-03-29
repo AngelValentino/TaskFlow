@@ -4,7 +4,7 @@ export default class PomodoroTimer {
       <article aria-label="Pomodoro timer widget." id="pomodoro-timer" role="region" class="pomodoro-timer">
         <h2 class="visually-hidden">Pomodoro timer</h2>
         <div id="pomodoro-timer__options" class="pomodoro-timer__options">
-          <button aria-controls="pomodoro-timer__clock" aria-label="Set long session for pomodoro timer. 45 minutes work, and 10 minutes rest." title="Set long session" aria-pressed="true" id="pomodoro-timer__long-session-btn" class="pomodoro-timer__long-session-btn active"></button>
+          <button aria-controls="pomodoro-timer__clock" aria-label="Set long session for pomodoro timer. 45 minutes work, and 10 minutes rest." title="Long session is already set" aria-pressed="true" id="pomodoro-timer__long-session-btn" class="pomodoro-timer__long-session-btn active"></button>
           <button aria-controls="pomodoro-timer__clock" aria-label="Set short session for pomodoro timer. 25 minutes work, and 5 minutes rest." title="Set short session" aria-pressed="false" id="pomodoro-timer__short-session-btn" class="pomodoro-timer__short-session-btn"></button>
         </div>
         <time role="status" aria-live="polite" aria-atomic="true" class="pomodoro-timer__clock" id="pomodoro-timer__clock">

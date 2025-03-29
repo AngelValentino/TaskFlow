@@ -16,18 +16,25 @@ export default class PomodoroTimerView {
     return this.lms;
   }
 
+
+  setSessionButtonActive(sessionType) {
+    const isLongSession = sessionType === 'long';
+  
+    this.lms.longSessionBtn.classList.toggle('active', isLongSession);
+    this.lms.longSessionBtn.setAttribute('aria-pressed', isLongSession.toString());
+    this.lms.longSessionBtn.setAttribute('title', isLongSession ? 'Long session is already set' : 'Set long session');
+  
+    this.lms.shortSessionBtn.classList.toggle('active', !isLongSession);
+    this.lms.shortSessionBtn.setAttribute('aria-pressed', (!isLongSession).toString());
+    this.lms.shortSessionBtn.setAttribute('title', isLongSession ? 'Set short session' : 'Short session is already set');
+  }
+
   setLongSessionBtnActive() {
-    this.lms.longSessionBtn.classList.add('active');
-    this.lms.longSessionBtn.setAttribute('aria-pressed', 'true');
-    this.lms.shortSessionBtn.classList.remove('active');
-    this.lms.shortSessionBtn.setAttribute('aria-pressed', 'false');
+    this.setSessionButtonActive('long');
   }
 
   setShortSessionBtnActive() {
-    this.lms.longSessionBtn.classList.remove('active');
-    this.lms.longSessionBtn.setAttribute('aria-pressed', 'false');
-    this.lms.shortSessionBtn.classList.add('active');
-    this.lms.shortSessionBtn.setAttribute('aria-pressed', 'true');
+    this.setSessionButtonActive('short');
   }
 
   updateTimerDisplay(time) {
