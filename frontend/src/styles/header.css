@@ -23,7 +23,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 20px 0 20px;
+  padding: 20px 30px 0 30px;
   width: 100%;
 }
 
@@ -31,7 +31,7 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 
 .user-menu__user-message {
@@ -128,3 +128,13 @@
 }
 
 /* END OF ACTIVE */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 550px) {
+  .user-menu-navigation {
+    padding: 20px 15px 0 15px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

@@ -42,7 +42,7 @@ body {
 
 main {
   min-height: 100vh;
-  padding: 50px 30px 30px;
+  padding: 80px 30px 50px;
 }
 
 .background-image {
@@ -383,7 +383,7 @@ main {
 
 @media screen and (max-width: 550px) {
   main {
-    padding: 80px 15px 30px !important;
+    padding: 80px 15px 40px;
   }
 }
 

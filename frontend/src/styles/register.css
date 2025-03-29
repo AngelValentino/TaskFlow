@@ -200,10 +200,6 @@ main.register-view {
   .register-form {
     padding: 42px 27px;
   }
-
-  .register-view-container {
-    margin: 42px 0 0;
-  }
 }
 
 /* END OF MEDIA QUERIES */

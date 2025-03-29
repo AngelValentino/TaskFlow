@@ -1,3 +1,7 @@
+main.logout-view {
+  padding: 50px 30px 40px;
+}
+
 .logout-message {
   padding: 10px;
   border-radius: 3px;
@@ -33,3 +37,13 @@
 }
 
 /* END OF HOVER CAPABLE DEVICES */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 550px) {
+  main.logout-view {
+    padding: 40px 15px 30px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

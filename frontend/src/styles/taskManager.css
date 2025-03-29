@@ -4,14 +4,15 @@
   border-radius: 3px;
   background-color: #fff;
   padding: 30px 25px;
-  height: 83.75vh;
-  min-height: 620px;
-  max-height: 800px;
+  height: 100%;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden; /* Prevents horizontal scroll caused by Chrome's subpixel rounding issue and having to increase element widht over its 100% */
   scrollbar-width: thin;
   scrollbar-gutter: stable both-edges;
   position: relative;
+  max-height: 770px;
+  min-height: 650px;
 }
 
 /* TASK MANANGER DASHBOARD */
@@ -331,6 +332,18 @@
 
 /* MEDIA QUERIES */
 
+@media screen and (max-width: 1200px) {
+  .widgets-list {
+    display: flex;
+    flex-flow: column;
+    gap: 7rem;
+  }
+
+  .task-manager { 
+    min-height: 740px;
+  }
+}
+
 @media screen and (max-width: 550px) {
   .task-manager__dashboard-date,
   .task-manager__dashboard-tasks-count {
@@ -340,6 +353,17 @@
   .task-manager__tabs-nav {
     top: -21px;
   }
+
+  .task-manager {
+    padding: 20px;
+    min-height: 720px;
+  }
 }
 
+@media screen and (max-width: 380px) {
+  .task-manager {
+    padding: 15px;
+    min-height: 700px;
+  }
+}
 /* END OF MEDIA QUERIES */
