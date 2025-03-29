@@ -237,6 +237,10 @@
   .task-manager__add-prompt-form {
     padding: 30px 25px;
   }
+
+  .task-manager__add-prompt {
+    transform: translateY(-128px);
+  }
 }
 
 @media screen and (max-width: 400px) {
