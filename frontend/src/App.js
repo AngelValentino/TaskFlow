@@ -1,3 +1,17 @@
+import './styles/main.css';
+import './styles/modal.css';
+import './styles/prompt.css';
+import './styles/timer.css';
+import './styles/quote.css';
+import './styles/taskManager.css';
+import './styles/header.css';
+import './styles/dashboard.css';
+import './styles/register.css';
+import './styles/login.css';
+import './styles/reset.css';
+import './styles/logout.css';
+import './styles/notFound.css';
+
 import DashboardPage from "./pages/dashboard/Dashboard.js";
 import RegisterPage from "./pages/register/Register.js";
 import LoginPage from "./pages/login/Login.js";
@@ -38,10 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadHandler = new LoadHandler;
   const auth = new Auth;
 
-  loadHandler.hidePageLoader();
-  loadHandler.preloadDashboardBlurImages();
+  // Webpack optmizes so much the code that we need a timeout to be able to see the page loader
+  setTimeout(() => {
+    loadHandler.hidePageLoader();
+  });
 
-  // TODO Refactor and finish application
+  loadHandler.preloadDashboardBlurImages();
 
   // Add routes
   router.addRoute('/', () => {

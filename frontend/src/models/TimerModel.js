@@ -6,8 +6,8 @@ export default class TimerModel {
     this.time = this.workTime;
     this.pomodoroTimerView = pomodoroTimerView;
 
-    this.alarmClock = new Audio('/public/assets/audios/alarm-clock.mp3');
-    this.alarmClockTicking = new Audio('/public/assets/audios/alarm-clock-ticking.mp3');
+    this.alarmClock = new Audio('assets/audios/alarm-clock.mp3');
+    this.alarmClockTicking = new Audio('assets/audios/alarm-clock-ticking.mp3');
     // Set preload attribute to auto, preload when the browser sees fit
     this.alarmClock.preload = 'auto';
     this.alarmClockTicking.preload = 'auto';

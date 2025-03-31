@@ -59,13 +59,13 @@ export default class LoadHandler {
 
   preloadDashboardBlurImages() {
     // Preload specific animal images
-    this.preloadImage('/public/assets/images/drawings/chilling-capybara-low-res.jpg');
-    this.preloadImage('/public/assets/images/drawings/empty-task-list-placeholder-low-res.jpg');
-    this.preloadImage('/public/assets/images/drawings/no-tasks-found-placeholder-low-res.jpg');
+    this.preloadImage('assets/images/drawings/chilling-capybara-low-res.jpg');
+    this.preloadImage('assets/images/drawings/empty-task-list-placeholder-low-res.jpg');
+    this.preloadImage('assets/images/drawings/no-tasks-found-placeholder-low-res.jpg');
     
     // Preload a series of recycling icons
     for (let i = 1; i <= 6; i++) {
-      this.preloadImage(`/public/assets/images/recycle/garbage-collector-low-res-${i}.jpg`);
+      this.preloadImage(`assets/images/recycle/garbage-collector-low-res-${i}.jpg`);
     }
   }
 }

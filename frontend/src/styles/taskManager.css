@@ -156,9 +156,13 @@
 
 /* TASK LIST */
 
-.task-manager__tasks-list {
+.task-manager__tasks-list-container {
   margin-top: 25px;
   flex: 1;
+}
+
+.task-manager__tasks-list {
+  height: 100%;
 }
 
 /* PLACEHOLDER IMAGE */

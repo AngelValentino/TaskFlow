@@ -18,14 +18,16 @@ export default class DashboardPage {
           TaskFlow, Your go-to app for effortless productivity.
         </h1>
         <ul aria-label="Productivity widgets list." class="widgets-list">
-          <div role="presentation" class="timer-quote-container">
-            <li>
-              ${pomodoroTimer}
-            </li>
-            <li>
-              ${quoteMchine}
-            </li>
-          </div>
+          <li class="timer-quote-container">
+            <ul>
+              <li>
+                ${pomodoroTimer}
+              </li>
+              <li>
+                ${quoteMchine}
+              </li>
+            </ul>
+          </li>
           <li class="task-manager-container">
             ${taskManager}
           </li>
