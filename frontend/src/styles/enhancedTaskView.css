@@ -1,0 +1,78 @@
+main.enhanced-task-view {
+  display: flex;
+  justify-content: center;
+}
+
+.enhanced-task-mananger-container {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+}
+
+.enhanced-task-manager {
+  display: flex;
+  height: 100%;
+  max-height: 770px;
+  min-height: 650px;
+}
+
+.enhanced-task-manager__tabs-nav {
+  background-color: #fff;
+  border-radius: 3px;
+  align-self: start;
+}
+
+.enhanced-task-manager__tab-list {
+  display: flex;
+  flex-flow: column;
+  gap: 0.75rem;
+
+}
+
+.enhanced-task-manager__nav-list {
+  padding: 5px;
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.enhanced-task-manager__tab-btn {
+  line-height: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enhanced-task-manager__tab-btn:hover {
+  background-color: #fafa;
+}
+
+.enhanced-task-manager__tab-svg {
+  width: 68%;
+}
+
+.enhanced-task-manager__search-svg {
+  width: 52%;
+}
+
+.enhanced-task-manager__dashboard-clear-svg {
+  width: 64%;
+}
+
+.enhanced-task-manager__tasks-list-container {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable both-edges;
+  padding: 0 10px;
+  scrollbar-color: #4B4B4B transparent;
+}
+
+.enhanced-task-manager__search-prompt-input {
+  border: 2px solid slategrey;
+  width: 100%;
+  display: none;
+}
