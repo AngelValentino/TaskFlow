@@ -12,7 +12,6 @@ export default class DashboardPage {
 
     return `
       ${header}
-      <div id="background-image" class="background-image"></div>
       <main class="dashboard-view">
         <h1 class="visually-hidden">
           TaskFlow, Your go-to app for effortless productivity.

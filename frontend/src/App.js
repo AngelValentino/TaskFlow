@@ -11,6 +11,7 @@ import './styles/login.css';
 import './styles/reset.css';
 import './styles/logout.css';
 import './styles/notFound.css';
+import './styles/enhancedTaskView.css';
 
 import DashboardPage from "./pages/dashboard/Dashboard.js";
 import RegisterPage from "./pages/register/Register.js";
@@ -43,6 +44,9 @@ import LogoutView from "./views/LogoutView.js";
 import LoadHandler from "./services/LoadHandler.js";
 import TimerModel from "./models/TimerModel.js";
 import NotFoundPage from "./pages/NotFound.js";
+import EnhancedTaskView from './pages/enhancedTaskView/EnhancedTaskView.js';
+
+//TODO Implement enhanced tasks view
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -51,19 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const appLm = document.getElementById('App');
   const loadHandler = new LoadHandler;
   const auth = new Auth;
+  const themeHandler = new ThemeHandler(utils);
 
   // Webpack optmizes so much the code that we need a timeout to be able to see the page loader
   setTimeout(() => {
     loadHandler.hidePageLoader();
   });
-
   loadHandler.preloadDashboardBlurImages();
+  themeHandler.setRandomTheme();
 
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
-    const themeHandler = new ThemeHandler(utils);
-    themeHandler.setRandomTheme();
 
     // User menu
     const userModel = new UserModel(router, auth);
@@ -86,6 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const pomodoroTimerView = new PomodoroTimerView;
     const timeModel = new TimerModel(pomodoroTimerView, utils);
     new PomodoroTimerController(pomodoroTimerView, taskManagerView, timeModel);
+  });
+
+  router.addRoute('/tasks', () => {
+    appLm.innerHTML = EnhancedTaskView.getHtml();
   });
 
   router.addRoute('/register', () => {

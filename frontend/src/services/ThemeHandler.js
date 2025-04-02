@@ -2,6 +2,7 @@ export default class ThemeHandler {
   loadToken = null;
   static themes = [
     {
+      type: 'purple',
       darkAccent: '#593e7f',
       mediumToDarkAccent: '#9b59b6',
       mediumAccent: '#b259b6',
@@ -10,6 +11,7 @@ export default class ThemeHandler {
       backgroundImage: 'assets/images/background/purple-background.jpg'
     },
     {
+      type: 'blue',
       darkAccent: '#2e6881',
       mediumToDarkAccent: '#427db8',
       mediumAccent: '#6573eb',
@@ -18,6 +20,7 @@ export default class ThemeHandler {
       backgroundImage: 'assets/images/background/blue-background.jpg'
     },
     {
+      type: 'green',
       darkAccent: '#51763d',
       mediumToDarkAccent: '#73A857',
       mediumAccent: '#57a871',
@@ -26,6 +29,7 @@ export default class ThemeHandler {
       backgroundImage: 'assets/images/background/green-background.jpg'
     },
     {
+      type: 'chocolate',
       darkAccent: '#55373d',
       mediumToDarkAccent: '#7a4f54',
       mediumAccent: '#d8085f',
@@ -34,6 +38,7 @@ export default class ThemeHandler {
       backgroundImage: 'assets/images/background/chocolate-background.jpg'
     },
     {
+      type: 'pink',
       darkAccent: '#984a9b',
       mediumToDarkAccent: '#f38bd4',
       mediumAccent: '#bc8bf3',
@@ -42,6 +47,7 @@ export default class ThemeHandler {
       backgroundImage: 'assets/images/background/pink-background.jpg'
     },
     {
+      type: 'red',
       darkAccent: '#793735',
       mediumToDarkAccent: '#FB6964',
       mediumAccent: '#fba264',
@@ -50,6 +56,7 @@ export default class ThemeHandler {
       backgroundImage: 'assets/images/background/red-background.jpg'
     },
     {
+      type: 'sand',
       darkAccent: '#84846b',
       mediumToDarkAccent: '#BDBB99',
       mediumAccent: '#b0bd99',
@@ -58,6 +65,7 @@ export default class ThemeHandler {
       backgroundImage: 'assets/images/background/sand-background.jpg'
     },
     {
+      type: 'cian',
       darkAccent: '#4e817e',
       mediumToDarkAccent: '#8ba7ec',
       mediumAccent: '#e79049',
@@ -73,8 +81,6 @@ export default class ThemeHandler {
       backgroundImgLm: document.getElementById('background-image')
     };
     this.timIds = {};
-
-    document.body.classList.add('theme-changer');
   }
 
   changeRootTheme({ darkAccent, mediumToDarkAccent, mediumAccent, lightAccent, contrast }) {

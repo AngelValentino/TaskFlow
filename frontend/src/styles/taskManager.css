@@ -30,6 +30,18 @@
   transition: background-color var(--base-transition-duration);
 }
 
+.task-manager__dashboard-enhanced-task-view-link {
+  position: absolute;
+  left: 0.45rem;
+  top: 0.45rem;
+  line-height: 0;
+  transition: opacity var(--base-transition-duration);
+}
+
+.task-manager__dashboard-enhanced-task-view-svg {
+  width: 1.25rem;
+}
+
 .task-manager__dashboard-info-container {
   display: flex;
   flex-flow: column;
@@ -308,6 +320,10 @@
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) {
+  .task-manager__dashboard-enhanced-task-view-link:is(:hover, :focus-visible) {
+    opacity: 0.75;
+  }
+
   .task-manager__dashboard-btn:is(:hover, :focus-visible) {
     background-color: var(--medium-accent-color);
   }

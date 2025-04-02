@@ -2,6 +2,11 @@ export default class TaskManagerDashboard {
   static getHtml() {
     return `
       <div class="task-manager__dashboard">
+        <a aria-label="Go to the enhanced task view." title="Enhanced task view" href="/tasks" class="task-manager__dashboard-enhanced-task-view-link" data-link>
+          <svg class="task-manager__dashboard-enhanced-task-view-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path fill="currentColor" d="m21.41 11.58l-9-9C12.04 2.21 11.53 2 11 2H4a2 2 0 0 0-2 2v7c0 .53.21 1.04.59 1.41l.41.4c.9-.54 1.94-.81 3-.81a6 6 0 0 1 6 6c0 1.06-.28 2.09-.82 3l.4.4c.37.38.89.6 1.42.6s1.04-.21 1.41-.59l7-7c.38-.37.59-.88.59-1.41s-.21-1.04-.59-1.42M5.5 7A1.5 1.5 0 0 1 4 5.5A1.5 1.5 0 0 1 5.5 4A1.5 1.5 0 0 1 7 5.5A1.5 1.5 0 0 1 5.5 7M10 19H7v3H5v-3H2v-2h3v-3h2v3h3z" />
+          </svg>
+        </a>
         <div class="task-manager__dashboard-info-container">
           <h3>
             <time aria-label="Current date." class="task-manager__dashboard-date" id="task-manager__dashboard-date"></time>

@@ -55,7 +55,7 @@ export default class Router {
       return;
     };
    
-    document.body.className = '';
+    if (document.body.classList.length != 0) document.body.className = '';
     this.modalHandler.clearRemainingDocumentBodyEvents();
     this.abortActiveFetches();
     this.clearActiveIntervals();

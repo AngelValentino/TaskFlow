@@ -2,6 +2,14 @@ body.register-view {
   background-color: #f2f2f2;
 }
 
+body.register-view .background-image {
+  display: none
+}
+
+body.register-view main {
+  position: static;
+}
+
 main.register-view {
   display: flex;
   justify-content: center;
