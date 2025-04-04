@@ -17,7 +17,15 @@ export default class Header {
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 18h3.75a5.25 5.25 0 100-10.5H5M7.5 4L4 7.5 7.5 11"/>
                 </svg> 
               </a>
-              ${taskCount ? ' <p aria-live="polite" class="enhanced-task-manager__task-count" id="task-manager__dashboard-tasks-count">4 tasks left</p>' : ''}
+              ${taskCount 
+                ? `
+                  <div>
+                    <p aria-live="polite" class="enhanced-task-manager__task-count" id="task-manager__dashboard-tasks-count">4 tasks left</p>
+                    <p id="task-manager__dashboard-tasks-count-error" class="enhanced-task-manager__task-count-error"></p>
+                  </div>
+                ` 
+                : ''
+              }
             </div>`
         : ''
     }

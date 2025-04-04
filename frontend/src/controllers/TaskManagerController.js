@@ -1,38 +1,47 @@
 export default class TaskManagerController {
-  constructor(taskManagerView, taskModel, auth, modalView, utils) {
+  constructor(taskManagerView, taskModel, auth, modalView, utils, isEnhancedTaskManager = false) {
     this.taskManagerView = taskManagerView;
     this.taskModel = taskModel;
     this.auth = auth;
     this.modalView = modalView;
     this.utils = utils;
     this.activeRequests = {};
+    this.isEnhancedTaskManager = isEnhancedTaskManager;
 
     this.lms = this.taskManagerView.getDomRefs();
     this.taskManagerView.setControllerMethods({
       getAllTasks: this.getAllTasks.bind(this)
     });
+  }
 
-    this.lms.addTaskPromptFormLm.addEventListener('submit', this.submitTask.bind(this));
+  init() {
+   if (!this.isEnhancedTaskManager) {
+      this.lms.addTaskPromptFormLm.addEventListener('submit', this.submitTask.bind(this));
+      this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
+
+      this.taskManagerView.updateCurrentDashboardDate();
+      this.lms.taskManagerLm.addEventListener('scroll', this.taskManagerView.toggleScrollToTopBtn.bind(this.taskManagerView));
+    }
+
     this.lms.searchTaskInputLm.addEventListener(
       'input', 
       this.auth.isClientLogged() 
         ? this.utils.debounce(this.searchTask.bind(this), 500, 'searchTask')
         : this.searchTask.bind(this)
     );
+    this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
     this.lms.searchTaskCloseIcon.addEventListener('click', this.taskManagerView.resetSearchTaskInput.bind(this.taskManagerView, true));
 
-    this.lms.addTaskBtn.addEventListener('click', this.toggleAddTaskPrompt.bind(this));
-    this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
     this.lms.clearAllTasksBtn.addEventListener('click', this.handleClearAllTasks.bind(this));
     this.lms.tasksContainerLm.addEventListener('click', this.handleTaskAction.bind(this));
     this.lms.taskManagerTabListLm.addEventListener('click', this.handleSwitchTab.bind(this));
-    this.lms.taskManagerLm.addEventListener('scroll', this.taskManagerView.toggleScrollToTopBtn.bind(this.taskManagerView));
     this.lms.scrollToTopBtn.addEventListener('click', this.handleScrollToTop.bind(this));
+
+    console.log(this.lms)
 
     this.taskManagerView.toggleActiveTab(null, localStorage.getItem('currentActiveTabId') || 'task-manger__all-tasks-tab-btn');
     this.getAllTasks();
     this.getActiveTasksCount();
-    this.taskManagerView.updateCurrentDashboardDate();
   }
 
   handleScrollToTop() {
@@ -206,7 +215,9 @@ export default class TaskManagerController {
       this.taskModel.deleteTaskFromLocalStorage(taskId);
       this.getAllTasks();
       this.getActiveTasksCount();
-      this.taskManagerView.focusAddTaskBtn();
+      if (!this.isEnhancedTaskManager) {
+        this.taskManagerView.focusAddTaskBtn();
+      }
       return;
     }
 
@@ -221,7 +232,9 @@ export default class TaskManagerController {
 
         const timId = setTimeout(() => {
           closeConfirmModalHandler();
-          this.taskManagerView.focusAddTaskBtn();
+          if (!this.isEnhancedTaskManager) {
+            this.taskManagerView.focusAddTaskBtn();
+          }
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
         
@@ -304,7 +317,9 @@ export default class TaskManagerController {
       this.taskModel.completeTaskFromLocalStorage(taskId);
       this.getAllTasks();
       this.getActiveTasksCount();
-      this.taskManagerView.focusAddTaskBtn();
+      if (!this.isEnhancedTaskManager) {
+        this.taskManagerView.focusAddTaskBtn();
+      }
       return;
     }
 
@@ -319,7 +334,9 @@ export default class TaskManagerController {
         
         const timId = setTimeout(() => {
           closeConfirmModalHandler();
-          this.taskManagerView.focusAddTaskBtn();
+          if (!this.isEnhancedTaskManager) {
+            this.taskManagerView.focusAddTaskBtn();
+          }
         }, 500);
         this.modalView.timIds.closeConfirmModalAfterFetch = timId;
         
@@ -462,14 +479,16 @@ export default class TaskManagerController {
     } 
     else {
       // Check if add task form has been edited
-      if (this.utils.isFormPopulated(this.lms.addTaskPromptFormLm)) {
-        this.taskManagerView.confirmDiscardPromptData();
-        return;
-      }
-      
-      // Close neighbour prompt if active
-      if (this.lms.addTaskPromptLm.classList.contains('active')) {
-        this.taskManagerView.closeAddTaskPrompt(false);
+      if (!this.isEnhancedTaskManager) {
+        if (this.isEnhancedTaskManager && this.utils.isFormPopulated(this.lms.addTaskPromptFormLm)) {
+          this.taskManagerView.confirmDiscardPromptData();
+          return;
+        }
+
+        // Close neighbour prompt if active
+        if (this.lms.addTaskPromptLm.classList.contains('active')) {
+          this.taskManagerView.closeAddTaskPrompt(false);
+        }
       }
       this.taskManagerView.openSearchTaskPrompt();      
     }
@@ -482,10 +501,13 @@ export default class TaskManagerController {
   }
 
   handleSwitchTab(e) {
-    const clickedTab = e.target.closest('.task-manager__tab-btn');
+    const clickedTab = e.target.closest('.task-manager__tab-btn') || e.target.closest('.enhanced-task-manager__tab-btn');
+
+    console.log(clickedTab)
     if (clickedTab) {
       // User clicked the same tab
       if (clickedTab.id === localStorage.getItem('currentActiveTabId')) {
+        console.log('same')
         return;
       }
 

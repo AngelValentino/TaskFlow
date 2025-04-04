@@ -94,7 +94,7 @@ export default class ModalHandler {
       }
 
       if (
-        !e.target.closest('.task-manager-container') &&
+        (!e.target.closest('.task-manager-container') && !e.target.closest('.enhanced-task-manager')) &&
         (className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt') &&
         this.isModalClosed(e)
       ) {

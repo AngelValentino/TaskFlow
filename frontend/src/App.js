@@ -46,7 +46,7 @@ import TimerModel from "./models/TimerModel.js";
 import NotFoundPage from "./pages/NotFound.js";
 import EnhancedTaskView from './pages/enhancedTaskView/EnhancedTaskView.js';
 
-//TODO Implement enhanced tasks view
+//TODO Refactor enhanced task view
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler);
-    new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
+    const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
+    taskManagerController.init();
   
     // Quote machine
     const quoteModel = new QuoteModel(utils, router);
@@ -93,6 +94,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/tasks', () => {
     appLm.innerHTML = EnhancedTaskView.getHtml();
+
+    // User menu
+    const userModel = new UserModel(router, auth);
+    const userMenuView = new UserMenuView(modalHandler, userModel, utils);
+    new UserMenuController(userMenuView, auth, router);
+
+    // Task manager
+    const modalView = new ModalView(modalHandler, utils, loadHandler);
+    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, true);
+    const tokenHandler = new TokenHandler(router, userModel, auth);
+    const taskModel = new TaskModel(router, auth, tokenHandler);
+    const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils, true);
+    taskManagerController.init();
   });
 
   router.addRoute('/register', () => {

@@ -102,9 +102,13 @@
 .task-manager__search-prompt {
   border-radius: 5px;
   overflow: hidden;
-  transform: translateX(-600px);
+  transform: translateX(-120%);
   max-height: 0;
   transition: max-height 1.25s , transform 1.25s;
+}
+
+.enhanced-task-manager__search-prompt {
+  padding: 0 10px;
 }
 
 .task-manager__search-prompt.active {
@@ -118,6 +122,11 @@
   position: relative;
 }
 
+.enhanced-task-manager__search-prompt-inner-container {
+  max-width: 600px;
+  margin: 15px auto 30px;
+}
+
 .task-manager__search-svg {
   width: 1.4rem;
   position: absolute;
@@ -127,6 +136,7 @@
   right: 18px;
   pointer-events: none;
   color: var(--medium-accent-color);
+  transition: opacity var(--base-transition-duration);
 }
 
 .task-manager__search-svg.active {
@@ -137,17 +147,18 @@
   width: 100%;
   height: 100%;
   border: 2px solid var(--medium-accent-color);
-  opacity: 0.6;
   padding: 10px 50px 10px 20px;
   border-radius: 50px;
-  transition: opacity var(--base-transition-duration);
+  transition: border var(--base-transition-duration);
   font-size: var(--base-font-size);
 }
 
 .task-manager__search-prompt-input:focus {
   outline: none;
-  opacity: 1;
-  border: 2px solid var(--medium-accent-color);
+}
+
+.task-manager__search-prompt-input:focus + .task-manager__search-svg {
+  opacity: 0.75;
 }
 
 .task-manager__search-prompt-close-btn {
@@ -240,6 +251,10 @@
 
   .task-manager__add-prompt {
     transform: translateY(-128px);
+  }
+
+  .enhanced-task-manager__search-prompt {
+    padding: 0;
   }
 }
 

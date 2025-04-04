@@ -62,6 +62,7 @@ export default class Router {
     this.clearActiveTimeouts();
   
     matchedRoute.view();
+    window.scrollTo({ top: 0, behavior: 'auto'});
   }
 
   // Utility method to navigate to a new URL

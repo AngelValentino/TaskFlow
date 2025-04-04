@@ -175,6 +175,9 @@
 
 .task-manager__tasks-list {
   height: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 1.35rem;
 }
 
 /* PLACEHOLDER IMAGE */
@@ -229,7 +232,6 @@
   background-color: var(--dark-accent-color);
   padding: 20px;
   border-radius: 5px;
-  margin: 0 0 20px;
   transition: background-color var(--base-transition-duration);
   word-wrap: break-word;
 }
@@ -361,6 +363,18 @@
 
   .task-manager { 
     height: 740px;
+  }
+}
+
+@media screen and (max-height: 900px) {
+  .task-manager {
+    height: 720px;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .task-manager {
+    height: 650px;
   }
 }
 

@@ -7,13 +7,14 @@ import NoTasksFoundPlaceholder from '../pages/dashboard/components/NoTasksFoundP
 import LoadingCircle from '../components/LoadingCircle.js';
 
 export default class TaskManagerView {
-  constructor(modalHandler, modalView, utils, loadHandler) {
+  constructor(modalHandler, modalView, utils, loadHandler, isEnhancedTaskView = false) {
     this.modalHandler = modalHandler;
     this.modalView = modalView;
     this.utils = utils;
     this.loadHandler = loadHandler;
     this.timIds = {};
     this.controllerMethods = {};
+    this.isEnhancedTaskView = isEnhancedTaskView;
     this.smallCircleLoader = LoadingCircle.getHtml('small');
     this.lms = {
       taskManagerLm: document.getElementById('task-manager'),
@@ -37,7 +38,9 @@ export default class TaskManagerView {
       taskManagerTaskCountErrorLm: document.getElementById('task-manager__dashboard-tasks-count-error'),
       currentDateLm: document.getElementById('task-manager__dashboard-date'),
       taskManagerSectionHeader: document.getElementById('task-manager__tabs-nav'),
-      taskManagerTabLms: document.querySelectorAll('.task-manager__tab-btn'),
+      taskManagerTabLms: document.querySelectorAll('.task-manager__tab-btn').length
+        ? document.querySelectorAll('.task-manager__tab-btn')
+        : document.querySelectorAll('.enhanced-task-manager__tab-btn'),    
       taskManagerTabListLm: document.getElementById('task-manager__tab-list'),
       scrollToTopBtn: document.getElementById('task-manger__scroll-to-top-btn')
     };
@@ -53,7 +56,12 @@ export default class TaskManagerView {
     // I they prefer reduced motion set scroll behaviour to auto
     if (!prefersReducedMotion) behavior = 'auto';
     // Scroll to the top of the container
-    this.lms.taskManagerLm.scrollTo({top: 0, behavior: behavior});
+    if (this.isEnhancedTaskView) {
+      document.getElementById('task-manager__tasks-list').scrollTo({top: 0, behavior: behavior});
+    } 
+    else {
+      this.lms.taskManagerLm.scrollTo({top: 0, behavior: behavior});
+    }
   }
 
   isSectionHeaderSticky() {
@@ -372,6 +380,7 @@ export default class TaskManagerView {
   }
 
   toggleActiveTab(currentTab, tabId) {
+    console.log(this.lms.taskManagerTabLms)
     this.lms.taskManagerTabLms.forEach(tab => {
       if (tabId) {
         if (tab.id === tabId) {
