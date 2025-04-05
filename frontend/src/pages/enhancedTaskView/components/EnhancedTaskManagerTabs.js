@@ -2,14 +2,14 @@ export default class EnhancedTaskManagerTabs {
   static getHtml() {
     return `
       <ul id="task-manager__tab-list" class="enhanced-task-manager__tab-list" role="tablist">
-        <li role="presentation" class="enhanced-task-manager__tab-btn-container">
+        <li role="presentation">
           <button title="Show all tasks" aria-selected="true" aria-expanded="true" role="tab" class="enhanced-task-manager__tab-btn" id="task-manger__all-tasks-tab-btn" aria-label="Ahow all tasks." aria-controls="task-manager__tasks-list-container">
             <svg aria-hidden="true" focusable="false" role="presentation" class="enhanced-task-manager__tab-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path fill="currentColor" d="M17.9 17.39c-.26-.8-1.01-1.39-1.9-1.39h-1v-3a1 1 0 0 0-1-1H8v-2h2a1 1 0 0 0 1-1V7h2a2 2 0 0 0 2-2v-.41a7.984 7.984 0 0 1 2.9 12.8M11 19.93c-3.95-.49-7-3.85-7-7.93c0-.62.08-1.22.21-1.79L9 15v1a2 2 0 0 0 2 2m1-16A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2" />
             </svg>
           </button>
         </li> 
-        <li role="presentation" class="enhanced-task-manager__tab-btn-container">
+        <li role="presentation">
           <button title="Show active tasks" aria-selected="false" aria-expanded="false" role="tab" class="enhanced-task-manager__tab-btn" id="task-manager__active-tasks-tab-btn" aria-label="Show active tasks." aria-controls="task-manager__tasks-list-container">
             <svg aria-hidden="true" focusable="false" role="presentation" class="enhanced-task-manager__tab-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <g fill="none" fill-rule="evenodd">
@@ -19,7 +19,7 @@ export default class EnhancedTaskManagerTabs {
             </svg>
           </button>
         </li>
-        <li role="presentation" class="enhanced-task-manager__tab-btn-container">
+        <li role="presentation">
           <button title="Show completed tasks" aria-selected="false" aria-expanded="false" role="tab" class="enhanced-task-manager__tab-btn" id="task-manger__completed-tasks-tab-btn" aria-label="Show completed tasks." aria-controls="task-manager__tasks-list-container">
             <svg aria-hidden="true" focusable="false" role="presentation" class="enhanced-task-manager__tab-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <g fill="none" fill-rule="evenodd">

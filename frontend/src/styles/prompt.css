@@ -104,16 +104,24 @@
   overflow: hidden;
   transform: translateX(-120%);
   max-height: 0;
-  transition: max-height 1.25s , transform 1.25s;
+  transition: max-height 1.25s, transform 1.25s;
 }
 
 .enhanced-task-manager__search-prompt {
   padding: 0 10px;
+  background-color: #fafafa; 
+  transition: max-height 1.25s, transform 1.25s, margin 1.25s;
+  will-change: margin;
 }
 
 .task-manager__search-prompt.active {
   max-height: 1000px;
   transform: translateX(0px);
+}
+
+.enhanced-task-manager__search-prompt.active {
+  margin: 0 10px 10px;
+  transition: max-height 1.25s, transform 1.25s, margin 0.25s;
 }
 
 .task-manager__search-prompt-inner-container {
@@ -124,7 +132,6 @@
 
 .enhanced-task-manager__search-prompt-inner-container {
   max-width: 600px;
-  margin: 15px auto 30px;
 }
 
 .task-manager__search-svg {
@@ -153,12 +160,21 @@
   font-size: var(--base-font-size);
 }
 
+.task-manager__search-prompt-input::placeholder {
+  opacity: 0.45;
+  transition: opacity var(--base-transition-duration);
+}
+
 .task-manager__search-prompt-input:focus {
   outline: none;
 }
 
 .task-manager__search-prompt-input:focus + .task-manager__search-svg {
   opacity: 0.75;
+}
+
+.task-manager__search-prompt-input:focus::placeholder {
+  opacity: 0.3;
 }
 
 .task-manager__search-prompt-close-btn {
@@ -201,7 +217,8 @@
 }
 
 .task-manager__search-prompt-close-btn:active {
-  color: #ff4f33;
+  opacity: 0.75;
+  transition: none;
 }
 
 /* END OF ACTIVE */
@@ -254,7 +271,11 @@
   }
 
   .enhanced-task-manager__search-prompt {
-    padding: 0;
+    transition: max-height 1.25s, transform 1.25s, margin 0.25s;
+  }
+
+  .enhanced-task-manager__search-prompt.active {
+    margin: 0 0 7px;
   }
 }
 

@@ -16,7 +16,7 @@ export default class EnhancedTaskView {
             <nav id="task-manager__tabs-nav" class="enhanced-task-manager__tabs-nav"> 
               ${enhancedTaskManagerNavigation}
             </nav>
-            <div role="tabpanel" id="task-manager__tasks-list-container" class="enhanced-task-manager__tasks-list-container">
+            <div role="tabpanel" id="task-manager__tasks-list-container" class="enhanced-task-manager__task-list-container">
               ${searchTaskPrompt}
               <ul aria-live="polite" aria-atomic="false" aria-label="Tasks list." id="task-manager__tasks-list" class="enhanced-task-manager__task-list">
               </ul>

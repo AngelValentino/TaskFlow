@@ -40,6 +40,7 @@ body.logout-view main {
 
 .return-home-link {
   text-decoration: underline;
+  transition: opacity var(--base-transition-duration);
 }
 
 /* HOVER CAPABLE DEVICES */
