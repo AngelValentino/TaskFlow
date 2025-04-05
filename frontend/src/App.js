@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/logout', () => {
     appLm.innerHTML = LogoutPage.getHtml();
+    document.body.classList.add('logout-view');
     const userModel = new UserModel(router);
     const logoutView = new LogoutView;
     new LogoutController(router, auth, userModel, logoutView);

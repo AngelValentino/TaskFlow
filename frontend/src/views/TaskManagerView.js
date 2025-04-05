@@ -53,11 +53,11 @@ export default class TaskManagerView {
   scrollToTop(behavior = 'smooth') {
     // Check if the user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
-    // I they prefer reduced motion set scroll behaviour to auto
+    // If client prefers reduced motion set scroll behaviour to auto
     if (!prefersReducedMotion) behavior = 'auto';
     // Scroll to the top of the container
     if (this.isEnhancedTaskView) {
-      document.getElementById('task-manager__tasks-list').scrollTo({top: 0, behavior: behavior});
+      this.lms.tasksContainerLm.scrollTo({top: 0, behavior: behavior});
     } 
     else {
       this.lms.taskManagerLm.scrollTo({top: 0, behavior: behavior});
@@ -287,8 +287,21 @@ export default class TaskManagerView {
     this.lms.submitTaskBtn.innerText = text;
   }
 
+  setDefaultTaskManagerFocus(isEnhancedTaskManager) {
+    if (!isEnhancedTaskManager) {
+      this.focusAddTaskBtn();
+    } 
+    else {
+      this.focusSearchTaskBtn();
+    }
+  }
+
   focusAddTaskBtn() {
     this.lms.addTaskBtn.focus();
+  }
+
+  focusSearchTaskBtn() {
+    this.lms.searchTaskBtn.focus();
   }
 
   updateCurrentDashboardDate() {
