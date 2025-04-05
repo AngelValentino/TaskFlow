@@ -1,8 +1,10 @@
 export default class SearchTaskPrompt {
-  static getHtml() {
+  static getHtml({
+    isEnhancedTaskManager = false
+  } = {}) {
     return `
-      <div class="task-manager__search-prompt" id="task-manager__search-prompt" role="region" aria-label="Search task." hidden>
-        <div class="task-manager__search-prompt-inner-container">
+      <div class="task-manager__search-prompt${isEnhancedTaskManager ? ' enhanced-task-manager__search-prompt' : ''}" id="task-manager__search-prompt" role="region" aria-label="Search task." hidden>
+        <div class="task-manager__search-prompt-inner-container${isEnhancedTaskManager ? ' enhanced-task-manager__search-prompt-inner-container' : ''}">
           <label class="visually-hidden" for="task-manager__search-prompt-input">Search task</label>
           <input type="text" name="search-input" id="task-manager__search-prompt-input" class="task-manager__search-prompt-input"/>
           <svg id="task-manager__search-svg" aria-hidden="true" focusable="false" role="presentation" class="task-manager__search-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
