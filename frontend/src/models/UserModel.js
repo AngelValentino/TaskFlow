@@ -56,6 +56,12 @@ export default class UserModel {
       signal: this.router.getAbortSignal('POST' + endpoint)
     });
 
+    // Rate limited
+    if (response.status === 429) {
+      const error = await response.json();
+      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+    }
+
     // Validation error
     if (response.status === 422) {
       const errorData = await response.json();
@@ -85,6 +91,12 @@ export default class UserModel {
       signal: this.router.getAbortSignal('POST' + endpoint)
     });
 
+    // Rate limited
+    if (response.status === 429) {
+      const error = await response.json();
+      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+    }
+
     if (response.status === 400 || response.status === 401) {
       const error = await response.json();
       throw new Error(error.message);
@@ -110,6 +122,12 @@ export default class UserModel {
         token: localStorage.getItem('refreshToken') 
       })
     });
+
+    // Rate limited
+    if (response.status === 429) {
+      const error = await response.json();
+      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+    }
 
     if (response.status === 401 || response.status === 400) {
       const error = await response.json();

@@ -109,7 +109,7 @@
 
 .enhanced-task-manager__search-prompt {
   padding: 0 10px;
-  background-color: #fafafa; 
+  background-color: #fff; 
   transition: max-height 1.25s, transform 1.25s, margin 1.25s;
   will-change: margin;
 }

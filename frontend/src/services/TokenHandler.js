@@ -35,6 +35,11 @@ export default class TokenHandler {
     // This happens because the current refresh token will not be in the whitelist, as the API does not yet handle aborted requests.
     // Consequently, the client handles logout, but the access token remains in the database without being cleared.
 
+    // Rate limited
+    if (response.status === 429) {
+      throw new Error(`Oops! Error ${response.status}: Rate limit exceeded. Please try again in a few minutes.`);
+    }
+
     if (!response.ok) {
       // Logout user
       const errorMessage = await this.userModel.handleUserLogout(false);

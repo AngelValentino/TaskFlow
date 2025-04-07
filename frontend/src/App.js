@@ -46,8 +46,6 @@ import TimerModel from "./models/TimerModel.js";
 import NotFoundPage from "./pages/NotFound.js";
 import EnhancedTaskView from './pages/enhancedTaskView/EnhancedTaskView.js';
 
-//TODO Refactor enhanced task view
-
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
   const router = new Router(modalHandler);

@@ -25,6 +25,12 @@ export default class QuoteModel {
       signal: this.router.getAbortSignal('GET' + this.baseEndpointUrl)
     });
 
+    // Rate limited
+    if (response.status === 429) {
+      const error = await response.json();
+      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+    }
+
     if (!response.ok) {
       throw new Error(`Oops! Error ${response.status}: We couldn't get the quotes data. Please try again later.`);
     }

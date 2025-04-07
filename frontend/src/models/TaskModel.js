@@ -153,6 +153,12 @@ export default class TaskModel {
   async handleAuthFetchRequest(apiUrl, options, returnData = false, errorMessage = 'Failed API connection.', errorHandlers = null) {
     let response = await this.fetchRequest(apiUrl, options);
 
+    // Rate limited
+    if (response.status === 429) {
+      const error = await response.json();
+      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+    }
+
     // Checks if token has expired (401)
     if (response.status === 401) {
       const error = await response.json();
