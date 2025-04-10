@@ -1,20 +1,6 @@
-main.logout-view {
-  padding: 50px 30px 40px;
-}
-
 body.logout-view {
-  background-color: #fff;
-  transition: none;
+  background-color: #fff !important;
 }
-
-body.logout-view .background-image {
-  display: none
-}
-
-body.logout-view main {
-  position: static;
-}
-
 
 .logout-message {
   padding: 10px;

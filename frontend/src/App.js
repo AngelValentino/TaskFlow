@@ -12,10 +12,13 @@ import './styles/reset.css';
 import './styles/logout.css';
 import './styles/notFound.css';
 import './styles/enhancedTaskView.css';
+import './styles/auth.css';
 
 import DashboardPage from "./pages/dashboard/Dashboard.js";
 import RegisterPage from "./pages/register/Register.js";
 import LoginPage from "./pages/login/Login.js";
+import RecoverPage from './pages/recover/Recover.js';
+import ResetPasswordPage from './pages/resetPassword/resetPassword.js';
 import Router from './services/Router.js';
 import Auth from "./services/Auth.js";
 import RegisterController from "./controllers/RegisterController.js";
@@ -110,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/register', () => {
     appLm.innerHTML = RegisterPage.getHtml();
     document.body.classList.add('register-view');
+    document.body.classList.add('auth-view');
     
     const modalHandler = new ModalHandler;
 
@@ -124,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/login', () => {
     appLm.innerHTML = LoginPage.getHtml();
-    document.body.classList.add('login-view');
+    document.body.classList.add('auth-view');
 
     const modalHandler = new ModalHandler;
 
@@ -140,9 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/logout', () => {
     appLm.innerHTML = LogoutPage.getHtml();
     document.body.classList.add('logout-view');
+    document.body.classList.add('auth-view');
     const userModel = new UserModel(router);
     const logoutView = new LogoutView;
     new LogoutController(router, auth, userModel, logoutView);
+  });
+
+  router.addRoute('/recover-password', () => {
+    document.body.classList.add('auth-view');
+    appLm.innerHTML = RecoverPage.getHtml();
+  });
+
+  router.addRoute('/reset-password', () => {
+    document.body.classList.add('auth-view');
+    appLm.innerHTML = ResetPasswordPage.getHtml();
   });
 
   router.addRoute('*', () => {
