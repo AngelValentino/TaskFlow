@@ -39,6 +39,7 @@
   align-items: center;
   padding: 20px 30px 0 30px;
   width: 100%;
+  gap: 1rem;
 }
 
 .user-menu__btn-container {

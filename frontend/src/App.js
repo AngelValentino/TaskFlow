@@ -51,6 +51,9 @@ import NotFoundPage from "./pages/NotFound.js";
 import EnhancedTaskView from './pages/enhancedTaskView/EnhancedTaskView.js';
 import RecoverPasswordView from './views/RecoverPasswordView.js';
 import RecoverPasswordModel from './models/RecoverPasswordModel.js';
+import ResetPasswordView from './views/ResetPasswordView.js';
+import ResetPasswordController from './controllers/ResetPasswordController.js';
+import ResetPasswordModel from './models/ResetPasswordModel.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -153,6 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     new LogoutController(router, auth, userModel, logoutView);
   });
 
+  //TODO Refactor remember password logic and form validation into a FormHandler service class
+
   router.addRoute('/recover-password', () => {
     document.body.classList.add('auth-view');
     appLm.innerHTML = RecoverPage.getHtml();
@@ -166,9 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
     appLm.innerHTML = ResetPasswordPage.getHtml();
 
-    // TODO Validate password
-    // TODO Validate reset request and token
-    // TODO Once done, inform the user that all went bananas and redirect to login
+    const resetPasswordModel = new ResetPasswordModel(router);
+    const resetPasswordView = new ResetPasswordView;
+    new ResetPasswordController(resetPasswordView, resetPasswordModel, utils, router);
   });
 
   router.addRoute('*', () => {

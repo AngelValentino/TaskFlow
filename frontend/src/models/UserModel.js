@@ -74,9 +74,6 @@ export default class UserModel {
     if (!response.ok) {
       throw new Error(`Oops! Error ${response.status}: We couldn't register your user data into our storage. Please try again later.`);
     }
-
-    const data = await response.json();
-    return data;
   }
 
   async handleUserLogin(formData) {

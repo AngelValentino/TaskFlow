@@ -77,6 +77,20 @@ main.auth-view {
   width: 100%;
 }
 
+.auth-form__input.error {
+  border-color: #d90b1b;
+  background-color: #ffe4e4;
+}
+
+.auth-form__input-error {
+  color: #d90b1b;
+  font-size: 0.825rem;
+}
+
+.auth-form__input-error.active {
+  margin-top: 5px;
+}
+
 .auth-form__inputs-container input::placeholder {
   opacity: 0.5;
 }

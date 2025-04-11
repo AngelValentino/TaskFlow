@@ -37,7 +37,6 @@ export default class RecoverPasswordView {
       this.lms.recoverPasswordMessageLm.textContent = '';
       this.lms.recoverPasswordMessageLm.classList.remove('active');
     }
-
   }
 
   toggleSubmitBtn(errors) {

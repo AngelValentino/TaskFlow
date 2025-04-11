@@ -66,7 +66,7 @@ export default class RecoverPasswordController {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
-        this.recoverPasswordView.updateSubmitBtn('Send Email');
+        this.recoverPasswordView.updateSubmitBtn('Send email');
       });
   }
 }
