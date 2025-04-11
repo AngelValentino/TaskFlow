@@ -6,8 +6,8 @@ export default class RecoverPage {
     const recoverPasswordForm = RecoverPasswordForm.getHtml();
     const authRedirect = AuthRedirect.getHtml({
       message: "Oops! Didn't mean to end up here?",
-      linkMessage: 'Head back home',
-      linkHref: '/'
+      linkMessage: 'Back to Login',
+      linkHref: '/login'
     });
 
     return `

@@ -106,8 +106,7 @@ export default class UserModel {
       throw new Error(`Oops! Error ${response.status}: We couldn't login into your account. Please try again later.`);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 
   async handleUserLogout(throwErrors = true) {

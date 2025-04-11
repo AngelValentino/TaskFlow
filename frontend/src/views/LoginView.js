@@ -13,7 +13,14 @@ export default class LoginView {
   }
 
   updateErrorMessage(error) {
-    this.lms.loginErrorLm.textContent = error;
+    if (error) {
+      this.lms.loginErrorLm.textContent = error;
+      this.lms.loginErrorLm.classList.add('active');
+    }
+    else {
+      this.lms.loginErrorLm.textContent = '';
+      this.lms.loginErrorLm.classList.remove('active');
+    }
   }
 
   toggleSubmitBtn(errors) {

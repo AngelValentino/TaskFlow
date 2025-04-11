@@ -43,11 +43,14 @@ import PomodoroTimerController from "./controllers/PomodoroTimerController.js";
 import PomodoroTimerView from "./views/PomodoroTimerView.js";
 import UserMenuView from "./views/UserMenuView.js";
 import UserMenuController from "./controllers/UserMenuController.js";
+import RecoverPasswordController from './controllers/RecoverPasswordController.js';
 import LogoutView from "./views/LogoutView.js";
 import LoadHandler from "./services/LoadHandler.js";
 import TimerModel from "./models/TimerModel.js";
 import NotFoundPage from "./pages/NotFound.js";
 import EnhancedTaskView from './pages/enhancedTaskView/EnhancedTaskView.js';
+import RecoverPasswordView from './views/RecoverPasswordView.js';
+import RecoverPasswordModel from './models/RecoverPasswordModel.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -153,11 +156,19 @@ document.addEventListener('DOMContentLoaded', () => {
   router.addRoute('/recover-password', () => {
     document.body.classList.add('auth-view');
     appLm.innerHTML = RecoverPage.getHtml();
+    
+    const recoverPasswordModel = new RecoverPasswordModel(router);
+    const recoverPasswordView = new RecoverPasswordView;
+    new RecoverPasswordController(recoverPasswordView, recoverPasswordModel, utils);
   });
 
   router.addRoute('/reset-password', () => {
     document.body.classList.add('auth-view');
     appLm.innerHTML = ResetPasswordPage.getHtml();
+
+    // TODO Validate password
+    // TODO Validate reset request and token
+    // TODO Once done, inform the user that all went bananas and redirect to login
   });
 
   router.addRoute('*', () => {

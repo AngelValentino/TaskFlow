@@ -22,7 +22,7 @@ export default class LoginController {
   addValidationEventsOnInputChange() {
     this.lms.loginFormInputLms.forEach(input => {
       input.addEventListener('input', this.handleValidation.bind(this));
-    })
+    });
   }
 
   getPasswordValidationError(username) {
