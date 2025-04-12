@@ -23,9 +23,7 @@ export default class RecoverPasswordController {
 
   handleValidation(e) {
     const value = e.target.value.trim();
-
     this.errors.email = this.getEmailValidationError(value);
-    console.log(this.errors);
     this.recoverPasswordView.toggleSubmitBtn(this.errors);
   }
 

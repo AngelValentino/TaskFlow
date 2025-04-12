@@ -1,10 +1,11 @@
 export default class ResetPasswordView {
-  constructor() {
+  constructor(authFormHandler) {
+    this.authFormHandler = authFormHandler;
     this.lms = {
       formLm: document.getElementById('reset-password-form'),
       passwordErrorLm: document.getElementById('reset-password-form__password-error'),
-      repeatedPasswordErrorLm: document.getElementById('reset-password-form__repeated-password-error'),
-      repeatedPasswordInputLm: document.getElementById('reset-password-form__repeated-password-input'),
+      confirmPasswordErrorLm: document.getElementById('reset-password-form__repeated-password-error'),
+      confirmPasswordInputLm: document.getElementById('reset-password-form__repeated-password-input'),
       passwordInputLm: document.getElementById('reset-password-form__password-input'),
       formErrorLm: document.getElementById('reset-password-form__error'),
       submitBtn: document.getElementById('reset-password-form__submit-btn')
@@ -16,25 +17,12 @@ export default class ResetPasswordView {
     return this.lms;
   }
 
-  setError(message, errorLm, inputLm) {
-    if (!message) {
-      inputLm.classList.remove('error');
-      errorLm.textContent = '';
-      errorLm.classList.remove('active');
-    } 
-    else {
-      inputLm.classList.add('error');
-      errorLm.textContent = message;
-      errorLm.classList.add('active');
-    }
-  }
-
   setPasswordError(message) {
-    this.setError(message, this.lms.passwordErrorLm, this.lms.passwordInputLm);
+    this.authFormHandler.setFormError(message, this.lms.passwordErrorLm, this.lms.passwordInputLm);
   }
 
   setRepeatedPasswordError(message) {
-    this.setError(message, this.lms.repeatedPasswordErrorLm, this.lms.repeatedPasswordInputLm);
+    this.authFormHandler.setFormError(message, this.lms.confirmPasswordErrorLm, this.lms.confirmPasswordInputLm);
   }
 
   renderErrorMessages(errors = {}) {
@@ -52,13 +40,6 @@ export default class ResetPasswordView {
   }
 
   updateErrorMessage(error) {
-    if (error) {
-      this.lms.formErrorLm.textContent = error;
-      this.lms.formErrorLm.classList.add('active');
-    }
-    else {
-      this.lms.formErrorLm.textContent = '';
-      this.lms.formErrorLm.classList.remove('active');
-    }
+    this.authFormHandler.updateFormMessage(this.lms.formErrorLm, error);
   }
 }

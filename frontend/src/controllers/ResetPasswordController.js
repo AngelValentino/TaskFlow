@@ -1,10 +1,11 @@
 export default class ResetPasswordController {
-  constructor(resetPasswordView, resetPasswordModel, utils, router) {
+  constructor(resetPasswordView, resetPasswordModel, utils, router, authFormHandler) {
     this.resetPasswordView = resetPasswordView;
     this.resetPasswordModel = resetPasswordModel;
     this.utils = utils;
     this.router = router;
     this.activeRequest = false;
+    this.authFormHandler = authFormHandler;
 
     this.errors = {
       password: null,
@@ -17,91 +18,38 @@ export default class ResetPasswordController {
     };
 
     this.lms = this.resetPasswordView.getDomRefs();
+    
     this.lms.formLm.addEventListener('submit', this.resetUserPassword.bind(this));
     this.lms.formLm.addEventListener('blur', this.handleValidationOnBlur.bind(this), true);
-    this.addValidationEventOnInputChange()
+    this.authFormHandler.addValidationEventOnInputChange(
+      this.lms.formInputLms,
+      this.errors,
+      this.wasBlurred,
+      this.lms.confirmPasswordInputLm,
+      this.lms.passwordInputLm,
+      this.resetPasswordView.renderErrorMessages.bind(this.resetPasswordView),
+      this.resetPasswordView.toggleSubmitBtn.bind(this.resetPasswordView)
+    );
   }
 
   handleValidationOnBlur(e) {
-    if (e.target.tagName !== 'INPUT') return;
-    this.wasBlurred[e.target.name] = true;
-    this.handleValidation(e);
-  }
-
-  addValidationEventOnInputChange() {
-    this.lms.formInputLms.forEach(input => {
-      input.addEventListener('input', e => {
-        // Only validate if input has been blurred before
-        if (this.wasBlurred[e.target.name]) {
-          this.handleValidation(e);
-        }
-
-        if (e.target.name === 'terms') {
-          console.log('terms')
-          this.handleValidation(e)
-        }
-      });
-    });
-  }
-
-  getPasswordValidationError(password) {
-    if (password.length <= 0) {
-      return 'Password is required.';
-    }
-    else if (password.length < 8) {
-      return 'Password must be at least 8 characters long.';
-    }
-    else if (password.length > 72) {
-      return 'Password cannot exceed 72 characters.';
-    }
-
-    return false;
-  }
-
-  getRepeatedPasswordValidationError(repeatedPassword) {
-    if (repeatedPassword.length <= 0 && this.errors.repeated_password !== null) {
-      return 'You must confirm your password';
-    }
-    else if (repeatedPassword !== this.lms.passwordInputLm.value && this.errors.repeated_password !== null) {
-      return 'The passwords entered do not match.';
-    }
-    
-    return false;
-  }
-
-  handleValidation(e) {
-    if (e.target.tagName !== 'INPUT') return;
-
-    const input = e.target;
-    const value = input.value.trim();
-
-    switch (input.name) {
-      case 'password':
-        this.errors.password = this.getPasswordValidationError(value);
-        this.errors.repeated_password = this.getRepeatedPasswordValidationError(this.lms.repeatedPasswordInputLm.value);
-        break;
-
-      case 'repeated_password':
-        console.log('repeated password validation')
-        this.errors.repeated_password = this.getRepeatedPasswordValidationError(value);
-        break
-    }
-
-    this.resetPasswordView.renderErrorMessages(this.errors);
-    this.resetPasswordView.toggleSubmitBtn(this.errors);
+    this.authFormHandler.handleAuthValidationOnBlur(
+      e,
+      this.errors,
+      this.wasBlurred,
+      this.lms.confirmPasswordInputLm,
+      this.lms.passwordInputLm,
+      this.resetPasswordView.renderErrorMessages.bind(this.resetPasswordView),
+      this.resetPasswordView.toggleSubmitBtn.bind(this.resetPasswordView)
+    )
   }
 
   resetUserPassword(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const registerData = {};
-    let wasFetchAborted = false;
-
-    formData.forEach((value, key) => {
-      registerData[key] = value;
-    });
+    const registerData = this.utils.getFormData(e.target);
     const params = new URLSearchParams(window.location.search);
     registerData.token = params.get('token');
+    let wasFetchAborted = false;
 
     if (this.activeRequest) {
       console.warn('register request is already active');
@@ -113,7 +61,6 @@ export default class ResetPasswordController {
       this.resetPasswordView.updateSubmitBtn.bind(this.resetPasswordView, 'Loading...')
     );
 
-    
     this.resetPasswordModel.handleResetUserPassword(JSON.stringify(registerData))
       .then(() => {
         this.router.navigateTo('/login');

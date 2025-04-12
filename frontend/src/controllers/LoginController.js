@@ -63,13 +63,8 @@ export default class LoginController {
 
   loginUser(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const loginData = {};
+    const loginData = this.utils.getFormData(e.target);
     let wasFetchAborted = false;
-
-    formData.forEach((value, key) => {
-      loginData[key] = value;
-    });
 
     if (this.activeRequest) {
       console.warn('login fetch request active');

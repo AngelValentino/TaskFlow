@@ -54,6 +54,7 @@ import RecoverPasswordModel from './models/RecoverPasswordModel.js';
 import ResetPasswordView from './views/ResetPasswordView.js';
 import ResetPasswordController from './controllers/ResetPasswordController.js';
 import ResetPasswordModel from './models/ResetPasswordModel.js';
+import AuthFormHandler from './services/AuthFormHandler.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const auth = new Auth;
   const themeHandler = new ThemeHandler(utils);
 
-  // Webpack optmizes so much the code that we need a timeout to be able to see the page loader
+  // Webpack's fast optimized build can skip the loader, adding a delay allows the client to see it
   setTimeout(() => {
     loadHandler.hidePageLoader();
   });
@@ -120,30 +121,30 @@ document.addEventListener('DOMContentLoaded', () => {
     appLm.innerHTML = RegisterPage.getHtml();
     document.body.classList.add('register-view');
     document.body.classList.add('auth-view');
-    
-    const modalHandler = new ModalHandler;
 
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
     new UserMenuController(userMenuView, auth, router);
 
+    // Register
+    const authFormHandler = new AuthFormHandler;
     const userModel = new UserModel(router, auth);
-    const registerView = new RegisterView;
-    new RegisterController(router, userModel, registerView, utils);
+    const registerView = new RegisterView(authFormHandler);
+    new RegisterController(router, userModel, registerView, utils, authFormHandler);
   });
 
   router.addRoute('/login', () => {
     appLm.innerHTML = LoginPage.getHtml();
     document.body.classList.add('auth-view');
 
-    const modalHandler = new ModalHandler;
-
     // User menu
     const userMenuView = new UserMenuView(modalHandler);
     new UserMenuController(userMenuView, auth, router);
 
+    // Login
+    const authFormHandler = new AuthFormHandler;
     const userModel = new UserModel(router);
-    const loginView = new LoginView;
+    const loginView = new LoginView(authFormHandler);
     new LoginController(router, auth, userModel, loginView, utils);
   });
 
@@ -151,19 +152,19 @@ document.addEventListener('DOMContentLoaded', () => {
     appLm.innerHTML = LogoutPage.getHtml();
     document.body.classList.add('logout-view');
     document.body.classList.add('auth-view');
+
     const userModel = new UserModel(router);
     const logoutView = new LogoutView;
     new LogoutController(router, auth, userModel, logoutView);
   });
 
-  //TODO Refactor remember password logic and form validation into a FormHandler service class
-
   router.addRoute('/recover-password', () => {
     document.body.classList.add('auth-view');
     appLm.innerHTML = RecoverPage.getHtml();
     
+    const authFormHandler = new AuthFormHandler;
     const recoverPasswordModel = new RecoverPasswordModel(router);
-    const recoverPasswordView = new RecoverPasswordView;
+    const recoverPasswordView = new RecoverPasswordView(authFormHandler);
     new RecoverPasswordController(recoverPasswordView, recoverPasswordModel, utils);
   });
 
@@ -171,9 +172,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
     appLm.innerHTML = ResetPasswordPage.getHtml();
 
+    const authFormHandler = new AuthFormHandler;
     const resetPasswordModel = new ResetPasswordModel(router);
-    const resetPasswordView = new ResetPasswordView;
-    new ResetPasswordController(resetPasswordView, resetPasswordModel, utils, router);
+    const resetPasswordView = new ResetPasswordView(authFormHandler);
+    new ResetPasswordController(resetPasswordView, resetPasswordModel, utils, router, authFormHandler);
   });
 
   router.addRoute('*', () => {

@@ -1,5 +1,6 @@
 export default class LoginView {
-  constructor() {
+  constructor(authFormHandler) {
+    this.authFormHandler = authFormHandler;
     this.lms = {
       loginFormLm: document.getElementById('login-form'),
       loginErrorLm: document.getElementById('login-form__error'),
@@ -13,14 +14,7 @@ export default class LoginView {
   }
 
   updateErrorMessage(error) {
-    if (error) {
-      this.lms.loginErrorLm.textContent = error;
-      this.lms.loginErrorLm.classList.add('active');
-    }
-    else {
-      this.lms.loginErrorLm.textContent = '';
-      this.lms.loginErrorLm.classList.remove('active');
-    }
+    this.authFormHandler.updateFormMessage(this.lms.loginErrorLm, error);
   }
 
   toggleSubmitBtn(errors) {
