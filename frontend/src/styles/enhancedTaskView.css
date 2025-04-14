@@ -91,6 +91,16 @@ main.enhanced-task-view {
   padding: 0 10px;
 }
 
+.enhanced-task-manager__empty-list-placeholder-container {
+  background-color: #fff;
+}
+
+.enhanced-task-manager__placeholder-img-container {
+  padding: 17px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+}
+
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) { 

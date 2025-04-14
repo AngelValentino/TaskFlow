@@ -136,7 +136,7 @@ export default class TaskManagerController {
         this.utils.getActiveTabFilterParam(), 
         this.taskManagerView.getCurrentSearchValue()
       );
-      this.taskManagerView.renderTasks(tasks);
+      this.taskManagerView.renderTasks(tasks, this.isEnhancedTaskManager);
       return;
     }
 
@@ -152,7 +152,7 @@ export default class TaskManagerController {
       this.taskManagerView.getCurrentSearchValue()
     )
       .then(data => {
-        this.taskManagerView.renderTasks(data);
+        this.taskManagerView.renderTasks(data, this.isEnhancedTaskManager);
         if (returnFocusHandler) returnFocusHandler();
       })
       .catch(error => {

@@ -196,6 +196,13 @@
 .task-manager__empty-list-placeholder-img-container {
   width: 200px;
   height: 200px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.enhanced-task-manager__empty-list-placeholder-img-container {
+  width: 180px;
+  height: 180px;
 }
 
 .task-manager__empty-list-placeholder-img {
@@ -391,6 +398,16 @@
   .task-manager {
     padding: 20px;
     height: 720px;
+  }
+
+  .task-manager__empty-list-placeholder-img-container {
+    width: 192px;
+    height: 192px;
+  }
+  
+  .enhanced-task-manager__empty-list-placeholder-img-container {
+    width: 160px;
+    height: 160px;
   }
 }
 

@@ -3,7 +3,6 @@ import TaskCompleted from '../pages/dashboard/components/CompletedTask.js';
 import TaskListPlaceholder from '../pages/dashboard/components/TaskListPlaceholder.js';
 import TaskListLoader from '../pages/dashboard/components/TaskListLoader.js';
 import TaskListError from '../pages/dashboard/components/TaskListError.js';
-import NoTasksFoundPlaceholder from '../pages/dashboard/components/NoTasksFoundPlaceholder.js';
 import LoadingCircle from '../components/LoadingCircle.js';
 
 export default class TaskManagerView {
@@ -319,11 +318,11 @@ export default class TaskManagerView {
     this.lms.tasksContainerLm.innerHTML = TaskListError.getHtml(error);
   }
 
-  renderTasks(taskData) {
+  renderTasks(taskData, isEnhancedTaskManager) {
     if (taskData.length === 0) {
       this.lms.tasksContainerLm.innerHTML = this.getCurrentSearchValue() 
-        ? NoTasksFoundPlaceholder.getHtml() 
-        : TaskListPlaceholder.getHtml()
+        ? TaskListPlaceholder.getHtml({ search: true, enhacedTaskView: isEnhancedTaskManager }) 
+        : TaskListPlaceholder.getHtml({ enhacedTaskView: isEnhancedTaskManager })
 
       this.loadHandler.blurLoadImages();
       return;
