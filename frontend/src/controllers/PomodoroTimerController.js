@@ -4,12 +4,12 @@ export default class PomodoroTimerController {
     this.taskManagerView = taskManagerView;
     this.timerModel = timerModel;
     this.lms = this.pomodoroTimerView.getDomRefs();
+  }
 
+  init() {
     this.pomodoroTimerView.updateTimerDisplay(this.timerModel.getTimerSeconds());
-
     this.lms.actionBtn.addEventListener('click', this.toggleTimer.bind(this));
     this.lms.resetBtn.addEventListener('click', this.handleRestartTimer.bind(this));
-  
     this.lms.timerOptionsLm.addEventListener('click', this.switchTimerSession.bind(this));
   }
 

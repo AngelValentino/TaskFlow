@@ -4,7 +4,9 @@ export default class UserMenuController {
     this.auth = auth;
     this.router = router;
     this.lms = this.userMenuView.getDomRefs();
+  }
 
+  init() {
     this.lms.userMenuBtn.addEventListener('click', this.toggleUserMenu.bind(this));
   
     if (this.auth.isClientLogged()) {

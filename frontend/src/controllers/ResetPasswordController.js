@@ -18,7 +18,9 @@ export default class ResetPasswordController {
     };
 
     this.lms = this.resetPasswordView.getDomRefs();
-    
+  }
+
+  init() {
     this.lms.formLm.addEventListener('submit', this.resetUserPassword.bind(this));
     this.lms.formLm.addEventListener('blur', this.handleValidationOnBlur.bind(this), true);
     this.authFormHandler.addValidationEventOnInputChange(

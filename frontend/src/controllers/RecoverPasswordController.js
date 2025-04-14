@@ -7,8 +7,10 @@ export default class RecoverPasswordController {
       email: null
     }
     this.activeRequest = false;
-
     this.lms = this.recoverPasswordView.getDomRefs();
+  }
+
+  init() {
     this.lms.emailInputLm.addEventListener('input', this.handleValidation.bind(this));
     this.lms.recoverPasswordFormLm.addEventListener('submit', this.sendRecoverPasswordEmail.bind(this));
   }

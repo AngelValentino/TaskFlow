@@ -14,7 +14,9 @@ export default class LoginController {
     };
 
     this.lms = this.loginView.getDomRefs();
+  }
 
+  init() {
     this.lms.loginFormLm.addEventListener('submit', this.loginUser.bind(this));
     this.addValidationEventsOnInputChange();
   }

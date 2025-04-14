@@ -24,7 +24,9 @@ export default class RegisterController {
     };
     
     this.lms = this.registerView.getDomRefs();
+  }
 
+  init() {
     this.lms.formLm.addEventListener('submit', this.registerUser.bind(this));
     this.lms.formLm.addEventListener('blur', this.handleValidationOnBlur.bind(this), true);
     this.authFormHandler.addValidationEventOnInputChange(

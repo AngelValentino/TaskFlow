@@ -4,7 +4,9 @@ export default class LogoutController {
     this.auth = auth;
     this.userModel = userModel;
     this.logoutView = logoutView;
+  }
 
+  init() {
     this.logoutUser();
   }
 

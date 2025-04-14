@@ -80,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // User menu
     const userMenuModel = new UserMenuModel;
     const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
-    new UserMenuController(userMenuView, auth, router);
+    const userMenuController = new UserMenuController(userMenuView, auth, router);
+    userMenuController.init();
 
     // Task manager
     const userModel = new UserModel(router, auth);
@@ -94,12 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Quote machine
     const quoteModel = new QuoteModel(utils, router);
     const quoteMachineView = new QuoteMachineView(utils);
-    new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
+    const quoteMachineController = new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
+    quoteMachineController.init();
   
     // Pomodoro Timer
     const pomodoroTimerView = new PomodoroTimerView;
     const timeModel = new TimerModel(pomodoroTimerView, utils);
-    new PomodoroTimerController(pomodoroTimerView, taskManagerView, timeModel);
+    const pomodoroTimerController = new PomodoroTimerController(pomodoroTimerView, taskManagerView, timeModel);
+    pomodoroTimerController.init();
   });
 
   router.addRoute('/tasks', () => {
@@ -108,7 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // User menu
     const userMenuModel = new UserMenuModel;
     const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
-    new UserMenuController(userMenuView, auth, router);
+    const userMenuController = new UserMenuController(userMenuView, auth, router);
+    userMenuController.init();
 
     // Task manager
     const userModel = new UserModel(router, auth);
@@ -128,13 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // User menu
     const userMenuModel = new UserMenuModel;
     const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
-    new UserMenuController(userMenuView, auth, router);
+    const userMenuController = new UserMenuController(userMenuView, auth, router);
+    userMenuController.init();
 
     // Register
     const authFormHandler = new AuthFormHandler;
     const userModel = new UserModel(router, auth);
     const registerView = new RegisterView(authFormHandler);
-    new RegisterController(router, userModel, registerView, utils, authFormHandler);
+    const registerController = new RegisterController(router, userModel, registerView, utils, authFormHandler);
+    registerController.init();
   });
 
   router.addRoute('/login', () => {
@@ -144,13 +150,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // User menu
     const userMenuModel = new UserMenuModel;
     const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
-    new UserMenuController(userMenuView, auth, router);
+    const userMenuController = new UserMenuController(userMenuView, auth, router);
+    userMenuController.init();
 
     // Login
     const authFormHandler = new AuthFormHandler;
     const userModel = new UserModel(router, auth);
     const loginView = new LoginView(authFormHandler);
-    new LoginController(router, auth, userModel, loginView, utils);
+    const loginController = new LoginController(router, auth, userModel, loginView, utils);
+    loginController.init();
   });
 
   router.addRoute('/logout', () => {
@@ -160,7 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const userModel = new UserModel(router, auth);
     const logoutView = new LogoutView;
-    new LogoutController(router, auth, userModel, logoutView);
+    const logoutController = new LogoutController(router, auth, userModel, logoutView);
+    logoutController.init();
   });
 
   router.addRoute('/recover-password', () => {
@@ -170,7 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const authFormHandler = new AuthFormHandler;
     const recoverPasswordModel = new RecoverPasswordModel(router);
     const recoverPasswordView = new RecoverPasswordView(authFormHandler);
-    new RecoverPasswordController(recoverPasswordView, recoverPasswordModel, utils);
+    const recoverPasswordController = new RecoverPasswordController(recoverPasswordView, recoverPasswordModel, utils);
+    recoverPasswordController.init();
   });
 
   router.addRoute('/reset-password', () => {
@@ -180,7 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const authFormHandler = new AuthFormHandler;
     const resetPasswordModel = new ResetPasswordModel(router);
     const resetPasswordView = new ResetPasswordView(authFormHandler);
-    new ResetPasswordController(resetPasswordView, resetPasswordModel, utils, router, authFormHandler);
+    const resetPasswordController = new ResetPasswordController(resetPasswordView, resetPasswordModel, utils, router, authFormHandler);
+    resetPasswordController.init();
   });
 
   router.addRoute('*', () => {

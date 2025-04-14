@@ -5,11 +5,11 @@ export default class QuoteMachineController {
     this.utils = utils;
     this.themeHandler = themeHandler;
     this.taskManagerView = taskManagerView;
-
     this.lms = this.quoteMachineView.getDomRefs();
+  }
 
+  init() {
     this.getAllQuotes();
-
     this.lms.getNewQuoteBtn.addEventListener('click', this.setQuoteAndTheme.bind(this));
   }
 
