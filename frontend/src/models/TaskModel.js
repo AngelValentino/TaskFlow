@@ -177,7 +177,7 @@ export default class TaskModel {
 
     // Generic status error
     if (!response.ok) {
-      throw new Error(`Oops! Error ${response.status}: ${errorMessage}`);
+      throw new Error(`Oops! Error ${response.status}${errorMessage === '' ? errorMessage : ': ' + errorMessage}`);
     }
 
     return returnData ? await response.json() : null;
@@ -212,7 +212,7 @@ export default class TaskModel {
     );
   }
 
-  async handleGetAllTasksCount(completed) {
+  async handleGetAllTasksCount(completed, isEnhancedTaskManager) {
     const completedQueryParam = completed !== undefined ? '&completed=' + completed : '';
 
     return await this.handleAuthFetchRequest(
@@ -221,7 +221,7 @@ export default class TaskModel {
         method: 'GET'
       },
       true,
-      `We couldn't get your task count. Please try again later.`,
+      isEnhancedTaskManager ? '' : `We couldn't get your task count. Please try again later.`,
     );
   }
 

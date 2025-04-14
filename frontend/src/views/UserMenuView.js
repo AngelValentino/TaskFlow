@@ -1,7 +1,7 @@
 export default class UserMenuView {
-  constructor(modalHandler, userModel, utils) {
+  constructor(modalHandler, userMenuModel, utils) {
     this.modalHandler = modalHandler;
-    this.userModel = userModel;
+    this.userMenuModel = userMenuModel;
     this.utils = utils;
     this.lms = {
       userMenuBtn: document.getElementById('user-menu__btn'),
@@ -25,8 +25,8 @@ export default class UserMenuView {
   }
 
   getRandomMessage() {
-    const randomGreeting = this.userModel.greetings[this.utils.getNonRepeatingRandomIndex(this.userModel.greetings, 'userGreetings')];
-    const randomIcon = this.userModel.greetingIcons[this.utils.getNonRepeatingRandomIndex(this.userModel.greetingIcons, 'userGreetingIcons')];
+    const randomGreeting = this.userMenuModel.greetings[this.utils.getNonRepeatingRandomIndex(this.userMenuModel.greetings, 'userGreetings')];
+    const randomIcon = this.userMenuModel.greetingIcons[this.utils.getNonRepeatingRandomIndex(this.userMenuModel.greetingIcons, 'userGreetingIcons')];
 
     const username = localStorage.getItem('username') || 'Jack';
     return `${randomGreeting}, ${username}! ${randomIcon}`;

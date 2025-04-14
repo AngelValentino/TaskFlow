@@ -65,7 +65,7 @@
 }
 
 .task-manager__dashboard-tasks-count-error.active {
-  padding: 5px;
+  padding: 6px;
   background-color: var(--medium-accent-color);
   color: #fff;
   margin-top: 5px;

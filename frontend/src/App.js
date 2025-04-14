@@ -43,6 +43,7 @@ import PomodoroTimerController from "./controllers/PomodoroTimerController.js";
 import PomodoroTimerView from "./views/PomodoroTimerView.js";
 import UserMenuView from "./views/UserMenuView.js";
 import UserMenuController from "./controllers/UserMenuController.js";
+import UserMenuModel from './models/UserMenuModel.js';
 import RecoverPasswordController from './controllers/RecoverPasswordController.js';
 import LogoutView from "./views/LogoutView.js";
 import LoadHandler from "./services/LoadHandler.js";
@@ -77,11 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
     appLm.innerHTML = DashboardPage.getHtml();
 
     // User menu
-    const userModel = new UserModel(router, auth);
-    const userMenuView = new UserMenuView(modalHandler, userModel, utils);
+    const userMenuModel = new UserMenuModel;
+    const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
     new UserMenuController(userMenuView, auth, router);
 
     // Task manager
+    const userModel = new UserModel(router, auth);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler);
     const tokenHandler = new TokenHandler(router, userModel, auth);
@@ -104,11 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
     appLm.innerHTML = EnhancedTaskView.getHtml();
 
     // User menu
-    const userModel = new UserModel(router, auth);
-    const userMenuView = new UserMenuView(modalHandler, userModel, utils);
+    const userMenuModel = new UserMenuModel;
+    const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
     new UserMenuController(userMenuView, auth, router);
 
     // Task manager
+    const userModel = new UserModel(router, auth);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, true);
     const tokenHandler = new TokenHandler(router, userModel, auth);
@@ -123,7 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
 
     // User menu
-    const userMenuView = new UserMenuView(modalHandler);
+    const userMenuModel = new UserMenuModel;
+    const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
     new UserMenuController(userMenuView, auth, router);
 
     // Register
@@ -138,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
 
     // User menu
-    const userMenuView = new UserMenuView(modalHandler);
+    const userMenuModel = new UserMenuModel;
+    const userMenuView = new UserMenuView(modalHandler, userMenuModel, utils);
     new UserMenuController(userMenuView, auth, router);
 
     // Login

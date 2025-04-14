@@ -15,7 +15,7 @@ export default class TaskManagerController {
   }
 
   init() {
-   if (!this.isEnhancedTaskManager) {
+    if (!this.isEnhancedTaskManager) {
       this.taskManagerView.updateCurrentDashboardDate();
 
       this.lms.addTaskPromptFormLm.addEventListener('submit', this.submitTask.bind(this));
@@ -185,7 +185,7 @@ export default class TaskManagerController {
       this.taskManagerView.updateTaskCount.bind(this.taskManagerView, 'loader')
     );
     
-    this.taskModel.handleGetAllTasksCount(false)
+    this.taskModel.handleGetAllTasksCount(false, this.isEnhancedTaskManager)
       .then(count => {
         localStorage.setItem('taskCount', count);
         this.taskManagerView.renderTaskCount(count);

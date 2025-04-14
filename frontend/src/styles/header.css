@@ -24,6 +24,21 @@
   font-size: 0.925rem;
 }
 
+.enhanced-task-manager__task-count:has(+ .enhanced-task-manager__task-count-error.active) {
+  display: none;
+}
+
+.enhanced-task-manager__task-count-error {
+  transition: background-color var(--base-transition-duration);
+}
+
+.enhanced-task-manager__task-count-error.active {
+  background-color: var(--medium-accent-color);
+  color: #fff;
+  padding: 10px;
+  border-radius: 2px;
+}
+
 .user-menu-container {
   position: absolute;
   top: 0;
@@ -56,6 +71,7 @@
 }
 
 .user-menu__greeting-message {
+  display: inline-flex;
   background-color: #272727a1;
   color: #fff;
   padding: 0.45rem 0.31rem;
