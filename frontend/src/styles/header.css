@@ -98,7 +98,7 @@
 
 .user-menu {
   background-color: #fff;
-  position: fixed;
+  position: absolute;
   top: 73px;
   right: 20px;
   max-width: 175px;
