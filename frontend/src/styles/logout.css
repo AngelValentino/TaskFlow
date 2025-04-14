@@ -2,6 +2,10 @@ body.logout-view {
   background-color: #fff !important;
 }
 
+main.logout-view {
+ padding: 40px 30px;
+}
+
 .logout-message {
   padding: 10px;
   border-radius: 3px;

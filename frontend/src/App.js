@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Login
     const authFormHandler = new AuthFormHandler;
-    const userModel = new UserModel(router);
+    const userModel = new UserModel(router, auth);
     const loginView = new LoginView(authFormHandler);
     new LoginController(router, auth, userModel, loginView, utils);
   });
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('logout-view');
     document.body.classList.add('auth-view');
 
-    const userModel = new UserModel(router);
+    const userModel = new UserModel(router, auth);
     const logoutView = new LogoutView;
     new LogoutController(router, auth, userModel, logoutView);
   });

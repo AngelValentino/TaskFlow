@@ -21,8 +21,6 @@ export default class TokenHandler {
     // Mark that the refresh process is running
     this.isRefreshingToken = true;
 
-    console.log('POST' + this.baseEndpointUrl)
-
     const response = await fetch(this.baseEndpointUrl, {
       method: 'POST',
       headers: {
@@ -37,15 +35,19 @@ export default class TokenHandler {
 
     // Rate limited
     if (response.status === 429) {
-      throw new Error(`Oops! Error ${response.status}: Rate limit exceeded. Please try again in a few minutes.`);
+      const error = new Error(`Oops! Error ${response.status}: Rate limit exceeded. Please try again in a few minutes.`);
+      this.processTokenQueue(error);
+      throw error;
     }
 
     if (!response.ok) {
       // Logout user
-      const errorMessage = await this.userModel.handleUserLogout(false);
+      const logoutResult = await this.userModel.handleUserLogout(false);
+      const errorMessage = logoutResult.success 
+        ? `Oops! Failed to refresh session. Please try again later, refresh the page or clear browser history.`
+        : logoutResult.message;
+      
       const error = new Error(errorMessage);
-      console.log(error);
-      // Reject queued promises and return
       this.processTokenQueue(error);
       throw error;
     }
