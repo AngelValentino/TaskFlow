@@ -6,7 +6,7 @@ export default class TimerModel {
     this.time = this.workTime;
     this.pomodoroTimerView = pomodoroTimerView;
 
-    this.alarmClock = new Audio('assets/audios/alarm-clock.mp3');
+    this.alarmClock = new Audio('assets/audios/wood-plank-flicks.mp3');
     this.alarmClockTicking = new Audio('assets/audios/alarm-clock-ticking.mp3');
     // Set preload attribute to auto, preload when the browser sees fit
     this.alarmClock.preload = 'auto';
@@ -63,7 +63,7 @@ export default class TimerModel {
   }
 
   startTickingAtCountdown() {
-    if (this.time <= 10) {
+    if (this.time <= 5) {
       this.startTickingSound();
     }
   }
@@ -134,7 +134,7 @@ export default class TimerModel {
       if (restartLoop) {
         this.startTimer();
       };
-    }, 2600);
+    }, 620);
   }
 
   startTimer() {

@@ -49,7 +49,7 @@
 }
 
 .pomodoro-timer__clock.active {
-  animation: flash .1s infinite alternate ease-in-out;
+  animation: flash 0.1s infinite alternate ease-in-out;
 }
 
 .pomodoro-timer__btn {
