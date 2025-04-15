@@ -19,7 +19,9 @@ export default class LoginPage {
         <div class="auth-view-container">
           <h1 class="auth-view-title">TaskFlow Account</h1>
           ${loginUserForm}
-          <a class="login-view__recover-password-link" href="/recover-password" data-link>Forgot your password?</a>
+          <div class="login-view-recover-passowrd-link-container">
+            <a class="login-view-recover-password-link slide-in-and-out fixed-height" href="/recover-password" data-link>Forgot your password?</a>
+          </div>
           ${authRedirect}
         </div>
       </main>

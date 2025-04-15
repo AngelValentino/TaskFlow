@@ -156,7 +156,10 @@ export default class TaskModel {
     // Rate limited
     if (response.status === 429) {
       const error = await response.json();
-      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+      const message = errorMessage === ''
+        ? `Oops! Error ${response.status}`
+        : `Oops! Error ${response.status}: ${error.message}`;
+      throw new Error(message);
     }
 
     // Checks if token has expired (401)

@@ -1,18 +1,17 @@
-.login-view__recover-password-link {
-  display: block;
+.login-view-recover-passowrd-link-container {
+  border-bottom: 2px solid #dfdfdf;
+  padding-bottom: 40px;
   text-align: center;
   margin-top: 30px;
   color: rgb(99, 102, 240);
-  border-bottom: 2px solid #dfdfdf;
-  padding-bottom: 40px;
   font-size: 0.95rem;
 }
 
-.login-view__recover-password-link:hover {
-  text-decoration: underline;
+.login-view-recover-password-link {
+  display: inline-block;
 }
 
-.login-view__recover-password-link::before {
+.login-view-recover-password-link::before {
   content: "➜ ";
   color: #4B4B4B;
 }

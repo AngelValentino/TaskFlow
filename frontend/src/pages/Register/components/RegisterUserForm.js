@@ -34,7 +34,7 @@ export default class RegisterUserForm {
         <div class="register-form__terms-and-conditions">
           <input required name="terms" id="register-form__terms-and-conditions-checkbox" type="checkbox"></input>
           <label for="register-form__terms-and-conditions-checkbox">
-            I acknowledge and accept the terms and conditions of the TaskFlow Account Agreement and agree to the privacy policy. I understand that creating an account constitutes acceptance of these terms.
+            I acknowledge and accept the terms and conditions of the <a class="register-form__terms-and-conditions-link slide-in-and-out underline no-wrap fixed-height" href="assets/documents/taskflow-terms-and-conditions.pdf" download>TaskFlow Account Agreement</a> and agree to the <a class="register-form__terms-and-conditions-link slide-in-and-out underline no-wrap fixed-height" href="assets/documents/taskflow-terms-and-conditions.pdf" download>privacy policy</a>. I understand that creating an account constitutes acceptance of these terms.
           </label>
         </div>
         <p id="register-form__general-error" class="register-form__general-error"></p>

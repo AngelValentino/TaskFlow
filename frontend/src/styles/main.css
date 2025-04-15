@@ -53,35 +53,12 @@ main {
   padding: 80px 30px 50px;
 }
 
-/* body {
-  background-color: var(--light-accent-color);
-  position: relative;
-  transition: background-color 0.5s;
-} */
-
 body {
   font-family: sans-serif;
   margin: 0 auto;
   min-width: 360px;
   color: var(--base-text-color);
 }
-
-/* main {
-  min-height: 100vh;
-  padding: 80px 30px 50px;
-  z-index: 1;
-  position: relative;
-  height: 100%;
-} */
-
-/* .background-image {
-  transition: opacity 1s;
-  position: absolute;
-  background-repeat: no-repeat;
-  background-size: cover;
-  inset: 0;
-  opacity: 0;
-} */
 
 /* LOADERS */
 
@@ -257,6 +234,75 @@ body {
 
 /* END OF LOADERS */
 
+/* CUSTOM UNDERLINES */
+
+.no-wrap {
+  white-space: nowrap
+}
+
+.slide-in-and-out,
+.slide-in-and-back,
+.slide-middle-out {
+  position: relative;
+  z-index: 1;
+}
+
+.slide-in-and-out::after,
+.slide-in-and-out.underline::before,
+.slide-in-and-back::after,
+.slide-in-and-back.underline::before,
+.slide-middle-out::after,
+.slide-middle-out.underline::before  {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: currentColor;
+  border-radius: 2px;
+  transform: scaleX(0);
+}
+
+/* Makes sure the underline does not become too thin at small font sizes */
+.slide-in-and-out.fixed-height::after,
+.slide-in-and-out.underline.fixed-height::before,
+.slide-in-and-back.fixed-height::after,
+.slide-in-and-back.underline.fixed-height::before,
+.slide-middle-out.fixed-height::after,
+.slide-middle-out.underline.fixed-height::before {
+  height: 2px;
+}
+
+.slide-in-and-out::after,
+.slide-in-and-back::after,
+.slide-middle-out::after,
+.appear-bg-from-center::after {
+  transition: transform 0.3s, opacity 0.5s, background-color var(--base-transition-duration);
+  will-change: transform;
+}
+
+.slide-in-and-out::after {
+  transform-origin: right;
+}
+
+.slide-in-and-back::after {
+  transform-origin: left;
+}
+
+.slide-middle-out::after {
+  transform-origin: center;
+}
+
+.slide-in-and-out.underline::before,
+.slide-in-and-back.underline::before,
+.slide-middle-out.underline::before {
+  transform: scaleX(1);
+  opacity: 0.3;
+}
+
+/* END OF CUSTOM UNDERLINES */
+
 /* UI COMPONENTS */
 
 .appear-bg-from-center,
@@ -368,6 +414,16 @@ body {
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) {
+  .slide-in-and-out:is(:hover, :focus-visible)::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .slide-in-and-back:is(:hover, :focus-visible)::after,
+  .slide-middle-out:is(:hover, :focus-visible)::after {
+    transform: scaleX(1);
+  }
+
   .appear-bg-from-center:not(.active):is(:hover, :focus-visible)::after {
     transform: scale(1);
     opacity: 1;

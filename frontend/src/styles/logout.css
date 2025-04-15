@@ -28,21 +28,6 @@ main.logout-view {
   display: block;
 }
 
-.return-home-link {
-  text-decoration: underline;
-  transition: opacity var(--base-transition-duration);
-}
-
-/* HOVER CAPABLE DEVICES */
-
-@media screen and (pointer: fine) and (hover: hover) { 
-  .return-home-link:is(:hover, :focus-visible) {
-    opacity: 0.75;
-  }
-}
-
-/* END OF HOVER CAPABLE DEVICES */
-
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 550px) {

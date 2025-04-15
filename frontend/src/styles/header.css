@@ -1,16 +1,17 @@
-.return-home-link-container {
+.header-return-home-link-container {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.return-home-link {
+.header-return-home-link {
   line-height: 0;
   border-radius: 50%;
-  display: inline-block
+  display: inline-block;
+  transition: opacity var(--base-transition-duration);
 }
 
-.return-home-svg {
+.header-return-home-svg {
   width: 1.65rem;
   line-height: 0;
   color: var(--dark-accent-color);
@@ -157,6 +158,10 @@
   .user-menu__link:is(:hover, :focus-visible) {
     background-color: rgba(0, 0, 0, 0.07);
     outline: none;
+  }
+  
+  .header-return-home-link:is(:hover, :focus-visible) {
+    opacity: 0.75;
   }
 }
 

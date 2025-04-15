@@ -92,6 +92,10 @@ main.register-view {
   transform: scale(1.4);
 }
 
+.register-form__terms-and-conditions-link {
+  color: var(--dark-accent-color);
+}
+
 .register-form__submit-btn-container {
   text-align: center;
 }
