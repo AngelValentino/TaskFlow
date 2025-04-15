@@ -17,7 +17,7 @@ export default class LoginController {
   }
 
   init() {
-    this.lms.loginFormLm.addEventListener('submit', this.loginUser.bind(this));
+    this.lms.formLm.addEventListener('submit', this.loginUser.bind(this));
     this.addValidationEventsOnInputChange();
   }
 

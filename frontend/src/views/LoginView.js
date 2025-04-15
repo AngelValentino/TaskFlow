@@ -2,11 +2,11 @@ export default class LoginView {
   constructor(authFormHandler) {
     this.authFormHandler = authFormHandler;
     this.lms = {
-      loginFormLm: document.getElementById('login-form'),
-      loginErrorLm: document.getElementById('login-form__error'),
+      formLm: document.getElementById('login-form'),
+      formErrorLm: document.getElementById('login-form__error'),
       submitBtn: document.getElementById('login-form__submit-btn')
     };
-    this.lms.loginFormInputLms = this.lms.loginFormLm.querySelectorAll('input');
+    this.lms.loginFormInputLms = this.lms.formLm.querySelectorAll('input');
   }
 
   getDomRefs() {
@@ -14,7 +14,7 @@ export default class LoginView {
   }
 
   updateErrorMessage(error) {
-    this.authFormHandler.updateFormMessage(this.lms.loginErrorLm, error);
+    this.authFormHandler.updateFormMessage(this.lms.formErrorLm, error);
   }
 
   toggleSubmitBtn(errors) {

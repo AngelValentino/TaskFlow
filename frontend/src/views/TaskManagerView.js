@@ -1,5 +1,5 @@
 import Task from '../pages/dashboard/components/Task.js' ;
-import TaskCompleted from '../pages/dashboard/components/CompletedTask.js';
+import CompletedTask from '../pages/dashboard/components/CompletedTask.js';
 import TaskListPlaceholder from '../pages/dashboard/components/TaskListPlaceholder.js';
 import TaskListLoader from '../pages/dashboard/components/TaskListLoader.js';
 import TaskListError from '../pages/dashboard/components/TaskListError.js';
@@ -32,15 +32,15 @@ export default class TaskManagerView {
       searchTaskDefaultIcon: document.getElementById('task-manager__search-svg'),
       searchTaskCloseIcon: document.getElementById('task-manager__search-prompt-close-btn'),
       clearAllTasksBtn: document.getElementById('task-manager__dashboard-clear-btn'),
-      tasksContainerLm: document.getElementById('task-manager__tasks-list'),
-      taskManagerTaskCountLm: document.getElementById('task-manager__dashboard-tasks-count'),
-      taskManagerTaskCountErrorLm: document.getElementById('task-manager__dashboard-tasks-count-error'),
+      taskListLm: document.getElementById('task-manager__task-list'),
+      taskCountLm: document.getElementById('task-manager__dashboard-tasks-count'),
+      taskCountErrorLm: document.getElementById('task-manager__dashboard-tasks-count-error'),
       currentDateLm: document.getElementById('task-manager__dashboard-date'),
-      taskManagerSectionHeader: document.getElementById('task-manager__tabs-nav'),
-      taskManagerTabLms: document.querySelectorAll('.task-manager__tab-btn').length
+      sectionHeader: document.getElementById('task-manager__tabs-nav'),
+      sectionHeaderTabLms: document.querySelectorAll('.task-manager__tab-btn').length
         ? document.querySelectorAll('.task-manager__tab-btn')
         : document.querySelectorAll('.enhanced-task-manager__tab-btn'),    
-      taskManagerTabListLm: document.getElementById('task-manager__tab-list'),
+      tabListLm: document.getElementById('task-manager__tab-list'),
       scrollToTopBtn: document.getElementById('task-manger__scroll-to-top-btn')
     };
   }
@@ -56,7 +56,7 @@ export default class TaskManagerView {
     if (!prefersReducedMotion) behavior = 'auto';
     // Scroll to the top of the container
     if (this.isEnhancedTaskView) {
-      this.lms.tasksContainerLm.scrollTo({top: 0, behavior: behavior});
+      this.lms.taskListLm.scrollTo({top: 0, behavior: behavior});
     } 
     else {
       this.lms.taskManagerLm.scrollTo({top: 0, behavior: behavior});
@@ -65,7 +65,7 @@ export default class TaskManagerView {
 
   isSectionHeaderSticky() {
     // Get the sticky element's bounding rect relative to the viewport
-    const stickyRect = this.lms.taskManagerSectionHeader.getBoundingClientRect();
+    const stickyRect = this.lms.sectionHeader.getBoundingClientRect();
     // Get the container's bounding rect
     const containerRect = this.lms.taskManagerLm.getBoundingClientRect();
     // Calculate the top offset of the sticky element relative to the container
@@ -311,16 +311,16 @@ export default class TaskManagerView {
   }
 
   renderTasksListLoader() {
-    this.lms.tasksContainerLm.innerHTML = TaskListLoader.getHtml();
+    this.lms.taskListLm.innerHTML = TaskListLoader.getHtml();
   }
 
   renderTasksListError(error) {
-    this.lms.tasksContainerLm.innerHTML = TaskListError.getHtml(error);
+    this.lms.taskListLm.innerHTML = TaskListError.getHtml(error);
   }
 
   renderTasks(taskData, isEnhancedTaskManager) {
     if (taskData.length === 0) {
-      this.lms.tasksContainerLm.innerHTML = this.getCurrentSearchValue() 
+      this.lms.taskListLm.innerHTML = this.getCurrentSearchValue() 
         ? TaskListPlaceholder.getHtml({ search: true, enhacedTaskView: isEnhancedTaskManager }) 
         : TaskListPlaceholder.getHtml({ enhacedTaskView: isEnhancedTaskManager })
 
@@ -340,19 +340,19 @@ export default class TaskManagerView {
       return new Date(a.due_date) - new Date(b.due_date);
     });
 
-    this.lms.tasksContainerLm.innerHTML = sortedTasks
+    this.lms.taskListLm.innerHTML = sortedTasks
       .map(task => task.is_completed 
-        ? TaskCompleted.getHtml(task, this.getCurrentSearchValue()) 
+        ? CompletedTask.getHtml(task, this.getCurrentSearchValue()) 
         : Task.getHtml(task, this.getCurrentSearchValue()))
       .join('');
   }
 
   updateTaskCount(text) {
     if (text === 'loader') {
-      this.lms.taskManagerTaskCountLm.innerHTML = this.smallCircleLoader;
+      this.lms.taskCountLm.innerHTML = this.smallCircleLoader;
     }
     else {
-      this.lms.taskManagerTaskCountLm.innerText = text;
+      this.lms.taskCountLm.innerText = text;
     }
   }
 
@@ -369,13 +369,13 @@ export default class TaskManagerView {
   }
 
   renderTaskCountError(message) {
-    this.lms.taskManagerTaskCountErrorLm.innerText = message;
-    this.lms.taskManagerTaskCountErrorLm.classList.add('active');
+    this.lms.taskCountErrorLm.innerText = message;
+    this.lms.taskCountErrorLm.classList.add('active');
   }
 
   clearTaskCountError() {
-    this.lms.taskManagerTaskCountErrorLm.innerText = '';
-    this.lms.taskManagerTaskCountErrorLm.classList.remove('active');
+    this.lms.taskCountErrorLm.innerText = '';
+    this.lms.taskCountErrorLm.classList.remove('active');
   }
 
   setActiveTab(tab) {
@@ -392,8 +392,8 @@ export default class TaskManagerView {
   }
 
   toggleActiveTab(currentTab, tabId) {
-    console.log(this.lms.taskManagerTabLms)
-    this.lms.taskManagerTabLms.forEach(tab => {
+    console.log(this.lms.sectionHeaderTabLms)
+    this.lms.sectionHeaderTabLms.forEach(tab => {
       if (tabId) {
         if (tab.id === tabId) {
           this.setActiveTab(tab);

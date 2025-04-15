@@ -1,6 +1,7 @@
 import Header from "../../layouts/Header.js";
 import RegisterUserForm from "./components/RegisterUserForm.js";
 import AuthRedirect from "../../components/AuthRedirect.js";
+import '../../styles/register.css';
 
 export default class RegisterPage {
   static getHtml() {

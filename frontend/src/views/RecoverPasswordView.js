@@ -2,10 +2,10 @@ export default class RecoverPasswordView {
   constructor(authFormHandler) {
     this.authFormHandler = authFormHandler;
     this.lms = {
-      recoverPasswordFormLm: document.getElementById('recover-password-form'),
+      formLm: document.getElementById('recover-password-form'),
       emailInputLm: document.getElementById('recover-password-form__email-input'),
-      recoverPasswordErrorLm: document.getElementById('recover-password-form__error'),
-      recoverPasswordMessageLm: document.getElementById('recover-password-form__message'),
+      formErrorLm: document.getElementById('recover-password-form__error'),
+      formMessageLm: document.getElementById('recover-password-form__message'),
       submitBtn: document.getElementById('recover-password-form__submit-btn')
     };
   }
@@ -19,11 +19,11 @@ export default class RecoverPasswordView {
   }
 
   updateErrorMessage(error) {
-    this.authFormHandler.updateFormMessage(this.lms.recoverPasswordErrorLm, error);
+    this.authFormHandler.updateFormMessage(this.lms.formErrorLm, error);
   }
 
   updateMessage(message) {
-    this.authFormHandler.updateFormMessage(this.lms.recoverPasswordMessageLm, message);
+    this.authFormHandler.updateFormMessage(this.lms.formMessageLm, message);
   }
 
   toggleSubmitBtn(errors) {

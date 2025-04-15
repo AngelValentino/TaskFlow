@@ -1,14 +1,5 @@
 body.auth-view {
   background-color: #f2f2f2;
-  transition: none;
-}
-
-body.auth-view .background-image {
-  display: none;
-}
-
-body.auth-view main {
-  position: static;
 }
 
 main.auth-view {

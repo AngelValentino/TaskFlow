@@ -1,4 +1,5 @@
 import Auth from "../services/Auth.js";
+import '../styles/header.css';
 
 export default class Header {
   static auth = new Auth;
@@ -20,7 +21,7 @@ export default class Header {
               ${taskCount 
                 ? `
                   <div>
-                    <p aria-live="polite" class="enhanced-task-manager__task-count" id="task-manager__dashboard-tasks-count">4 tasks left</p>
+                    <p aria-live="polite" class="enhanced-task-manager__task-count" id="task-manager__dashboard-tasks-count">-</p>
                     <p id="task-manager__dashboard-tasks-count-error" class="enhanced-task-manager__task-count-error"></p>
                   </div>
                 ` 

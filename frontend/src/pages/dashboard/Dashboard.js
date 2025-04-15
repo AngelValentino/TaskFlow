@@ -2,6 +2,7 @@ import Header from "../../layouts/Header.js";
 import PomodoroTimer from "./components/PomodoroTimer.js";
 import QuoteMachine from "./components/QuoteMachine.js";
 import TaskManager from "./components/TaskManager.js";
+import '../../styles/dashboard.css';
 
 export default class DashboardPage {
   static getHtml() {

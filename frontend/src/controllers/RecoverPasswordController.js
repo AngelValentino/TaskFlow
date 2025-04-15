@@ -12,7 +12,7 @@ export default class RecoverPasswordController {
 
   init() {
     this.lms.emailInputLm.addEventListener('input', this.handleValidation.bind(this));
-    this.lms.recoverPasswordFormLm.addEventListener('submit', this.sendRecoverPasswordEmail.bind(this));
+    this.lms.formLm.addEventListener('submit', this.sendRecoverPasswordEmail.bind(this));
   }
 
   getEmailValidationError(email) {

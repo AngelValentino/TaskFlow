@@ -36,8 +36,8 @@ export default class TaskManagerController {
     this.lms.searchTaskBtn.addEventListener('click', this.toggleSearchTaskPrompt.bind(this));
     this.lms.searchTaskCloseIcon.addEventListener('click', this.taskManagerView.resetSearchTaskInput.bind(this.taskManagerView, true));
     this.lms.clearAllTasksBtn.addEventListener('click', this.handleClearAllTasks.bind(this));
-    this.lms.tasksContainerLm.addEventListener('click', this.handleTaskAction.bind(this));
-    this.lms.taskManagerTabListLm.addEventListener('click', this.handleSwitchTab.bind(this));
+    this.lms.taskListLm.addEventListener('click', this.handleTaskAction.bind(this));
+    this.lms.tabListLm.addEventListener('click', this.handleSwitchTab.bind(this));
     this.lms.scrollToTopBtn.addEventListener('click', this.handleScrollToTop.bind(this));
   }
 

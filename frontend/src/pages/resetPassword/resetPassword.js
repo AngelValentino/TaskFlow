@@ -1,7 +1,6 @@
 import ResetPasswordForm from "./components/ResetPasswordForm.js";
 import AuthRedirect from '../../components/AuthRedirect.js';
 
-
 export default class ResetPasswordPage {
   static getHtml() {
     const resetPasswordForm = ResetPasswordForm.getHtml();

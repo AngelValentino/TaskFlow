@@ -1,19 +1,3 @@
-import './styles/main.css';
-import './styles/modal.css';
-import './styles/prompt.css';
-import './styles/timer.css';
-import './styles/quote.css';
-import './styles/taskManager.css';
-import './styles/header.css';
-import './styles/dashboard.css';
-import './styles/register.css';
-import './styles/login.css';
-import './styles/reset.css';
-import './styles/logout.css';
-import './styles/notFound.css';
-import './styles/enhancedTaskView.css';
-import './styles/auth.css';
-
 import DashboardPage from "./pages/dashboard/Dashboard.js";
 import RegisterPage from "./pages/register/Register.js";
 import LoginPage from "./pages/login/Login.js";
@@ -57,6 +41,11 @@ import ResetPasswordController from './controllers/ResetPasswordController.js';
 import ResetPasswordModel from './models/ResetPasswordModel.js';
 import AuthFormHandler from './services/AuthFormHandler.js';
 
+import './styles/main.css';
+import './styles/modal.css';
+import './styles/reset.css';
+import './styles/auth.css';
+
 document.addEventListener('DOMContentLoaded', () => {
   const modalHandler = new ModalHandler;
   const router = new Router(modalHandler);
@@ -76,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
+    document.body.classList.add('theme-changer');
 
     // User menu
     const userMenuModel = new UserMenuModel;
@@ -107,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/tasks', () => {
     appLm.innerHTML = EnhancedTaskView.getHtml();
+    document.body.classList.add('theme-changer');
 
     // User menu
     const userMenuModel = new UserMenuModel;
@@ -173,8 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/recover-password', () => {
-    document.body.classList.add('auth-view');
     appLm.innerHTML = RecoverPage.getHtml();
+    document.body.classList.add('auth-view');
     
     const authFormHandler = new AuthFormHandler;
     const recoverPasswordModel = new RecoverPasswordModel(router);
@@ -184,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/reset-password', () => {
-    document.body.classList.add('auth-view');
     appLm.innerHTML = ResetPasswordPage.getHtml();
+    document.body.classList.add('auth-view');
 
     const authFormHandler = new AuthFormHandler;
     const resetPasswordModel = new ResetPasswordModel(router);
@@ -196,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('*', () => {
     appLm.innerHTML = NotFoundPage.getHtml();
+    document.body.classList.add('theme-changer');
   });
 
   // Dispatch to the correct route

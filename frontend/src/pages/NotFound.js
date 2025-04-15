@@ -1,3 +1,5 @@
+import '../styles/notFound.css';
+
 export default class NotFound {
   static getHtml() {
     return `

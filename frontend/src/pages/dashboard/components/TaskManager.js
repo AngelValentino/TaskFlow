@@ -2,6 +2,8 @@ import TaskManagerTabs from "./TaskManagerTabs.js";
 import AddTaskPrompt from "./AddTaskPrompt.js";
 import SearchTaskPrompt from "./SearchTaskPrompt.js";
 import TaskManagerDashboard from "./TaskManagerDashboard.js";
+import '../../../styles/taskManager.css';
+import '../../../styles/taskManagerPrompt.css';
 
 export default class TaskManager {
   static getHtml() {
@@ -26,8 +28,8 @@ export default class TaskManager {
             </svg>
           </button>
         </nav>
-        <div role="tabpanel" id="task-manager__tasks-list-container" class="task-manager__tasks-list-container">
-          <ul aria-live="polite"  aria-atomic="false" aria-label="Tasks list." id="task-manager__tasks-list" class="task-manager__tasks-list">
+        <div role="tabpanel" id="task-manager__task-list-container" class="task-manager__task-list-container">
+          <ul aria-live="polite"  aria-atomic="false" aria-label="Tasks list." id="task-manager__task-list" class="task-manager__task-list">
           </ul>
         </div>
       </article>

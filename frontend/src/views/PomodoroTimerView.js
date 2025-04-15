@@ -16,7 +16,6 @@ export default class PomodoroTimerView {
     return this.lms;
   }
 
-
   setSessionButtonActive(sessionType) {
     const isLongSession = sessionType === 'long';
   

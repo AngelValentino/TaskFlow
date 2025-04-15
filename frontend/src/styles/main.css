@@ -27,11 +27,37 @@ body {
   white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 }
 
-body {
+body.theme-changer {
   background-color: var(--light-accent-color);
   position: relative;
   transition: background-color 0.5s;
 }
+
+body.theme-changer .background-image {
+  transition: opacity 1s;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: cover;
+  inset: 0;
+  opacity: 0;
+}
+
+body.theme-changer main {
+  z-index: 1;
+  position: relative;
+  height: 100%;
+}
+
+main {
+  min-height: 100vh;
+  padding: 80px 30px 50px;
+}
+
+/* body {
+  background-color: var(--light-accent-color);
+  position: relative;
+  transition: background-color 0.5s;
+} */
 
 body {
   font-family: sans-serif;
@@ -40,22 +66,22 @@ body {
   color: var(--base-text-color);
 }
 
-main {
+/* main {
   min-height: 100vh;
   padding: 80px 30px 50px;
   z-index: 1;
   position: relative;
   height: 100%;
-}
+} */
 
-.background-image {
+/* .background-image {
   transition: opacity 1s;
   position: absolute;
   background-repeat: no-repeat;
   background-size: cover;
   inset: 0;
   opacity: 0;
-}
+} */
 
 /* LOADERS */
 

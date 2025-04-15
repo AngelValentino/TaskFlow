@@ -1,3 +1,5 @@
+import '../../../styles/pomodoroTimer.css'
+
 export default class PomodoroTimer {
   static getHtml() {
     return `

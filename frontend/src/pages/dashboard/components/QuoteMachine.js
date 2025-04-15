@@ -1,3 +1,5 @@
+import '../../../styles/quoteMachine.css';
+
 export default class QuoteMachine {
   static getHtml() {
     return `

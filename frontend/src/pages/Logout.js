@@ -1,3 +1,5 @@
+import '../styles/logout.css';
+
 export default class LogoutPage {
   static getHtml() {
     return `

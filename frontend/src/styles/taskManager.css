@@ -168,12 +168,12 @@
 
 /* TASK LIST */
 
-.task-manager__tasks-list-container {
+.task-manager__task-list-container {
   margin-top: 25px;
   flex: 1;
 }
 
-.task-manager__tasks-list {
+.task-manager__task-list {
   height: 100%;
   display: flex;
   flex-flow: column;

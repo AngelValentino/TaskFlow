@@ -1,6 +1,7 @@
 import Header from "../../layouts/Header.js";
 import LoginUserForm from "./components/LoginUserForm.js";
 import AuthRedirect from "../../components/AuthRedirect.js";
+import '../../styles/login.css';
 
 export default class LoginPage {
   static getHtml() {
