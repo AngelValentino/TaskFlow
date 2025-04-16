@@ -42,7 +42,7 @@ export default class TaskManagerController {
   }
 
   handleScrollToTop() {
-    this.taskManagerView.scrollToTop();
+    this.taskManagerView.scrollToTop('smooth', this.isEnhancedTaskManager);
   }
 
   searchTask(e) {
@@ -144,7 +144,7 @@ export default class TaskManagerController {
     let wasFetchAborted = false;
 
     const loadingTimId = this.utils.handleLoading(
-      this.taskManagerView.renderTasksListLoader.bind(this.taskManagerView)
+      this.taskManagerView.renderTasksListLoader.bind(this.taskManagerView, this.isEnhancedTaskManager)
     );
 
     this.taskModel.handleGetAllTasks(
@@ -502,7 +502,7 @@ export default class TaskManagerController {
         return;
       }
 
-      this.taskManagerView.scrollToTop('auto');
+      this.taskManagerView.scrollToTop('auto', this.isEnhancedTaskManager);
       this.taskManagerView.toggleActiveTab(clickedTab);
       this.getAllTasks();
     }

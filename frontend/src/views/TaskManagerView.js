@@ -6,14 +6,13 @@ import TaskListError from '../pages/dashboard/components/TaskListError.js';
 import LoadingCircle from '../components/LoadingCircle.js';
 
 export default class TaskManagerView {
-  constructor(modalHandler, modalView, utils, loadHandler, isEnhancedTaskView = false) {
+  constructor(modalHandler, modalView, utils, loadHandler) {
     this.modalHandler = modalHandler;
     this.modalView = modalView;
     this.utils = utils;
     this.loadHandler = loadHandler;
     this.timIds = {};
     this.controllerMethods = {};
-    this.isEnhancedTaskView = isEnhancedTaskView;
     this.smallCircleLoader = LoadingCircle.getHtml('small');
     this.lms = {
       taskManagerLm: document.getElementById('task-manager'),
@@ -49,13 +48,13 @@ export default class TaskManagerView {
     return this.lms;
   }
 
-  scrollToTop(behavior = 'smooth') {
+  scrollToTop(behavior = 'smooth', isEnhancedTaskManager) {
     // Check if the user prefers reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
     // If client prefers reduced motion set scroll behaviour to auto
     if (!prefersReducedMotion) behavior = 'auto';
     // Scroll to the top of the container
-    if (this.isEnhancedTaskView) {
+    if (isEnhancedTaskManager) {
       this.lms.taskListLm.scrollTo({top: 0, behavior: behavior});
     } 
     else {
@@ -310,8 +309,8 @@ export default class TaskManagerView {
     this.lms.currentDateLm.setAttribute('datetime', this.utils.formatDate(currentDate).isoFormat);
   }
 
-  renderTasksListLoader() {
-    this.lms.taskListLm.innerHTML = TaskListLoader.getHtml();
+  renderTasksListLoader(isEnhancedTaskManager) {
+    this.lms.taskListLm.innerHTML = TaskListLoader.getHtml({ isEnhacedTaskView: isEnhancedTaskManager });
   }
 
   renderTasksListError(error) {
@@ -321,8 +320,8 @@ export default class TaskManagerView {
   renderTasks(taskData, isEnhancedTaskManager) {
     if (taskData.length === 0) {
       this.lms.taskListLm.innerHTML = this.getCurrentSearchValue() 
-        ? TaskListPlaceholder.getHtml({ search: true, enhacedTaskView: isEnhancedTaskManager }) 
-        : TaskListPlaceholder.getHtml({ enhacedTaskView: isEnhancedTaskManager })
+        ? TaskListPlaceholder.getHtml({ search: true, isEnhacedTaskView: isEnhancedTaskManager }) 
+        : TaskListPlaceholder.getHtml({ isEnhacedTaskView: isEnhancedTaskManager })
 
       this.loadHandler.blurLoadImages();
       return;
