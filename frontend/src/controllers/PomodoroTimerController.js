@@ -7,10 +7,16 @@ export default class PomodoroTimerController {
   }
 
   init() {
+    this.setTimerSession(localStorage.getItem('pomodoroTimerSession') || 'short', true);
     this.pomodoroTimerView.updateTimerDisplay(this.timerModel.getTimerSeconds());
     this.lms.actionBtn.addEventListener('click', this.toggleTimer.bind(this));
     this.lms.resetBtn.addEventListener('click', this.handleRestartTimer.bind(this));
     this.lms.timerOptionsLm.addEventListener('click', this.switchTimerSession.bind(this));
+  }
+
+  setTimerSession(session, ignoreNotice) {
+    session === 'long' ? this.pomodoroTimerView.setLongSessionBtnActive() : this.pomodoroTimerView.setShortSessionBtnActive();
+    this.timerModel.restartTimer(false, session, ignoreNotice);
   }
 
   switchTimerSession(e) {    
@@ -18,7 +24,7 @@ export default class PomodoroTimerController {
       this.timerModel.isResetAnimationActive() || 
       this.taskManagerView.isAddTaskFormEdited()
     ) {
-      console.log('reset animation is ACTIVE or add task form is filled')
+      // reset animation is ACTIVE or add task form inputs have been filled'
       return;
     }
 
@@ -31,12 +37,10 @@ export default class PomodoroTimerController {
 
     if (!isActive) {
       if (isLongSessionBtn) {
-        this.pomodoroTimerView.setLongSessionBtnActive();
-        this.timerModel.restartTimer(false, 'long');
+        this.setTimerSession('long');
       } 
       else if (isShortSessionBtn) {
-        this.pomodoroTimerView.setShortSessionBtnActive();
-        this.timerModel.restartTimer(false, 'short');
+        this.setTimerSession('short');
       }
     } 
   }

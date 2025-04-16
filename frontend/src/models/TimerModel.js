@@ -75,11 +75,9 @@ export default class TimerModel {
     this.pomodoroTimerView.updateActionBtn(this.interval);
   }
 
-  setTimer(time) {
-    this.isResetAnimation = true;
+  setTimer(time, ignoreNotice = false) {
     this.time = time;
-    this.pomodoroTimerView.startAlarmNotice();
-    this.startAlarmSound();
+    this.startTimerNotice(ignoreNotice);
     this.pomodoroTimerView.updateTimerDisplay(time);
     this.pomodoroTimerView.updateBtnsCursor(this.isResetAnimation);
   }
@@ -87,14 +85,28 @@ export default class TimerModel {
   setLongSession() {
     this.workTime = 45 * 60;
     this.restTime = 10 * 60;
+    localStorage.setItem('pomodoroTimerSession', 'long');
   }
 
   setShortSession() {
     this.workTime = 25 * 60;
     this.restTime = 5 * 60;
+    localStorage.setItem('pomodoroTimerSession', 'short');
   }
 
-  restartTimer(restartLoop = true, sessionType = null) {
+  startTimerNotice(ignoreNotice) {
+    !ignoreNotice && (this.isResetAnimation = true);
+    !ignoreNotice && this.pomodoroTimerView.startAlarmNotice();
+    !ignoreNotice && this.startAlarmSound();
+  }
+
+  stopTimerNotice() {
+    this.isResetAnimation = false;
+    this.stopAlarmSound();
+    this.pomodoroTimerView.stopAlarmNotice();
+  }
+
+  restartTimer(restartLoop = true, sessionType = null, ignoreNotice) {
     clearTimeout(this.resetAnimationTimId);
 
     if (restartLoop) {
@@ -123,18 +135,17 @@ export default class TimerModel {
         }
       }
 
-      this.setTimer(this.workTime);
+      this.setTimer(this.workTime, ignoreNotice);
     }
 
+    // Stop/restart timer session and stop notice
     this.resetAnimationTimId = setTimeout(() => {
-      this.isResetAnimation = false;
-      this.stopAlarmSound();
-      this.pomodoroTimerView.stopAlarmNotice();
+      this.stopTimerNotice();
       this.pomodoroTimerView.updateBtnsCursor();
       if (restartLoop) {
         this.startTimer();
       };
-    }, 620);
+    }, ignoreNotice ? 0 : 620);
   }
 
   startTimer() {
