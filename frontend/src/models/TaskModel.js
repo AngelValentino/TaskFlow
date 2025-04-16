@@ -1,8 +1,9 @@
 export default class TaskModel {
-  constructor(router, auth, tokenHandler) {
+  constructor(router, auth, tokenHandler, utils) {
     this.router = router;
     this.auth = auth;
     this.tokenHandler = tokenHandler;
+    this.utils = utils;
     this.baseEndpointUrl = 'http://taskflow-api.com/tasks';
     this.customErrorHandlers = {
       422: async (response) => {
@@ -19,7 +20,6 @@ export default class TaskModel {
     taskData.id = Date.now();
     taskData.is_completed = false;
     taskData.completed_at = null;
-    console.log(taskData)
     tasks.push(taskData);
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
@@ -136,8 +136,6 @@ export default class TaskModel {
   }
 
   async fetchRequest(apiUrl, options) {
-    console.log(options.method + apiUrl);
-    const requestKey = options.method + apiUrl;
     const methodsWithBody = ['POST', 'PUT', 'PATCH'];
 
     return await fetch(apiUrl, {
@@ -146,7 +144,7 @@ export default class TaskModel {
         ...(methodsWithBody.includes(options.method) ? { 'Content-Type': 'application/json' } : {}),
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
       },
-      signal: this.router.getAbortSignal(requestKey)
+      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey(options.method, apiUrl))
     });
   }
 

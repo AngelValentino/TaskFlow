@@ -84,7 +84,6 @@ export default class TaskManagerController {
     }
 
     if (this.activeRequests.submitTask) {
-      console.warn('submit request active');
       this.taskManagerView.renderGeneralAddTaskPromptError('Your request is being processed. Please wait a moment.');
       return
     }
@@ -105,7 +104,6 @@ export default class TaskManagerController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('aborted submit task fetch due to navigation change')
           return;
         }
 
@@ -118,8 +116,8 @@ export default class TaskManagerController {
           this.taskManagerView.clearAddTaskPromptErrors();
           this.taskManagerView.renderGeneralAddTaskPromptError(error.message);
         }
-
-        console.error(error);
+        
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         this.activeRequests.submitTask = false;
@@ -158,12 +156,11 @@ export default class TaskManagerController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('aborted get all tasks fetch due to navigation change')
           return;
         }
 
         this.taskManagerView.renderTasksListError(error.message);
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);
@@ -193,13 +190,13 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          console.warn('aborted get active task count fetch due to navigation change')
           return;
         }
 
         this.taskManagerView.updateTaskCount('');
         this.taskManagerView.renderTaskCountError(error.message);
-        console.error(error);
+        
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);
@@ -238,12 +235,11 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          console.warn('aborted delete task fetch due to navigation change')
           return;
         }
 
         this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);
@@ -278,12 +274,11 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          console.warn('aborted delete all tasks fetch due to navigation change')
           return;
         }
 
         this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);
@@ -336,12 +331,11 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          console.warn('aborted completed task fetch due to navigation change')
           return;
         }
 
         this.modalView.updateConfirmModalInfoMessage(error.message, false, true);
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);
@@ -366,7 +360,6 @@ export default class TaskManagerController {
     }
 
     if (this.activeRequests.editTask) {
-      console.warn('Active edit fetch request');
       this.modalView.renderGeneralEditTaskFormError('Your request is being processed. Please wait a moment.')
       return;
     }
@@ -386,7 +379,6 @@ export default class TaskManagerController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('aborted edit task fetch due to navigation change')
           return;
         }
 
@@ -400,7 +392,7 @@ export default class TaskManagerController {
           this.modalView.renderGeneralEditTaskFormError(error.message);
         }
 
-        console.error(error.message);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);
@@ -494,11 +486,9 @@ export default class TaskManagerController {
   handleSwitchTab(e) {
     const clickedTab = e.target.closest('.task-manager__tab-btn') || e.target.closest('.enhanced-task-manager__tab-btn');
 
-    console.log(clickedTab)
     if (clickedTab) {
       // User clicked the same tab
       if (clickedTab.id === localStorage.getItem('currentActiveTabId')) {
-        console.log('same')
         return;
       }
 

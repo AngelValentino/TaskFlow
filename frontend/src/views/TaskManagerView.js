@@ -6,11 +6,12 @@ import TaskListError from '../pages/dashboard/components/TaskListError.js';
 import LoadingCircle from '../components/LoadingCircle.js';
 
 export default class TaskManagerView {
-  constructor(modalHandler, modalView, utils, loadHandler) {
+  constructor(modalHandler, modalView, utils, loadHandler, router) {
     this.modalHandler = modalHandler;
     this.modalView = modalView;
     this.utils = utils;
     this.loadHandler = loadHandler;
+    this.router = router;
     this.timIds = {};
     this.controllerMethods = {};
     this.smallCircleLoader = LoadingCircle.getHtml('small');
@@ -108,9 +109,12 @@ export default class TaskManagerView {
       promptLm.classList.add('active');
     }, 20);
 
-    this.timIds.focusFirstPromptLm = setTimeout(() => {
+    const focusFirstPromptLmTimId = setTimeout(() => {
       this.modalHandler.toggleModalFocus('add', firstFocusableLm);
     }, timeout);
+
+    this.router.setActiveTimeout('focusFirsPromptLm', focusFirstPromptLmTimId);
+    this.timIds.focusFirstPromptLm = focusFirstPromptLmTimId;
   }
 
   hidePrompt(promptLm, btnLm, focusFirstPromptLmTimId, hidePromptKey, timeout, returnFocus) {
@@ -122,9 +126,12 @@ export default class TaskManagerView {
     this.toggleActiveBtn(btnLm);
     promptLm.classList.remove('active');
     
-    this.timIds[hidePromptKey] = setTimeout(() => {
+    const hidePromptTimId = setTimeout(() => {
       promptLm.setAttribute('hidden', '');
     }, timeout);    
+
+    this.router.setActiveTimeout('hidePrompt', hidePromptTimId);
+    this.timIds[hidePromptKey] = hidePromptTimId;
   }
 
   openAddTaskPrompt() {
@@ -149,6 +156,9 @@ export default class TaskManagerView {
 
   closeAddTaskPrompt(returnFocus = true) {
     this.clearAddTaskPromptErrors();
+    // In case user closes prompt with a pending fetch request
+    this.router.abortActiveFetch('POST=>http://taskflow-api.com/tasks');
+    this.updateAddTodoPromptSubmitBtn('Add new task');
 
     this.hidePrompt(
       this.lms.addTaskPromptLm,
@@ -391,7 +401,6 @@ export default class TaskManagerView {
   }
 
   toggleActiveTab(currentTab, tabId) {
-    console.log(this.lms.sectionHeaderTabLms)
     this.lms.sectionHeaderTabLms.forEach(tab => {
       if (tabId) {
         if (tab.id === tabId) {

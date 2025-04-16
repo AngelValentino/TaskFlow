@@ -50,12 +50,11 @@ export default class QuoteMachineController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('aborted get all quotes due to navigation change')
           return;
         }
 
         this.quoteMachineView.setQuoteError(error.message);
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);

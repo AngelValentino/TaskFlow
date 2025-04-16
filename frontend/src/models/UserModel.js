@@ -1,7 +1,8 @@
 export default class UserModel {
-  constructor(router, auth) {
+  constructor(router, auth, utils) {
     this.router = router;
     this.auth = auth;
+    this.utils = utils;
   }
 
   async handleUserRegistration(formData) {
@@ -13,7 +14,7 @@ export default class UserModel {
         'Content-Type': 'application/json'
       },
       body: formData,
-      signal: this.router.getAbortSignal('POST' + endpoint)
+      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
     });
 
     // Rate limited
@@ -45,7 +46,7 @@ export default class UserModel {
         'Content-Type': 'application/json'
       },
       body: formData,
-      signal: this.router.getAbortSignal('POST' + endpoint)
+      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
     });
 
     // Rate limited
@@ -95,7 +96,6 @@ export default class UserModel {
     if (response.status === 401) {
       const error = await response.json();
       if (error.message === 'Token has expired.') {
-        console.warn('Expired refresh token.');
         this.auth.logoutClient();
 
         if (!throwErrors) {

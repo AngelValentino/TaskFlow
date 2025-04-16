@@ -25,7 +25,7 @@ export default class UserMenuController {
       this.userMenuView.startProgressBar();
     }, 25000);
 
-    this.router.setActiveInterval(setRandomGreetingMessageTimId);
+    this.router.setActiveInterval('setRandomGreetingMessage', setRandomGreetingMessageTimId);
   }
 
   toggleUserMenu() {

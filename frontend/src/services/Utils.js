@@ -109,8 +109,6 @@ export default class Utils {
 
     // Generate a random index between 0 and array.length - 1
     if (notIndexed) {
-      console.log(array)
-      console.log(array.length)
       // Generate random index between 1 and array.length (inclusive)
       randomIndex = Math.floor(Math.random() * array.length) + 1;
     } 
@@ -120,7 +118,6 @@ export default class Utils {
     }
 
     if (randomIndex === lastIndex) {
-      console.log('recalculating index')
       // Otherwise, recursively call the function until a different index is found
       return this.getNonRepeatingRandomIndex(array, lastIndexKey, notIndexed);
     }
@@ -202,5 +199,29 @@ export default class Utils {
     return setTimeout(() => {
       callback();
     }, 125);
+  }
+
+  removeAllAttributes(htmlString) {
+    const normalizeHtml = html => {
+      return html ? html.replace(/\s+/g, '').trim() : null; // Replace multiple spaces with a single space
+    }
+
+    if (!htmlString) {
+      return null;
+    }
+    
+    htmlString = htmlString.replace(/\s+(?!src\b)([\w-]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/g, '');
+    return normalizeHtml(htmlString);
+  }
+
+  formatErrorMessage(error) {
+    const errorMessage = error?.message || String(error);
+    return /^error[:\s]/i.test(errorMessage)
+      ? errorMessage
+      : 'Error: ' + errorMessage;
+  }
+
+  formatFetchRequestKey(requestMethod, apiUrl) {
+    return requestMethod + '=>' + apiUrl;
   }
 }

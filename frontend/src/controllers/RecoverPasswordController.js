@@ -35,7 +35,6 @@ export default class RecoverPasswordController {
     let wasFetchAborted = false;
 
     if (this.activeRequest) {
-      console.warn('Recover password fetch request active');
       this.recoverPasswordView.updateErrorMessage('Your request is being processed. Please wait a moment.');
       return;
     }
@@ -47,20 +46,19 @@ export default class RecoverPasswordController {
 
     this.recoverPasswordModel.handleSendRecoverPasswordEmail(email)
       .then(data => {
-        console.log(data.message);
         this.recoverPasswordView.updateErrorMessage('');
         this.recoverPasswordView.updateMessage(data.message);
       })
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
-        console.error(error.message);
         this.recoverPasswordView.updateMessage('');
         this.recoverPasswordView.updateErrorMessage(error.message);
+        
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);

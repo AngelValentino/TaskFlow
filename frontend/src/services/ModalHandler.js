@@ -116,7 +116,6 @@ export default class ModalHandler {
 
     if (documentEvents) {
       documentEvents.forEach(eventHandler => {
-        console.log('cleared', eventHandler.type)
         document.body.removeEventListener(eventHandler.type, eventHandler.reference);
       });
 
@@ -168,9 +167,6 @@ export default class ModalHandler {
     if (modalContainerLm === document.body) {
       documentEvents.push({ type: 'click', reference: outsideClickHandler });
     }
-
-    console.log(this.eventsHandler);
-    console.log('event listeners added');
   }
 
   removeModalEvents(eventHandlerKey, modalContainerLm, modalLm, closeLms) {
@@ -192,8 +188,5 @@ export default class ModalHandler {
     modalLm && delete eventsHandler.trapFocusHandler;
     modalContainerLm && delete eventsHandler.outsideClickHandler;
     closeLms && delete eventsHandler.closeHandler;
-
-    console.log(this.eventsHandler);
-    console.log('event listeners removed');
   }
 }

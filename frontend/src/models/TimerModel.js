@@ -106,7 +106,7 @@ export default class TimerModel {
     this.pomodoroTimerView.stopAlarmNotice();
   }
 
-  restartTimer(restartLoop = true, sessionType = null, ignoreNotice) {
+  restartTimer(restartLoop = true, sessionType = null, ignoreNotice = null) {
     clearTimeout(this.resetAnimationTimId);
 
     if (restartLoop) {
@@ -158,18 +158,8 @@ export default class TimerModel {
 
       if (this.time === 0) {
         this.stopTimer();
-
-        if (this.isWork) {
-          console.log('starting rest time');
-          this.restartTimer();
-        } 
-        else if (this.isRest) {
-          console.log('starting work time');
-          this.restartTimer();
-        }
+        this.restartTimer();
       }
-
-      console.log(this.time);
     }, 1000);
 
     this.pomodoroTimerView.updateActionBtn(this.interval);

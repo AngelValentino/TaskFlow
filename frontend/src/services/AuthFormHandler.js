@@ -16,7 +16,6 @@ export default class AuthFormHandler {
         }
 
         if (e.target.name === 'terms') {
-          console.log('terms')
           this.handleAuthFormValidation(e, errors, confirmPasswordInputLm, passwordInputLm, renderErrorMessages, toggleSubmitBtn);
         }
       });
@@ -111,8 +110,6 @@ export default class AuthFormHandler {
       case 'terms':
         errors.terms = this.getTermsValidationError(e.target);
     }
-
-    console.log(errors)
 
     renderErrorMessages(errors);
     toggleSubmitBtn(errors);

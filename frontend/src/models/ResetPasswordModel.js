@@ -1,6 +1,7 @@
 export default class ResetPasswordModel {
-  constructor(router) {
+  constructor(router, utils) {
     this.router = router;
+    this.utils = utils;
     this.endpoint = 'http://taskflow-api.com/reset-password';
   }
 
@@ -11,7 +12,7 @@ export default class ResetPasswordModel {
         'Content-Type': 'application/json'
       },
       body: formData,
-      signal: this.router.getAbortSignal('POST' + this.endpoint)
+      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', this.endpoint))
     });
 
     // Rate limited

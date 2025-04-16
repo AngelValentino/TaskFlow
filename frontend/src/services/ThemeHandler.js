@@ -108,7 +108,7 @@ export default class ThemeHandler {
 
     const loadBgImg = url => {
       if (this.currentLoadToken !== loadToken) {
-        console.warn('different theme while former event active, return');
+        // Different theme while former event active
         return;
       };
       this.lms.backgroundImgLm.style.opacity = 1;

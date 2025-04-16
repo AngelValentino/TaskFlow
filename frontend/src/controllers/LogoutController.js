@@ -1,9 +1,10 @@
 export default class LogoutController {
-  constructor(router, auth, userModel, logoutView) {
+  constructor(router, auth, userModel, logoutView, utils) {
     this.router = router;
     this.auth = auth;
     this.userModel = userModel;
     this.logoutView = logoutView;
+    this.utils = utils;
   }
 
   init() {
@@ -14,12 +15,11 @@ export default class LogoutController {
     this.userModel.handleUserLogout()
       .then(() => {
         this.auth.logoutClient();
-        console.log('logout successful');
         this.router.navigateTo('/');
       })
       .catch(error => {
         this.logoutView.updateLogoutMessage(error.message, true);
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       });
   }
 }

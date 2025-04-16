@@ -59,7 +59,6 @@ export default class LoginController {
         break;
     }
 
-    console.log(this.errors);
     this.loginView.toggleSubmitBtn(this.errors);
   }
 
@@ -69,7 +68,6 @@ export default class LoginController {
     let wasFetchAborted = false;
 
     if (this.activeRequest) {
-      console.warn('login fetch request active');
       this.loginView.updateErrorMessage('Your request is being processed. Please wait a moment.');
       return;
     }
@@ -87,12 +85,11 @@ export default class LoginController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('Request aborted due to navigation change');
           return;
         }
-        
-        console.error(error.message);
+
         this.loginView.updateErrorMessage(error.message);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);

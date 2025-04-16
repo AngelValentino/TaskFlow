@@ -19,12 +19,12 @@ export default class PomodoroTimerController {
     this.timerModel.restartTimer(false, session, ignoreNotice);
   }
 
-  switchTimerSession(e) {    
+  switchTimerSession(e) {   
+    // If reset animation is ACTIVE or add task form inputs have been filled, exit the function
     if (
       this.timerModel.isResetAnimationActive() || 
       this.taskManagerView.isAddTaskFormEdited()
     ) {
-      // reset animation is ACTIVE or add task form inputs have been filled'
       return;
     }
 
@@ -51,16 +51,13 @@ export default class PomodoroTimerController {
       this.timerModel.isResetAnimationActive() || 
       this.taskManagerView.isAddTaskFormEdited()
     ) {
-      console.log('reset animation is ACTIVE or add task form is filled')
       return;
     }
 
     if (this.timerModel.isTimerRunning()) {
-      console.log('timer is running, stop time')
       this.timerModel.stopTimer();
     } 
     else {
-      console.log('start time')
       this.timerModel.startTimer();
     }
   }
@@ -73,7 +70,6 @@ export default class PomodoroTimerController {
       this.taskManagerView.isAddTaskFormEdited() ||
       this.timerModel.isInitialTime()
     ) {
-      console.log('reset animation is ACTIVE, add task form is filled or timer SOCONDS === WORKTIME')
       return;
     }
 

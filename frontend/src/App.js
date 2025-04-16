@@ -74,11 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
     userMenuController.init();
 
     // Task manager
-    const userModel = new UserModel(router, auth);
+    const userModel = new UserModel(router, auth, utils);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
-    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler);
+    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router);
     const tokenHandler = new TokenHandler(router, userModel, auth);
-    const taskModel = new TaskModel(router, auth, tokenHandler);
+    const taskModel = new TaskModel(router, auth, tokenHandler, utils);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
     taskManagerController.init();
   
@@ -106,11 +106,11 @@ document.addEventListener('DOMContentLoaded', () => {
     userMenuController.init();
 
     // Task manager
-    const userModel = new UserModel(router, auth);
+    const userModel = new UserModel(router, auth, utils);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
-    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler);
+    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router);
     const tokenHandler = new TokenHandler(router, userModel, auth);
-    const taskModel = new TaskModel(router, auth, tokenHandler);
+    const taskModel = new TaskModel(router, auth, tokenHandler, utils);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils, true);
     taskManagerController.init();
   });
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Register
     const authFormHandler = new AuthFormHandler;
-    const userModel = new UserModel(router, auth);
+    const userModel = new UserModel(router, auth, utils);
     const registerView = new RegisterView(authFormHandler);
     const registerController = new RegisterController(router, userModel, registerView, utils, authFormHandler);
     registerController.init();
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Login
     const authFormHandler = new AuthFormHandler;
-    const userModel = new UserModel(router, auth);
+    const userModel = new UserModel(router, auth, utils);
     const loginView = new LoginView(authFormHandler);
     const loginController = new LoginController(router, auth, userModel, loginView, utils);
     loginController.init();
@@ -157,9 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('logout-view');
     document.body.classList.add('auth-view');
 
-    const userModel = new UserModel(router, auth);
+    const userModel = new UserModel(router, auth, utils);
     const logoutView = new LogoutView;
-    const logoutController = new LogoutController(router, auth, userModel, logoutView);
+    const logoutController = new LogoutController(router, auth, userModel, logoutView, utils);
     logoutController.init();
   });
 
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
     
     const authFormHandler = new AuthFormHandler;
-    const recoverPasswordModel = new RecoverPasswordModel(router);
+    const recoverPasswordModel = new RecoverPasswordModel(router, utils);
     const recoverPasswordView = new RecoverPasswordView(authFormHandler);
     const recoverPasswordController = new RecoverPasswordController(recoverPasswordView, recoverPasswordModel, utils);
     recoverPasswordController.init();
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
 
     const authFormHandler = new AuthFormHandler;
-    const resetPasswordModel = new ResetPasswordModel(router);
+    const resetPasswordModel = new ResetPasswordModel(router, utils);
     const resetPasswordView = new ResetPasswordView(authFormHandler);
     const resetPasswordController = new ResetPasswordController(resetPasswordView, resetPasswordModel, utils, router, authFormHandler);
     resetPasswordController.init();

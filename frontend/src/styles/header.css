@@ -194,6 +194,10 @@
   .user-menu-navigation {
     padding: 20px 15px 0 15px;
   }
+
+  .enhanced-task-manager__task-count {
+    padding: 0.40rem;
+  }
 }
 
 /* END OF MEDIA QUERIES */

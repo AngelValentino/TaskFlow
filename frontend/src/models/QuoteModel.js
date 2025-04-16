@@ -22,7 +22,7 @@ export default class QuoteModel {
 
   async handleGetAllQuotes() {
     const response = await fetch(this.baseEndpointUrl, {
-      signal: this.router.getAbortSignal('GET' + this.baseEndpointUrl)
+      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('GET', this.baseEndpointUrl))
     });
 
     // Rate limited

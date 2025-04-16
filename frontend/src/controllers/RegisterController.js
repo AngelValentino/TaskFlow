@@ -58,7 +58,6 @@ export default class RegisterController {
     let wasFetchAborted = false;
 
     if (this.activeRequest) {
-      console.warn('register request is already active');
       this.registerView.renderGeneralErrorMessage('Your request is being processed. Please wait a moment.');
       return;
     }
@@ -75,7 +74,6 @@ export default class RegisterController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
@@ -89,7 +87,7 @@ export default class RegisterController {
           this.registerView.renderGeneralErrorMessage(error.message);
         }
 
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);

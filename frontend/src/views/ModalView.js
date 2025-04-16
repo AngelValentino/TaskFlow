@@ -88,19 +88,6 @@ export default class ModalView {
     return timId; // Return the timeout ID
   }
 
-  removeAllAttributes(htmlString) {
-    const normalizeHtml = html => {
-      return html ? html.replace(/\s+/g, '').trim() : null; // Replace multiple spaces with a single space
-    }
-
-    if (!htmlString) {
-      return null;
-    }
-    
-    htmlString = htmlString.replace(/\s+(?!src\b)([\w-]+)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/g, '');
-    return normalizeHtml(htmlString);
-  }
-
   generateInfoModal(modalType) {
     let infoModalHtml;
 
@@ -113,14 +100,12 @@ export default class ModalView {
         break;
     }
 
-    const formattedInfoModalHtml = this.removeAllAttributes(infoModalHtml);
+    const formattedInfoModalHtml = this.utils.removeAllAttributes(infoModalHtml);
 
     if (this.lastGeneratedModalHtml.infoModal === formattedInfoModalHtml) {
-      console.warn('same as before do not re-render');
       return;
     }
 
-    console.warn('render new info modal')
     this.lastGeneratedModalHtml.infoModal = formattedInfoModalHtml;
 
     if (this.lms.infoModalContainerLm) {
@@ -150,13 +135,10 @@ export default class ModalView {
         break;
     }
     
-    const formattedConfirmModalHtml = this.removeAllAttributes(confirmModalHtml)
+    const formattedConfirmModalHtml = this.utils.removeAllAttributes(confirmModalHtml);
     if (this.lastGeneratedModalHtml.confirmModal === formattedConfirmModalHtml) {
-      console.warn('Same as before, do not re-render');
       return;
     }
-
-    console.warn('render new confirm modal')
 
     this.lastGeneratedModalHtml.confirmModal = formattedConfirmModalHtml;
 
@@ -173,13 +155,10 @@ export default class ModalView {
   generateEditModal() {
     const editModalHtml = EditModal.getHtml();
 
-    const formattedEditModalHtml = this.removeAllAttributes(editModalHtml);
+    const formattedEditModalHtml = this.utils.removeAllAttributes(editModalHtml);
     if (this.lastGeneratedModalHtml.editModal === formattedEditModalHtml) {
-      console.warn('same as before do not re-render');
       return;
     }
-
-    console.warn('render new edit dialog');
 
     if (this.lms.editModalContainerLm) {
       this.lms.editModalContainerLm.remove();
@@ -204,7 +183,7 @@ export default class ModalView {
     );
 
     const closeInfoModal = (returnFocus = true) => {
-      this.lastGeneratedModalHtml.infoModal = this.removeAllAttributes(this.lms.infoModalContainerLm.outerHTML);
+      this.lastGeneratedModalHtml.infoModal = this.utils.removeAllAttributes(this.lms.infoModalContainerLm.outerHTML);
 
       this.timIds.closeInfoModal = this.hideModal(
         this.lms.infoModalOverlayLm,
@@ -264,7 +243,7 @@ export default class ModalView {
     );
 
     const closeConfirmModal = (returnFocus = true) => {
-      this.lastGeneratedModalHtml.confirmModal = this.removeAllAttributes(this.lms.confirmModalContainerLm.outerHTML);
+      this.lastGeneratedModalHtml.confirmModal = this.utils.removeAllAttributes(this.lms.confirmModalContainerLm.outerHTML);
 
       if (isFetch) {
         clearTimeout(this.timIds.closeConfirmModalAfterFetch);
@@ -387,7 +366,7 @@ export default class ModalView {
     );
 
     const closeEditModal = (returnFocus = true) => {
-      this.lastGeneratedModalHtml.editModal = this.removeAllAttributes(this.lms.editModalContainerLm.outerHTML);
+      this.lastGeneratedModalHtml.editModal = this.utils.removeAllAttributes(this.lms.editModalContainerLm.outerHTML);
 
       this.timIds.closeEditModal = this.hideModal(
         this.lms.editModalOverlayLm,

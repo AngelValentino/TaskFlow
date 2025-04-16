@@ -1,7 +1,8 @@
 export default class RecoverPasswordModel {
-  constructor(router) {
-    this.endpoint = 'http://taskflow-api.com/recover-password';
+  constructor(router, utils) {
     this.router = router;
+    this.utils = utils;
+    this.endpoint = 'http://taskflow-api.com/recover-password';
   }
 
   async handleSendRecoverPasswordEmail(email) {
@@ -13,7 +14,7 @@ export default class RecoverPasswordModel {
       body: JSON.stringify({
         email: email
       }),
-      signal: this.router.getAbortSignal('POST' + this.endpoint)
+      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', this.endpoint))
     });
 
     // Rate limited

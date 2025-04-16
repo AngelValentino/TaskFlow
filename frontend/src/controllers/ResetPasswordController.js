@@ -54,7 +54,7 @@ export default class ResetPasswordController {
     let wasFetchAborted = false;
 
     if (this.activeRequest) {
-      console.warn('register request is already active');
+      this.resetPasswordView.updateErrorMessage('Your request is being processed. Please wait a moment.');
       return;
     }
 
@@ -70,7 +70,6 @@ export default class ResetPasswordController {
       .catch(error => {
         if (error.name === 'AbortError') {
           wasFetchAborted = true;
-          console.warn('Request aborted due to navigation change');
           return;
         }
 
@@ -84,7 +83,7 @@ export default class ResetPasswordController {
           this.resetPasswordView.updateErrorMessage(error.message);
         }
 
-        console.error(error);
+        console.error(this.utils.formatErrorMessage(error));
       })
       .finally(() => {
         clearTimeout(loadingTimId);
