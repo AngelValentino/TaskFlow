@@ -94,6 +94,7 @@ main.register-view {
 
 .register-form__terms-and-conditions-link {
   color: var(--dark-accent-color);
+  padding-bottom: 1px;
 }
 
 .register-form__submit-btn-container {

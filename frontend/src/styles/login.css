@@ -9,6 +9,7 @@
 
 .login-view-recover-password-link {
   display: inline-block;
+  padding-bottom: 1px;
 }
 
 .login-view-recover-password-link::before {
