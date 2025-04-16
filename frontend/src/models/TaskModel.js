@@ -273,7 +273,7 @@ export default class TaskModel {
         method: 'PATCH',
         body: editedTaskData
       },
-      true,
+      false,
       `We couldn't update your task. Please try again later.`,
       this.customErrorHandlers
     );

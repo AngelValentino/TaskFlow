@@ -526,7 +526,7 @@ export default class ModalView {
   }
 
   clearEditTaskFormErrors() {
-    this.utils.clearFromErrors([
+    this.utils.clearFormErrors([
       this.lms.editModalTitleErrorLm,
       this.lms.editModalDueDateErrorLm,
       this.lms.editModalDescErrorLm,

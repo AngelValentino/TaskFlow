@@ -379,7 +379,7 @@ export default class TaskManagerController {
     );
 
     this.taskModel.handleEditTask(taskId, JSON.stringify(editedTaskData))
-      .then(rowsUpdated => {
+      .then(() => {
         closeEditModalHandler();
         this.getAllTasks(this.taskManagerView.returnFocusToEditTaskBtn.bind(this.taskManagerView, taskId));
       })
