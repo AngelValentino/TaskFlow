@@ -4,14 +4,16 @@ import TaskListPlaceholder from '../pages/dashboard/components/TaskListPlacehold
 import TaskListLoader from '../pages/dashboard/components/TaskListLoader.js';
 import TaskListError from '../pages/dashboard/components/TaskListError.js';
 import LoadingCircle from '../components/LoadingCircle.js';
+import config from '../config.js';
 
 export default class TaskManagerView {
-  constructor(modalHandler, modalView, utils, loadHandler, router) {
+  constructor(modalHandler, modalView, utils, loadHandler, router, auth) {
     this.modalHandler = modalHandler;
     this.modalView = modalView;
     this.utils = utils;
     this.loadHandler = loadHandler;
     this.router = router;
+    this.auth = auth;
     this.timIds = {};
     this.controllerMethods = {};
     this.smallCircleLoader = LoadingCircle.getHtml('small');
@@ -155,10 +157,12 @@ export default class TaskManagerView {
   }
 
   closeAddTaskPrompt(returnFocus = true) {
-    this.clearAddTaskPromptErrors();
-    // In case user closes prompt with a pending fetch request
-    this.router.abortActiveFetch('POST=>http://taskflow-api.com/tasks');
-    this.updateAddTodoPromptSubmitBtn('Add new task');
+    // In case user closes prompt with a pending fetch request and is logged in, manages edge case
+    if (this.auth.isClientLogged()) {
+      this.clearAddTaskPromptErrors();
+      this.router.abortActiveFetch('POST=>' + config.apiUrl + '/tasks');
+      this.updateAddTodoPromptSubmitBtn('Add new task');
+    }
 
     this.hidePrompt(
       this.lms.addTaskPromptLm,

@@ -1,8 +1,10 @@
+import config from "../config.js";
+
 export default class QuoteModel {
   constructor(utils, router) {
     this.utils = utils;
     this.router = router;
-    this.baseEndpointUrl = 'http://taskflow-api.com/quotes';
+    this.baseEndpointUrl = config.apiUrl + '/quotes';
   }
 
   setQuotesToCache(quotes) {

@@ -1,10 +1,12 @@
+import config from "../config";
+
 export default class TaskModel {
   constructor(router, auth, tokenHandler, utils) {
     this.router = router;
     this.auth = auth;
     this.tokenHandler = tokenHandler;
     this.utils = utils;
-    this.baseEndpointUrl = 'http://taskflow-api.com/tasks';
+    this.baseEndpointUrl = config.apiUrl + '/tasks';
     this.customErrorHandlers = {
       422: async (response) => {
         const errorData = await response.json();

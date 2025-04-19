@@ -1,3 +1,5 @@
+import config from "../config";
+
 export default class UserModel {
   constructor(router, auth, utils) {
     this.router = router;
@@ -6,7 +8,7 @@ export default class UserModel {
   }
 
   async handleUserRegistration(formData) {
-    const endpoint = 'http://taskflow-api.com/register';
+    const endpoint = config.apiUrl + '/register';
 
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -38,7 +40,7 @@ export default class UserModel {
   }
 
   async handleUserLogin(formData) {
-    const endpoint = 'http://taskflow-api.com/login';
+    const endpoint = config.apiUrl + '/login';
 
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -68,7 +70,7 @@ export default class UserModel {
   }
 
   async handleUserLogout(throwErrors = true) {
-    const endpoint = 'http://taskflow-api.com/logout';
+    const endpoint = config.apiUrl + '/logout';
 
     const response = await fetch(endpoint, {
       method: 'POST',

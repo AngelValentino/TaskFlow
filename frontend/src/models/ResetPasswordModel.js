@@ -1,8 +1,10 @@
+import config from "../config";
+
 export default class ResetPasswordModel {
   constructor(router, utils) {
     this.router = router;
     this.utils = utils;
-    this.endpoint = 'http://taskflow-api.com/reset-password';
+    this.endpoint = config.apiUrl + '/reset-password';
   }
 
   async handleResetUserPassword(formData) {

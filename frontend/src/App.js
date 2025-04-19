@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Task manager
     const userModel = new UserModel(router, auth, utils);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
-    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router);
+    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler, utils);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Task manager
     const userModel = new UserModel(router, auth, utils);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
-    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router);
+    const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
     const tokenHandler = new TokenHandler(router, userModel, auth);
     const taskModel = new TaskModel(router, auth, tokenHandler, utils);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils, true);

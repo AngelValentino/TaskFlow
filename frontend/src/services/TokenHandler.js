@@ -1,3 +1,5 @@
+import config from "../config";
+
 export default class TokenHandler {
   constructor(router, userModel, auth) {
     this.router = router;
@@ -5,7 +7,7 @@ export default class TokenHandler {
     this.auth = auth;
     this.isRefreshingToken = false;
     this.refreshTokenQueue = [];
-    this.baseEndpointUrl = 'http://taskflow-api.com/refresh';
+    this.baseEndpointUrl = config.apiUrl + '/refresh';
   }
 
   async handleRefreshAccessToken() {

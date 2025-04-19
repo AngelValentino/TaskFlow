@@ -1,8 +1,10 @@
+import config from "../config";
+
 export default class RecoverPasswordModel {
   constructor(router, utils) {
     this.router = router;
     this.utils = utils;
-    this.endpoint = 'http://taskflow-api.com/recover-password';
+    this.endpoint = config.apiUrl + '/recover-password';
   }
 
   async handleSendRecoverPasswordEmail(email) {

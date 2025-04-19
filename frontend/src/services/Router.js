@@ -88,7 +88,7 @@ export default class Router {
   }
 
   abortActiveFetch(key) {
-    if (!this.abortControllers[key].aborted) {
+    if (this.abortControllers[key] && !this.abortControllers[key].aborted) {
       this.abortControllers[key].abort();
     }
   }
