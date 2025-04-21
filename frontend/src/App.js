@@ -60,7 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadHandler.hidePageLoader();
   });
   loadHandler.preloadDashboardBlurImages();
-  themeHandler.setRandomTheme();
+  setTimeout(() => {
+    themeHandler.setRandomTheme();
+  });
+
 
   // Add routes
   router.addRoute('/', () => {
