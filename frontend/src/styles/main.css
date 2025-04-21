@@ -33,6 +33,15 @@ body.theme-changer {
   transition: background-color 0.5s;
 }
 
+.background-image {
+  transition: opacity 1s;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: cover;
+  inset: 0;
+  opacity: 0;
+}
+
 body.theme-changer .background-image {
   transition: opacity 1s;
   position: absolute;
