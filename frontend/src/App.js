@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadHandler.preloadDashboardBlurImages();
   setTimeout(() => {
     themeHandler.setRandomTheme();
-  });
+  }, 20);
 
 
   // Add routes
