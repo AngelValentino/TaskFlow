@@ -1,0 +1,43 @@
+main.not-found-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-found-container {
+  text-align: center;
+}
+
+.not-found-title {
+  font-size: 8rem;
+}
+
+.not-found-message {
+  font-size: 1.42rem;
+  font-weight: bold;
+}
+
+.not-found-message-description {
+  margin: 16px 32px;
+}
+
+.not-found-return-link {
+  font-weight: bold;
+  padding: 12px 24px;
+  border: 2px solid var(--medium-accent-color);
+  border-radius: 50px;
+  display: inline-block;
+  transition: background-color var(--base-transition-duration), color var(--base-transition-duration), border var(--base-transition-duration);
+}
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .not-found-return-link:is(:hover, :focus-visible) {
+    color: #fff;
+    background-color: var(--medium-accent-color);
+    border: 2px solid var(--medium-accent-color);
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */

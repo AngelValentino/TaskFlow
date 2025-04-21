@@ -1,0 +1,203 @@
+.header-return-home-link-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-return-home-link {
+  line-height: 0;
+  border-radius: 50%;
+  display: inline-block;
+  transition: opacity var(--base-transition-duration);
+}
+
+.header-return-home-svg {
+  width: 1.65rem;
+  line-height: 0;
+  color: var(--dark-accent-color);
+}
+
+.enhanced-task-manager__task-count {
+  background-color: #272727a1;
+  color: #fff;
+  padding: 0.40rem 0.70rem;
+  border-radius: 2px;
+  font-size: 0.925rem;
+}
+
+.enhanced-task-manager__task-count:has(+ .enhanced-task-manager__task-count-error.active) {
+  display: none;
+}
+
+.enhanced-task-manager__task-count-error {
+  transition: background-color var(--base-transition-duration);
+}
+
+.enhanced-task-manager__task-count-error.active {
+  background-color: var(--medium-accent-color);
+  color: #fff;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.user-menu-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  min-width: 360px;
+}
+
+.user-menu-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px 0 30px;
+  width: 100%;
+  gap: 1rem;
+}
+
+.user-menu__btn-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-menu__greeting-message-container {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.user-menu__greeting-message {
+  display: inline-flex;
+  background-color: #272727a1;
+  color: #fff;
+  padding: 0.45rem 0.31rem;
+}
+
+.user-menu__greeting-message-progress-bar-container {
+  left: -2px;
+  bottom: -2px;
+  position: absolute;
+  width: 102%;
+  background-color: #141414a1;
+}
+
+.user-menu__greeting-message-progress-bar {
+  width: 100%;
+  transform: translateZ(0) scaleX(0);
+  height: 0.325rem;
+  background-color: var(--contrast-color);
+  transition: transform 25s linear, background-color var(--base-transition-duration);
+  will-change: transform;
+  transform-origin: left;
+}
+
+.user-menu__btn {
+  background-color: #fff;
+  border-radius: 50%;
+  line-height: 0;
+  padding: 5px;
+  border: 2px solid var(--dark-accent-color);
+  will-change: transform;
+  transition: transform 0.15s, border var(--base-transition-duration);
+}
+
+.user-menu__btn-svg {
+  width: 1.8rem;
+  color: var(--dark-accent-color);
+  transition: color var(--base-transition-duration); 
+  line-height: 0;
+}
+
+.user-menu {
+  background-color: #fff;
+  position: absolute;
+  top: 73px;
+  right: 20px;
+  max-width: 175px;
+  width: 100%;
+  z-index: 20;
+  border-radius: 12px;
+  box-shadow: 0px 0px 20px -6px rgba(0, 0, 0, 0.12);
+  padding: 10px 0;
+  overflow-x: hidden;
+  display: none;
+  scrollbar-width: thin;
+}
+
+.user-menu.active {
+  display: block;
+}
+
+.user-menu__link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.05rem;
+  width: 100%;
+  padding: 8px 17px;
+  overflow: hidden;
+}
+
+.user-menu__link-svg {
+  width: 1.6rem;
+  line-height: 0;
+}
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .user-menu__btn:is(:hover, :focus-visible) {
+    transform: scale(1.05);
+  }
+  
+  .user-menu__link:is(:hover, :focus-visible) {
+    background-color: rgba(0, 0, 0, 0.07);
+    outline: none;
+  }
+  
+  .header-return-home-link:is(:hover, :focus-visible) {
+    opacity: 0.75;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.user-menu__btn:active {
+  border: 2px solid var(--dark-to-medium-accent-color);
+  transition: transform 0.075s;
+  transform: scale(1);
+}
+
+.user-menu__btn:active .user-menu__btn-svg {
+  width: 1.8rem;
+  color: var(--dark-to-medium-accent-color);
+  transition: none; 
+  line-height: 0;
+}
+
+.user-menu__link:active {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* END OF ACTIVE */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 550px) {
+  .user-menu-navigation {
+    padding: 20px 15px 0 15px;
+  }
+
+  .enhanced-task-manager__task-count {
+    padding: 0.40rem;
+  }
+}
+
+/* END OF MEDIA QUERIES */

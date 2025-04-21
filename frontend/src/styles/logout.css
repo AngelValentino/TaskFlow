@@ -1,0 +1,39 @@
+body.logout-view {
+  background-color: #fff !important;
+}
+
+main.logout-view {
+ padding: 40px 30px;
+}
+
+.logout-message {
+  padding: 10px;
+  border-radius: 3px;
+  display: inline-block;
+  font-size: 1.05rem;
+}
+
+.logout-message.error {
+  background-color: #ee4a31;
+  color: #fff;
+}
+
+.return-home-message {
+  font-size: 1.05rem;
+  margin-top: 10px;
+  display: none;
+}
+
+.logout-message.error + .return-home-message {
+  display: block;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 550px) {
+  main.logout-view {
+    padding: 40px 15px 30px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

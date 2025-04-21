@@ -1,0 +1,177 @@
+main.register-view {
+  max-width: 960px;
+}
+
+.register-view-container {
+  width: 100%;
+}
+
+.register-view-title {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: normal;
+  margin: 0 0 20px;
+  color: #4B4B4B;
+}
+
+.register-form {
+  margin-top: 30px;
+  padding: 44px 130px;
+  border: 10px solid #fff;
+  border-radius: 8px;
+}
+
+.register-form__welcome-message {
+  padding: 0 27px;
+  font-size: 0.95rem;
+}
+
+.register-form__input-label-container {
+  display: flex;
+  margin: 30px 0 0;
+  align-items: center;
+}
+
+.register-form__input-label-container label {
+  border-left: thick solid #333;
+  padding-left: 10px;
+  flex: 1;
+  font-size: 0.95rem;
+  align-self: start;
+}
+
+.register-form__input-label-container .register-form__input-container {
+  width: 62%;
+}
+
+.register-form__input-label-container input {
+  width: 100%;
+  min-height: 40px;
+  margin: 0;
+  padding: 6px 14px;
+  border: 2px solid #dfdfdf;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.register-form__input-label-container input::placeholder {
+  opacity: 0.5;
+}
+
+.register-form__input-label-container input.error {
+  border-color: #d90b1b;
+  background-color: #ffe4e4;
+}
+
+.register-form__input-error-message {
+  color: #d90b1b;
+  font-size: 0.825rem;
+  margin-top: 5px;
+}
+
+.register-form__general-error {
+  color: #d90b1b;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.register-form__terms-and-conditions {
+  border-top: 2px solid #dfdfdf;
+  border-bottom: 2px solid #dfdfdf;
+  padding: 20px 4px;
+  font-size: 0.85rem;
+  margin: 30px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  line-height: 1.3;
+}
+
+.register-form__terms-and-conditions input {
+  transform: scale(1.4);
+}
+
+.register-form__terms-and-conditions-link {
+  color: var(--dark-accent-color);
+  padding-bottom: 1px;
+}
+
+.register-form__submit-btn-container {
+  text-align: center;
+}
+
+.register-form__submit-btn[disabled] {
+  opacity: 0.35;
+  color: #f0f0f0;
+  cursor: default;
+  pointer-events: none;
+}
+
+.register-form__submit-btn {
+  padding: 10px 42px;
+  margin: 30px 0 0;
+  border-radius: 30px;
+  font-size: 1rem;
+  background-color: var(--dark-accent-color);
+  color: #fff;
+  transition: opacity var(--base-transition-duration);
+}
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .register-form__submit-btn:is(:hover, :focus-visible) {
+    opacity: 0.75;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 900px) {
+  .register-form__input-label-container {
+    display: flex;
+    margin: 30px 0 0;
+    align-items: center;
+    display: block;
+  }
+
+  .register-form__input-label-container label {
+    margin: 0 0 10px;
+    display: block;
+  }
+
+  .register-form__input-label-container .register-form__input-container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .register-form {
+    padding: 42px 75px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .register-form {
+    padding: 42px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .register-form {
+    padding: 42px;
+  }
+
+  .register-form__welcome-message {
+    padding: 0 10px;
+  }
+
+  .register-form {
+    padding: 42px 27px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

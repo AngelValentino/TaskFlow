@@ -1,0 +1,125 @@
+.pomodoro-timer {
+  position: relative;
+  background-color: #fff;
+  justify-self: center;
+  padding: 30px;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 50px;
+  font-size: 1.5rem;
+  transition: color var(--base-transition-duration);
+  min-width: 234px;
+}
+
+.pomodoro-timer__options {
+  position: absolute;
+  left: 30px;
+  top: 15px;
+  display: flex;
+  gap: 0.30rem;
+}
+
+.pomodoro-timer__long-session-btn,
+.pomodoro-timer__short-session-btn {
+  background-color: var(--base-text-color);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 0.25;
+  transition: transform 0.10s;
+  cursor: default;
+}
+
+.pomodoro-timer__long-session-btn[aria-pressed="false"]:hover,
+.pomodoro-timer__short-session-btn[aria-pressed="false"]:hover {
+  transform: scale(1.075);
+  cursor: pointer;
+}
+.pomodoro-timer__long-session-btn.active,
+.pomodoro-timer__short-session-btn.active {
+  opacity: 1;
+}
+
+.pomodoro-timer__clock {
+  color: var(--dark-accent-color);
+  transition: background-color var(--base-transition-duration);
+}
+
+.pomodoro-timer__clock.active {
+  animation: flash 0.1s infinite alternate ease-in-out;
+}
+
+.pomodoro-timer__btn {
+  background-color: var(--dark-accent-color);
+  color: white;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color var(--base-transition-duration);
+  width: 40px;
+  height: 40px;
+}
+
+.pomodoro-timer__btn.active {
+  background-color: var(--contrast-color);
+  color: var(--base-text-color);
+}
+
+.pomodoro-timer__btn-icon {
+  width: 1em;
+}
+
+.pomodoro-timer__reset-icon {
+  width: 0.95em;
+}
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .pomodoro-timer__btn:is(:hover, :focus-visible) {
+    background-color: var(--medium-accent-color);
+  }
+
+  .pomodoro-timer__control-btn.active:is(:hover, :focus-visible) {
+    background-color: var(--dark-to-medium-accent-color);
+    color: white;
+  }
+  
+  .pomodoro-timer__clock.active ~ .pomodoro-timer__btn:is(:hover, :focus-visible) {
+    background-color: var(--dark-accent-color);
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.pomodoro-timer__reset-btn:active:not(:is(.pomodoro-timer__clock.active ~ .pomodoro-timer__btn)) {
+  transition: none;
+  opacity: 0.75;
+}
+
+/* END OF ACTIVE */
+
+@keyframes flash {
+  0% {
+    color: var(--dark-accent-color); /* Start with no color */
+  }
+  100% {
+    color: var(--medium-accent-color); /* Flash color */
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .pomodoro-timer__long-session-btn,
+  .pomodoro-timer__short-session-btn {
+    width: 9px;
+    height: 9px;
+  }
+}

@@ -1,0 +1,288 @@
+/* ADD TASK PROMPT */
+
+.task-manager__add-prompt {
+  position: relative;
+  background-color: var(--dark-accent-color);
+  border-radius: 5px;
+  overflow: hidden;
+  max-height: 0;
+  transform: translateY(-130px);
+  transition: max-height 1.5s, transform 0.5s, margin 0.5s, background-color var(--base-transition-duration);
+}
+
+.task-manager__add-prompt.active {
+  max-height: 1000px;
+  transform: translateY(0px);
+  margin-bottom: 10px;
+}
+
+.task-manager__add-prompt-form {
+  padding: 35px 30px;
+}
+
+.task-manager__add-prompt label {
+  display: block;
+  color: #fff;
+  padding: 0 0 10px;
+  font-size: var(--base-font-size);
+}
+
+.task-manager__add-prompt input, 
+.task-manager__add-prompt textarea {
+  border: none;
+  padding: 10px;
+}
+
+.task-manager__add-prompt input {
+  width: 100%;
+  border-radius: 3px;
+  background-color: var(--light-accent-color);
+  transition: background-color var(--base-transition-duration);
+  font-size: var(--base-font-size);
+}
+
+.task-manager__add-prompt textarea {
+  display: block;
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+  max-height: 250px;
+  border-radius: 3px;
+  font-size: var(--base-font-size);
+}
+
+.task-manager__add-prompt-input-error {
+  color: white;
+  border-radius: 2px;
+  margin: 10px 0 20px;
+  font-size: 1.05rem;
+}
+
+.task-manager__add-prompt-input-error.active {
+  background-color: var(--dark-to-medium-accent-color);
+  padding: 5px;
+}
+
+.task-manager__add-prompt-error {
+  color: white;
+  border-radius: 2px;
+  font-size: 1.05rem;
+}
+
+.task-manager__add-prompt-error.active {
+  margin: 10px 0 10px;
+  padding: 10px;
+  background-color: var(--dark-to-medium-accent-color);
+}
+
+.task-manager__add-prompt-close-btn {
+  position: absolute !important;
+  color: #fff;
+  top: 12px;
+  right: 12px;
+  line-height: 0;
+  padding: 3px;
+}
+
+.task-manager__add-prompt-close-svg {
+  width: 1.65rem;
+}
+
+.task-manager__add-prompt-submit-btn {
+  font-weight: bold;
+  background-color: var(--medium-accent-color);
+  font-size: var(--base-font-size);
+  border-radius: 2px;
+}
+
+/* END OF ADD TASK PROMPT */
+
+/* SEARCH TASK PROMPT */
+
+.task-manager__search-prompt {
+  border-radius: 5px;
+  overflow: hidden;
+  transform: translateX(-120%);
+  max-height: 0;
+  transition: max-height 1.25s, transform 1.25s;
+}
+
+.enhanced-task-manager__search-prompt {
+  padding: 0 10px;
+  background-color: #fff; 
+  transition: max-height 1.25s, transform 1.25s, margin 1.25s;
+  will-change: margin;
+}
+
+.task-manager__search-prompt.active {
+  max-height: 1000px;
+  transform: translateX(0px);
+}
+
+.enhanced-task-manager__search-prompt.active {
+  margin: 0 10px 10px;
+  transition: max-height 1.25s, transform 1.25s, margin 0.25s;
+}
+
+.task-manager__search-prompt-inner-container {
+  margin: 15px auto 30px;
+  max-width: 400px;
+  position: relative;
+}
+
+.enhanced-task-manager__search-prompt-inner-container {
+  max-width: 600px;
+}
+
+.task-manager__search-svg {
+  width: 1.4rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.3;
+  right: 18px;
+  pointer-events: none;
+  color: var(--medium-accent-color);
+  transition: opacity var(--base-transition-duration);
+}
+
+.task-manager__search-svg.active {
+  display: none;
+}
+
+.task-manager__search-prompt-input {
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--medium-accent-color);
+  padding: 10px 50px 10px 20px;
+  border-radius: 50px;
+  transition: border var(--base-transition-duration);
+  font-size: var(--base-font-size);
+}
+
+.task-manager__search-prompt-input::placeholder {
+  opacity: 0.45;
+  transition: opacity var(--base-transition-duration);
+}
+
+.task-manager__search-prompt-input:focus {
+  outline: none;
+}
+
+.task-manager__search-prompt-input:focus + .task-manager__search-svg {
+  opacity: 0.75;
+}
+
+.task-manager__search-prompt-input:focus::placeholder {
+  opacity: 0.3;
+}
+
+.task-manager__search-prompt-close-btn {
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  right: 16px;
+  display: none;
+  transition: opacity var(--base-transition-duration);
+  opacity: 0.3;
+}
+
+.task-manager__search-prompt-close-btn.active {
+  display: initial;
+}
+
+.task-manager__search-prompt-close-svg {
+  width: 1.85rem;
+}
+
+/* END OF SEARCH TASK PROMPT */
+
+/* HOVER CAPABLE DEVICES */
+
+@media screen and (pointer: fine) and (hover: hover) {
+  .task-manager__search-prompt-close-btn:is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+}
+
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.task-manager__add-prompt-submit-btn:active  {
+  opacity: 0.85;
+  transition: padding 0.4s, opacity 0s !important;
+}
+
+.task-manager__search-prompt-close-btn:active {
+  opacity: 0.75;
+  transition: none;
+}
+
+/* END OF ACTIVE */
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 551px) {
+  .task-manager__add-prompt-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .task-manager__add-prompt-submit-btn {
+    grid-column: span 2;
+  }
+
+  .task-manager__add-prompt-error.active {
+    display: block;
+    grid-column: span 2;
+    margin: 0 0 -10px;
+  }
+
+  .task-manager__add-prompt-error {
+    display: none;
+  }
+
+  .task-manager__add-prompt-desc-error {
+    margin-bottom: 0;
+  }
+
+  .task-manager__add-prompt {
+    transition: max-height 1.5s, transform 0.4s, margin 0.4s, background-color var(--base-transition-duration);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .task-manager__add-prompt-submit-btn {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .task-manager__add-prompt-form {
+    padding: 30px 25px;
+  }
+
+  .task-manager__add-prompt {
+    transform: translateY(-128px);
+  }
+
+  .enhanced-task-manager__search-prompt {
+    transition: max-height 1.25s, transform 1.25s, margin 0.25s;
+  }
+
+  .enhanced-task-manager__search-prompt.active {
+    margin: 0 0 7px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .task-manager__add-prompt-form {
+    padding: 30px 20px;
+  }
+}
+
+/* END OF MEDIA QUERIES */

@@ -1,0 +1,49 @@
+main.dashboard-view {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.widgets-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  width: 100%;
+}
+
+/* TIMER AND QUOTE */
+
+.timer-quote-container {
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+}
+
+/* END OF TIMER AND QUOTE */
+
+/* TASK MANANGER */
+
+.task-manager-container {
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+}
+
+/* END OF TASK MANANGER */
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 1200px) {
+  .widgets-list {
+    display: flex;
+    flex-flow: column;
+    gap: 5rem;
+  }
+}
+
+/* END OF MEDIA QUERIES */
