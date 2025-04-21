@@ -60,15 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loadHandler.hidePageLoader();
   });
   loadHandler.preloadDashboardBlurImages();
-  setTimeout(() => {
-    themeHandler.setRandomTheme();
-  }, 20);
-
+  themeHandler.setRandomTheme();
 
   // Add routes
   router.addRoute('/', () => {
     appLm.innerHTML = DashboardPage.getHtml();
-    document.body.classList.add('theme-changer');
 
     // User menu
     const userMenuModel = new UserMenuModel;
@@ -100,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('/tasks', () => {
     appLm.innerHTML = EnhancedTaskView.getHtml();
-    document.body.classList.add('theme-changer');
 
     // User menu
     const userMenuModel = new UserMenuModel;
@@ -190,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router.addRoute('*', () => {
     appLm.innerHTML = NotFoundPage.getHtml();
-    document.body.classList.add('theme-changer');
   });
 
   // Dispatch to the correct route

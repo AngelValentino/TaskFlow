@@ -27,12 +27,19 @@ body {
   white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 }
 
-body.theme-changer {
+body {
   background-color: var(--light-accent-color);
   position: relative;
   transition: background-color 0.5s;
 }
 
+body main {
+  z-index: 1;
+  position: relative;
+  height: 100%;
+}
+
+/* Need to apply it on page load, to avoid missing bg image transitions */
 .background-image {
   transition: opacity 1s;
   position: absolute;
@@ -42,20 +49,26 @@ body.theme-changer {
   opacity: 0;
 }
 
-body.theme-changer .background-image {
-  transition: opacity 1s;
-  position: absolute;
-  background-repeat: no-repeat;
-  background-size: cover;
-  inset: 0;
-  opacity: 0;
+/* Reset theme handler styles */
+body.auth-view {
+  background-color: initial;
+  position: static;
+  transition: none;
 }
 
-body.theme-changer main {
-  z-index: 1;
-  position: relative;
-  height: 100%;
+body.auth-view main {
+  z-index: auto;
+  position: static;
 }
+
+body.auth-view .background-image {
+  transition: none;
+  opacity: 0;
+  background-image: none;
+  position: static;
+  inset: initial;
+}
+/* End of Reset theme handler styles */
 
 main {
   min-height: 100vh;

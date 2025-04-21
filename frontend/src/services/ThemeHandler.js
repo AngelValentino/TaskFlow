@@ -111,10 +111,8 @@ export default class ThemeHandler {
         // Different theme while former event active
         return;
       };
-      setTimeout(() => {
-        this.lms.backgroundImgLm.style.opacity = 1;
-        this.lms.backgroundImgLm.style.backgroundImage = `url(${url})`;
-      });
+      this.lms.backgroundImgLm.style.opacity = 1;
+      this.lms.backgroundImgLm.style.backgroundImage = `url(${url})`;
     }
 
     const handleLoadBgImg = url => () => loadBgImg(url);
