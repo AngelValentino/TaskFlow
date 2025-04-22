@@ -32,6 +32,9 @@ export default class ResetPasswordController {
       this.resetPasswordView.renderErrorMessages.bind(this.resetPasswordView),
       this.resetPasswordView.toggleSubmitBtn.bind(this.resetPasswordView)
     );
+    this.lms.togglePasswordBtns.forEach(btn => {
+      btn.addEventListener('click', this.authFormHandler.handlePasswordToggle.bind(this.authFormHandler, [this.lms.passwordInputLm, this.lms.confirmPasswordInputLm]));
+    });
   }
 
   handleValidationOnBlur(e) {

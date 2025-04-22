@@ -33,25 +33,11 @@ main.register-view {
 }
 
 .register-form__input-label-container label {
-  border-left: thick solid #333;
-  padding-left: 10px;
   flex: 1;
-  font-size: 0.95rem;
-  align-self: start;
 }
 
-.register-form__input-label-container .register-form__input-container {
+.register-form__input-label-container .register-form__input-error-container {
   width: 62%;
-}
-
-.register-form__input-label-container input {
-  width: 100%;
-  min-height: 40px;
-  margin: 0;
-  padding: 6px 14px;
-  border: 2px solid #dfdfdf;
-  border-radius: 6px;
-  font-size: 0.95rem;
 }
 
 .register-form__input-label-container input::placeholder {
@@ -101,32 +87,10 @@ main.register-view {
   text-align: center;
 }
 
-.register-form__submit-btn[disabled] {
-  opacity: 0.35;
-  color: #f0f0f0;
-  cursor: default;
-  pointer-events: none;
-}
-
 .register-form__submit-btn {
   padding: 10px 42px;
   margin: 30px 0 0;
-  border-radius: 30px;
-  font-size: 1rem;
-  background-color: var(--dark-accent-color);
-  color: #fff;
-  transition: opacity var(--base-transition-duration);
 }
-
-/* HOVER CAPABLE DEVICES */
-
-@media screen and (pointer: fine) and (hover: hover) {
-  .register-form__submit-btn:is(:hover, :focus-visible) {
-    opacity: 0.75;
-  }
-}
-
-/* END OF HOVER CAPABLE DEVICES */
 
 /* MEDIA QUERIES */
 
@@ -143,7 +107,7 @@ main.register-view {
     display: block;
   }
 
-  .register-form__input-label-container .register-form__input-container {
+  .register-form__input-label-container .register-form__input-error-container {
     width: 100%;
   }
 }

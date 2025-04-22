@@ -46,7 +46,7 @@ main.auth-view {
   padding: 0 30px;
 }
 
-.auth-form__inputs-container label {
+.auth-form__label {
   border-left: thick solid #333;
   padding-left: 10px;
   font-size: 0.95rem;
@@ -58,7 +58,24 @@ main.auth-view {
   margin-top: 30px;
 }
 
-.auth-form__inputs-container input {
+.auth-form__toggle-input-container {
+  position: relative;
+}
+
+.auth-form__toggle-password-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  line-height: 0;
+}
+
+.auth-form__toggle-password-svg {
+  width: 1.25rem;
+  opacity: 0.65;
+}
+
+.auth-form__input {
   display: block;
   min-height: 40px;
   padding: 6px 14px;
@@ -66,6 +83,10 @@ main.auth-view {
   border-radius: 6px;
   font-size: 0.95rem;
   width: 100%;
+}
+
+.auth-form__input.toggle {
+  padding: 6px 44px 6px 14px;
 }
 
 .auth-form__input.error {

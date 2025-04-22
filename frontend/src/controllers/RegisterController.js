@@ -38,6 +38,9 @@ export default class RegisterController {
       this.registerView.renderErrorMessages.bind(this.registerView),
       this.registerView.toggleSubmitBtn.bind(this.registerView)
     );
+    this.lms.togglePasswordBtns.forEach(btn => {
+      btn.addEventListener('click', this.authFormHandler.handlePasswordToggle.bind(this.authFormHandler, [this.lms.passwordInputLm, this.lms.confirmPasswordInputLm]));
+    });
   }
 
   handleValidationOnBlur(e) {
@@ -54,6 +57,7 @@ export default class RegisterController {
 
   registerUser(e) {
     e.preventDefault();
+    console.log('submit')
     const registerData = this.utils.getFormData(e.target);
     let wasFetchAborted = false;
 

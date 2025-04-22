@@ -10,9 +10,10 @@ export default class RegisterView {
       usernameInputLm: document.getElementById('register-form__username-input'),
       emailInputLm: document.getElementById('register-form__email-input'),
       passwordInputLm: document.getElementById('register-form__password-input'),
-      confirmPasswordInputLm: document.getElementById('register-form__repeat-password-input'),
+      confirmPasswordInputLm: document.getElementById('register-form__confirm-password-input'),
       confirmPasswordErrorLm: document.getElementById('confirm-password-error'),
       generalErrorLm: document.getElementById('register-form__general-error'),
+      togglePasswordBtns: document.querySelectorAll('.auth-form__toggle-password-btn')
     };
     this.lms.formInputLms = this.lms.formLm.querySelectorAll('input');
   }
