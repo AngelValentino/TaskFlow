@@ -13,7 +13,8 @@ export default class UserModel {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
       },
       body: formData,
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
@@ -45,7 +46,8 @@ export default class UserModel {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
       },
       body: formData,
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
@@ -75,7 +77,8 @@ export default class UserModel {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json',
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
       },
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken') 

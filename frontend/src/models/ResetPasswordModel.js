@@ -11,7 +11,8 @@ export default class ResetPasswordModel {
     const response = await fetch(this.endpoint, {
       method: 'POST',
       header: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
       },
       body: formData,
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', this.endpoint))

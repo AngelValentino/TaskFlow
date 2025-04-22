@@ -11,7 +11,8 @@ export default class RecoverPasswordModel {
     const response = await fetch(this.endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
       },
       body: JSON.stringify({
         email: email

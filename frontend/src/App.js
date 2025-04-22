@@ -55,6 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const auth = new Auth;
   const themeHandler = new ThemeHandler(utils);
 
+  let deviceUUID = sessionStorage.getItem('deviceUUID');
+  if (!deviceUUID) {
+    // New UUID generated and saved in sessionStorage
+    deviceUUID = utils.getRandomUUID();
+    sessionStorage.setItem('deviceUUID', deviceUUID);
+  }
+
   // Webpack's fast optimized build can skip the loader, adding a delay allows the client to see it
   setTimeout(() => {
     loadHandler.hidePageLoader();

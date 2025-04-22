@@ -144,7 +144,8 @@ export default class TaskModel {
       ...options,
       headers: {
         ...(methodsWithBody.includes(options.method) ? { 'Content-Type': 'application/json' } : {}),
-        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
       },
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey(options.method, apiUrl))
     });

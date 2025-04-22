@@ -24,6 +24,9 @@ export default class QuoteModel {
 
   async handleGetAllQuotes() {
     const response = await fetch(this.baseEndpointUrl, {
+      headers: {
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+      }, 
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('GET', this.baseEndpointUrl))
     });
 
