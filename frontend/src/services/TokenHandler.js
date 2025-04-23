@@ -27,6 +27,7 @@ export default class TokenHandler {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-Device-ID': sessionStorage.getItem('deviceUUID')
       },
       body: JSON.stringify({ token: refreshToken })
     });
