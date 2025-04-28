@@ -8,11 +8,15 @@ export default class TaskModel {
     this.utils = utils;
     this.baseEndpointUrl = config.apiUrl + '/tasks';
     this.customErrorHandlers = {
-      422: async (response) => {
+      422: async response => {
         const errorData = await response.json();
         const error = new Error('Validation error occurred');
         error.data = errorData;
         throw error;
+      },
+      409: async response => {
+        const errorData = await response.json();
+        throw new Error(`Oops! Error ${response.status}: ${errorData.message}`);
       }
     }
   }
