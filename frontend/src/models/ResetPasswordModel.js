@@ -1,18 +1,19 @@
 import config from "../config";
 
 export default class ResetPasswordModel {
-  constructor(router, utils) {
+  constructor(router, utils, deviceIdentifier) {
     this.router = router;
     this.utils = utils;
+    this.deviceIdentifier = deviceIdentifier;
     this.endpoint = config.apiUrl + '/reset-password';
   }
 
   async handleResetUserPassword(formData) {
     const response = await fetch(this.endpoint, {
       method: 'POST',
-      header: {
+      headers: {
         'Content-Type': 'application/json',
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       },
       body: formData,
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', this.endpoint))

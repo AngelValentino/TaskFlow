@@ -1,11 +1,12 @@
 import config from "../config";
 
 export default class TaskModel {
-  constructor(router, auth, tokenHandler, utils) {
+  constructor(router, auth, tokenHandler, utils, deviceIdentifier) {
     this.router = router;
     this.auth = auth;
     this.tokenHandler = tokenHandler;
     this.utils = utils;
+    this.deviceIdentifier = deviceIdentifier;
     this.baseEndpointUrl = config.apiUrl + '/tasks';
     this.customErrorHandlers = {
       422: async response => {
@@ -149,7 +150,7 @@ export default class TaskModel {
       headers: {
         ...(methodsWithBody.includes(options.method) ? { 'Content-Type': 'application/json' } : {}),
         'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       },
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey(options.method, apiUrl))
     });

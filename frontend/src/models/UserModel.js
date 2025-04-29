@@ -1,10 +1,11 @@
 import config from "../config";
 
 export default class UserModel {
-  constructor(router, auth, utils) {
+  constructor(router, auth, utils, deviceIdentifier) {
     this.router = router;
     this.auth = auth;
     this.utils = utils;
+    this.deviceIdentifier = deviceIdentifier;
   }
 
   async handleUserRegistration(formData) {
@@ -14,7 +15,7 @@ export default class UserModel {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       },
       body: formData,
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
@@ -47,7 +48,7 @@ export default class UserModel {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       },
       body: formData,
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
@@ -78,7 +79,7 @@ export default class UserModel {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       },
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken') 

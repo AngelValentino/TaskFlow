@@ -1,8 +1,9 @@
 export default class RecoverPasswordController {
-  constructor(recoverPasswordView, recoverPasswordModel, utils) {
+  constructor(recoverPasswordView, recoverPasswordModel, utils, authFormHandler) {
     this.recoverPasswordView = recoverPasswordView;
     this.recoverPasswordModel = recoverPasswordModel;
     this.utils = utils;
+    this.authFormHandler = authFormHandler;
     this.errors = {
       email: null
     }
@@ -25,8 +26,8 @@ export default class RecoverPasswordController {
 
   handleValidation(e) {
     const value = e.target.value.trim();
-    this.errors.email = this.getEmailValidationError(value);
-    this.recoverPasswordView.toggleSubmitBtn(this.errors);
+    this.errors.email = this.authFormHandler.getEmailValidationError(value);
+    this.authFormHandler.toggleSubmitBtn(this.errors, this.lms.submitBtn);
   }
 
   sendRecoverPasswordEmail(e) {

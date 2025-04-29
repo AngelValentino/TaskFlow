@@ -1,10 +1,11 @@
 import config from "../config";
 
 export default class TokenHandler {
-  constructor(router, userModel, auth) {
+  constructor(router, userModel, auth, deviceIdentifier) {
     this.router = router;
     this.userModel = userModel;
     this.auth = auth;
+    this.deviceIdentifier = deviceIdentifier;
     this.isRefreshingToken = false;
     this.refreshTokenQueue = [];
     this.baseEndpointUrl = config.apiUrl + '/refresh';
@@ -27,7 +28,7 @@ export default class TokenHandler {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       },
       body: JSON.stringify({ token: refreshToken })
     });

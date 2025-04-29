@@ -40,6 +40,7 @@ import ResetPasswordView from './views/ResetPasswordView.js';
 import ResetPasswordController from './controllers/ResetPasswordController.js';
 import ResetPasswordModel from './models/ResetPasswordModel.js';
 import AuthFormHandler from './services/AuthFormHandler.js';
+import DeviceIdentifier from "./services/DeviceIdentifier.js";
 
 import './styles/main.css';
 import './styles/modal.css';
@@ -54,13 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadHandler = new LoadHandler;
   const auth = new Auth;
   const themeHandler = new ThemeHandler(utils);
+  const deviceIdentifier = new DeviceIdentifier({ hours: 1 });
 
-  let deviceUUID = sessionStorage.getItem('deviceUUID');
-  if (!deviceUUID) {
-    // New UUID generated and saved in sessionStorage
-    deviceUUID = utils.getRandomUUID();
-    sessionStorage.setItem('deviceUUID', deviceUUID);
-  }
+  deviceIdentifier.refreshDeviceUUID();
 
   // Webpack's fast optimized build can skip the loader, adding a delay allows the client to see it
   setTimeout(() => {
@@ -80,16 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
     userMenuController.init();
 
     // Task manager
-    const userModel = new UserModel(router, auth, utils);
+    const userModel = new UserModel(router, auth, utils, deviceIdentifier);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
     const tokenHandler = new TokenHandler(router, userModel, auth);
-    const taskModel = new TaskModel(router, auth, tokenHandler, utils);
+    const taskModel = new TaskModel(router, auth, tokenHandler, utils, deviceIdentifier);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
     taskManagerController.init();
   
     // Quote machine
-    const quoteModel = new QuoteModel(utils, router);
+    const quoteModel = new QuoteModel(utils, router, deviceIdentifier);
     const quoteMachineView = new QuoteMachineView(utils);
     const quoteMachineController = new QuoteMachineController(quoteModel, quoteMachineView, utils, themeHandler, taskManagerView);
     quoteMachineController.init();
@@ -111,11 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
     userMenuController.init();
 
     // Task manager
-    const userModel = new UserModel(router, auth, utils);
+    const userModel = new UserModel(router, auth, utils, deviceIdentifier);
     const modalView = new ModalView(modalHandler, utils, loadHandler);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
     const tokenHandler = new TokenHandler(router, userModel, auth);
-    const taskModel = new TaskModel(router, auth, tokenHandler, utils);
+    const taskModel = new TaskModel(router, auth, tokenHandler, utils, deviceIdentifier);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils, true);
     taskManagerController.init();
   });
@@ -133,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Register
     const authFormHandler = new AuthFormHandler;
-    const userModel = new UserModel(router, auth, utils);
+    const userModel = new UserModel(router, auth, utils, deviceIdentifier);
     const registerView = new RegisterView(authFormHandler);
     const registerController = new RegisterController(router, userModel, registerView, utils, authFormHandler);
     registerController.init();
@@ -151,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Login
     const authFormHandler = new AuthFormHandler;
-    const userModel = new UserModel(router, auth, utils);
+    const userModel = new UserModel(router, auth, utils, deviceIdentifier);
     const loginView = new LoginView(authFormHandler);
     const loginController = new LoginController(router, auth, userModel, loginView, utils);
     loginController.init();
@@ -162,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('logout-view');
     document.body.classList.add('auth-view');
 
-    const userModel = new UserModel(router, auth, utils);
+    const userModel = new UserModel(router, auth, utils, deviceIdentifier);
     const logoutView = new LogoutView;
     const logoutController = new LogoutController(router, auth, userModel, logoutView, utils);
     logoutController.init();
@@ -173,9 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
     
     const authFormHandler = new AuthFormHandler;
-    const recoverPasswordModel = new RecoverPasswordModel(router, utils);
+    const recoverPasswordModel = new RecoverPasswordModel(router, utils, deviceIdentifier);
     const recoverPasswordView = new RecoverPasswordView(authFormHandler);
-    const recoverPasswordController = new RecoverPasswordController(recoverPasswordView, recoverPasswordModel, utils);
+    const recoverPasswordController = new RecoverPasswordController(recoverPasswordView, recoverPasswordModel, utils, authFormHandler);
     recoverPasswordController.init();
   });
 
@@ -184,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('auth-view');
 
     const authFormHandler = new AuthFormHandler;
-    const resetPasswordModel = new ResetPasswordModel(router, utils);
+    const resetPasswordModel = new ResetPasswordModel(router, utils, deviceIdentifier);
     const resetPasswordView = new ResetPasswordView(authFormHandler);
     const resetPasswordController = new ResetPasswordController(resetPasswordView, resetPasswordModel, utils, router, authFormHandler);
     resetPasswordController.init();

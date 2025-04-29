@@ -185,4 +185,9 @@ export default class AuthFormHandler {
       this.togglePassword(input, input.nextElementSibling);
     });
   }
+
+  toggleSubmitBtn(errors, submitBtn) {
+    const isValid = Object.values(errors).every(error => error === false);
+    submitBtn.disabled = !isValid;
+  }
 }

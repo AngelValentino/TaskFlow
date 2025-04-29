@@ -1,9 +1,10 @@
 import config from "../config.js";
 
 export default class QuoteModel {
-  constructor(utils, router) {
+  constructor(utils, router, deviceIdentifier) {
     this.utils = utils;
     this.router = router;
+    this.deviceIdentifier = deviceIdentifier;
     this.baseEndpointUrl = config.apiUrl + '/quotes';
   }
 
@@ -25,7 +26,7 @@ export default class QuoteModel {
   async handleGetAllQuotes() {
     const response = await fetch(this.baseEndpointUrl, {
       headers: {
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       }, 
       signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('GET', this.baseEndpointUrl))
     });

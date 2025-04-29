@@ -26,11 +26,6 @@ export default class RecoverPasswordView {
     this.authFormHandler.updateFormMessage(this.lms.formMessageLm, message);
   }
 
-  toggleSubmitBtn(errors) {
-    const isValid = Object.values(errors).every(error => error === false);
-    this.lms.submitBtn.disabled = !isValid;
-  }
-
   updateSubmitBtn(text) {
     this.lms.submitBtn.innerText = text;
   }

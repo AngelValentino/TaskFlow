@@ -1,9 +1,10 @@
 import config from "../config";
 
 export default class RecoverPasswordModel {
-  constructor(router, utils) {
+  constructor(router, utils, deviceIdentifier) {
     this.router = router;
     this.utils = utils;
+    this.deviceIdentifier = deviceIdentifier;
     this.endpoint = config.apiUrl + '/recover-password';
   }
 
@@ -12,7 +13,7 @@ export default class RecoverPasswordModel {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Device-ID': sessionStorage.getItem('deviceUUID')
+        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
       },
       body: JSON.stringify({
         email: email
@@ -22,6 +23,12 @@ export default class RecoverPasswordModel {
 
     // Rate limited
     if (response.status === 429) {
+      const error = await response.json();
+      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+    }
+
+    // Validation
+    if (response.status === 422) {
       const error = await response.json();
       throw new Error(`Oops! Error ${response.status}: ${error.message}`);
     }
