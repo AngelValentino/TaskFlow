@@ -57,6 +57,18 @@ export default class AuthFormHandler {
     else if (password.length > 72) {
       return 'Password cannot exceed 72 characters.';
     }
+    else if (/\s/.test(password)) {
+      return 'Password must not contain spaces.';
+    }
+    else if (!/[a-z]/.test(password)) {
+      return 'Password must contain at least one lowercase letter.';
+    }
+    else if (!/[A-Z]/.test(password)) {
+      return 'Password must contain at least one uppercase letter.';
+    }
+    else if (!/[0-9]/.test(password)) {
+      return 'Password must contain at least one digit.';
+    }
 
     return false;
   }
