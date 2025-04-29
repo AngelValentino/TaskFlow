@@ -33,6 +33,13 @@ export default class ResetPasswordModel {
       throw error;
     }
 
+    if (response.status === 401) {
+      const error = await response.json();
+      if (error.message === 'Token has expired.') {
+        throw new Error(`Oops! Error ${response.status}: ${error.message}`);
+      }
+    }
+
     // API error
     if (!response.ok) {
       throw new Error(`Oops! Error ${response.status}: We couldn't reset your TaskFlow account password. Please try again later.`);
