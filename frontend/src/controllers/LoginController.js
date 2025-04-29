@@ -1,10 +1,11 @@
 export default class LoginController {
-  constructor(router, auth, userModel, loginView, utils) {
+  constructor(router, auth, userModel, loginView, utils, authFormHandler) {
     this.router = router;
     this.auth = auth;
     this.userModel = userModel;
     this.loginView = loginView;
     this.utils = utils;
+    this.authFormHandler = authFormHandler;
 
     this.activeRequest = false;
 
@@ -19,6 +20,7 @@ export default class LoginController {
   init() {
     this.lms.formLm.addEventListener('submit', this.loginUser.bind(this));
     this.addValidationEventsOnInputChange();
+    this.lms.togglePasswordBtn.addEventListener('click', this.authFormHandler.handlePasswordToggle.bind(this.authFormHandler, [ this.lms.passwordInputLm ]));
   }
 
   addValidationEventsOnInputChange() {

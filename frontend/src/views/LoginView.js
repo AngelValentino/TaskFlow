@@ -4,7 +4,9 @@ export default class LoginView {
     this.lms = {
       formLm: document.getElementById('login-form'),
       formErrorLm: document.getElementById('login-form__error'),
-      submitBtn: document.getElementById('login-form__submit-btn')
+      submitBtn: document.getElementById('login-form__submit-btn'),
+      togglePasswordBtn: document.getElementById('auth-form__toggle-password-btn'),
+      passwordInputLm: document.getElementById('login-form__password-input')
     };
     this.lms.loginFormInputLms = this.lms.formLm.querySelectorAll('input');
   }

@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const authFormHandler = new AuthFormHandler;
     const userModel = new UserModel(router, auth, utils, deviceIdentifier);
     const loginView = new LoginView(authFormHandler);
-    const loginController = new LoginController(router, auth, userModel, loginView, utils);
+    const loginController = new LoginController(router, auth, userModel, loginView, utils, authFormHandler);
     loginController.init();
   });
 
