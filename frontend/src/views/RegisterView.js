@@ -43,6 +43,7 @@ export default class RegisterView {
     this.setEmailError(errors.email);
     this.setPasswordError(errors.password);
     this.setRepeatedPasswordError(errors.repeated_password);
+    this.renderGeneralErrorMessage(errors.terms);
   }
 
   renderGeneralErrorMessage(message) {
