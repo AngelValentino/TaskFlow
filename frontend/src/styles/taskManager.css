@@ -151,7 +151,7 @@
   line-height: 0;
   border-radius: 5px;
   color: white;
-  transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
+  transition: opacity var(--base-transition-duration);
   width: 40px;
   height: 40px;
 }
@@ -338,8 +338,7 @@
   }
 
   .task-manger__scroll-to-top-btn:is(:hover, :focus-visible) {
-    background-color: var(--contrast-color);
-    color: var(--base-text-color);
+    opacity: 0.75;
   }
 }
 
@@ -354,7 +353,7 @@
 
 .task-manger__scroll-to-top-btn:active {
   transition: none;
-  opacity: 0.75;
+  opacity: 1;
 }
 
 /* END OF ACTIVE */

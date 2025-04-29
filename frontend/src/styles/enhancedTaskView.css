@@ -13,6 +13,7 @@ main.enhanced-task-view {
   display: flex;
   height: 100%;
   max-height: 770px;
+  gap: 10px;
 }
 
 .enhanced-task-manager__tabs-nav {
@@ -88,7 +89,9 @@ main.enhanced-task-view {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #4B4B4B transparent;
-  padding: 0 10px;
+  padding: 17px 12px;
+  background-color: #ffffff2f;
+  border-radius: 3px;
 }
 
 .enhanced-task-manager__empty-list-placeholder-container,
@@ -144,6 +147,7 @@ main.enhanced-task-view {
 @media screen and (max-width: 500px) {
   .enhanced-task-manager {
     flex-flow: column;
+    gap: 0;
   }
 
   .enhanced-task-manager__tab-list {
@@ -159,7 +163,7 @@ main.enhanced-task-view {
   }
 
   .enhanced-task-manager__task-list {
-    padding: 15px 0 0 0;
+    padding: 12px 8px;
   }
 
   .enhanced-task-manager__scroll-to-top-btn-container {
