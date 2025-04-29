@@ -125,16 +125,12 @@ main.register-view {
 }
 
 @media screen and (max-width: 500px) {
-  .register-form {
-    padding: 42px;
-  }
-
   .register-form__welcome-message {
     padding: 0 10px;
   }
 
   .register-form {
-    padding: 42px 27px;
+    padding: 42px 20px;
   }
 }
 
