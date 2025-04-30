@@ -122,7 +122,7 @@
 }
 
 .confirm-modal__info-message {
-  border-radius: 2px;
+  border-radius: 3px;
   color: white;
   font-size: 1.15rem;
 }
@@ -209,7 +209,7 @@
 
 .edit-modal__error {
   color: var(--base-text-color);
-  border-radius: 2px;
+  border-radius: 3px;
   font-size: 1.05rem;
 }
 

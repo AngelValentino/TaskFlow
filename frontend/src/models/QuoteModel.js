@@ -1,10 +1,9 @@
 import config from "../config.js";
 
 export default class QuoteModel {
-  constructor(utils, router, deviceIdentifier) {
+  constructor(utils, fetchHandler) {
     this.utils = utils;
-    this.router = router;
-    this.deviceIdentifier = deviceIdentifier;
+    this.fetchHandler = fetchHandler;
     this.baseEndpointUrl = config.apiUrl + '/quotes';
   }
 
@@ -24,23 +23,11 @@ export default class QuoteModel {
   }
 
   async handleGetAllQuotes() {
-    const response = await fetch(this.baseEndpointUrl, {
-      headers: {
-        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
-      }, 
-      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('GET', this.baseEndpointUrl))
-    });
-
-    // Rate limited
-    if (response.status === 429) {
-      const error = await response.json();
-      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
-    }
-
-    if (!response.ok) {
-      throw new Error(`Oops! Error ${response.status}: We couldn't get the quotes data. Please try again later.`);
-    }
-    
-    return await response.json();
+    return await this.fetchHandler.handleFetchRequest(
+      this.baseEndpointUrl,
+      { method: 'GET'},
+      `We couldn't get the quotes data. Please try again later.`,
+      true
+    );
   }
 }

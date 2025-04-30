@@ -1,25 +1,9 @@
 import config from "../config";
 
 export default class TaskModel {
-  constructor(router, auth, tokenHandler, utils, deviceIdentifier) {
-    this.router = router;
-    this.auth = auth;
-    this.tokenHandler = tokenHandler;
-    this.utils = utils;
-    this.deviceIdentifier = deviceIdentifier;
+  constructor(fetchHandler) {
+    this.fetchHandler = fetchHandler;
     this.baseEndpointUrl = config.apiUrl + '/tasks';
-    this.customErrorHandlers = {
-      422: async response => {
-        const errorData = await response.json();
-        const error = new Error('Validation error occurred');
-        error.data = errorData;
-        throw error;
-      },
-      409: async response => {
-        const errorData = await response.json();
-        throw new Error(`Oops! Error ${response.status}: ${errorData.message}`);
-      }
-    }
   }
 
   addTaskToLocalStorage(taskData) {
@@ -142,66 +126,15 @@ export default class TaskModel {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  async fetchRequest(apiUrl, options) {
-    const methodsWithBody = ['POST', 'PUT', 'PATCH'];
-
-    return await fetch(apiUrl, {
-      ...options,
-      headers: {
-        ...(methodsWithBody.includes(options.method) ? { 'Content-Type': 'application/json' } : {}),
-        'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
-        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
-      },
-      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey(options.method, apiUrl))
-    });
-  }
-
-  async handleAuthFetchRequest(apiUrl, options, returnData = false, errorMessage = 'Failed API connection.', errorHandlers = null) {
-    let response = await this.fetchRequest(apiUrl, options);
-
-    // Rate limited
-    if (response.status === 429) {
-      const error = await response.json();
-      const message = errorMessage === ''
-        ? `Oops! Error ${response.status}`
-        : `Oops! Error ${response.status}: ${error.message}`;
-      throw new Error(message);
-    }
-
-    // Checks if token has expired (401)
-    if (response.status === 401) {
-      const error = await response.json();
-
-      // Get new refresh token and retry initial request
-      if (error.message === 'Token has expired.') {
-        await this.tokenHandler.handleRefreshAccessToken(); 
-        response = await this.fetchRequest(apiUrl, options);
-      }
-    }
-
-    // Custom staus errors
-    if (errorHandlers && errorHandlers[response.status]) {
-      await errorHandlers[response.status](response);
-    }
-
-    // Generic status error
-    if (!response.ok) {
-      throw new Error(`Oops! Error ${response.status}${errorMessage === '' ? errorMessage : ': ' + errorMessage}`);
-    }
-
-    return returnData ? await response.json() : null;
-  }
-
   async handleSubmitTask(taskData) {
-    await this.handleAuthFetchRequest(
+    await this.fetchHandler.handleAuthFetchRequest(
       this.baseEndpointUrl,
       {
         method: 'POST',
         body: taskData
       },
       false,
-      `We couldn't submit your task. Please try again later.`,
-      this.customErrorHandlers
+      `We couldn't submit your task. Please try again later.`
     );
   }
 
@@ -211,7 +144,7 @@ export default class TaskModel {
     if (targetValue) params.append('title', targetValue);
     const queryString = params.toString() ? `?${params.toString()}` : '';
 
-    return await this.handleAuthFetchRequest(
+    return await this.fetchHandler.handleAuthFetchRequest(
       `${this.baseEndpointUrl}${queryString}`,
       {
         method: 'GET'
@@ -224,18 +157,18 @@ export default class TaskModel {
   async handleGetAllTasksCount(completed, isEnhancedTaskManager) {
     const completedQueryParam = completed !== undefined ? '&completed=' + completed : '';
 
-    return await this.handleAuthFetchRequest(
+    return await this.fetchHandler.handleAuthFetchRequest(
       `${this.baseEndpointUrl}?counter=true${completedQueryParam}`,
       {
         method: 'GET'
       },
       true,
-      isEnhancedTaskManager ? '' : `We couldn't get your task count. Please try again later.`,
+      isEnhancedTaskManager ? 'enhancedTaskManagerError' : `We couldn't get your task count. Please try again later.`
     );
   }
 
   async handleDeleteTask(taskId) {
-    await this.handleAuthFetchRequest(
+    await this.fetchHandler.handleAuthFetchRequest(
       `${this.baseEndpointUrl}/${taskId}`,
       {
         method: 'DELETE'
@@ -248,7 +181,7 @@ export default class TaskModel {
   async handleDeleteAllTasks(completed) {
     const completedQueryParam = completed !== undefined ? '?completed=' + completed : '';
 
-    await this.handleAuthFetchRequest(
+    await this.fetchHandler.handleAuthFetchRequest(
       this.baseEndpointUrl + completedQueryParam,
       {
         method: 'DELETE'
@@ -259,7 +192,7 @@ export default class TaskModel {
   }
 
   async handleCompleteTask(taskId) {
-    await this.handleAuthFetchRequest(
+    await this.fetchHandler.handleAuthFetchRequest(
       `${this.baseEndpointUrl}/${taskId}`,
       {
         method: 'PATCH',
@@ -273,15 +206,14 @@ export default class TaskModel {
   }
 
   async handleEditTask(taskId, editedTaskData) {
-    return await this.handleAuthFetchRequest(
+    return await this.fetchHandler.handleAuthFetchRequest(
       `${this.baseEndpointUrl}/${taskId}`,
       {
         method: 'PATCH',
         body: editedTaskData
       },
       false,
-      `We couldn't update your task. Please try again later.`,
-      this.customErrorHandlers
+      `We couldn't update your task. Please try again later.`
     );
   }
 }

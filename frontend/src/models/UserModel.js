@@ -1,90 +1,51 @@
 import config from "../config";
 
 export default class UserModel {
-  constructor(router, auth, utils, deviceIdentifier) {
-    this.router = router;
+  constructor(auth, fetchHandler = null) {
     this.auth = auth;
-    this.utils = utils;
-    this.deviceIdentifier = deviceIdentifier;
+    this.fetchHandler = fetchHandler;
+  }
+  
+  setFetchHandler(fetchHandler) {
+    this.fetchHandler = fetchHandler;
   }
 
   async handleUserRegistration(formData) {
     const endpoint = config.apiUrl + '/register';
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
+    await this.fetchHandler.handleFetchRequest(
+      endpoint,
+      {
+        method: 'POST',
+        body: formData
       },
-      body: formData,
-      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
-    });
-
-    // Rate limited
-    if (response.status === 429) {
-      const error = await response.json();
-      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
-    }
-
-    // Validation error
-    if (response.status === 422) {
-      const errorData = await response.json();
-      const error = new Error('Validation error occurred');
-      error.data = errorData; // Attach the full error data
-      throw error;
-    }
-
-    // API error
-    if (!response.ok) {
-      throw new Error(`Oops! Error ${response.status}: We couldn't register your user data into our storage. Please try again later.`);
-    }
+      `We couldn't register your user data into our storage. Please try again later.`
+    );
   }
 
   async handleUserLogin(formData) {
     const endpoint = config.apiUrl + '/login';
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
+    return await this.fetchHandler.handleFetchRequest(
+      endpoint,
+      {
+        method: 'POST',
+        body: formData
       },
-      body: formData,
-      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', endpoint))
-    });
-
-    // Rate limited
-    if (response.status === 429) {
-      const error = await response.json();
-      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
-    }
-
-    if (response.status === 400 || response.status === 401) {
-      const error = await response.json();
-      throw new Error(error.message);
-    }
-
-    if (!response.ok) {
-      throw new Error(`Oops! Error ${response.status}: We couldn't login into your account. Please try again later.`);
-    }
-
-    return await response.json();
+      `We couldn't login into your account. Please try again later.`,
+      true
+    );
   }
 
   async handleUserLogout(throwErrors = true) {
     const endpoint = config.apiUrl + '/logout';
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
-      },
-      body: JSON.stringify({
-        token: localStorage.getItem('refreshToken') 
-      })
-    });
+    const response = await this.fetchHandler.fetchRequest(
+      endpoint,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          token: localStorage.getItem('refreshToken') 
+        })
+      }
+    );
 
     // Rate limited
     if (response.status === 429) {

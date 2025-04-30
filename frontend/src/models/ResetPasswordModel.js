@@ -1,48 +1,19 @@
 import config from "../config";
 
 export default class ResetPasswordModel {
-  constructor(router, utils, deviceIdentifier) {
-    this.router = router;
-    this.utils = utils;
-    this.deviceIdentifier = deviceIdentifier;
+  constructor(fetchHandler) {
+    this.fetchHandler = fetchHandler;
     this.endpoint = config.apiUrl + '/reset-password';
   }
 
   async handleResetUserPassword(formData) {
-    const response = await fetch(this.endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
+    await this.fetchHandler.handleFetchRequest(
+      this.endpoint,
+      {
+        method: 'POST',
+        body: formData
       },
-      body: formData,
-      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey('POST', this.endpoint))
-    });
-
-    // Rate limited
-    if (response.status === 429) {
-      const error = await response.json();
-      throw new Error(`Oops! Error ${response.status}: ${error.message}`);
-    }
-
-    // Validation error
-    if (response.status === 422) {
-      const errorData = await response.json();
-      const error = new Error('Validation error occurred');
-      error.data = errorData; // Attach the full error data
-      throw error;
-    }
-
-    if (response.status === 401) {
-      const error = await response.json();
-      if (error.message === 'Token has expired.') {
-        throw new Error(`Oops! Error ${response.status}: ${error.message}`);
-      }
-    }
-
-    // API error
-    if (!response.ok) {
-      throw new Error(`Oops! Error ${response.status}: We couldn't reset your TaskFlow account password. Please try again later.`);
-    }
+      `We couldn't reset your TaskFlow account password. Please try again later.`,
+    );
   }
 }
