@@ -58,7 +58,6 @@ export default class QuoteMachineController {
       })
       .finally(() => {
         clearTimeout(loadingTimId);
-        if (wasFetchAborted) return;
         this.quoteMachineView.updateQuoteLoader(false);
       });
   }

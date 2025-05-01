@@ -8,10 +8,11 @@ import InfoEmptyTaskListModal from "../components/InfoEmptyTaskListModal.js";
 import LoadingCircle from "../components/LoadingCircle.js";
 
 export default class ModalView {
-  constructor(modalHandler, utils, loadHandler) {
+  constructor(modalHandler, utils, loadHandler, router) {
     this.modalHandler = modalHandler;
     this.utils = utils;
     this.loadHandler = loadHandler;
+    this.router = router;
     this.mediumCircleLoader = LoadingCircle.getHtml('medium');
 
     this.lms = {};
@@ -57,6 +58,8 @@ export default class ModalView {
   }
 
   showModal(modalOverlayLm, modalContainerLm, modalLm, firstFocusableLm, timId, lastFocusedLmBeforeModal) {
+    const focusFirstPromptLmTimId = this.router.getActiveTimeoutId('focusFirstPromptLm');
+    focusFirstPromptLmTimId && clearTimeout(focusFirstPromptLmTimId);
     clearTimeout(timId); // Clear any existing timeout
     document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
     modalContainerLm.style.display = 'flex'; // Show the modal container

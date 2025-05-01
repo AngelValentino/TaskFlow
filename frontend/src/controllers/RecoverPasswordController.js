@@ -43,7 +43,7 @@ export default class RecoverPasswordController {
 
     this.activeRequest = true;
     const loadingTimId = this.utils.handleLoading(
-      this.utils.updateSubmitBtn.bind(this.utils, 'Loading', this.lms.submitBtnText)
+      this.utils.updateSubmitBtn.bind(this.utils, 'Loading', this.lms.submitBtnTextLm)
     );
 
     this.recoverPasswordModel.handleSendRecoverPasswordEmail(email)
@@ -65,8 +65,7 @@ export default class RecoverPasswordController {
       .finally(() => {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
-        if (wasFetchAborted) return;
-        this.utils.updateSubmitBtn('Send email', this.lms.submitBtnText);
+        this.utils.updateSubmitBtn('Send email', this.lms.submitBtnTextLm);
       });
   }
 }

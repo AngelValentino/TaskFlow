@@ -1,8 +1,13 @@
 export default class ModalHandler {
-  constructor() {
+  constructor(router = null) {
     if (ModalHandler.instance) return ModalHandler.instance; // Prevents multiple instances
     this.eventsHandler = {};
     ModalHandler.instance = this; // Store the instance
+    this.router = router;
+  }
+
+  setRouterInstance(router) {
+    this.router = router;
   }
 
   toggleModalFocus(focusBehaviour, firstFocusableLm, lastFocusedLm) {
@@ -124,6 +129,8 @@ export default class ModalHandler {
   }
 
   addModalEvents(eventHandlerKey, className, modalContainerLm, modalLm, closeLms, closeHandler) {
+    this.router.abortActiveFetches();
+
     const escapeKeyHandler = this.handleEscapeKeyClose(closeHandler, className);
     const outsideClickHandler = this.handleOutsideClickClose(closeHandler, className);
     const trapFocusHandler = this.handleTrapFocus(modalLm);

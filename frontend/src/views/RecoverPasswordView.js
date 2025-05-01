@@ -7,7 +7,7 @@ export default class RecoverPasswordView {
       formErrorLm: document.getElementById('recover-password-form__error'),
       formMessageLm: document.getElementById('recover-password-form__message'),
       submitBtn: document.getElementById('auth-form__submit-btn'),
-      submitBtnText: document.getElementById('auth-form__submit-btn-text'),
+      submitBtnTextLm: document.getElementById('auth-form__submit-btn-text'),
     };
   }
 

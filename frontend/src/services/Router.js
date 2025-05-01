@@ -11,12 +11,29 @@ export default class Router {
     Router.instance = this; // Store the instance
   }
 
+  setNewAbortSignal(fetchKey) {
+    this.abortControllers[fetchKey] = new AbortController();
+  }
+
   setActiveInterval(key, intId) {
     this.intervalIds[key] = intId;
   }
 
   setActiveTimeout(key, timId) {
     this.timeoutIds[key] = timId;
+  }
+
+  getAbortSignal(fetchKey) {
+    this.setNewAbortSignal(fetchKey);
+    return this.abortControllers[fetchKey].signal;
+  }
+
+  getActiveTimeoutId(key) {
+    return this.timeoutIds[key];
+  }
+
+  getActiveIntervalId(key) {
+    return this.intervalIds[key];
   }
 
   // Adds a route
@@ -83,10 +100,6 @@ export default class Router {
     });
   }
 
-  setNewAbortSignal(fetchKey) {
-    this.abortControllers[fetchKey] = new AbortController()
-  }
-
   abortActiveFetch(key) {
     if (this.abortControllers[key] && !this.abortControllers[key].aborted) {
       this.abortControllers[key].abort();
@@ -113,10 +126,5 @@ export default class Router {
       clearInterval(this.intervalIds[key]);
       delete this.intervalIds[key];
     }
-  }
-
-  getAbortSignal(fetchKey) {
-    this.setNewAbortSignal(fetchKey);
-    return this.abortControllers[fetchKey].signal;
   }
 }

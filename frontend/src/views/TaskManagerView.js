@@ -116,7 +116,7 @@ export default class TaskManagerView {
       this.modalHandler.toggleModalFocus('add', firstFocusableLm);
     }, timeout);
 
-    this.router.setActiveTimeout('focusFirsPromptLm', focusFirstPromptLmTimId);
+    this.router.setActiveTimeout('focusFirstPromptLm', focusFirstPromptLmTimId);
     this.timIds.focusFirstPromptLm = focusFirstPromptLmTimId;
   }
 

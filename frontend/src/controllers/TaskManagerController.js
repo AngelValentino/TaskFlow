@@ -122,7 +122,6 @@ export default class TaskManagerController {
       .finally(() => {
         this.activeRequests.submitTask = false;
         clearTimeout(loadingTimId);
-        if (wasFetchAborted) return;
         this.taskManagerView.updateAddTodoPromptSubmitBtn('Add new task');
       });
   }
@@ -164,7 +163,6 @@ export default class TaskManagerController {
       })
       .finally(() => {
         clearTimeout(loadingTimId);
-        if (wasFetchAborted) return;
       });
   }
 
@@ -397,7 +395,6 @@ export default class TaskManagerController {
       .finally(() => {
         clearTimeout(loadingTimId);
         this.activeRequests.editTask = false;
-        if (wasFetchAborted) return;
         this.modalView.updateEditModalSubmitBtn('Edit task');
       });
   }

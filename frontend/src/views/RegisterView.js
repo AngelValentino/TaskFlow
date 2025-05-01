@@ -7,7 +7,7 @@ export default class RegisterView {
       emailErrorLm: document.getElementById('email-error'),
       passwordErrorLm: document.getElementById('password-error'),
       submitBtn: document.getElementById('auth-form__submit-btn'),
-      submitBtnText: document.getElementById('auth-form__submit-btn-text'),
+      submitBtnTextLm: document.getElementById('auth-form__submit-btn-text'),
       usernameInputLm: document.getElementById('register-form__username-input'),
       emailInputLm: document.getElementById('register-form__email-input'),
       passwordInputLm: document.getElementById('register-form__password-input'),

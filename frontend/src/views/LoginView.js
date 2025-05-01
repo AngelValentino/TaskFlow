@@ -5,7 +5,7 @@ export default class LoginView {
       formLm: document.getElementById('login-form'),
       formErrorLm: document.getElementById('login-form__error'),
       submitBtn: document.getElementById('auth-form__submit-btn'),
-      submitBtnText: document.getElementById('auth-form__submit-btn-text'),
+      submitBtnTextLm: document.getElementById('auth-form__submit-btn-text'),
       togglePasswordBtn: document.getElementById('auth-form__toggle-password-btn'),
       passwordInputLm: document.getElementById('login-form__password-input')
     };

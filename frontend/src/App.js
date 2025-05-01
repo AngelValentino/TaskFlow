@@ -49,10 +49,11 @@ import './styles/reset.css';
 import './styles/auth.css';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const appLm = document.getElementById('App');
   const modalHandler = new ModalHandler;
   const router = new Router(modalHandler);
+  modalHandler.setRouterInstance(router);
   const utils = new Utils;
-  const appLm = document.getElementById('App');
   const loadHandler = new LoadHandler;
   const auth = new Auth;
   const themeHandler = new ThemeHandler(utils);
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Task manager
     const userModel = new UserModel(auth);
-    const modalView = new ModalView(modalHandler, utils, loadHandler);
+    const modalView = new ModalView(modalHandler, utils, loadHandler, router);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
     const tokenHandler = new TokenHandler(router, userModel, auth, deviceIdentifier);
     const fetchHandler = new FetchHandler(router, deviceIdentifier, utils, tokenHandler);
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Task manager
     const userModel = new UserModel(auth);
-    const modalView = new ModalView(modalHandler, utils, loadHandler);
+    const modalView = new ModalView(modalHandler, utils, loadHandler, router);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
     const tokenHandler = new TokenHandler(router, userModel, auth, deviceIdentifier);
     const fetchHandler = new FetchHandler(router, deviceIdentifier, utils, tokenHandler);

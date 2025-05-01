@@ -225,9 +225,11 @@ export default class Utils {
     return requestMethod + '=>' + apiUrl;
   }
 
-  updateSubmitBtn(text, submitBtnText) {
-    submitBtnText.innerText = text;
-    const loaderLm = submitBtnText.nextElementSibling;
+  updateSubmitBtn(text, submitBtnTextLm) {
+    if (!submitBtnTextLm) return;
+
+    submitBtnTextLm.innerText = text;
+    const loaderLm = submitBtnTextLm.nextElementSibling;
 
     if (text.toLowerCase() === 'loading') {
       loaderLm.classList.remove('show');

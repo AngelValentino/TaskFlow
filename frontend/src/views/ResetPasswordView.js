@@ -9,7 +9,7 @@ export default class ResetPasswordView {
       passwordInputLm: document.getElementById('reset-password-form__password-input'),
       formErrorLm: document.getElementById('reset-password-form__error'),
       submitBtn: document.getElementById('auth-form__submit-btn'),
-      submitBtnText: document.getElementById('auth-form__submit-btn-text'),
+      submitBtnTextLm: document.getElementById('auth-form__submit-btn-text'),
       togglePasswordBtns: document.querySelectorAll('.auth-form__toggle-password-btn')
     }
     this.lms.formInputLms = this.lms.formLm.querySelectorAll('input');

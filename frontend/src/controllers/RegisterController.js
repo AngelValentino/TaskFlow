@@ -68,7 +68,7 @@ export default class RegisterController {
 
     this.activeRequest = true;
     const loadingTimId = this.utils.handleLoading(
-      this.utils.updateSubmitBtn.bind(this.utils, 'Loading', this.lms.submitBtnText)
+      this.utils.updateSubmitBtn.bind(this.utils, 'Loading', this.lms.submitBtnTextLm)
     );
 
     this.userModel.handleUserRegistration(JSON.stringify(registerData))
@@ -96,8 +96,7 @@ export default class RegisterController {
       .finally(() => {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
-        if (wasFetchAborted) return;
-        this.utils.updateSubmitBtn('Register', this.lms.submitBtnText);
+        this.utils.updateSubmitBtn('Register', this.lms.submitBtnTextLm);
       });
   }
 }

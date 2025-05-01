@@ -47,6 +47,7 @@ export default class QuoteMachineView {
   }
 
   updateQuoteLoader(load) {
+    if (!this.lms.quoteTextLm) return;
     load ? this.lms.quoteTextLm.classList.add('loading') : this.lms.quoteTextLm.classList.remove('loading');
   }
 }
