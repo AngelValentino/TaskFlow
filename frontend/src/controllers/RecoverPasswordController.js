@@ -36,6 +36,7 @@ export default class RecoverPasswordController {
     let wasFetchAborted = false;
 
     if (this.activeRequest) {
+      this.recoverPasswordView.updateMessage('');
       this.recoverPasswordView.updateErrorMessage('Your request is being processed. Please wait a moment.');
       return;
     }
