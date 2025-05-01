@@ -193,6 +193,9 @@
   background-color: var(--medium-accent-color);
   border-radius: 5px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
 }
 
 .edit-modal__input-error {

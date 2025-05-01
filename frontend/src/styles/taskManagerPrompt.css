@@ -93,6 +93,9 @@
   background-color: var(--medium-accent-color);
   font-size: var(--base-font-size);
   border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
 }
 
 /* END OF ADD TASK PROMPT */

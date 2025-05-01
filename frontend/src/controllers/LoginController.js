@@ -76,7 +76,7 @@ export default class LoginController {
 
     this.activeRequest = true;
     const loadingTimId = this.utils.handleLoading(
-      this.authFormHandler.updateSubmitBtn.bind(this.authFormHandler, 'Loading', this.lms.submitBtnText)
+      this.utils.updateSubmitBtn.bind(this.utils, 'Loading', this.lms.submitBtnText)
     );
 
     this.userModel.handleUserLogin(JSON.stringify(loginData))
@@ -97,7 +97,7 @@ export default class LoginController {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
-        this.authFormHandler.updateSubmitBtn('Log in', this.lms.submitBtnText);
+        this.utils.updateSubmitBtn('Log in', this.lms.submitBtnText);
       });
   }
 }

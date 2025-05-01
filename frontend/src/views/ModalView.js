@@ -48,6 +48,7 @@ export default class ModalView {
       editModalCloseBtn: document.getElementById('edit-modal__close-btn'),
       editModalFormLm: document.getElementById('edit-modal__form'),
       editModalFormSubmitBtn: document.getElementById('edit-modal__submit-btn'),
+      editModalFormSubmitBtnTextLm: document.getElementById('edit-modal__submit-btn-text'),
       editModalTitleErrorLm: document.getElementById('edit-modal__title-error'),
       editModalDueDateErrorLm: document.getElementById('edit-modal__due-date-error'),
       editModalDescErrorLm: document.getElementById('edit-modal__desc-error'),
@@ -483,7 +484,7 @@ export default class ModalView {
   }
 
   updateEditModalSubmitBtn(message) {
-    this.lms.editModalFormSubmitBtn.innerText = message;
+    this.utils.updateSubmitBtn(message, this.lms.editModalFormSubmitBtnTextLm);
   }
 
   renderGeneralEditTaskFormError(message) {

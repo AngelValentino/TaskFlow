@@ -224,4 +224,18 @@ export default class Utils {
   formatFetchRequestKey(requestMethod, apiUrl) {
     return requestMethod + '=>' + apiUrl;
   }
+
+  updateSubmitBtn(text, submitBtnText) {
+    submitBtnText.innerText = text;
+    const loaderLm = submitBtnText.nextElementSibling;
+
+    if (text.toLowerCase() === 'loading') {
+      loaderLm.classList.remove('show');
+      void loaderLm.offsetWidth;
+      loaderLm.classList.add('show');
+    } 
+    else {
+      loaderLm.classList.remove('show');
+    }
+  }
 }

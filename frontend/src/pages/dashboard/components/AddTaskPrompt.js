@@ -1,5 +1,9 @@
+import ThreeDotsLoader from "../../../components/ThreeDotsLoader.js";
+
 export default class AddTaskPrompt {
   static getHtml() {
+    const threeDotsLoader = ThreeDotsLoader.getHtml();
+
     return `
       <div id="task-manager__add-prompt" class="task-manager__add-prompt" role="region" aria-labelledby="task-manager__add-prompt-submit-btn" hidden>
         <form id="task-manager__add-prompt-form" class="task-manager__add-prompt-form">
@@ -22,7 +26,10 @@ export default class AddTaskPrompt {
             <p id="task-manager__add-prompt-desc-error" class="task-manager__add-prompt-input-error task-manager__add-prompt-desc-error"></p> 
           </div>
           <p id="task-manager__add-prompt-error" class="task-manager__add-prompt-error"></p>
-          <button id="task-manager__add-prompt-submit-btn" class="task-manager__add-prompt-submit-btn slide-button" type="submit">Add new task</button>
+          <button id="task-manager__add-prompt-submit-btn" class="task-manager__add-prompt-submit-btn slide-button" type="submit">
+            <span id="task-manager__add-prompt-submit-btn-text" class="task-manager__add-prompt-submit-btn-text">Add new task</span>
+            ${threeDotsLoader}
+          </button>
         </form>
       </div>
     `;

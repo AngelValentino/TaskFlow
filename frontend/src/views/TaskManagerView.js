@@ -24,6 +24,7 @@ export default class TaskManagerView {
       addTaskPromptCloseBtn: document.getElementById('task-manager__add-prompt-close-btn'),
       addTaskPromptFormLm: document.getElementById('task-manager__add-prompt-form'),
       submitTaskBtn: document.getElementById('task-manager__add-prompt-submit-btn'),
+      submitTaskBtnTextLm: document.getElementById('task-manager__add-prompt-submit-btn-text'),
       addTaskPromptTitleErrorLm: document.getElementById('task-manager__add-prompt-title-error'),
       addTaskPromptDueDateErrorLm: document.getElementById('task-manager__add-prompt-due-date-error'),
       addTaskPromptDescErrorLm: document.getElementById('task-manager__add-prompt-desc-error'),
@@ -159,10 +160,10 @@ export default class TaskManagerView {
   closeAddTaskPrompt(returnFocus = true) {
     // In case user closes prompt with a pending fetch request and is logged in, manages edge case
     if (this.auth.isClientLogged()) {
-      this.clearAddTaskPromptErrors();
       this.router.abortActiveFetch('POST=>' + config.apiUrl + '/tasks');
       this.updateAddTodoPromptSubmitBtn('Add new task');
     }
+    this.clearAddTaskPromptErrors();
 
     this.hidePrompt(
       this.lms.addTaskPromptLm,
@@ -296,7 +297,7 @@ export default class TaskManagerView {
   }
 
   updateAddTodoPromptSubmitBtn(text) {
-    this.lms.submitTaskBtn.innerText = text;
+    this.utils.updateSubmitBtn(text, this.lms.submitTaskBtnTextLm);
   }
 
   setDefaultTaskManagerFocus(isEnhancedTaskManager) {

@@ -1,5 +1,9 @@
+import ThreeDotsLoader from "./ThreeDotsLoader.js";
+
 export default class EditModal {
   static getHtml() {
+    const threeDotsLoader = ThreeDotsLoader.getHtml();
+    
     return `
       <div id="edit-modal-container" class="edit-modal-container">
         <div class="edit-modal form-modal" id="edit-modal" role="dialog" aria-label="Edit task modal.">
@@ -23,7 +27,10 @@ export default class EditModal {
               <p id="edit-modal__desc-error" class="edit-modal__input-error edit-modal__desc-error"></p> 
             </div>
             <p id="edit-modal__error" class="edit-modal__error"></p>
-            <button id="edit-modal__submit-btn" class="edit-modal__submit-btn slide-button" type="submit">Edit task</button>
+            <button id="edit-modal__submit-btn" class="edit-modal__submit-btn slide-button" type="submit">
+              <span id="edit-modal__submit-btn-text" class="edit-modal__submit-btn-text">Edit task</span>
+              ${threeDotsLoader}
+            </button>
           </form>
         </div>
         <div id="edit-modal-overlay" class="edit-modal-overlay"></div>

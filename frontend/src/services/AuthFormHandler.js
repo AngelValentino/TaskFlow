@@ -198,20 +198,6 @@ export default class AuthFormHandler {
     });
   }
 
-  updateSubmitBtn(text, submitBtnText) {
-    submitBtnText.innerText = text;
-    const loaderLm = submitBtnText.nextElementSibling;
-
-    if (text.toLowerCase() === 'loading') {
-      loaderLm.classList.remove('show');
-      void loaderLm.offsetWidth;
-      loaderLm.classList.add('show');
-    } 
-    else {
-      loaderLm.classList.remove('show');
-    }
-  }
-
   toggleSubmitBtn(errors, submitBtn) {
     const isValid = Object.values(errors).every(error => error === false);
     submitBtn.disabled = !isValid;

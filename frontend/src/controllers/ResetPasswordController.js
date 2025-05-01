@@ -63,7 +63,7 @@ export default class ResetPasswordController {
 
     this.activeRequest = true;
     const loadingTimId = this.utils.handleLoading(
-      this.authFormHandler.updateSubmitBtn.bind(this.authFormHandler, 'Loading', this.lms.submitBtnText)
+      this.utils.updateSubmitBtn.bind(this.utils, 'Loading', this.lms.submitBtnText)
     );
 
     this.resetPasswordModel.handleResetUserPassword(JSON.stringify(registerData))
@@ -92,7 +92,7 @@ export default class ResetPasswordController {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
-        this.authFormHandler.updateSubmitBtn('Reset password', this.lms.submitBtnText);
+        this.utils.updateSubmitBtn('Reset password', this.lms.submitBtnText);
       });
   }
 }

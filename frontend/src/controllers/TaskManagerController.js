@@ -92,9 +92,9 @@ export default class TaskManagerController {
     let wasFetchAborted = false;
 
     const loadingTimId = this.utils.handleLoading(
-      this.taskManagerView.updateAddTodoPromptSubmitBtn.bind(this.taskManagerView, 'Loading...')
+      this.taskManagerView.updateAddTodoPromptSubmitBtn.bind(this.taskManagerView, 'Loading')
     );
-    
+
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
       .then(() => {
         this.taskManagerView.resetAddTaskForm();
@@ -368,7 +368,7 @@ export default class TaskManagerController {
     // Handle task editing for logged-in users 
     let wasFetchAborted = false;
     const loadingTimId = this.utils.handleLoading(
-      this.modalView.updateEditModalSubmitBtn.bind(this.modalView, 'Loading...')
+      this.modalView.updateEditModalSubmitBtn.bind(this.modalView, 'Loading')
     );
 
     this.taskModel.handleEditTask(taskId, JSON.stringify(editedTaskData))
