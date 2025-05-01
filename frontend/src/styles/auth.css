@@ -126,6 +126,8 @@ main.auth-view {
   background-color: var(--dark-accent-color);
   color: #fff;
   transition: opacity var(--base-transition-duration);
+  display: inline-flex;
+  gap: 0.325rem;
 }
 
 .auth-redirect {

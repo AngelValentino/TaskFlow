@@ -61,7 +61,7 @@ export default class LoginController {
         break;
     }
 
-    this.loginView.toggleSubmitBtn(this.errors);
+    this.authFormHandler.toggleSubmitBtn(this.errors, this.lms.submitBtn);
   }
 
   loginUser(e) {
@@ -76,7 +76,7 @@ export default class LoginController {
 
     this.activeRequest = true;
     const loadingTimId = this.utils.handleLoading(
-      this.loginView.updateSubmitBtn.bind(this.loginView, 'Loading...')
+      this.authFormHandler.updateSubmitBtn.bind(this.authFormHandler, 'Loading', this.lms.submitBtnText)
     );
 
     this.userModel.handleUserLogin(JSON.stringify(loginData))
@@ -97,7 +97,7 @@ export default class LoginController {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
-        this.loginView.updateSubmitBtn('Log in');
+        this.authFormHandler.updateSubmitBtn('Log in', this.lms.submitBtnText);
       });
   }
 }

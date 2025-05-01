@@ -6,7 +6,8 @@ export default class RegisterView {
       usernameErrorLm: document.getElementById('username-error'),
       emailErrorLm: document.getElementById('email-error'),
       passwordErrorLm: document.getElementById('password-error'),
-      submitBtn: document.getElementById('register-form__submit-btn'),
+      submitBtn: document.getElementById('auth-form__submit-btn'),
+      submitBtnText: document.getElementById('auth-form__submit-btn-text'),
       usernameInputLm: document.getElementById('register-form__username-input'),
       emailInputLm: document.getElementById('register-form__email-input'),
       passwordInputLm: document.getElementById('register-form__password-input'),
@@ -43,19 +44,15 @@ export default class RegisterView {
     this.setEmailError(errors.email);
     this.setPasswordError(errors.password);
     this.setRepeatedPasswordError(errors.repeated_password);
-    this.renderGeneralErrorMessage(errors.terms);
+    if (errors.terms === false) {
+      this.renderGeneralErrorMessage('');
+    }
+    else if (errors.terms) {
+      this.renderGeneralErrorMessage(errors.terms);
+    }
   }
 
   renderGeneralErrorMessage(message) {
     this.lms.generalErrorLm.innerText = message;
-  }
-
-  toggleSubmitBtn(errors) {
-    const isValid = Object.values(errors).every(error => error === false);
-    this.lms.submitBtn.disabled = !isValid;
-  }
-
-  updateSubmitBtn(text) {
-    this.lms.submitBtn.innerText = text;
   }
 }

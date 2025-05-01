@@ -6,7 +6,8 @@ export default class RecoverPasswordView {
       emailInputLm: document.getElementById('recover-password-form__email-input'),
       formErrorLm: document.getElementById('recover-password-form__error'),
       formMessageLm: document.getElementById('recover-password-form__message'),
-      submitBtn: document.getElementById('recover-password-form__submit-btn')
+      submitBtn: document.getElementById('auth-form__submit-btn'),
+      submitBtnText: document.getElementById('auth-form__submit-btn-text'),
     };
   }
 
@@ -24,9 +25,5 @@ export default class RecoverPasswordView {
 
   updateMessage(message) {
     this.authFormHandler.updateFormMessage(this.lms.formMessageLm, message);
-  }
-
-  updateSubmitBtn(text) {
-    this.lms.submitBtn.innerText = text;
   }
 }

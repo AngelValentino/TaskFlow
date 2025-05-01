@@ -60,6 +60,7 @@ main.register-view {
   font-size: 0.95rem;
   margin-top: 10px;
   text-align: center;
+  display: block;
 }
 
 .register-form__terms-and-conditions {
@@ -85,11 +86,7 @@ main.register-view {
 
 .register-form__submit-btn-container {
   text-align: center;
-}
-
-.register-form__submit-btn {
-  padding: 10px 42px;
-  margin: 30px 0 0;
+  padding: 30px 0 0;
 }
 
 /* MEDIA QUERIES */

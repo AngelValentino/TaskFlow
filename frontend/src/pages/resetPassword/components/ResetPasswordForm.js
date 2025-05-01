@@ -1,5 +1,9 @@
+import AuthFormSubmitBtn from "../../../components/AuthFormSubmitBtn.js";
+
 export default class ResetPasswordForm {
   static getHtml() {
+    const authFormSubmitBtn = AuthFormSubmitBtn.getHtml({ btnText: 'Reset password' });
+    
     return `
       <form id="reset-password-form" class="auth-form">
         <div class="auth-form__inputs-container">
@@ -27,7 +31,7 @@ export default class ResetPasswordForm {
         </div>
         <p id="reset-password-form__error" class="auth-form__error"></p>  
         <div class="auth-form__submit-btn-container">
-          <button id="reset-password-form__submit-btn" class="auth-form__submit-btn" type="submit" disabled>Reset password</button>
+          ${authFormSubmitBtn}
         </div>
       </form>
     `;

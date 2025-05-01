@@ -1,5 +1,9 @@
+import AuthFormSubmitBtn from "../../../components/AuthFormSubmitBtn.js";
+
 export default class LoginUserForm {
   static getHtml() {
+    const authFormSubmitBtn = AuthFormSubmitBtn.getHtml({ btnText: 'Log in' });
+
     return `
       <form id="login-form" class="auth-form">
         <div class="auth-form__inputs-container">
@@ -18,7 +22,7 @@ export default class LoginUserForm {
         </div>
         <p id="login-form__error" class="auth-form__error"></p>  
         <div class="auth-form__submit-btn-container">
-          <button id="login-form__submit-btn" class="auth-form__submit-btn" type="submit" disabled>log in</button>
+          ${authFormSubmitBtn}
         </div>
       </form>
     `;

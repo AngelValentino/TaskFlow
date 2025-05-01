@@ -35,8 +35,8 @@ export default class RegisterController {
       this.wasBlurred,
       this.lms.confirmPasswordInputLm,
       this.lms.passwordInputLm,
+      this.lms.submitBtn,
       this.registerView.renderErrorMessages.bind(this.registerView),
-      this.registerView.toggleSubmitBtn.bind(this.registerView)
     );
     this.lms.togglePasswordBtns.forEach(btn => {
       btn.addEventListener('click', this.authFormHandler.handlePasswordToggle.bind(this.authFormHandler, [this.lms.passwordInputLm, this.lms.confirmPasswordInputLm]));
@@ -50,8 +50,8 @@ export default class RegisterController {
       this.wasBlurred,
       this.lms.confirmPasswordInputLm,
       this.lms.passwordInputLm,
-      this.registerView.renderErrorMessages.bind(this.registerView),
-      this.registerView.toggleSubmitBtn.bind(this.registerView)
+      this.lms.submitBtn,
+      this.registerView.renderErrorMessages.bind(this.registerView)
     )
   }
 
@@ -68,7 +68,7 @@ export default class RegisterController {
 
     this.activeRequest = true;
     const loadingTimId = this.utils.handleLoading(
-      this.registerView.updateSubmitBtn.bind(this.registerView, 'Loading...')
+      this.authFormHandler.updateSubmitBtn.bind(this.authFormHandler, 'Loading', this.lms.submitBtnText)
     );
 
     this.userModel.handleUserRegistration(JSON.stringify(registerData))
@@ -97,7 +97,7 @@ export default class RegisterController {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
-        this.registerView.updateSubmitBtn('Register');
+        this.authFormHandler.updateSubmitBtn('Register', this.lms.submitBtnText);
       });
   }
 }

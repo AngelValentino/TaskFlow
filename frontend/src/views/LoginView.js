@@ -4,7 +4,8 @@ export default class LoginView {
     this.lms = {
       formLm: document.getElementById('login-form'),
       formErrorLm: document.getElementById('login-form__error'),
-      submitBtn: document.getElementById('login-form__submit-btn'),
+      submitBtn: document.getElementById('auth-form__submit-btn'),
+      submitBtnText: document.getElementById('auth-form__submit-btn-text'),
       togglePasswordBtn: document.getElementById('auth-form__toggle-password-btn'),
       passwordInputLm: document.getElementById('login-form__password-input')
     };
@@ -17,14 +18,5 @@ export default class LoginView {
 
   updateErrorMessage(error) {
     this.authFormHandler.updateFormMessage(this.lms.formErrorLm, error);
-  }
-
-  toggleSubmitBtn(errors) {
-    const isValid = Object.values(errors).every(error => error === false);
-    this.lms.submitBtn.disabled = !isValid;
-  }
-
-  updateSubmitBtn(text) {
-    this.lms.submitBtn.innerText = text;
   }
 }

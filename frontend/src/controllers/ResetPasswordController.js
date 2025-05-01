@@ -29,8 +29,8 @@ export default class ResetPasswordController {
       this.wasBlurred,
       this.lms.confirmPasswordInputLm,
       this.lms.passwordInputLm,
-      this.resetPasswordView.renderErrorMessages.bind(this.resetPasswordView),
-      this.resetPasswordView.toggleSubmitBtn.bind(this.resetPasswordView)
+      this.lms.submitBtn,
+      this.resetPasswordView.renderErrorMessages.bind(this.resetPasswordView)
     );
     this.lms.togglePasswordBtns.forEach(btn => {
       btn.addEventListener('click', this.authFormHandler.handlePasswordToggle.bind(this.authFormHandler, [this.lms.passwordInputLm, this.lms.confirmPasswordInputLm]));
@@ -44,8 +44,8 @@ export default class ResetPasswordController {
       this.wasBlurred,
       this.lms.confirmPasswordInputLm,
       this.lms.passwordInputLm,
-      this.resetPasswordView.renderErrorMessages.bind(this.resetPasswordView),
-      this.resetPasswordView.toggleSubmitBtn.bind(this.resetPasswordView)
+      this.lms.submitBtn,
+      this.resetPasswordView.renderErrorMessages.bind(this.resetPasswordView)
     )
   }
 
@@ -63,7 +63,7 @@ export default class ResetPasswordController {
 
     this.activeRequest = true;
     const loadingTimId = this.utils.handleLoading(
-      this.resetPasswordView.updateSubmitBtn.bind(this.resetPasswordView, 'Loading...')
+      this.authFormHandler.updateSubmitBtn.bind(this.authFormHandler, 'Loading', this.lms.submitBtnText)
     );
 
     this.resetPasswordModel.handleResetUserPassword(JSON.stringify(registerData))
@@ -92,7 +92,7 @@ export default class ResetPasswordController {
         clearTimeout(loadingTimId);
         this.activeRequest = false;
         if (wasFetchAborted) return;
-        this.resetPasswordView.updateSubmitBtn('Reset password');
+        this.authFormHandler.updateSubmitBtn('Reset password', this.lms.submitBtnText);
       });
   }
 }

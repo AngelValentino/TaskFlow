@@ -1,5 +1,9 @@
+import AuthFormSubmitBtn from "../../../components/AuthFormSubmitBtn.js";
+
 export default class RecoverPasswordForm {
   static getHtml() {
+    const authFormSubmitBtn = AuthFormSubmitBtn.getHtml({ btnText: 'Send email' });
+    
     return `
       <form id="recover-password-form" class="auth-form">
         <div class="auth-form__inputs-container">
@@ -10,7 +14,7 @@ export default class RecoverPasswordForm {
         <p id="recover-password-form__error" class="auth-form__error"></p>  
         <p id="recover-password-form__message" class="auth-form__message"></p>  
         <div class="auth-form__submit-btn-container">
-          <button id="recover-password-form__submit-btn" class="auth-form__submit-btn" type="submit" disabled>Send email</button>
+          ${authFormSubmitBtn}
         </div>
       </form>
     `;

@@ -1,5 +1,9 @@
+import AuthFormSubmitBtn from "../../../components/AuthFormSubmitBtn.js";
+
 export default class RegisterUserForm {
   static getHtml() {
+    const authFormSubmitBtn = AuthFormSubmitBtn.getHtml({ btnText: 'Register' });
+
     return `
       <form id="register-form" class="register-form">
         <p class="register-form__welcome-message">Welcome to TaskFlow! Ready to take your productivity to the next level? Sign up to start organizing, planning, and accomplishing your goals one task at a time.</p>
@@ -53,7 +57,7 @@ export default class RegisterUserForm {
         </div>
         <p id="register-form__general-error" class="register-form__general-error"></p>
         <div class="register-form__submit-btn-container">
-          <button id="register-form__submit-btn" class="register-form__submit-btn auth-form__submit-btn" type="submit" disabled>Register</button>
+          ${authFormSubmitBtn}
         </div>
       </form>
     `;

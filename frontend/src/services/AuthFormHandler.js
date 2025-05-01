@@ -95,7 +95,7 @@ export default class AuthFormHandler {
     return false;
   }
 
-  handleAuthFormValidation(e, errors, confirmPasswordInputLm, passwordInputLm, renderErrorMessages, toggleSubmitBtn) {
+  handleAuthFormValidation(e, errors, confirmPasswordInputLm, passwordInputLm, submitBtn, renderErrorMessages) {
     if (e.target.tagName !== 'INPUT') return;
 
     const input = e.target;
@@ -124,7 +124,7 @@ export default class AuthFormHandler {
     }
 
     renderErrorMessages(errors);
-    toggleSubmitBtn(errors);
+    this.toggleSubmitBtn(errors, submitBtn);
   }
 
   handleAuthValidationOnBlur(
@@ -133,8 +133,8 @@ export default class AuthFormHandler {
     wasBlurred,
     confirmPasswordInputLm,
     passwordInputLm,
-    renderErrorMessages,
-    toggleSubmitBtn
+    submitBtn,
+    renderErrorMessages
   ) {
     if (e.target.tagName !== 'INPUT') return;
     wasBlurred[e.target.name] = true;
@@ -144,8 +144,8 @@ export default class AuthFormHandler {
       errors,
       confirmPasswordInputLm,
       passwordInputLm,
-      renderErrorMessages,
-      toggleSubmitBtn
+      submitBtn,
+      renderErrorMessages
     )
   }
 
@@ -196,6 +196,20 @@ export default class AuthFormHandler {
     passwordInputLms.forEach(input => {
       this.togglePassword(input, input.nextElementSibling);
     });
+  }
+
+  updateSubmitBtn(text, submitBtnText) {
+    submitBtnText.innerText = text;
+    const loaderLm = submitBtnText.nextElementSibling;
+
+    if (text.toLowerCase() === 'loading') {
+      loaderLm.classList.remove('show');
+      void loaderLm.offsetWidth;
+      loaderLm.classList.add('show');
+    } 
+    else {
+      loaderLm.classList.remove('show');
+    }
   }
 
   toggleSubmitBtn(errors, submitBtn) {
