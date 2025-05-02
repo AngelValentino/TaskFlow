@@ -93,12 +93,19 @@ export default class TaskManagerView {
 
   toggleActiveBtn(btnLm) {
     if (btnLm.getAttribute('aria-expanded') === 'false') {
+      // Show active state
       btnLm.classList.add('active');
       btnLm.setAttribute('aria-expanded', true);
     } 
     else {  
+      // Remove active state
+      btnLm.classList.add('transition-disabled'); // Reset transition to avoid showing a laggy animation
       btnLm.classList.remove('active');
       btnLm.setAttribute('aria-expanded', false);
+      // Needs a small timeout to let the browser calculate the changes
+      setTimeout(() => {
+        btnLm.classList.remove('transition-disabled')
+      });
     }
   }
 
@@ -401,13 +408,19 @@ export default class TaskManagerView {
 
   setInactiveTab(tab) {
     tab.setAttribute('aria-selected', false);
-    tab.setAttribute('aria-expanded', false);
+    tab.setAttribute('aria-expanded', false); 
+    tab.classList.add('transition-disabled'); // Reset transition to avoid showing a laggy animation
     tab.classList.remove('active');
+    // Needs a small timeout to let the browser calculate the changes
+    setTimeout(() => {
+      tab.classList.remove('transition-disabled');
+    });
   }
 
   toggleActiveTab(currentTab, tabId) {
     this.lms.sectionHeaderTabLms.forEach(tab => {
       if (tabId) {
+        // In case we have a stored tab option in local storage at page load
         if (tab.id === tabId) {
           this.setActiveTab(tab);
         }

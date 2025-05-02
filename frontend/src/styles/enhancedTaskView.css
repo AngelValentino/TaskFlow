@@ -45,19 +45,19 @@ main.enhanced-task-view {
   align-items: center;
   justify-content: center;
   border-radius: 3px;
-  transition: background-color 0.15s, color 0.15s;
+  transition: background-color var(--base-transition-duration);
 }
 
 .enhanced-task-manager__tab-btn.active {
   background-color: var(--base-text-color);
-  transition: opacity 0.15s;
+  transition: none;
   color: #fff;
 }
 
 .enhanced-task-manager__search-btn.active {
   background-color: var(--dark-accent-color);
   color: #fff;
-  transition: opacity 0.15s;
+  transition: opacity var(--base-transition-duration);
 }
 
 .enhanced-task-manager__tab-svg {

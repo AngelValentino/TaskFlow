@@ -27,6 +27,10 @@ body {
   white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 }
 
+button.transition-disabled {
+  transition: none !important;
+}
+
 body {
   background-color: var(--light-accent-color);
   position: relative;
