@@ -124,6 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/register', () => {
+    if (auth.isClientLogged()) {
+      router.navigateTo('/');
+      return;
+    }
     appLm.innerHTML = RegisterPage.getHtml();
     document.body.classList.add('register-view');
     document.body.classList.add('auth-view');
@@ -144,6 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/login', () => {
+    if (auth.isClientLogged()) {
+      router.navigateTo('/');
+      return;
+    }
     appLm.innerHTML = LoginPage.getHtml();
     document.body.classList.add('auth-view');
 
@@ -163,6 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/logout', () => {
+    if (!auth.isClientLogged()) {
+      router.navigateTo('/');
+      return;
+    }
     appLm.innerHTML = LogoutPage.getHtml();
     document.body.classList.add('logout-view');
     document.body.classList.add('auth-view');
@@ -175,6 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/recover-password', () => {
+    if (auth.isClientLogged()) {
+      router.navigateTo('/');
+      return;
+    }
     appLm.innerHTML = RecoverPage.getHtml();
     document.body.classList.add('auth-view');
     
@@ -187,6 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   router.addRoute('/reset-password', () => {
+    if (auth.isClientLogged()) {
+      router.navigateTo('/');
+      return;
+    }
     appLm.innerHTML = ResetPasswordPage.getHtml();
     document.body.classList.add('auth-view');
 
