@@ -110,7 +110,7 @@
   transition: max-height 1.25s, transform 1.25s;
 }
 
-.enhanced-task-manager__search-prompt {
+.task-manager__search-prompt.enhanced-task-manager__search-prompt {
   padding: 0 10px;
   background-color: #fff; 
   transition: max-height 1.25s, transform 1.25s, margin 1.25s;
@@ -122,7 +122,7 @@
   transform: translateX(0px);
 }
 
-.enhanced-task-manager__search-prompt.active {
+.task-manager__search-prompt.enhanced-task-manager__search-prompt.active {
   margin: 0 10px 10px;
   transition: max-height 1.25s, transform 1.25s, margin 0.25s;
 }
@@ -133,7 +133,7 @@
   position: relative;
 }
 
-.enhanced-task-manager__search-prompt-inner-container {
+.task-manager__search-prompt-inner-container.enhanced-task-manager__search-prompt-inner-container {
   max-width: 600px;
 }
 
@@ -273,12 +273,12 @@
     transform: translateY(-128px);
   }
 
-  .enhanced-task-manager__search-prompt {
+  .task-manager__search-prompt.enhanced-task-manager__search-prompt {
     transition: max-height 1.25s, transform 1.25s, margin 0.25s;
   }
 
-  .enhanced-task-manager__search-prompt.active {
-    margin: 0 0 7px;
+  .task-manager__search-prompt.enhanced-task-manager__search-prompt.active {
+    margin: 0 7px 7px;
   }
 }
 

@@ -122,7 +122,16 @@ main.enhanced-task-view {
   }
 }
 
-/* END OF HOVER CAPABL DEVICES */
+/* END OF HOVER CAPABLE DEVICES */
+
+/* ACTIVE */
+
+.enhanced-task-manager__scroll-to-top-btn:active {
+    transition: none;
+    opacity: 0.75;
+  }
+
+/* END OF ACTIVE */
 
 /* MEDIA QUIRES */
 
