@@ -82,7 +82,6 @@ export default class RegisterController {
         }
 
         if (error.data) {
-          console.error(error.data.errors);
           this.registerView.renderGeneralErrorMessage('');
           this.registerView.renderErrorMessages(error.data.errors);
         } 

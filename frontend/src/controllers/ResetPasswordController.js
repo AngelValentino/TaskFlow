@@ -77,7 +77,6 @@ export default class ResetPasswordController {
         }
 
         if (error.data) {
-          console.error(error.data.errors);
           this.resetPasswordView.updateErrorMessage('');
           this.resetPasswordView.renderErrorMessages(error.data.errors);
         } 

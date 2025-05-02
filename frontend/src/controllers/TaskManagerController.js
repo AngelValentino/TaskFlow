@@ -108,7 +108,6 @@ export default class TaskManagerController {
         }
 
         if (error.data) {
-          console.error(error.data.errors);
           this.taskManagerView.clearGeneralAddTaskPromptError();
           this.taskManagerView.renderAddTaskPromptErrors(error.data.errors);
         } 
@@ -381,7 +380,6 @@ export default class TaskManagerController {
         }
 
         if (error.data) {
-          console.error(error.data.errors);
           this.modalView.renderEditTaskFormErrors(error.data.errors);
           this.modalView.clearGeneralEditTaskFormError();
         } 
