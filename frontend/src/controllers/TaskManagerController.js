@@ -84,13 +84,12 @@ export default class TaskManagerController {
       return;
     }
 
+    // Handle task submission for authenticated users
     if (this.activeRequests.submitTask) {
       this.taskManagerView.renderGeneralAddTaskPromptError('Your request is being processed. Please wait a moment.');
       return
     }
     this.activeRequests.submitTask = true;
-    // Handle task submission for logged-in users
-    let wasFetchAborted = false;
 
     const loadingTimId = this.utils.handleLoading(
       this.taskManagerView.updateAddTodoPromptSubmitBtn.bind(this.taskManagerView, 'Loading')
@@ -104,7 +103,6 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 
@@ -137,9 +135,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Handle task render for logged-in users
-    let wasFetchAborted = false;
-
+    // Handle task render for authenticated users
     const loadingTimId = this.utils.handleLoading(
       this.taskManagerView.renderTasksListLoader.bind(this.taskManagerView, this.isEnhancedTaskManager)
     );
@@ -154,7 +150,6 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 
@@ -175,7 +170,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Handle task count for logged-in users
+    // Handle task count for authenticated users
     const loadingTimId = this.utils.handleLoading(
       this.taskManagerView.updateTaskCount.bind(this.taskManagerView, 'loader')
     );
@@ -211,7 +206,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Handle task deletion for logged-in users
+    // Handle task deletion for authenticated users
     const loadingTimId = this.utils.handleLoading(
       this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'loader')
     );
@@ -253,7 +248,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Handle all task deletion for logged-in users
+    // Handle all task deletion for authenticated users
     const loadingTimId = this.utils.handleLoading(
       this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'loader')
     );
@@ -311,7 +306,7 @@ export default class TaskManagerController {
       return;
     }
 
-    // Handle task completion for logged-in users
+    // Handle task completion for authenticated users
     const loadingTimId = this.utils.handleLoading(
       this.modalView.updateConfirmModalInfoMessage.bind(this.modalView, 'loader')
     );
@@ -359,14 +354,14 @@ export default class TaskManagerController {
       return;
     }
 
+    // Handle task editing for Authenticated users 
     if (this.activeRequests.editTask) {
       this.modalView.renderGeneralEditTaskFormError('Your request is being processed. Please wait a moment.')
       return;
     }
 
     this.activeRequests.editTask = true;
-    // Handle task editing for logged-in users 
-    let wasFetchAborted = false;
+
     const loadingTimId = this.utils.handleLoading(
       this.modalView.updateEditModalSubmitBtn.bind(this.modalView, 'Loading')
     );
@@ -378,7 +373,6 @@ export default class TaskManagerController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 

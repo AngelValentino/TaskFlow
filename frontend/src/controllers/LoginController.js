@@ -67,7 +67,6 @@ export default class LoginController {
   loginUser(e) {
     e.preventDefault();
     const loginData = this.utils.getFormData(e.target);
-    let wasFetchAborted = false;
 
     if (this.activeRequest) {
       this.loginView.updateErrorMessage('Your request is being processed. Please wait a moment.');
@@ -86,7 +85,6 @@ export default class LoginController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 

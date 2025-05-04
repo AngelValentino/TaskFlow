@@ -37,7 +37,6 @@ export default class QuoteMachineController {
       return;
     }
 
-    let wasFetchAborted = false;
     const loadingTimId = this.utils.handleLoading(
       this.quoteMachineView.updateQuoteLoader.bind(this.quoteMachineView, true)
     );
@@ -49,7 +48,6 @@ export default class QuoteMachineController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 

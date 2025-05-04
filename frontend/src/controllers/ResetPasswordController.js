@@ -54,7 +54,6 @@ export default class ResetPasswordController {
     const registerData = this.utils.getFormData(e.target);
     const params = new URLSearchParams(window.location.search);
     registerData.token = params.get('token');
-    let wasFetchAborted = false;
 
     if (this.activeRequest) {
       this.resetPasswordView.updateErrorMessage('Your request is being processed. Please wait a moment.');
@@ -72,7 +71,6 @@ export default class ResetPasswordController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 

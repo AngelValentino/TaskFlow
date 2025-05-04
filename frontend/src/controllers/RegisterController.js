@@ -59,7 +59,6 @@ export default class RegisterController {
     e.preventDefault();
     console.log('submit')
     const registerData = this.utils.getFormData(e.target);
-    let wasFetchAborted = false;
 
     if (this.activeRequest) {
       this.registerView.renderGeneralErrorMessage('Your request is being processed. Please wait a moment.');
@@ -77,7 +76,6 @@ export default class RegisterController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 

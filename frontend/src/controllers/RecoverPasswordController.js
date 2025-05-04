@@ -33,7 +33,6 @@ export default class RecoverPasswordController {
   sendRecoverPasswordEmail(e) {
     e.preventDefault();
     const email = this.recoverPasswordView.getEmailValue();
-    let wasFetchAborted = false;
 
     if (this.activeRequest) {
       this.recoverPasswordView.updateMessage('');
@@ -53,7 +52,6 @@ export default class RecoverPasswordController {
       })
       .catch(error => {
         if (error.name === 'AbortError') {
-          wasFetchAborted = true;
           return;
         }
 
