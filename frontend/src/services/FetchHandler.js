@@ -1,12 +1,14 @@
 export default class FetchHandler {
   constructor(router, deviceIdentifier, utils, tokenHandler = null) {
+    if (FetchHandler.instance) return FetchHandler.instance;
+    FetchHandler.instance = this;
     this.router = router;
     this.deviceIdentifier = deviceIdentifier;
     this.utils = utils;
     this.tokenHandler = tokenHandler;
   }
 
-  async fetchRequest(apiUrl, options = {}, useAccessToken = false) {
+  async fetchRequest(apiUrl, options = {}, useAccessToken = false, useSignal = true) {
     const methodsWithBody = ['POST', 'PUT', 'PATCH'];
 
     const headers = {
@@ -16,11 +18,16 @@ export default class FetchHandler {
     methodsWithBody.includes(options.method) && (headers['Content-Type'] = 'application/json');
     useAccessToken && (headers['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken'));
 
-    return await fetch(apiUrl, {
+    const fetchOptions = {
       ...options,
       headers,
-      signal: this.router.getAbortSignal(this.utils.formatFetchRequestKey(options.method?.toUpperCase() || 'UNKNOWN_METHOD', apiUrl))
-    });
+    };
+
+    if (useSignal) {
+      fetchOptions.signal = this.router.getAbortSignal(this.utils.formatFetchRequestKey(options.method?.toUpperCase() || 'UNKNOWN_METHOD', apiUrl));
+    }
+
+    return await fetch(apiUrl, fetchOptions);
   }
 
   async handleAuthFetchRequest(

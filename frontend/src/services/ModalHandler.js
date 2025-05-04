@@ -1,9 +1,9 @@
 export default class ModalHandler {
   constructor(router = null) {
-    if (ModalHandler.instance) return ModalHandler.instance; // Prevents multiple instances
-    this.eventsHandler = {};
-    ModalHandler.instance = this; // Store the instance
+    if (ModalHandler.instance) return ModalHandler.instance;
+    ModalHandler.instance = this;
     this.router = router;
+    this.eventsHandler = {};
     this.activeModals = [];
   }
 

@@ -6,7 +6,7 @@ export default class UserModel {
     this.fetchHandler = fetchHandler;
   }
   
-  setFetchHandler(fetchHandler) {
+  setFetchHandlerInstance(fetchHandler) {
     this.fetchHandler = fetchHandler;
   }
 

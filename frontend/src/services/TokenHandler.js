@@ -1,14 +1,17 @@
 import config from "../config";
 
 export default class TokenHandler {
-  constructor(router, userModel, auth, deviceIdentifier) {
-    this.router = router;
+  constructor(userModel, auth, fetchHandler = null) {
     this.userModel = userModel;
     this.auth = auth;
-    this.deviceIdentifier = deviceIdentifier;
     this.isRefreshingToken = false;
     this.refreshTokenQueue = [];
-    this.baseEndpointUrl = config.apiUrl + '/refresh';
+    this.endpoint = config.apiUrl + '/refresh';
+    this.fetchHandler = fetchHandler
+  }
+
+  setFetchHandlerInstance(fetchHandler) {
+    this.fetchHandler = fetchHandler;
   }
 
   async handleRefreshAccessToken() {
@@ -24,14 +27,17 @@ export default class TokenHandler {
     // Mark that the refresh process is running
     this.isRefreshingToken = true;
 
-    const response = await fetch(this.baseEndpointUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Device-ID': this.deviceIdentifier.getDeviceUUID()
+    const response = await this.fetchHandler.fetchRequest(
+      this.endpoint,
+      {
+        method: 'POST',
+        body: JSON.stringify({ 
+          token: refreshToken 
+        })
       },
-      body: JSON.stringify({ token: refreshToken })
-    });
+      false,
+      false
+    );
 
     // If the user aborts the request before the new refresh token is set, they will be logged out during future interactions.
     // This happens because the current refresh token will not be in the whitelist, as the API does not yet handle aborted requests.

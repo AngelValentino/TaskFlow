@@ -82,9 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const userModel = new UserModel(auth);
     const modalView = new ModalView(modalHandler, utils, loadHandler, router);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
-    const tokenHandler = new TokenHandler(router, userModel, auth, deviceIdentifier);
+    const tokenHandler = new TokenHandler(userModel, auth);
     const fetchHandler = new FetchHandler(router, deviceIdentifier, utils, tokenHandler);
-    userModel.setFetchHandler(fetchHandler);
+    tokenHandler.setFetchHandlerInstance(fetchHandler);
+    userModel.setFetchHandlerInstance(fetchHandler);
     const taskModel = new TaskModel(fetchHandler);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils);
     taskManagerController.init();
@@ -115,9 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const userModel = new UserModel(auth);
     const modalView = new ModalView(modalHandler, utils, loadHandler, router);
     const taskManagerView = new TaskManagerView(modalHandler, modalView, utils, loadHandler, router, auth);
-    const tokenHandler = new TokenHandler(router, userModel, auth, deviceIdentifier);
+    const tokenHandler = new TokenHandler(userModel, auth);
     const fetchHandler = new FetchHandler(router, deviceIdentifier, utils, tokenHandler);
-    userModel.setFetchHandler(fetchHandler);
+    tokenHandler.setFetchHandlerInstance(fetchHandler);
+    userModel.setFetchHandlerInstance(fetchHandler);
     const taskModel = new TaskModel(fetchHandler);
     const taskManagerController = new TaskManagerController(taskManagerView, taskModel, auth, modalView, utils, true);
     taskManagerController.init();
