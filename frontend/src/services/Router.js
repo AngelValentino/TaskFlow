@@ -72,7 +72,8 @@ export default class Router {
     };
    
     if (document.body.classList.length != 0) document.body.className = '';
-    this.modalHandler.clearRemainingDocumentBodyEvents();
+    this.modalHandler.clearDocumentBodyEvents();
+    this.modalHandler.clearActiveModals();
     this.abortActiveFetches();
     this.clearActiveIntervals();
     this.clearActiveTimeouts();

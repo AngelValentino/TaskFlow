@@ -154,14 +154,14 @@ export default class TaskManagerView {
     );
 
     // Add event listeners
-    this.modalHandler.addModalEvents(
-      'addTaskPrompt',
-      '.task-manager__add-prompt',
-      document.body,
-      this.lms.addTaskPromptLm,
-      [this.lms.addTaskPromptCloseBtn],
-      this.confirmDiscardPromptData.bind(this)
-    );
+    this.modalHandler.addModalEvents({
+      eventHandlerKey: 'addTaskPrompt',
+      modalLm: this.lms.addTaskPromptLm,
+      closeLms: [this.lms.addTaskPromptCloseBtn],
+      closeHandler: this.confirmDiscardPromptData.bind(this),
+      modalLmOuterLimits: this.lms.taskManagerLm,
+      exemptLms: [document.getElementById('user-menu__btn')]
+    });
   }
 
   closeAddTaskPrompt(returnFocus = true) {
@@ -182,12 +182,11 @@ export default class TaskManagerView {
     );
 
     // Remove event listeners
-    this.modalHandler.removeModalEvents(
-      'addTaskPrompt',
-      document.body,
-      this.lms.addTaskPromptLm,
-      [this.lms.addTaskPromptCloseBtn]
-    );
+    this.modalHandler.removeModalEvents({
+      eventHandlerKey: 'addTaskPrompt',
+      modalLm: this.lms.addTaskPromptLm,
+      closeLms: [this.lms.addTaskPromptCloseBtn]
+    });
   }
 
   openSearchTaskPrompt() {
@@ -200,14 +199,12 @@ export default class TaskManagerView {
     );
 
     // Add event listeners
-    this.modalHandler.addModalEvents(
-      'searchTaskPrompt',
-      '.task-manager__search-prompt',
-      document.body,
-      null,
-      null,
-      this.closeSearchTaskPrompt.bind(this)
-    );
+    this.modalHandler.addModalEvents({
+      eventHandlerKey: 'searchTaskPrompt',
+      closeHandler: this.closeSearchTaskPrompt.bind(this),
+      modalLmOuterLimits: this.lms.taskManagerLm,
+      exemptLms: [document.getElementById('user-menu__btn')]
+    });
   }
 
   toggleClearSearchIcon(searchValue) {
@@ -246,10 +243,9 @@ export default class TaskManagerView {
     );
 
     // Remove event listeners
-    this.modalHandler.removeModalEvents(
-      'searchTaskPrompt',
-      document.body
-    );
+    this.modalHandler.removeModalEvents({
+      eventHandlerKey: 'searchTaskPrompt'
+    });
   }
 
   resetAddTaskForm() {
@@ -263,13 +259,11 @@ export default class TaskManagerView {
 
   confirmDiscardPromptData() {
     if (this.isAddTaskFormEdited()) {
-      this.modalView.openConfirmModal(
-        this.resetAddTaskForm.bind(this),
-        false,
-        'confirmDiscardChanges',
-        false,
-        false
-      );
+      this.modalView.openConfirmModal({
+        confirmHandler: this.resetAddTaskForm.bind(this),
+        modalType: 'confirmDiscardChanges',
+        returnFocusAtConfirmHandler: false
+      });
     }
     else {
       this.closeAddTaskPrompt();

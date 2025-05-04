@@ -175,7 +175,12 @@ export default class ModalView {
     this.setModalDomRefs();
   }
 
-  openInfoModal(confirmHandler, modalType, returnFocus = true) {
+  openInfoModal({
+    confirmHandler, 
+    modalType, 
+    returnFocus = true, 
+    exemptLms = []
+  } = {}) {
     this.generateInfoModal(modalType);
 
     this.showModal(
@@ -197,12 +202,11 @@ export default class ModalView {
       );
 
       this.lms.infoModalAcceptBtn.removeEventListener('click', confirmAndDismissModal);
-      this.modalHandler.removeModalEvents(
-        'infoModal',
-        this.lms.infoModalContainerLm,
-        this.lms.infoModalLm,
-        [this.lms.infoModalCloseBtn]
-      );
+      this.modalHandler.removeModalEvents({
+        eventHandlerKey: 'infoModal',
+        modalLm: this.lms.infoModalLm,
+        closeLms: [this.lms.infoModalCloseBtn]
+      });
     }
 
     const confirmAndDismissModal = () => {
@@ -213,27 +217,28 @@ export default class ModalView {
     }
 
     this.lms.infoModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
-    this.modalHandler.addModalEvents(
-      'infoModal',
-      '.info-modal-overlay',
-      this.lms.infoModalContainerLm,
-      this.lms.infoModalLm,
-      [this.lms.infoModalCloseBtn],
-      closeInfoModal
-    );
+    this.modalHandler.addModalEvents({
+      eventHandlerKey: 'infoModal',
+      modalLm: this.lms.infoModalLm,
+      closeLms: [this.lms.infoModalCloseBtn],
+      closeHandler: closeInfoModal,
+      modalLmOuterLimits: this.lms.infoModalLm,
+      exemptLms
+    });
   }
 
-  openConfirmModal(
+  openConfirmModal({
     confirmHandler, 
     isFetch = false, 
     modalType, 
     isEdit = false, 
     returnFocusAtConfirmHandler = true, 
-    taskId
-  ) {
+    taskId = null,
+    exemptLms = []
+  } = {}) {
     this.generateConfirmModal(modalType);
 
-    const closelms = [
+    const closeLms = [
       this.lms.confirmModalCloseBtn, 
       this.lms.confirmModalCancelBtn
     ];
@@ -262,12 +267,11 @@ export default class ModalView {
 
       if (isEdit) {
         this.lms.confirmModalAcceptBtn.removeEventListener('click', confirmAndDiscardEdit);
-        this.modalHandler.removeModalEvents(
-          'confirmModal',
-          this.lms.confirmModalContainerLm,
-          this.lms.confirmModalLm,
-          closelms
-        );
+        this.modalHandler.removeModalEvents({
+          eventHandlerKey: 'confirmModal',
+          modalLm: this.lms.confirmModalLm,
+          closeLms
+        });
       }
       else {
         if (modalType ===  'confirmDeleteAllTasks') {
@@ -276,12 +280,11 @@ export default class ModalView {
         }
 
         this.lms.confirmModalAcceptBtn.removeEventListener('click', confirmAndDismissModal)
-        this.modalHandler.removeModalEvents(
-          'confirmModal',
-          this.lms.confirmModalContainerLm,
-          this.lms.confirmModalLm,
-          closelms
-        );
+        this.modalHandler.removeModalEvents({
+          eventHandlerKey: 'confirmModal',
+          modalLm: this.lms.confirmModalLm,
+          closeLms
+        });
       }
     }
 
@@ -311,22 +314,24 @@ export default class ModalView {
 
     const confirmAndDiscardEdit = () => {
       closeConfirmModal(returnFocusAtConfirmHandler);
-      const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
-      editTaskBtn.focus();
+      if (taskId) {
+        const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
+        editTaskBtn.focus();
+      }
     }
 
     // Add event listeners
 
     if (isEdit) {
       this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDiscardEdit);
-      this.modalHandler.addModalEvents(
-        'confirmModal',
-        '.confirm-modal-overlay',
-        this.lms.confirmModalContainerLm,
-        this.lms.confirmModalLm,
-        closelms,
-        confirmAndDismissModal
-      );
+      this.modalHandler.addModalEvents({
+        eventHandlerKey: 'confirmModal',
+        modalLm: this.lms.confirmModalLm,
+        closeLms,
+        closeHandler: confirmAndDismissModal,
+        modalLmOuterLimits: this.lms.confirmModalLm,
+        exemptLms
+      });
     } 
     else {
       if (modalType === 'confirmDeleteAllTasks') {
@@ -335,24 +340,25 @@ export default class ModalView {
       }
 
       this.lms.confirmModalAcceptBtn.addEventListener('click', confirmAndDismissModal);
-      this.modalHandler.addModalEvents(
-        'confirmModal',
-        '.confirm-modal-overlay',
-        this.lms.confirmModalContainerLm,
-        this.lms.confirmModalLm,
-        closelms,
-        closeConfirmModal
-      );
+      this.modalHandler.addModalEvents({
+        eventHandlerKey: 'confirmModal',
+        modalLm: this.lms.confirmModalLm,
+        closeLms,
+        closeHandler: closeConfirmModal,
+        modalLmOuterLimits: this.lms.confirmModalLm,
+        exemptLms
+      });
     }
   }
 
-  openEditModal(
+  openEditModal({
     taskData, 
     editHandler, 
     currentEdit = false,
-    taskId, 
-    lastFocusedLmBeforeModal
-  ) {
+    taskId = null, 
+    lastFocusedLmBeforeModal = null,
+    exemptLms
+  } = {}) {
     this.generateEditModal();
 
     const form = this.lms.editModalFormLm;
@@ -380,12 +386,11 @@ export default class ModalView {
       );
 
       this.lms.editModalFormLm.removeEventListener('submit', handleEdit);
-      this.modalHandler.removeModalEvents(
-        'editModal',
-        this.lms.editModalContainerLm,
-        this.lms.editModalLm,
-        [this.lms.editModalCloseBtn]
-      );
+      this.modalHandler.removeModalEvents({
+        eventHandlerKey: 'editModal',
+        modalLm: this.lms.editModalLm,
+        closeLms: [this.lms.editModalCloseBtn]
+      });
     }
 
     const isFormEdited = () => {
@@ -411,13 +416,13 @@ export default class ModalView {
     const exitAndReturnToEdit = () => {
       const editTaskBtn = document.getElementById(`task-manager__edit-task-btn-${taskId}`);
       setTimeout(() => {
-        this.openEditModal(
+        this.openEditModal({
           taskData, 
           editHandler, 
-          this.utils.getFormData(this.lms.editModalFormLm),
+          currentEdit: this.utils.getFormData(this.lms.editModalFormLm),
           taskId, 
-          editTaskBtn
-        );
+          lastFocusedLmBeforeModal: editTaskBtn
+        });
       }, 100);
     } 
     
@@ -425,14 +430,14 @@ export default class ModalView {
       if (isFormEdited()) {
         closeEditModal(false);
         setTimeout(() => {
-          this.openConfirmModal(
-            exitAndReturnToEdit, 
-            false,
-            'confirmDiscardChanges',
-            true,
-            false,
+          this.openConfirmModal({
+            confirmHandler: exitAndReturnToEdit, 
+            isFetch: false,
+            modalType: 'confirmDiscardChanges',
+            isEdit: true,
+            returnFocusAtConfirmHandler: false,
             taskId
-          );
+          });
         }, 100);
       } 
       else {
@@ -441,14 +446,14 @@ export default class ModalView {
     }
 
     this.lms.editModalFormLm.addEventListener('submit', handleEdit);
-    this.modalHandler.addModalEvents(
-      'editModal',
-      '.edit-modal-overlay',
-      this.lms.editModalContainerLm,
-      this.lms.editModalLm,
-      [this.lms.editModalCloseBtn],
-      handleUnsavedChanges
-    );
+    this.modalHandler.addModalEvents({
+      eventHandlerKey: 'editModal',
+      modalLm: this.lms.editModalLm,
+      closeLms: [this.lms.editModalCloseBtn],
+      closeHandler: handleUnsavedChanges,
+      modalLmOuterLimits: this.lms.editModalLm,
+      exemptLms
+    });
   }
 
   updateConfirmModalInfoMessage(message, success, error) {

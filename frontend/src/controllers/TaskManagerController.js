@@ -59,11 +59,12 @@ export default class TaskManagerController {
     );
 
     if (parseInt(localStorage.getItem('taskCount')) >= 100) {
-      this.modalView.openInfoModal(
-        this.taskManagerView.resetAddTaskForm.bind(this.taskManagerView),
-        'infoMaxTasks',
-        false
-      )
+      this.modalView.openInfoModal({
+        confirmHandler: this.taskManagerView.resetAddTaskForm.bind(this.taskManagerView),
+        modalType: 'infoMaxTasks',
+        returnFocus: false,
+        exemptLms: [this.lms.submitTaskBtn]
+      });
       return;
     }
 
@@ -284,18 +285,20 @@ export default class TaskManagerController {
 
   handleClearAllTasks() {
     if (parseInt(localStorage.getItem('taskCount')) <= 0) {
-      this.modalView.openInfoModal(
-        null,
-        'InfoEmptyTaskList'
-      );
+      this.modalView.openInfoModal({
+        confirmHandler: null,
+        modalType: 'InfoEmptyTaskList',
+        exemptLms: [document.getElementById('task-manager__dashboard-clear-btn')]
+      });
       return;
     }
 
-    this.modalView.openConfirmModal(
-      this.deleteAllTasks.bind(this),
-      this.auth.isClientLogged(),
-      'confirmDeleteAllTasks'
-    );
+    this.modalView.openConfirmModal({
+      confirmHandler: this.deleteAllTasks.bind(this),
+      isFetch: this.auth.isClientLogged(),
+      modalType: 'confirmDeleteAllTasks',
+      exemptLms: [document.getElementById('task-manager__dashboard-clear-btn')]
+    });
   }
 
   completeTask(taskId, closeConfirmModalHandler) {
@@ -401,13 +404,13 @@ export default class TaskManagerController {
     if (e.target.closest('.task-manager__complete-task-btn')) {
       const taskId = this.getTaskId(e);
 
-      this.modalView.openConfirmModal(
-        this.completeTask.bind(this, taskId),
-        this.auth.isClientLogged(),
-        'confirmComplete',
-        false,
-        false
-      );
+      this.modalView.openConfirmModal({
+        confirmHandler: this.completeTask.bind(this, taskId),
+        isFetch: this.auth.isClientLogged(),
+        modalType: 'confirmComplete',
+        returnFocusAtConfirmHandler: false,
+        exemptLms: [e.target.closest('.task-manager__complete-task-btn')]
+      });
     }
     else if (e.target.closest('.task-manager__edit-task-btn')) {
       const taskId = this.getTaskId(e);
@@ -418,23 +421,23 @@ export default class TaskManagerController {
         description: taskLm.querySelector('.task-manager__task-desc')?.innerHTML || ''
       };
 
-      this.modalView.openEditModal(
+      this.modalView.openEditModal({
         taskData, 
-        this.editTask.bind(this, taskId),
-        false,
-        taskId
-      );
+        editHandler: this.editTask.bind(this, taskId),
+        taskId,
+        exemptLms: [e.target.closest('.task-manager__edit-task-btn')]
+      });
     }
     else if (e.target.closest('.task-manager__delete-task-btn')) {
       const taskId = this.getTaskId(e);
 
-      this.modalView.openConfirmModal(
-        this.deleteTask.bind(this, taskId),
-        this.auth.isClientLogged(),
-        'confirmDeleteTask',
-        false,
-        false
-      );
+      this.modalView.openConfirmModal({
+        confirmHandler: this.deleteTask.bind(this, taskId),
+        isFetch: this.auth.isClientLogged(),
+        modalType: 'confirmDeleteTask',
+        returnFocusAtConfirmHandler: false,
+        exemptLms: [e.target.closest('.task-manager__delete-task-btn')]
+      });
     }
   }
 

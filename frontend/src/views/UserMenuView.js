@@ -48,14 +48,13 @@ export default class UserMenuView {
     this.lastFocusedLmBeforeModal = this.modalHandler.toggleModalFocus('add', firstFocusableLm);
     this.setUserMenuBtnAria('true', 'Close user menu');
 
-    this.modalHandler.addModalEvents(
-      'userMenu',
-      'user-menu',
-      document.body,
-      this.lms.userMenuLm,
-      null,
-      this.closeUserMenu.bind(this)
-    );
+    this.modalHandler.addModalEvents({
+      eventHandlerKey: 'userMenu',
+      modalLm: this.lms.userMenuLm,
+      closeHandler: this.closeUserMenu.bind(this),
+      modalLmOuterLimits: this.lms.userMenuLm,
+      exemptLms: [this.lms.userMenuBtn]
+    });
   }
 
   closeUserMenu() {
@@ -63,10 +62,9 @@ export default class UserMenuView {
     this.modalHandler.toggleModalFocus('return', null, this.lastFocusedLmBeforeModal);
     this.setUserMenuBtnAria('false', 'Open user menu');
 
-    this.modalHandler.removeModalEvents(
-      'userMenu',
-      document.body,
-      this.lms.userMenuLm,
-    );
+    this.modalHandler.removeModalEvents({
+      eventHandlerKey: 'userMenu',
+      modalLm: this.lms.userMenuLm,
+    });
   }
 }

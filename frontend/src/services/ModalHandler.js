@@ -4,6 +4,7 @@ export default class ModalHandler {
     this.eventsHandler = {};
     ModalHandler.instance = this; // Store the instance
     this.router = router;
+    this.activeModals = [];
   }
 
   setRouterInstance(router) {
@@ -23,7 +24,14 @@ export default class ModalHandler {
 
   trapFocus(e, element) {
     // Select all focusable elements within the given element
-    const focusableLms = element.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])');
+    const focusableLms = element.querySelectorAll(`
+      a[href]:not([disabled]), 
+      button:not([disabled]), 
+      textarea:not([disabled]), 
+      input:not([disabled]), 
+      select:not([disabled]),
+      [tabindex]:not([tabindex="-1"])
+    `);
     // Get the first and last focusable elements
     const firstFocusableLm = focusableLms[0]; 
     const lastFocusableLm = focusableLms[focusableLms.length - 1];
@@ -59,129 +67,162 @@ export default class ModalHandler {
     }
   }
 
-  handleEscapeKeyClose(closeHandler, className) {
+  handleEscapeKeyClose(closeHandler) {
     return e => {
-      if (
-        e.key === 'Escape' && 
-        (className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt') && 
-        document.body.style.overflow === 'hidden'
-      ) {
-        return; // Prevents closing add or search task prompts at escape if a modal has been opened
-      }
-
       if (e.key === 'Escape') {
         console.warn('close at escape key');
-        closeHandler();
+        closeHandler(e);
       }
     }
   }
 
-  isModalClosed(e) {
-    // We cannot check for the document overflow directly because the close modal at overlay click 
-    // function is triggered before the prompt one, causing the body overflow to be not hidden 
-    // and the prompt to close automatically immediately after the modal was closed.
-    // To prevent this, We can check if the modal container is still visible. This is possible because 
-    // the modal has a 250ms timeout, giving us a small window to verify its visibility before it disappears.
-    return (
-      !e.target.closest('.confirm-modal-container') &&
-      !e.target.closest('.info-modal-container') &&
-      !e.target.closest('.edit-modal-container')
-    );
+  registerModal(modalLm) {
+    this.activeModals.push(modalLm);
+  }
+  
+  unregisterModal() {
+    this.activeModals.pop();
+  }
+  
+  isActiveModal(modalLm) {
+    const modals = this.activeModals;
+    return modals.length && modals[modals.length - 1] === modalLm;
   }
 
-  handleOutsideClickClose(closeHandler, className) {
+  handleOutsideClickClose(closeHandler, modalLm, modalLmOuterLimits, exemptLms = []) {
     return e => {
-      if (className === 'user-menu') {
-        if (!e.target.closest('.user-menu') && !e.target.closest('.user-menu__btn')) {
-          closeHandler();
-        }
+      const clickedLm = e.target;
+
+      if (!this.isActiveModal(modalLm)) {
+        console.warn('Not topmost modal, skipping close at overlay click');
+        return;
+      }
+      
+      // Click was inside the modal
+      if (modalLmOuterLimits.contains(clickedLm)) {
+        console.warn('click mas inside the modal, do nothin');
+        return;
+      } 
+
+      // Click was outside the modal
+      const isClickOnExempt = exemptLms.some(exemptEl => exemptEl?.contains(clickedLm));
+      if (isClickOnExempt) {
+        console.warn('Click was on exempt element, do nothing');
         return;
       }
 
-      if (
-        (!e.target.closest('.task-manager-container') && !e.target.closest('.enhanced-task-manager')) &&
-        (className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt') &&
-        this.isModalClosed(e)
-      ) {
-        closeHandler();
-      } 
-      
-      if (
-        e.target.matches(className) && 
-        !(className === '.task-manager__add-prompt' || className === '.task-manager__search-prompt')
-      ) {        
-        closeHandler();
-        console.warn('close modal at outside click');
+      console.warn('click was outside the modal, close modal');
+      closeHandler(e);
+    }
+  }
+
+  clearDocumentBodyEvents() {
+    const documentBodyEvents = this.eventsHandler.documentBody;
+
+    console.log(this.eventsHandler.documentBody);
+
+    if (documentBodyEvents) {
+      for (const key in documentBodyEvents) {
+        const events = documentBodyEvents[key];
+
+        events.forEach(eventHandler => {
+          document.body.removeEventListener(eventHandler.type, eventHandler.reference);
+        });
+
+        events.length = 0;
       }
     }
+
+    console.log(this.eventsHandler.documentBody);
   }
 
-  clearRemainingDocumentBodyEvents() {
-    const documentEvents = this.eventsHandler.documentBody;
-
-    if (documentEvents) {
-      documentEvents.forEach(eventHandler => {
-        document.body.removeEventListener(eventHandler.type, eventHandler.reference);
-      });
-
-      documentEvents.length = 0;
-    }
+  clearActiveModals() {
+    this.activeModals.length = 0;
   }
 
-  addModalEvents(eventHandlerKey, className, modalContainerLm, modalLm, closeLms, closeHandler) {
+  addModalEvents({
+    eventHandlerKey,
+    modalLm = null, 
+    closeLms = null, 
+    closeHandler, 
+    modalLmOuterLimits,
+    exemptLms = []
+  } = {}) {
     this.router.abortActiveFetches();
 
-    const escapeKeyHandler = this.handleEscapeKeyClose(closeHandler, className);
-    const outsideClickHandler = this.handleOutsideClickClose(closeHandler, className);
+
+    const handleActiveModalClose = e => {
+      e.stopPropagation();
+      if (!this.isActiveModal(modalLm)) {
+        console.warn('Not topmost modal, ignore close');
+        return;
+      }
+
+      console.log('close modal at close btn click');
+      closeHandler();  // Only close if this is the topmost modal
+    };
+
+    const escapeKeyHandler = this.handleEscapeKeyClose(handleActiveModalClose);
+    const outsideClickHandler = this.handleOutsideClickClose(handleActiveModalClose, modalLm, modalLmOuterLimits, exemptLms);
     const trapFocusHandler = this.handleTrapFocus(modalLm);
   
-    // Add accessible functionality
+    // Add modal events
     document.body.addEventListener('keydown', escapeKeyHandler);
-    modalContainerLm?.addEventListener('click', outsideClickHandler);
+    if (modalLmOuterLimits) {
+      document.body.addEventListener('click', outsideClickHandler);
+    }
     modalLm?.addEventListener('keydown', trapFocusHandler);
-  
+
     // Add close function to specified element(s)
     if (closeLms && Array.isArray(closeLms)) {
       closeLms.forEach(closeLm => {
-        closeLm.addEventListener('click', closeHandler);
+        closeLm.addEventListener('click', handleActiveModalClose);
       });
     }
+
+    this.registerModal(modalLm); // Add modal to active set
+    console.warn('added -> ' + modalLm?.className);
+    console.log(this.activeModals);
     
     if (!this.eventsHandler[eventHandlerKey]) {
       this.eventsHandler[eventHandlerKey] = {};
-    };
+    }
     const eventsHandler = this.eventsHandler[eventHandlerKey];
 
     // Store event handlers references in the eventsHandler object to remove them later
     eventsHandler.escapeKeyHandler = escapeKeyHandler;
-    modalContainerLm && (eventsHandler.outsideClickHandler = outsideClickHandler);
+    eventsHandler.outsideClickHandler = outsideClickHandler;
     modalLm && (eventsHandler.trapFocusHandler = trapFocusHandler);
-    closeLms && (eventsHandler.closeHandler = closeHandler);
+    closeLms && (eventsHandler.closeHandler = handleActiveModalClose);
 
-    // Store document body related events to manage them in the view via the router.
+    // Store document body related events to manage them via router change view.
     // Since the body doesn't re-render, previous events may persist if the user switches views
     // without closing the modal, potentially causing issues within the SPA routing.
-    
-    if (!this.eventsHandler.documentBody) {
-      this.eventsHandler.documentBody = [];
-    };
-    const documentEvents = this.eventsHandler.documentBody;
 
-    // Clear stored document body event handler references
-    documentEvents.length = 0;
+    if (!this.eventsHandler.documentBody) {
+      this.eventsHandler.documentBody = {};
+    };
+    if (!this.eventsHandler.documentBody[eventHandlerKey]) {
+      this.eventsHandler.documentBody[eventHandlerKey] = [];
+    }
+    const documentEvents = this.eventsHandler.documentBody[eventHandlerKey];
 
     documentEvents.push({ type: 'keydown', reference: escapeKeyHandler });
-    if (modalContainerLm === document.body) {
-      documentEvents.push({ type: 'click', reference: outsideClickHandler });
-    }
+    documentEvents.push({ type: 'click', reference: outsideClickHandler });
+
+    console.log(this.eventsHandler.documentBody)
   }
 
-  removeModalEvents(eventHandlerKey, modalContainerLm, modalLm, closeLms) {
+  removeModalEvents({
+    eventHandlerKey,
+    modalLm = null, 
+    closeLms = null
+  } = {}) {
     const eventsHandler = this.eventsHandler[eventHandlerKey];
     
     // Remove event listeners from elements
     document.body.removeEventListener('keydown', eventsHandler.escapeKeyHandler);
-    modalContainerLm?.removeEventListener('click', eventsHandler.outsideClickHandler);
+    document.body.removeEventListener('click', eventsHandler.outsideClickHandler);
     modalLm?.removeEventListener('keydown', eventsHandler.trapFocusHandler);
 
     if (closeLms && Array.isArray(closeLms)) {
@@ -189,11 +230,16 @@ export default class ModalHandler {
         closeLm.removeEventListener('click', eventsHandler.closeHandler);
       });
     }
-
+    
     // Clean up stored handlers
-    delete eventsHandler.escapeKeyHandler;
-    modalLm && delete eventsHandler.trapFocusHandler;
-    modalContainerLm && delete eventsHandler.outsideClickHandler;
-    closeLms && delete eventsHandler.closeHandler;
+    delete this.eventsHandler[eventHandlerKey]; 
+    const documentEvents = this.eventsHandler.documentBody[eventHandlerKey];
+    documentEvents.length = 0;
+    console.log(this.eventsHandler.documentBody)
+
+    this.unregisterModal(); // Mark the modal as inactive by removing it from the set
+    console.warn('removed -> ' + modalLm?.className)
+    console.log(modalLm)
+    console.log(this.activeModals);
   }
 }
