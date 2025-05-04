@@ -35,7 +35,7 @@ export default class Utils {
         data[key] = handler(value, key);
       } 
       else {
-        data[key] = value;
+        data[key] = typeof value === 'string' ? value.trim() : value;
       }
     });
 

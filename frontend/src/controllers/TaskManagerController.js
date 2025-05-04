@@ -55,7 +55,11 @@ export default class TaskManagerController {
     e.preventDefault();
     const taskData = this.utils.getFormData(
       e.target, 
-      (value, key) => key === 'description' && value === '' ? null : value
+      (value, key) => key === 'description' && value === '' 
+        ? null 
+        : typeof value === 'string' 
+          ? value.trim() 
+          : value
     );
 
     if (parseInt(localStorage.getItem('taskCount')) >= 100) {
