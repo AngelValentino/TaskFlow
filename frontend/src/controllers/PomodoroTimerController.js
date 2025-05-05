@@ -46,7 +46,7 @@ export default class PomodoroTimerController {
   }
 
   toggleTimer() {
-    // If the timer is currently running or add todo form is edited, exit the function
+    // If the timer is currently running or add task form is edited, exit the function
     if (
       this.timerModel.isResetAnimationActive() || 
       this.taskManagerView.isAddTaskFormEdited()
@@ -64,7 +64,7 @@ export default class PomodoroTimerController {
 
   handleRestartTimer() {
     /* If the timer is currently running, the remaining seconds are equal to the work time 
-    or add todo form is edited, exit the function */
+    or add task form is edited, exit the function */
     if (
       this.timerModel.isResetAnimationActive() || 
       this.taskManagerView.isAddTaskFormEdited() ||

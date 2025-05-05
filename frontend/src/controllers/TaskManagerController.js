@@ -96,7 +96,7 @@ export default class TaskManagerController {
     this.activeRequests.submitTask = true;
 
     const loadingTimId = this.utils.handleLoading(
-      this.taskManagerView.updateAddTodoPromptSubmitBtn.bind(this.taskManagerView, 'Loading')
+      this.taskManagerView.updateAddTaskPromptSubmitBtn.bind(this.taskManagerView, 'Loading')
     );
 
     this.taskModel.handleSubmitTask(JSON.stringify(taskData))
@@ -124,7 +124,7 @@ export default class TaskManagerController {
       .finally(() => {
         this.activeRequests.submitTask = false;
         clearTimeout(loadingTimId);
-        this.taskManagerView.updateAddTodoPromptSubmitBtn('Add new task');
+        this.taskManagerView.updateAddTaskPromptSubmitBtn('Add new task');
       });
   }
 

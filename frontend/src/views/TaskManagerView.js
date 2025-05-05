@@ -169,7 +169,7 @@ export default class TaskManagerView {
     // In case user closes prompt with a pending fetch request and is logged in, manages edge case
     if (this.auth.isClientLogged()) {
       this.router.abortActiveFetch('POST=>' + config.apiUrl + '/tasks');
-      this.updateAddTodoPromptSubmitBtn('Add new task');
+      this.updateAddTaskPromptSubmitBtn('Add new task');
     }
     this.clearAddTaskPromptErrors();
 
@@ -298,7 +298,7 @@ export default class TaskManagerView {
     ]);
   }
 
-  updateAddTodoPromptSubmitBtn(text) {
+  updateAddTaskPromptSubmitBtn(text) {
     this.utils.updateSubmitBtn(text, this.lms.submitTaskBtnTextLm);
   }
 

@@ -88,6 +88,8 @@ body {
 
 /* LOADERS */
 
+/* THREE DOTS LOADER */
+
 .three-dots-loader {
   display: none;
   justify-content: space-between;
@@ -147,6 +149,7 @@ body {
   }
 }
 
+/* END OF THREE DOTS LOADER */
 
 /* PAGE LOADER */
 
