@@ -7,13 +7,14 @@ import LoadingCircle from '../components/LoadingCircle.js';
 import config from '../config.js';
 
 export default class TaskManagerView {
-  constructor(modalHandler, modalView, utils, loadHandler, router, auth) {
+  constructor(modalHandler, modalView, utils, loadHandler, router, auth, userMenuView) {
     this.modalHandler = modalHandler;
     this.modalView = modalView;
     this.utils = utils;
     this.loadHandler = loadHandler;
     this.router = router;
     this.auth = auth;
+    this.userMenuView = userMenuView;
     this.timIds = {};
     this.controllerMethods = {};
     this.smallCircleLoader = LoadingCircle.getHtml('small');
@@ -160,7 +161,7 @@ export default class TaskManagerView {
       closeLms: [this.lms.addTaskPromptCloseBtn],
       closeHandler: this.confirmDiscardPromptData.bind(this),
       modalLmOuterLimits: this.lms.taskManagerLm,
-      exemptLms: [document.getElementById('user-menu__btn')]
+      exemptLms: [this.userMenuView.lms.userMenuBtn]
     });
   }
 
@@ -203,7 +204,7 @@ export default class TaskManagerView {
       eventHandlerKey: 'searchTaskPrompt',
       closeHandler: this.closeSearchTaskPrompt.bind(this),
       modalLmOuterLimits: this.lms.taskManagerLm,
-      exemptLms: [document.getElementById('user-menu__btn')]
+      exemptLms: [this.userMenuView.lms.userMenuBtn]
     });
   }
 

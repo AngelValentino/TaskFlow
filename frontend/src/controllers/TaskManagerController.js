@@ -287,7 +287,7 @@ export default class TaskManagerController {
       this.modalView.openInfoModal({
         confirmHandler: null,
         modalType: 'InfoEmptyTaskList',
-        exemptLms: [document.getElementById('task-manager__dashboard-clear-btn')]
+        exemptLms: [this.lms.clearAllTasksBtn]
       });
       return;
     }
@@ -296,7 +296,7 @@ export default class TaskManagerController {
       confirmHandler: this.deleteAllTasks.bind(this),
       isFetch: this.auth.isClientLogged(),
       modalType: 'confirmDeleteAllTasks',
-      exemptLms: [document.getElementById('task-manager__dashboard-clear-btn')]
+      exemptLms: [this.lms.clearAllTasksBtn]
     });
   }
 
@@ -399,7 +399,11 @@ export default class TaskManagerController {
   }
 
   handleTaskAction(e) {
-    if (e.target.closest('.task-manager__complete-task-btn')) {
+    const completeTaskBtn = e.target.closest('.task-manager__complete-task-btn');
+    const editTaskBtn = e.target.closest('.task-manager__edit-task-btn');
+    const deleteTaskBtn = e.target.closest('.task-manager__delete-task-btn');
+
+    if (completeTaskBtn) {
       const taskId = this.getTaskId(e);
 
       this.modalView.openConfirmModal({
@@ -407,10 +411,10 @@ export default class TaskManagerController {
         isFetch: this.auth.isClientLogged(),
         modalType: 'confirmComplete',
         returnFocusAtConfirmHandler: false,
-        exemptLms: [e.target.closest('.task-manager__complete-task-btn')]
+        exemptLms: [completeTaskBtn]
       });
     }
-    else if (e.target.closest('.task-manager__edit-task-btn')) {
+    else if (editTaskBtn) {
       const taskId = this.getTaskId(e);
       const taskLm = document.getElementById(e.target.closest('.task-manager__task').id)
       const taskData = {
@@ -423,10 +427,10 @@ export default class TaskManagerController {
         taskData, 
         editHandler: this.editTask.bind(this, taskId),
         taskId,
-        exemptLms: [e.target.closest('.task-manager__edit-task-btn')]
+        exemptLms: [editTaskBtn]
       });
     }
-    else if (e.target.closest('.task-manager__delete-task-btn')) {
+    else if (deleteTaskBtn) {
       const taskId = this.getTaskId(e);
 
       this.modalView.openConfirmModal({
@@ -434,7 +438,7 @@ export default class TaskManagerController {
         isFetch: this.auth.isClientLogged(),
         modalType: 'confirmDeleteTask',
         returnFocusAtConfirmHandler: false,
-        exemptLms: [e.target.closest('.task-manager__delete-task-btn')]
+        exemptLms: [deleteTaskBtn]
       });
     }
   }

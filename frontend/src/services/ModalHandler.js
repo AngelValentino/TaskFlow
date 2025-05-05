@@ -80,8 +80,8 @@ export default class ModalHandler {
     this.activeModals.push(modalLm);
   }
   
-  unregisterModal() {
-    this.activeModals.pop();
+  unregisterModal(modalLm) {
+    this.activeModals = this.activeModals.filter(modal => modal !== modalLm);
   }
   
   isActiveModal(modalLm) {
@@ -89,18 +89,13 @@ export default class ModalHandler {
     return modals.length && modals[modals.length - 1] === modalLm;
   }
 
-  handleOutsideClickClose(closeHandler, modalLm, modalLmOuterLimits, exemptLms = []) {
+  handleOutsideClickClose(closeHandler, modalLmOuterLimits, exemptLms = []) {
     return e => {
       const clickedLm = e.target;
-
-      if (!this.isActiveModal(modalLm)) {
-        console.warn('Not topmost modal, skipping close at overlay click');
-        return;
-      }
       
       // Click was inside the modal
       if (modalLmOuterLimits.contains(clickedLm)) {
-        console.warn('click mas inside the modal, do nothin');
+        console.warn('click was inside the modal, do nothin');
         return;
       } 
 
@@ -163,7 +158,7 @@ export default class ModalHandler {
     };
 
     const escapeKeyHandler = this.handleEscapeKeyClose(handleActiveModalClose);
-    const outsideClickHandler = this.handleOutsideClickClose(handleActiveModalClose, modalLm, modalLmOuterLimits, exemptLms);
+    const outsideClickHandler = this.handleOutsideClickClose(handleActiveModalClose, modalLmOuterLimits, exemptLms);
     const trapFocusHandler = this.handleTrapFocus(modalLm);
   
     // Add modal events
@@ -201,12 +196,13 @@ export default class ModalHandler {
 
     if (!this.eventsHandler.documentBody) {
       this.eventsHandler.documentBody = {};
-    };
+    }
+  
     if (!this.eventsHandler.documentBody[eventHandlerKey]) {
       this.eventsHandler.documentBody[eventHandlerKey] = [];
     }
-    const documentEvents = this.eventsHandler.documentBody[eventHandlerKey];
 
+    const documentEvents = this.eventsHandler.documentBody[eventHandlerKey];
     documentEvents.push({ type: 'keydown', reference: escapeKeyHandler });
     documentEvents.push({ type: 'click', reference: outsideClickHandler });
 
@@ -219,7 +215,11 @@ export default class ModalHandler {
     closeLms = null
   } = {}) {
     const eventsHandler = this.eventsHandler[eventHandlerKey];
-    
+    if (!eventsHandler) {
+      console.warn(`Event handler for key "${eventHandlerKey}" not found. Unable to clear modal events.`);
+      return;
+    }
+
     // Remove event listeners from elements
     document.body.removeEventListener('keydown', eventsHandler.escapeKeyHandler);
     document.body.removeEventListener('click', eventsHandler.outsideClickHandler);
@@ -237,7 +237,7 @@ export default class ModalHandler {
     documentEvents.length = 0;
     console.log(this.eventsHandler.documentBody)
 
-    this.unregisterModal(); // Mark the modal as inactive by removing it from the set
+    this.unregisterModal(modalLm);
     console.warn('removed -> ' + modalLm?.className)
     console.log(modalLm)
     console.log(this.activeModals);
