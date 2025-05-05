@@ -55,7 +55,7 @@ export default class UserModel {
       else {
         return {
           success: false,
-          message: `Oops! Error ${response.status}: Rate limit exceeded. Please try again later, refresh the page or clear browser history. `
+          message: `Oops! Error ${response.status}: Rate limit exceeded. Please try again later, refresh the page or clear browser history.`
         }
       }
     }
@@ -70,7 +70,7 @@ export default class UserModel {
           // this allows the user to manually refresh the page and log out of the application
           return {
             success: false,
-            message: 'Oops! Refresh token has expired or is no longer valid. Please try again later, refresh the page or clear browser history.'
+            message: 'Oops! Session expired. Please refresh the page or try again later.'
           }
         }
         // In cases where we don't need to throw an error (like when auto-logging out), 

@@ -75,7 +75,7 @@ export default class FetchHandler {
 
     // Generic status error
     if (!response.ok) {
-      throw new Error(`Oops! Error ${response.status}${errorMessage === '' ? errorMessage : ': ' + errorMessage}`);
+      throw new Error(`Oops! Error ${response.status}${errorMessage === 'enhancedTaskManagerError' ? '' : ': ' + errorMessage}`);
     }
 
     return returnData ? await response.json() : null;
