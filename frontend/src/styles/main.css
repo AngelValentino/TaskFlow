@@ -53,7 +53,8 @@ body main {
   opacity: 0;
 }
 
-/* Reset theme handler styles */
+/* RESET THEME HANDLER STYLES */
+
 body.auth-view {
   background-color: initial;
   position: static;
@@ -72,7 +73,8 @@ body.auth-view .background-image {
   position: static;
   inset: initial;
 }
-/* End of Reset theme handler styles */
+
+/* END OF RESET THEME HANDLER STYLES */
 
 main {
   min-height: 100vh;
@@ -228,22 +230,22 @@ body {
 }
 
 .loading-circle.extra-small::after {
-  width: 1.375rem; /* 22px */
-  height: 1.375rem; /* 22px */
+  width: 1.375rem;
+  height: 1.375rem;
   border: 0.25rem solid transparent;
   border-top-color: inherit;
 }
 
 .loading-circle.small::after {
-  width: 1.6875rem; /* 27px */
-  height: 1.6875rem; /* 27px */
+  width: 1.6875rem;
+  height: 1.6875rem;
   border: 0.330rem solid transparent;
   border-top-color: inherit;
 }
 
 .loading-circle.medium::after {
-  width: 2.4375rem; /* 39px */
-  height: 2.4375rem; /* 39px */
+  width: 2.4375rem;
+  height: 2.4375rem;
   border: 0.478rem solid transparent;
   border-top-color: inherit;
 }

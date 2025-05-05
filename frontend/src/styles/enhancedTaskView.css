@@ -127,9 +127,9 @@ main.enhanced-task-view {
 /* ACTIVE */
 
 .enhanced-task-manager__scroll-to-top-btn:active {
-    transition: none;
-    opacity: 0.75;
-  }
+  transition: none;
+  opacity: 0.75;
+}
 
 /* END OF ACTIVE */
 

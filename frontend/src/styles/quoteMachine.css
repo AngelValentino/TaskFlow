@@ -1,6 +1,6 @@
 /* QUOTE */
 
-.quote {
+.quote-machine {
   padding: 40px 50px;
   border-radius: 3px;
   min-width: 400px;
@@ -8,48 +8,48 @@
   background-color: #fff;
 }
 
-.quote__text, .quote__author {
+.quote-machine__text, .quote-machine__author {
   color: var(--dark-accent-color);
   transition: color var(--base-transition-duration);
 }
 
-.quote__quotes-icon {
+.quote-machine__quotes-icon {
   width: 1.75rem;
   vertical-align: bottom;
 }
 
-.quote__text {
+.quote-machine__text {
   font-size: 1.53rem;
   font-weight: normal;
   margin: 0 0 25px;
   text-align: center;
 }
 
-.quote__text.loading {
+.quote-machine__text.loading {
   animation: fade 1.5s ease-out infinite alternate;
 }
 
-.quote__author {
+.quote-machine__author {
   display: block;
   text-align: end;
   margin: 0 0 40px;
   font-style: normal;
 }
 
-.quote__buttons {
+.quote-machine__buttons {
   display: flex;
   justify-content: space-between;
   color: #fff;
 }
 
-.quote__buttons > div {
+.quote-machine__buttons > div {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.quote__share-with-twitter-btn,
-.quote__share-with-tumblr-btn {
+.quote-machine__share-with-twitter-btn,
+.quote-machine__share-with-tumblr-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,15 +62,15 @@
   transition: background-color var(--base-transition-duration), color var(--base-transition-duration);
 }
 
-.quote__share-with-twitter-icon {
+.quote-machine__share-with-twitter-icon {
   width: 1.15rem;
 }
 
-.quote__share-with-tumblr-icon {
+.quote-machine__share-with-tumblr-icon {
   width: 0.75rem;
 }
 
-.quote__new-quote-btn {
+.quote-machine__new-quote-btn {
   background-color: var(--dark-accent-color);
   padding: 0 15px;
   border-radius: 3px;
@@ -83,8 +83,8 @@
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) {
-  .quote__share-with-twitter-btn:is(:hover, :focus-visible),
-  .quote__share-with-tumblr-btn:is(:hover, :focus-visible) {
+  .quote-machine__share-with-twitter-btn:is(:hover, :focus-visible),
+  .quote-machine__share-with-tumblr-btn:is(:hover, :focus-visible) {
     color: var(--base-text-color);
     background-color: var(--contrast-color);
   }
@@ -93,15 +93,15 @@
 /* END OF HOVER CAPABLE DEVICES */
 
 /* ACTIVE */
-  .quote__buttons button:active,
-  .quote__buttons button:active::after {
+  .quote-machine__buttons button:active,
+  .quote-machine__buttons button:active::after {
     transition: none;
     color: var(--base-text-color);
     background-color: var(--contrast-color);
   }
 
-  .quote__share-with-twitter-btn:active,
-  .quote__share-with-tumblr-btn:active {
+  .quote-machine__share-with-twitter-btn:active,
+  .quote-machine__share-with-tumblr-btn:active {
     transition: none;
     opacity: 0.75;
   }
@@ -111,12 +111,12 @@
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 500px) {
-  .quote {
+  .quote-machine {
     padding: 40rem 50px;
     min-width: 300px;
   }
 
-  .quote {
+  .quote-machine {
     padding: 30px 40px;
   }
 }

@@ -79,6 +79,15 @@
   width: 0.95em;
 }
 
+@keyframes flash {
+  0% {
+    color: var(--dark-accent-color); /* Start with no color */
+  }
+  100% {
+    color: var(--medium-accent-color); /* Flash color */
+  }
+}
+
 /* HOVER CAPABLE DEVICES */
 
 @media screen and (pointer: fine) and (hover: hover) {
@@ -107,14 +116,7 @@
 
 /* END OF ACTIVE */
 
-@keyframes flash {
-  0% {
-    color: var(--dark-accent-color); /* Start with no color */
-  }
-  100% {
-    color: var(--medium-accent-color); /* Flash color */
-  }
-}
+/* MEDIA QUERIES */
 
 @media screen and (max-width: 500px) {
   .pomodoro-timer__long-session-btn,
@@ -123,3 +125,5 @@
     height: 9px;
   }
 }
+
+/* END OF MEDIA QUEIRES */
