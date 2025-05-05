@@ -57,7 +57,6 @@ export default class RegisterController {
 
   registerUser(e) {
     e.preventDefault();
-    console.log('submit')
     const registerData = this.utils.getFormData(e.target);
 
     if (this.activeRequest) {

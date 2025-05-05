@@ -35,7 +35,6 @@ export default class DeviceIdentifier {
   setDeviceUUID() {
     const deviceUUID = this.generateDeviceUUID();
     localStorage.setItem('deviceUUID', deviceUUID);
-    console.log('created a new device UUID: ' + localStorage.getItem('deviceUUID'));
     return deviceUUID.split(':')[0]; // Return just the UUID part
   }
 
@@ -53,12 +52,10 @@ export default class DeviceIdentifier {
       const [uuid, expiry] = deviceUUID.split(':');
       if (Date.now() < expiry) {
         // Not expired, return the UUID
-        console.log('Not expired -> return the same UUID: ' + deviceUUID.split(':')[0]);
         return uuid;
       } 
       else {
         // Expired, remove from storage and generate a new one
-        console.log('Expired -> remove from storage and generate a new one')
         localStorage.removeItem('deviceUUID');
       }
     }

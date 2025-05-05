@@ -62,7 +62,6 @@ export default class ModalHandler {
 
   handleTrapFocus(modalLm) {
     return e => {
-      console.warn('trap focus');
       this.trapFocus(e, modalLm);
     }
   }
@@ -70,7 +69,6 @@ export default class ModalHandler {
   handleEscapeKeyClose(closeHandler) {
     return e => {
       if (e.key === 'Escape') {
-        console.warn('close at escape key');
         closeHandler(e);
       }
     }
@@ -95,26 +93,21 @@ export default class ModalHandler {
       
       // Click was inside the modal
       if (modalLmOuterLimits.contains(clickedLm)) {
-        console.warn('click was inside the modal, do nothin');
         return;
       } 
 
       // Click was outside the modal
       const isClickOnExempt = exemptLms.some(exemptEl => exemptEl?.contains(clickedLm));
       if (isClickOnExempt) {
-        console.warn('Click was on exempt element, do nothing');
         return;
       }
 
-      console.warn('click was outside the modal, close modal');
       closeHandler(e);
     }
   }
 
   clearDocumentBodyEvents() {
     const documentBodyEvents = this.eventsHandler.documentBody;
-
-    console.log(this.eventsHandler.documentBody);
 
     if (documentBodyEvents) {
       for (const key in documentBodyEvents) {
@@ -127,8 +120,6 @@ export default class ModalHandler {
         events.length = 0;
       }
     }
-
-    console.log(this.eventsHandler.documentBody);
   }
 
   clearActiveModals() {
@@ -145,15 +136,12 @@ export default class ModalHandler {
   } = {}) {
     this.router.abortActiveFetches();
 
-
     const handleActiveModalClose = e => {
       e.stopPropagation();
       if (!this.isActiveModal(modalLm)) {
-        console.warn('Not topmost modal, ignore close');
         return;
       }
 
-      console.log('close modal at close btn click');
       closeHandler();  // Only close if this is the topmost modal
     };
 
@@ -175,9 +163,7 @@ export default class ModalHandler {
       });
     }
 
-    this.registerModal(modalLm); // Add modal to active set
-    console.warn('added -> ' + modalLm?.className);
-    console.log(this.activeModals);
+    this.registerModal(modalLm);
     
     if (!this.eventsHandler[eventHandlerKey]) {
       this.eventsHandler[eventHandlerKey] = {};
@@ -205,8 +191,6 @@ export default class ModalHandler {
     const documentEvents = this.eventsHandler.documentBody[eventHandlerKey];
     documentEvents.push({ type: 'keydown', reference: escapeKeyHandler });
     documentEvents.push({ type: 'click', reference: outsideClickHandler });
-
-    console.log(this.eventsHandler.documentBody)
   }
 
   removeModalEvents({
@@ -235,11 +219,7 @@ export default class ModalHandler {
     delete this.eventsHandler[eventHandlerKey]; 
     const documentEvents = this.eventsHandler.documentBody[eventHandlerKey];
     documentEvents.length = 0;
-    console.log(this.eventsHandler.documentBody)
 
     this.unregisterModal(modalLm);
-    console.warn('removed -> ' + modalLm?.className)
-    console.log(modalLm)
-    console.log(this.activeModals);
   }
 }

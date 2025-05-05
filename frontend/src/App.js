@@ -220,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetPasswordController.init();
   });
 
+  // 404 handler
   router.addRoute('*', () => {
     appLm.innerHTML = NotFoundPage.getHtml();
   });
