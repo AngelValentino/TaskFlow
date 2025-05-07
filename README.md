@@ -5,6 +5,8 @@
 **TaskFlow** is a handcrafted, fully custom single-page application designed to help you stay focused, motivated, and organized without distractions. It allows you to easily manage tasks, set reminders, and track your progress, all within a clean, user-friendly, and accessible interface that prioritizes simplicity and ease of use.
 
 
+<br>
+
 ## 🚀 Features
 
 - ✅ **Clean Task Management**: Streamline your task organization with a distraction-free interface designed for maximum efficiency and focus.
@@ -15,6 +17,8 @@
 - 🔒 **Security First**: All connections are secured with HTTPS (A+ SSL Labs grade), utilizing secure JWT authentication and industry-standard practices for server hardening and encryption.
 - 📱 **Responsive, Dynamic Interface Across All Devices**: The app is fully responsive, dynamically adjusting to desktops, tablets, mobiles, smartwatches, and any other device, with media queries and styled using pure vanilla CSS.
 - 🚀 **Optimized Performance**: Achieved a full score in Google's Lighthouse audit, ensuring exceptional performance, accessibility, best practices, and SEO across the application.
+
+<br>
 
 ## 🧱 Core Features
 
@@ -48,11 +52,15 @@
   - SSH-only access, Fail2Ban, strict file permissions
   - HTTPS with an A+ SSL Labs grade, ensuring secure and encrypted communication across the entire application.
 
+<br>
+
 ## 🧪 Local Development
 
 ```
 Under development
 ```
+
+<br>
 
 ## 📁 Further Documentation
 
@@ -63,6 +71,8 @@ Full architecture, API details, database design, and core components are availab
 - [`design.md`](./docs/design.md) – Database schema and rationale.
 - [`core-components.md`](./docs/core-components.md) – Key reusable classes and methods used across the application.
 - [`about.md`](./docs/about.md) – Project goals, challenges, and takeaways.
+
+<br>
 
 ## 🌱 TaskFlow: Evolution, Features & Limitations
 
@@ -96,6 +106,8 @@ Full architecture, API details, database design, and core components are availab
 
 - **Modular design** ensures the app can scale with increasing user needs.
 - **TaskFlow is more than just a task manager**. It is a showcase of clean architecture, efficient UX design, and scalable backend practices.
+
+<br>
 
 ## 📬 Contact
 
