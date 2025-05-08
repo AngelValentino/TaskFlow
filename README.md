@@ -66,11 +66,10 @@ Under development
 
 Full architecture, API details, database design, and core components are available in the `docs/` directory:
 
-- [`architecture.md`](./docs/architecture.md) – Full breakdown of the app structure and modules.
-- [`api.md`](./docs/api.md) – REST API endpoints and usage.
-- [`design.md`](./docs/design.md) – Database schema and rationale.
-- [`core-components.md`](./docs/core-components.md) – Key reusable classes and methods used across the application.
-- [`about.md`](./docs/about.md) – Project goals, challenges, and takeaways.
+- [architecture.md](./docs/architecture.md) – Full breakdown of the app structure and modules.
+- [api.md](./docs/api.md) – REST API endpoints and usage.
+- [design.md](./docs/design.md) – Database schema and rationale.
+- [about.md](./docs/about.md) – Project goals, challenges, and takeaways.
 
 <br>
 
