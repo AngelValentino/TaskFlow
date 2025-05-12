@@ -473,7 +473,7 @@ For an error to be cleared, it must be sent with a value of `null`.
 
 ##### GET Response Body (counter = true)
 
-```JSON
+```
 2 (task count)
 ```
 
