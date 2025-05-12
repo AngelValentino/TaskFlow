@@ -8,56 +8,6 @@ Simple high-level flow of interaction illustrated below:
 
 <br>
 
-## Table of Contents
-
-* [Frontend (SPA) Architecture](#frontend-spa-architecture)
-  * [Using Views with custom vanilla SPA MVC Architecture](#using-views-with-custom-vanilla-spa-mvc-architecture)
-  * [Using Components with custom vanilla SPA MVC Architecture](#using-components-with-custom-vanilla-spa-mvc-architecture)
-    * [Task Manager Component Example](#task-manager-component-example)
-    * [Benefits of This Approach](#benefits-of-this-approach)
-  * [Key Concepts and Services](#key-concepts-and-services)
-    * [Services](#services)
-    * [Controllers](#controllers)
-    * [Models](#models)
-    * [Views](#views)
-  * [Routing](#routing)
-  * [Authentication Flow and Security](#authentication-flow-and-security)
-  
-* [Backend API Architecture](#backend-api-architecture)
-  * [Key Concepts and Services](#key-concepts-and-services-1)
-    * [Services](#services-1)
-    * [Controllers](#controllers-1)
-    * [Gateways](#gateways)
-    * [Models](#models-1)
-    * [Middleware](#middleware)
-  * [Routes](#routes)
-  * [Authentication Flow and Security](#authentication-flow-and-security-1)
-
-* [Custom JWT Authentication System](#custom-jwt-authentication-system)
-  * [JWT Structure](#jwt-structure)
-  * [Encoding & Decoding](#encoding-decoding)
-  * [Token Types](#token-types)
-  * [Validation and Security](#validation-and-security)
-
-* [Authentication Flow](#authentication-flow)
-  * [Login](#login)
-  * [Authenticated Requests](#authenticated-requests)
-  * [Refresh Token](#refresh-token)
-  * [Logout](#logout)
-  * [Password Recovery](#password-recovery)
-
-* [Database Schema](#database-schema)
-  * [Tables](#tables)
-    * [users](#users)
-    * [refresh_tokens](#refresh_tokens)
-    * [tasks](#tasks)
-    * [quotes](#quotes)
-    * [user_logs](#user_logs)
-  * [Triggers](#triggers)
-    * [user_logs](#user_logs-1)
-
-<br>
-
 ## Frontend (SPA) Architecture
 
 The frontend is a vanilla JavaScript SPA (Single Page Application) with custom logic for routing, state management, and UI components. To authenticate requests with the backend, the frontend sends a Bearer token with each API request. This token ensures the user is authenticated, allowing the backend to process the request and return the appropriate JSON response. Below is an overview of the SPA components, methods, and classes:
@@ -282,31 +232,24 @@ Token type is embedded in the payload (`type`) and checked during validation to 
 
 <br>
 
-## Authentication Flow
+## Authentication Overview
 
-### Login
-- The user submits credentials (username and password).
-- The backend validates the credentials and generates two JWTs: an **access token** (expires in 5 minutes) and a **refresh token** (expires in 5 days).
-- The tokens are sent to the client, which stores them for use in subsequent requests to protected routes.
+The API uses **Bearer Authentication** with **JWT** (JSON Web Tokens) for securing authenticated routes, including a separate token for password reset functionality.
 
-### Authenticated Requests
-- Client includes access token in the `Authorization` header:  
-  `Authorization: Bearer <token>`
-- The `Auth::authenticateAccessToken()` method decodes and validates the token, and extracts user info.
+### Token Characteristics:
+Each token has at least the following characteristics:
+- **Type**: Tokens are assigned a specific type to prevent misuse.
+- **Expiration Time**: Tokens have a defined expiration time to limit their validity.
+- **Signature**: Tokens are securely signed using a secret key on the server to ensure the integrity of the payload and prevent tampering.
 
-### Refresh Token
-- When the access token expires, the client sends a request to the `/refresh` route with the refresh token.
-- The backend verifies the refresh token, issues a new access token and refresh token, and updates the `refresh_tokens` column in the database.
+### Authentication Flow
+1. **Login**: The user submits credentials, and the backend generates two JWTs: an **access token** (valid for 5 minutes) and a **refresh token** (valid for 5 days).
+2. **Authenticated Requests**: The client includes the access token in the `Authorization` header (`Authorization: Bearer <token>`) to access protected routes.
+3. **Refresh Token**: When the access token expires, the client can send the refresh token to the `/refresh` route to obtain a new access token and refresh token.
+4. **Logout**: The client sends a request to `/logout` with the current refresh token. The backend invalidates the token, and the client clears their tokens.
+5. **Password Recovery**: If a user forgets their password, they can request a reset link. The system sends an email with a JWT-secured link valid for 10 minutes to reset the password.
 
-### Logout
-- The client sends a logout request to the `/logout` route with the current refresh token.
-- The backend clears the token from the database, and the client clears theirs 
-respectively, effectively invalidating the session.
-
-### Password Recovery
-- If a user forgets their password, they can request a reset link by providing their email.
-- The system sends an email with a link (valid for 10 minutes) allowing them to set a new password.
-- The reset link includes a JWT to securely validate the request and prevent misuse.
+The `/quotes` route is the only route that requires authentication.
 
 <br>
 
