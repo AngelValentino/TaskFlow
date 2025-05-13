@@ -4,7 +4,6 @@
 
 **TaskFlow** is a handcrafted, fully custom single-page application designed to help you stay focused, motivated, and organized without distractions. It allows you to easily manage tasks, set reminders, and track your progress, all within a clean, user-friendly, and accessible interface that prioritizes simplicity and ease of use.
 
-
 <br>
 
 ## 🚀 Features
