@@ -20,9 +20,7 @@ export default class Utils {
   populateFormInputs(form, data) {
     for (const key in data) {
       const field = form.querySelector(`[name="${key}"]`);
-      if (data[key]) {
-        field.value = data[key];
-      }
+      field.value = data[key];
     }
   }
 
