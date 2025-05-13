@@ -1,5 +1,7 @@
 # TaskFlow – Minimalist Productivity, Maximum Focus
 
+![Taskflow app screenshot](docs/assets/images/app-screenshot-1.png)
+
 ## 📋 About
 
 **TaskFlow** is a handcrafted, fully custom single-page application designed to help you stay focused, motivated, and organized without distractions. It allows you to easily manage tasks, set reminders, and track your progress, all within a clean, user-friendly, and accessible interface that prioritizes simplicity and ease of use.
@@ -67,7 +69,7 @@ Full architecture, API details, database design, and core components are availab
 
 - [architecture.md](./docs/architecture.md) – Full breakdown of the app structure and modules.
 - [api.md](./docs/api.md) – REST API endpoints and usage.
-- [design.md](./docs/design.md) – Database schema and rationale.
+- [design.md](./docs/design.md) – App scope and database schema and rationale.
 - [about.md](./docs/about.md) – Project goals, challenges, and takeaways.
 
 <br>
@@ -80,7 +82,11 @@ Full architecture, API details, database design, and core components are availab
 - **Goal**: Simplify digital productivity with a task-focused experience.
 - **Crafted with care**: Every aspect of TaskFlow, from frontend to backend, was thoughtfully developed to follow best practices, emphasizing security and user-focused design.
 
-### **Accessibility (a11y)**
+### Current Limitations
+
+TaskFlow began as a portfolio project and, while ready for use as a full-fledged application, is currently limited by the SendGrid free tier, which restricts email sending to 100 emails per day. 
+
+### Accessibility (a11y)
 
 - **Inclusive Design**: TaskFlow is built with the goal of making the app accessible to all users, including those with disabilities. The interface is designed to be intuitive and easy to navigate, with continuous improvement in mind.
 - **Keyboard Navigation**: TaskFlow is fully optimized for keyboard navigation, allowing users to interact with the app without relying on a mouse or touch input.
@@ -88,22 +94,37 @@ Full architecture, API details, database design, and core components are availab
 - **Semantic HTML**: The app utilizes semantic HTML elements, not only for SEO benefits but also to improve the user experience, making it easier for assistive technology to interpret the content structure correctly.
 - **Colorblind-Friendly**: The app’s theme handler offers multiple color schemes to cater to different preferences. However, I'm aware that it may not work well for users with colorblindness. Future updates will focus on adding color schemes that are more accessible and better aligned with accessibility standards.
 
+### Architecture
 
-### **Scalable Architecture**
-
-- **Dedicated API server** for seamless communication.
-- **Separate MySQL database** to handle user data securely.
-- **Email service** supporting future growth (currently on a free tier with a limit of 100 emails per day, easily upgradable).
-
-### **Security First**
+- **Scalable Architecture**: The app is built with a modular design, including a dedicated MySQL database and an API hosted on a secure Linux server.
+- **Transactional Emails**: TaskFlow supports key transactional emails such as account registration and password recovery, though the free tier limits email volume.
+- **Scalability**: The system is built to scale, enabling easy future expansions and feature additions as needed.
+- **Lightweight Custom SPA**: TaskFlow features a vanilla custom SPA that is lightweight and, like the rest of the project, does not rely on heavy libraries. It uses only essential development libraries, such as Webpack and Babel.
+- **Optimized Client Build**: The client-side code is fully compiled and optimized using Babel and Webpack, ensuring modern JavaScript compatibility, enhanced performance, and faster load times.
+- **Secure API**: The API is secured with modern security practices, including CORS, rate limiting, and JWT-based authentication. It is hosted on a modern, well-maintained server, ensuring data protection and preventing unauthorized access.
+### Security First
 
 - TaskFlow is designed with **strong security measures** to protect user data.
 - However, **no app is completely secure**. Ongoing vigilance and improvements are always necessary due to the evolving nature of cybersecurity.
 
-### **Built for Growth**
+### Built for Growth
 
 - **Modular design** ensures the app can scale with increasing user needs.
 - **TaskFlow is more than just a task manager**. It is a showcase of clean architecture, efficient UX design, and scalable backend practices.
+
+<br>
+
+## 🖼️ Additional Images
+
+![Taskflow app screenshot](docs/assets/images/app-screenshot-4.png)
+
+![Taskflow app screenshot](docs/assets/images/app-screenshot-3.png)
+
+![Taskflow app screenshot](docs/assets/images/app-screenshot-6.png)
+
+![Taskflow app screenshot](docs/assets/images/app-screenshot-5.png)
+
+
 
 <br>
 
