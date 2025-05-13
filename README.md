@@ -4,7 +4,7 @@
 
 ## 📋 About
 
-**TaskFlow** is a handcrafted, fully custom single-page application designed to help you stay focused, motivated, and organized without distractions. It allows you to easily manage tasks, set reminders, and track your progress, all within a clean, user-friendly, and accessible interface that prioritizes simplicity and ease of use.
+[TaskFlow](https://taskflowapp.net/) is a handcrafted, fully custom single-page application designed to help you stay focused, motivated, and organized without distractions. It allows you to easily manage tasks, set reminders, and track your progress, all within a clean, user-friendly, and accessible interface that prioritizes simplicity and ease of use.
 
 <br>
 
@@ -17,7 +17,17 @@
 - 🗂️ **Offline or Online**: Effortlessly access your tasks offline via local storage or sync them when you're online, ensuring continuous management no matter your connection.
 - 🔒 **Security First**: All connections are secured with HTTPS (A+ SSL Labs grade), utilizing secure JWT authentication and industry-standard practices for server hardening and encryption.
 - 📱 **Responsive, Dynamic Interface Across All Devices**: The app is fully responsive, dynamically adjusting to desktops, tablets, mobiles, smartwatches, and any other device, with media queries and styled using pure vanilla CSS.
-- 🚀 **Optimized Performance**: Achieved a full score in Google's Lighthouse audit, ensuring exceptional performance, accessibility, best practices, and SEO across the application.
+- 🚀 **Optimized Performance**: Achieved a full score in Google’s Lighthouse audit under standard conditions, ensuring top-tier performance, accessibility, best practices, and SEO. Performance may slightly vary (e.g., 97–99) when logged in or on mobile due to dynamic content and runtime features.
+
+### 📊 Audit and Security Scores
+
+Below are the actual audit and security test results demonstrating the app’s performance and integrity. Lighthouse scores are shown for both unauthenticated (anonymous) and authenticated users. These benchmarks validate the app’s speed, accessibility, and best practices under different conditions.
+
+![Taskflow app Chrome lightouse full score screenshot](docs/assets/images/lighthouse-score.jpg)
+
+![Taskflow app Chrome lightouse full score screenshot](docs/assets/images/lighthouse-score-auth.jpg)
+
+![Taskflow app screenshot SSL labs full A+ score screenshot](docs/assets/images/ssl-labs-score.jpg)
 
 <br>
 
@@ -136,3 +146,9 @@ Feel free to reach out for feedback, collaboration, or opportunities:
 
 - **GitHub**: [AngelValentino](https://github.com/AngelValentino)  
 - **Email**: angelvalentino294@gmail.com
+
+While I deeply value collaboration and community feedback, this project serves as a personal showcase of my software development and engineering skills. For that reason, I personally implement all features and improvements.
+
+That said, I welcome **issues**, **suggestions**, and **feedback** — and I’ll consider **pull requests for bugs or non-feature enhancements** on a case-by-case basis.
+
+If the project evolves into a team-led initiative or a paid service in the future, collaboration may become a more active part of its development. Until then, thank you for your support and interest!
