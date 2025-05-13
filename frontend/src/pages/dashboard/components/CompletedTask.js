@@ -5,7 +5,7 @@ export default class CompletedTask {
 
   static getHtml(task, searchValue) {
     return `
-      <li aria-checked="true" id="task-manager__task-${task.id}" aria-label="Completed task." class="task-manager__task completed">
+      <li id="task-manager__task-${task.id}" aria-label="Completed task." class="task-manager__task completed">
         <h4 aria-label="Task title." class="task-manager__task-title">${searchValue ? this.utils.highlighter(task.title, searchValue, true) : task.title}</h4>
         <time class="task-manger__task-due-date" aria-label="Task due date." datetime="${task.due_date}">Due to ${task.due_date}</time>
         ${task.description === null ? '' : `<p class="task-manager__task-desc">${task.description}</p>`}
