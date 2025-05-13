@@ -1,6 +1,6 @@
 # TaskFlow – Minimalist Productivity, Maximum Focus
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-1.png)
+![Taskflow app screenshot](docs/assets/images/taskflow-screenshot-1.png)
 
 ## 📋 About
 
@@ -116,15 +116,17 @@ TaskFlow began as a portfolio project and, while ready for use as a full-fledged
 
 ## 🖼️ Additional Images
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-4.png)
+![Taskflow app screenshot](docs/assets/images/app-screenshot-1.png)
+
+![Taskflow app screenshot](docs/assets/images/app-screenshot-2.png)
 
 ![Taskflow app screenshot](docs/assets/images/app-screenshot-3.png)
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-6.png)
+![Taskflow app screenshot](docs/assets/images/app-screenshot-4.png)
 
 ![Taskflow app screenshot](docs/assets/images/app-screenshot-5.png)
 
-
+![Taskflow app screenshot](docs/assets/images/app-screenshot-6.png)
 
 <br>
 
