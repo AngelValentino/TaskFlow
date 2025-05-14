@@ -52,7 +52,8 @@ module.exports = (env, argv) => {
       new CopyWebpackPlugin({
         patterns: [
           { from: 'frontend/public/assets', to: 'assets' },
-          { from: 'frontend/public/robots.txt', to: 'robots.txt' } 
+          { from: 'frontend/public/robots.txt', to: 'robots.txt' },
+          { from: 'frontend/public/manifest.json', to: 'manifest.json' }
         ]
       })
     ],
