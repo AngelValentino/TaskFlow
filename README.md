@@ -181,6 +181,7 @@ SECRET_KEY="your_super_secret_key"
 
 - **Place the Project in XAMPP's `htdocs/` Folder**
   If the project directory isn't already there, move it to the `htdocs/` folder. For example:
+  
   ```bash
   C:/xampp/htdocs/taskflow
   ```
@@ -207,7 +208,9 @@ Use **phpMyAdmin** or the **MySQL CLI** to import the provided schema SQL files 
   ```bash
   git clone https://github.com/AngelValentino/TaskFlow.git
   ```
+
 - Run the following command to install the necessary dependencies, which are required for **Webpack**, **Babel**, and the **Node.js express** server:
+   
    ```bash
    npm install
    ```
