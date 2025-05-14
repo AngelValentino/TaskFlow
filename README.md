@@ -126,8 +126,6 @@ Configure a custom local domain for your API (e.g., `taskflow-api.com`) to suppo
 
   Enables Apache to use `.htaccess` files for URL rewriting, security, and routing. Setting the document root to the `public` folder ensures only publicly accessible files are served, keeping internal files secure.
 
-  <br>
-
 - Add the domain to your system's `hosts` file (`C:/Windows/System32/drivers/etc/hosts`):
   
   ```
