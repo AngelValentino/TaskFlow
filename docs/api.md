@@ -1,5 +1,7 @@
 # API Documentation
 
+This document provides an overview of the Taskflow API, describing the **base URL structure**, **JWT-based authentication**, and the **available private endpoints** showcasing the API’s functionality and underlying logic.
+
 ## Base URL
 
 `https://api.taskflowapp.net`
@@ -176,6 +178,7 @@ This API is deployed across different environments to support both development a
 - **Purpose**: Designed for local development and testing purposes.
 
 ### Production:
+
 - **Access**: Available to all valid IP addresses, excluding private IP ranges.
 - **Purpose**: Intended for live, production use, and publicly accessible.
 

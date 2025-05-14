@@ -1,9 +1,10 @@
 # Architecture Overview
+
 This document provides an overview of the system architecture, describing the **SPA (Single Page Application)** frontend, the **PHP-based API backend**, and the **MySQL database schema**.
 
 Simple high-level flow of interaction illustrated below:
 ```
-[ Vanilla JS SPA (Client) ] ⇄ [ Pure PHP RESTful API (Backend) ] ⇄ [ Redis (Rate Limit) ] ⇄ [ MySQL (Database) ]
+[ Vanilla JS SPA (Client) ] ⇄ [ Pure PHP RESTful API (Backend) ] ⇄  [ MySQL (Database) ]
 ```
 
 <br>
@@ -98,9 +99,12 @@ While the client ensures clean data is sent to the server, the backend implement
 <br>
 
 ## Backend API Architecture
+
 The backend API is developed using PHP and follows the MVC (Model-View-Controller) design pattern, which promotes scalability and maintainability. It is responsible for handling user authentication, task management, and fetching quotes.
 
 Controllers manage incoming requests from the client, validate them, and determine the appropriate methods to call. Gateways facilitate database interactions through CRUD operations, while models handle complex business logic and validation processes. To ensure optimal performance and prevent abuse, the system implements a Redis-based rate limiter, controlling the frequency of requests and maintaining a smooth user experience.
+
+For a complete list of endpoints and usage details, see the [full API documentation](./api.md).
 
 ### Key Concepts and Services
 
@@ -237,12 +241,14 @@ Token type is embedded in the payload (`type`) and checked during validation to 
 The API uses **Bearer Authentication** with **JWT** (JSON Web Tokens) for securing authenticated routes, including a separate token for password reset functionality.
 
 ### Token Characteristics:
+
 Each token has at least the following characteristics:
 - **Type**: Tokens are assigned a specific type to prevent misuse.
 - **Expiration Time**: Tokens have a defined expiration time to limit their validity.
 - **Signature**: Tokens are securely signed using a secret key on the server to ensure the integrity of the payload and prevent tampering.
 
 ### Authentication Flow
+
 1. **Login**: The user submits credentials, and the backend generates two JWTs: an **access token** (valid for 5 minutes) and a **refresh token** (valid for 5 days).
 2. **Authenticated Requests**: The client includes the access token in the `Authorization` header (`Authorization: Bearer <token>`) to access protected routes.
 3. **Refresh Token**: When the access token expires, the client can send the refresh token to the `/refresh` route to obtain a new access token and refresh token.
@@ -254,36 +260,41 @@ The `/quotes` route is the only route that requires authentication.
 <br>
 
 ## Database Schema
+
+The database is built using **MySQL** with the following tables and relationships. For a deeper explanation of schema decisions and relationships, see the [design document](./design.md).
+
 ![TaskFlow app MySQL database entity relationship diagram](assets/images/taskflow-mysql-db-er-diagram.jpg)
 
-The database is built using **MySQL** with the following tables and relationships:
 
-### Tables:
+### Entities
 
 #### users
+
 - Stores user information such as username, password hash, and email.
 - **Primary key**: `id`
 
 #### refresh_tokens
+
 - Stores refresh tokens to allow session persistence across requests.
 - **Primary key**: `token_hash`
 
 #### tasks
+
 - Stores user tasks with information like due date, title, description, and completion status.
 - **Foreign key**: `user_id` references `users(id)`
 
 #### quotes
+
 - Stores inspirational quotes.
 - **Primary key**: `id`
 
-#### user_logs:
+#### user_logs
+
 - Logs user account changes (inserts, updates, deletes) for auditing purposes.
 - **Primary key**: `id`
 
-### Triggers
-
-#### user_logs
-
-- **log_user_inserts**: Logs new user insertions.
-- **log_user_updates**: Logs user information updates.
-- **log_user_deletes**: Logs user deletionse.
+  ##### Triggers
+  
+  - **log_user_inserts**: Logs new user insertions.
+  - **log_user_updates**: Logs user information updates.
+  - **log_user_deletes**: Logs user deletions.

@@ -2,6 +2,7 @@
 
 This design document outlines the structure and role of the MySQL database used in **TaskFlow**, as well as the overall scope of the application. It serves to clearly define how data is stored, accessed, and managed, and ensures that both developers and stakeholders understand the responsibilities and limitations of the current system design.
 
+<br>
 
 ## Scope
 
@@ -34,6 +35,8 @@ The following elements are **out of scope** for the current application iteratio
 
 - **File storage:** While the database may reference external file storage in the future (e.g., for user profile pictures via CDNs), it will not handle actual file management.
   
+<br>
+
 ## Functional Requirements
 
 ##### This current version of the application and its associated databas will support:
@@ -47,6 +50,8 @@ The following elements are **out of scope** for the current application iteratio
 
 - **Full user permissions**: Role-based permissions and advanced user management are excluded in this iteration.
 - **Complex analytics**: Reporting or advanced statistics are out of scope for the current design.
+
+<br>
 
 ## Representation
 
@@ -107,6 +112,8 @@ The `user_logs` table records all changes made to user information for auditing 
 
 This table is created through the `log_user_inserts`, `log_user_updates`, and `log_user_deletes` triggers to log changes made to sensitive user information for security purposes.
 
+<br>
+
 ## Relationships
 
 The below entity relationship diagram describes the relationships among the entities in the database.
@@ -114,9 +121,13 @@ The below entity relationship diagram describes the relationships among the enti
 ![Entity Relationship Diagram for TaskFlow](assets/images/taskflow-mysql-db-er-diagram.jpg)
 
 
+<br>
+
 ## Optimizations
 
 I strongly believe that further and extended optimization should not be implemented before we have a clear understanding of how users interact with the application, particularly with the database. While MySQL and other DBMS provide tools to analyze query performance, I believe the best approach is to wait for real data before optimizing the database. Implementing indexes prematurely can be risky, as it is uncertain whether they will be utilized as expected. Since adding indexes can slow down insertions, deletions, and updates, we must be cautious and avoid implementing them until we have actual user analytics and behavior data.
+
+<br>
 
 ## Limitations
 

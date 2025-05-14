@@ -1,6 +1,6 @@
 # TaskFlow – Minimalist Productivity, Maximum Focus
 
-![Taskflow app screenshot](docs/assets/images/taskflow-screenshot-1.png)
+![Taskflow app screenshot](./docs/assets/images/taskflow-screenshot-1.png)
 
 ## 📋 About
 
@@ -11,23 +11,24 @@
 ## 🚀 Features
 
 - ✅ **Clean Task Management**: Streamline your task organization with a distraction-free interface designed for maximum efficiency and focus.
-- 🧠 **Enhanced Manager View**: An intuitive and powerful layout for organizing, reviewing, and managing your tasks with ease.
+- 🧠 **Enhanced Task Manager View**: An intuitive and powerful layout for organizing, reviewing, and managing your tasks with ease.
 - ⏱️ **Pomodoro Timer**: A comprehensive and accessible time management component built around the Pomodoro technique, designed to boost productivity through structured work-rest intervals.
 - 💬 **Daily Motivation**: A dynamic motivational quote machine, delivering a rotating selection of quotes to inspire and motivate you throughout the day.
 - 🗂️ **Offline or Online**: Effortlessly access your tasks offline via local storage or sync them when you're online, ensuring continuous management no matter your connection.
 - 🔒 **Security First**: All connections are secured with HTTPS (A+ SSL Labs grade), utilizing secure JWT authentication and industry-standard practices for server hardening and encryption.
 - 📱 **Responsive, Dynamic Interface Across All Devices**: The app is fully responsive, dynamically adjusting to desktops, tablets, mobiles, smartwatches, and any other device, with media queries and styled using pure vanilla CSS.
+- 🌍 **Accessibility Focus**: Designed with inclusivity in mind, the app emphasizes accessibility to ensure it can be used by everyone. While the broad range of themes may pose minor challenges for some colorblind users, future updates aim to introduce a dedicated colorblind-friendly theme pack.  
 - 🚀 **Optimized Performance**: Achieved a full score in Google’s Lighthouse audit under standard conditions, ensuring top-tier performance, accessibility, best practices, and SEO. Performance may slightly vary (e.g., 97–99) when logged in or on mobile due to dynamic content and runtime features.
 
 ### 📊 Audit and Security Scores
 
 Below are the actual audit and security test results demonstrating the app’s performance and integrity. Lighthouse scores are shown for both unauthenticated (anonymous) and authenticated users. These benchmarks validate the app’s speed, accessibility, and best practices under different conditions.
 
-![Taskflow app Chrome lightouse full score screenshot](docs/assets/images/lighthouse-score.jpg)
+![Taskflow app Chrome lightouse full score screenshot](./docs/assets/images/lighthouse-score.jpg)
 
-![Taskflow app Chrome lightouse full score screenshot](docs/assets/images/lighthouse-score-auth.jpg)
+![Taskflow app Chrome lightouse full score screenshot](./docs/assets/images/lighthouse-score-auth.jpg)
 
-![Taskflow app screenshot SSL labs full A+ score screenshot](docs/assets/images/ssl-labs-score.jpg)
+![Taskflow app screenshot SSL labs full A+ score screenshot](./docs/assets/images/ssl-labs-score.jpg)
 
 <br>
 
@@ -39,7 +40,7 @@ Below are the actual audit and security test results demonstrating the app’s p
   - Token-based auth management with automatic refresh
   - Device fingerprinting and fetch interception for security
   - Pomodoro timer, task management, quote engine, and theme rotation
-  - Component-based UI (e.g., modals, user menu, loaders)
+  - Custom component-based UI (e.g., modals, user menu, loaders)
   - Optimized Lighthouse Scores with a full score across performance, accessibility, best practices, and SEO
   - HTTPS, ensuring secure and encrypted communication across the entire application
 - **Secure RESTful API** written in **pure PHP**, featuring:
@@ -51,25 +52,169 @@ Below are the actual audit and security test results demonstrating the app’s p
   - Structured routing with controller-based handlers
   - Centralized error/audit logging and graceful failure responses
 - **MySQL Database**, normalized for clean relational task and user data handling:
-  - users table: Stores user credentials and metadata.
-  - refresh_tokens table: Stores refresh tokens and their expiration times.
-  - tasks table: Stores tasks with due dates, descriptions, and completion statuses, with relationships to users.
-  - quotes table: Stores motivational quotes.
-  - user_logs table: Tracks user actions (inserts, updates, deletes) for auditing purposes.
-  - Encrypted MySQL connections: Using an SSL certificate to ensure secure, encrypted communication between the application and the database.
+  - Entities:
+    - users: Stores user credentials and metadata.
+    - refresh_tokens: Stores refresh tokens and their expiration times.
+    - tasks: Stores tasks with due dates, descriptions, and completion statuses, with relationships to users.
+    - quotes: Stores motivational quotes.
+    - user_logs: Tracks user actions (inserts, updates, deletes) for auditing purposes.
+  - Encrypted MySQL connections using an SSL certificate to ensure secure, encrypted communication between the application and the database.
+  - The database layer is fully separated from the API and client for better modularity, maintainability, and scalability.
 - **Webpack + Babel**, for ES6+ support and bundling optimization
 - **PHPMailer** integration for password recovery and transactional emails
 - **Deployed API on Hardened Linux Server**:
   - SSH-only access, Fail2Ban, strict file permissions
   - HTTPS with an A+ SSL Labs grade, ensuring secure and encrypted communication across the entire application.
+  - Log Rotation properly configured for API logs to ensure efficient log management
+  - API configured with Apache to be served from the public folder, using `.htaccess` for URL rewriting and enhanced security
 
 <br>
 
 ## 🧪 Local Development
 
+In this guide, I'll walk you through setting up **TaskFlow** locally using **XAMPP** for the API and **Composer** for managing PHP dependencies, but feel free to use any stack or tools you prefer. The following technologies are used in this setup:
+
+- **XAMPP** (Apache, PHP, MySQL) for the backend
+- **Redis** running via **WSL (Windows Subsystem for Linux)** for rate limiting
+- **Apache Virtual Hosts** for clean URL routing
+- **Composer** to manage PHP dependencies and autoloading
+- **Webpack and Babel** for client-side development and bundling
+- **Node & Express server** to serve the final Webpack build (though you can use your preferred server setup)
+
+### 💻 API Local Setup
+
+#### Clone the repository
+
+It must be cloned in `C:/xampp/htdocs/` to be able to use it with XAMPP.
+
+```bash
+git clone https://github.com/AngelValentino/taskflow-api.git
 ```
-Under development
+
+- Run the following command to install the necessary dependencies, which are required for  **PHPMailer**, **phpdotenv**, and **Predis**. Composer will also handle the autoloading capabilities for the project.
+  ```bash
+  composer install
+  ```
+
+#### Set up Apache Virtual Host
+
+Configure a custom local domain for your API (e.g., `taskflow-api.com`) to support proper routing, as well as serving files from public folder.
+
+- Edit your `httpd-vhosts.conf` file (located in `C:/xampp/apache/conf/extra/`):
+  ```apache
+  <VirtualHost *:80>
+      DocumentRoot "C:/xampp/htdocs/taskflow-api/public"
+      ServerName taskflow-api.com
+      <Directory "C:/xampp/htdocs/taskflow-api/public">
+          Options Indexes FollowSymLinks
+          AllowOverride All
+          Require all granted
+      </Directory>
+  </VirtualHost>
+  ```
+  Enables Apache to use `.htaccess` files for URL rewriting, security, and routing. Setting the document root to the `public` folder ensures only publicly accessible files are served, keeping internal files secure.
+
+  <br>
+
+- Add the domain to your system's `hosts` file (`C:/Windows/System32/drivers/etc/hosts`):
+  ```
+  127.0.0.1       taskflow-api.com
+  ```
+
+  Ensures that when you visit `taskflow-api.com` in your browser, it will route to your local machine (127.0.0.1) instead of trying to find the domain on the internet.
+
+#### Set up the `.env` file
+
+Create a `.env` file in the root of the project (if it doesn't exist), and define the required environment variables. These configure the database, Redis, email service, JWT authentication, CORS and environment-specific settings.
+
+```env
+# Environment 
+APP_ENV="development"    # Set to 'development' or 'production'
+
+# Client URLs
+CLIENT_URL_DEV="http://localhost:3000"    # Development client URL
+CLIENT_URL_PROD="https://yourdomain.com"    # Production client URL
+
+# Allowed Origins (comma-separated if multiple)
+DEVELOPMENT_ORIGINS="http://localhost:3000"
+PRODUCTION_ORIGINS="https://yourdomain.com"
+
+# Database Configuration
+DB_HOST="127.0.0.1"
+DB_PORT="3306"
+DB_NAME="your_database_name"
+DB_USER="your_database_user"
+DB_PASSWORD="your_database_password"
+DB_SSL="false"    # Set to "true" if using SSL
+DB_SSL_CA="-----BEGIN CERTIFICATE-----..."    # Required only if DB_SSL is "true"
+
+# Redis Configuration
+REDIS_HOST="127.0.0.1"
+REDIS_PORT="6379"
+
+# Mail Configuration
+MAIL_HOST="smtp.yourprovider.com"
+SENDER_EMAIL="you@example.com"
+SENDER_PASSWORD="your_email_password"
+SENDER_USERNAME="your_name"
+SENDER_PORT="587"   # Your provider specified port
+
+# JWT Secret Key
+SECRET_KEY="your_super_secret_key"
 ```
+
+#### Start Apache and MySQL via XAMPP
+
+- **Start Apache and MySQL**: 
+  Open the XAMPP control panel and ensure that both **Apache** and **MySQL** services are running.
+
+- **Place the Project in XAMPP's `htdocs/` Folder**
+  If the project directory isn't already there, move it to the `htdocs/` folder. For example:
+  ```bash
+  C:/xampp/htdocs/taskflow
+  ```
+
+- **Start Redis in WSL**
+  ```bash
+  redis-server
+  ```
+  Make sure Redis is running and accessible from the PHP backend for proper rate limiting.
+
+
+### 💾 MySQL DB Local Setup
+
+#### Import MySQL Schema
+
+Use **phpMyAdmin** or the **MySQL CLI** to import the provided schema SQL files into your database. The `schema.sql` and `queries.sql` files can be found in the `docs/assets/db` folder. Alternatively, you can click [here](./docs/assets/db) to access them directly.
+
+### 🌐 Client Vanilla SPA Local Setup
+
+#### Clone the repository
+
+  ```bash
+  git clone https://github.com/AngelValentino/TaskFlow.git
+  ```
+- Run the following command to install the necessary dependencies, which are required for **Webpack**, **Babel**, and the **Node.js express** server:
+   ```bash
+   npm install
+   ```
+
+#### Development and Production
+
+- For development with Webpack (live reloading and hot module replacement), run:
+  ```bash
+  npm run dev
+  ```
+
+- To create the final production build, run:
+  ```bash
+  npm run build
+  ```
+
+- To create the Express server serving the final build run:
+  ```
+  npm run start
+  ```
 
 <br>
 
@@ -80,7 +225,8 @@ Full architecture, API details, database design, and core components are availab
 - [architecture.md](./docs/architecture.md) – Full breakdown of the app structure and modules.
 - [api.md](./docs/api.md) – REST API endpoints and usage.
 - [design.md](./docs/design.md) – App scope and database schema and rationale.
-- [about.md](./docs/about.md) – Project goals, challenges, and takeaways.
+
+[Walkthrough Video]() – Overview of Project Goals, Key Challenges, and Key Takeaways
 
 <br>
 
@@ -112,6 +258,7 @@ TaskFlow began as a portfolio project and, while ready for use as a full-fledged
 - **Lightweight Custom SPA**: TaskFlow features a vanilla custom SPA that is lightweight and, like the rest of the project, does not rely on heavy libraries. It uses only essential development libraries, such as Webpack and Babel.
 - **Optimized Client Build**: The client-side code is fully compiled and optimized using Babel and Webpack, ensuring modern JavaScript compatibility, enhanced performance, and faster load times.
 - **Secure API**: The API is secured with modern security practices, including CORS, rate limiting, and JWT-based authentication. It is hosted on a modern, well-maintained server, ensuring data protection and preventing unauthorized access.
+
 ### Security First
 
 - TaskFlow is designed with **strong security measures** to protect user data.
@@ -126,17 +273,17 @@ TaskFlow began as a portfolio project and, while ready for use as a full-fledged
 
 ## 🖼️ Additional Images
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-1.png)
+![Taskflow app screenshot](./docs/assets/images/app-screenshot-1.png)
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-2.png)
+![Taskflow app screenshot](./docs/assets/images/app-screenshot-2.png)
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-3.png)
+![Taskflow app screenshot](./docs/assets/images/app-screenshot-3.png)
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-4.png)
+![Taskflow app screenshot](./docs/assets/images/app-screenshot-4.png)
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-5.png)
+![Taskflow app screenshot](./docs/assets/images/app-screenshot-5.png)
 
-![Taskflow app screenshot](docs/assets/images/app-screenshot-6.png)
+![Taskflow app screenshot](./docs/assets/images/app-screenshot-6.png)
 
 <br>
 
@@ -149,6 +296,6 @@ Feel free to reach out for feedback, collaboration, or opportunities:
 
 While I deeply value collaboration and community feedback, this project serves as a personal showcase of my software development and engineering skills. For that reason, I personally implement all features and improvements.
 
-That said, I welcome **issues**, **suggestions**, and **feedback** — and I’ll consider **pull requests for bugs or non-feature enhancements** on a case-by-case basis.
+That said, I welcome **issues**, **suggestions**, and **feedback** considering **pull requests for bugs or non-feature enhancements** on a case-by-case basis.
 
 If the project evolves into a team-led initiative or a paid service in the future, collaboration may become a more active part of its development. Until then, thank you for your support and interest!
