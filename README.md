@@ -92,6 +92,7 @@ git clone https://github.com/AngelValentino/taskflow-api.git
 ```
 
 - Run the following command to install the necessary dependencies, which are required for  **PHPMailer**, **phpdotenv**, and **Predis**. Composer will also handle the autoloading capabilities for the project.
+  
   ```bash
   composer install
   ```
@@ -101,6 +102,7 @@ git clone https://github.com/AngelValentino/taskflow-api.git
 Configure a custom local domain for your API (e.g., `taskflow-api.com`) to support proper routing, as well as serving files from public folder.
 
 - Edit your `httpd-vhosts.conf` file (located in `C:/xampp/apache/conf/extra/`):
+  
   ```apache
   <VirtualHost *:80>
       DocumentRoot "C:/xampp/htdocs/taskflow-api/public"
@@ -112,11 +114,13 @@ Configure a custom local domain for your API (e.g., `taskflow-api.com`) to suppo
       </Directory>
   </VirtualHost>
   ```
+
   Enables Apache to use `.htaccess` files for URL rewriting, security, and routing. Setting the document root to the `public` folder ensures only publicly accessible files are served, keeping internal files secure.
 
   <br>
 
 - Add the domain to your system's `hosts` file (`C:/Windows/System32/drivers/etc/hosts`):
+  
   ```
   127.0.0.1       taskflow-api.com
   ```
@@ -175,9 +179,11 @@ SECRET_KEY="your_super_secret_key"
   ```
 
 - **Start Redis in WSL**
+  
   ```bash
   redis-server
   ```
+
   Make sure Redis is running and accessible from the PHP backend for proper rate limiting.
 
 
@@ -202,16 +208,19 @@ Use **phpMyAdmin** or the **MySQL CLI** to import the provided schema SQL files 
 #### Development and Production
 
 - For development with Webpack (live reloading and hot module replacement), run:
+  
   ```bash
   npm run dev
   ```
 
 - To create the final production build, run:
+  
   ```bash
   npm run build
   ```
 
 - To create the Express server serving the final build run:
+  
   ```
   npm run start
   ```
