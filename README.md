@@ -8,6 +8,8 @@
 
 The frontend is bundled with Webpack and Babel while interacting with a secure RESTful API built in pure PHP, also following object oriented MVC design. The API is protected with JWT authentication and configured to handle CORS for secure cross-origin requests. Access control is enforced using Redis based rate limiting, while data persistence is managed separately with MySQL to ensure reliable storage. The interface is clean, accessible, and intuitive, supporting task management, reminders, and progress tracking. All designed with simplicity and usability in mind.
 
+The source code and summarized documentation for the secure RESTful API can be found in the [TaskFlow API repository](https://github.com/AngelValentino/taskflow-api).
+
 ### 📱 Progressive Web App (PWA) Support
 
 TaskFlow supports basic Progressive Web App (PWA) features with a `manifest.json` file. Modern browsers allow users to add websites to their phone’s home screen using the “Add to Home Screen” option, and TaskFlow works seamlessly with this. When launched from the home screen, the app shows a proper icon and is optimized for mobile devices. Although it currently runs inside the browser, future updates will add full native-like PWA support for an even smoother app experience.
