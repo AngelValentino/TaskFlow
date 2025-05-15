@@ -4,7 +4,14 @@
 
 ## 📋 About
 
-[TaskFlow](https://taskflowapp.net/) is a handcrafted, fully custom single-page application designed to help you stay focused, motivated, and organized without distractions. It allows you to easily manage tasks, set reminders, and track your progress, all within a clean, user-friendly, and accessible interface that prioritizes simplicity and ease of use.
+[TaskFlow](https://taskflowapp.net/) is a fully deployed productivity web application with a modular architecture designed to help users stay focused, organized, and distraction-free. Built as a custom single page application using vanilla JavaScript with an object oriented MVC architecture, it delivers a smooth and responsive user experience. 
+
+The frontend is bundled with Webpack and Babel while interacting with a secure RESTful API built in pure PHP, also following object oriented MVC design. The API is protected with JWT authentication and configured to handle CORS for secure cross-origin requests. Access control is enforced using Redis based rate limiting, while data persistence is managed separately with MySQL to ensure reliable storage. The interface is clean, accessible, and intuitive, supporting task management, reminders, and progress tracking. All designed with simplicity and usability in mind.
+
+### 📱 Progressive Web App (PWA) Support
+
+TaskFlow supports basic Progressive Web App (PWA) features with a `manifest.json` file. Modern browsers allow users to add websites to their phone’s home screen using the “Add to Home Screen” option, and TaskFlow works seamlessly with this. When launched from the home screen, the app shows a proper icon and is optimized for mobile devices. Although it currently runs inside the browser, future updates will add full native-like PWA support for an even smoother app experience.
+
 
 ### 🌟 Acknowledgements
 
@@ -19,15 +26,16 @@ This project draws inspiration from several sources that helped shape its develo
 
 ## 🚀 Features
 
-- ✅ **Clean Task Management**: Streamline your task organization with a distraction-free interface designed for maximum efficiency and focus.
-- 🧠 **Enhanced Task Manager View**: An intuitive and powerful layout for organizing, reviewing, and managing your tasks with ease.
-- ⏱️ **Pomodoro Timer**: A comprehensive and accessible time management component built around the Pomodoro technique, designed to boost productivity through structured work-rest intervals.
-- 💬 **Daily Motivation**: A dynamic motivational quote machine, delivering a rotating selection of quotes to inspire and motivate you throughout the day.
-- 🗂️ **Offline or Online**: Effortlessly access your tasks offline via local storage or sync them when you're online, ensuring continuous management no matter your connection.
-- 🔒 **Security First**: All connections are secured with HTTPS (A+ SSL Labs grade), utilizing secure JWT authentication and industry-standard practices for server hardening and encryption.
-- 📱 **Responsive, Dynamic Interface Across All Devices**: The app is fully responsive, dynamically adjusting to desktops, tablets, mobiles, smartwatches, and any other device, with media queries and styled using pure vanilla CSS.
-- 🌍 **Accessibility Focus**: Designed with inclusivity in mind, the app emphasizes accessibility to ensure it can be used by everyone. While the broad range of themes may pose minor challenges for some colorblind users, future updates aim to introduce a dedicated colorblind-friendly theme pack.  
-- 🚀 **Optimized Performance**: Achieved a full score in Google’s Lighthouse audit under standard conditions, ensuring top-tier performance, accessibility, best practices, and SEO. Performance may slightly vary (e.g., 97–99) when logged in or on mobile due to dynamic content and runtime features.
+- ✅ **Clean Task Management:** Streamline your task organization with a distraction-free interface designed for maximum efficiency and focus.
+- 🧠 **Enhanced Task Manager View:** An intuitive and powerful layout for organizing, reviewing, and managing your tasks with ease.
+- ⏱️ **Pomodoro Timer:** A comprehensive and accessible time management component built around the Pomodoro technique, designed to boost productivity through structured work-rest intervals.
+- 💬 **Daily Motivation:** A dynamic motivational quote machine, delivering a rotating selection of quotes to inspire and motivate you throughout the day.
+- 🗂️ **Offline or Online:** Effortlessly access your tasks offline via local storage or sync them when you're online, ensuring continuous management no matter your connection.
+- 🔒 **Security First:** All connections are secured with HTTPS (A+ SSL Labs grade), utilizing secure JWT authentication and industry-standard practices for server hardening and encryption.
+- 📱 **Responsive, Dynamic Interface Across All Devices:** The app is fully responsive, dynamically adjusting to desktops, tablets, mobiles, smartwatches, and any other device, with media queries and styled using pure vanilla CSS.
+- 🌍 **Accessibility Focus:** Designed with inclusivity in mind, the app emphasizes accessibility to ensure it can be used by everyone. While the broad range of themes may pose minor challenges for some colorblind users, future updates aim to introduce a dedicated colorblind-friendly theme pack.  
+- 🚀 **Optimized Performance:** Achieved a full score in Google’s Lighthouse audit under standard conditions, ensuring top-tier performance, accessibility, best practices, and SEO. Performance may slightly vary (e.g., 97–99) when logged in or on mobile due to dynamic content and runtime features.
+- 🏗️ **Robust Object-Oriented MVC Architecture:** Both the client-side SPA and the backend API are built using a modular, object-oriented MVC design, ensuring clean separation of concerns, maintainability, and scalability across the entire stack.
 
 ### 📊 Audit and Security Scores
 
@@ -303,6 +311,16 @@ TaskFlow began as a portfolio project and, while ready for use as a full-fledged
 ![Taskflow app screenshot](./docs/assets/images/app-screenshot-5.png)
 
 ![Taskflow app screenshot](./docs/assets/images/app-screenshot-6.png)
+
+<br>
+
+## 🚧 Future Improvements
+
+- Refactor the client-side codebase to use **TypeScript** with strict typing, improving code reliability and providing better IntelliSense support for developers.  
+- Add **user management options**, allowing users to delete their accounts, change their email or username, and upload a profile picture.  
+- Implement **Progressive Web App (PWA)** functionality to enable offline use, app installation, and improved performance.  
+- Enhance user customization by adding a **theme palette picker**, letting users select and save their favorite themes for a personalized experience.  
+- Introduce an additional **colorblind-friendly palette** to improve accessibility and ensure the app is inclusive to users with color vision deficiencies.
 
 <br>
 
