@@ -254,7 +254,7 @@ Each token has at least the following characteristics:
 4. **Logout**: The client sends a request to `/logout` with the current refresh token. The backend invalidates the token, and the client clears their tokens.
 5. **Password Recovery**: If a user forgets their password, they can request a reset link. The system sends an email with a JWT-secured link valid for 10 minutes to reset the password.
 
-The `/quotes` route is the only route that requires authentication.
+The `/quotes` route is the only route that doesn't require authentication.
 
 <br>
 
