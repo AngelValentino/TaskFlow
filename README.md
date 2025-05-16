@@ -318,6 +318,8 @@ TaskFlow began as a portfolio project and, while ready for use as a full-fledged
 
 ## 🚧 Possible Future Improvements
 
+These improvements are planned possibilities and may evolve based on feedback and priorities.
+
 - Refactor the client-side codebase to use **TypeScript** with strict typing, improving code reliability and providing better IntelliSense support.  
 - Add **user management options**, allowing users to delete their accounts, change their email or username, and upload a profile picture.  
 - Implement **Progressive Web App (PWA)** functionality to enable offline use, app installation, and improved performance.  
