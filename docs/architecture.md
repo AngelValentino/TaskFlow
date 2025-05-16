@@ -11,7 +11,7 @@ Simple high-level flow of interaction illustrated below:
 
 ## Frontend (SPA) Architecture
 
-The frontend is a vanilla JavaScript SPA (Single Page Application) with custom logic for routing, state management, and UI components. To authenticate requests with the backend, the frontend sends a Bearer token with each API request. This token ensures the user is authenticated, allowing the backend to process the request and return the appropriate JSON response. Below is an overview of the SPA components, methods, and classes:
+The frontend is a vanilla JavaScript SPA (Single Page Application) with custom logic for routing and UI component handling. To authenticate requests with the backend, the frontend sends a Bearer token with each API request. This token ensures the user is authenticated, allowing the backend to process the request and return the appropriate JSON response. Below is an overview of the SPA components, methods, and classes:
 
 ### Using Views with custom vanilla SPA MVC Architecture
 
