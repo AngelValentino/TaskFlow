@@ -100,9 +100,7 @@ While the client ensures clean data is sent to the server, the backend implement
 
 ## Backend API Architecture
 
-The backend API is developed using PHP and follows the MVC (Model-View-Controller) design pattern, which promotes scalability and maintainability. It is responsible for handling user authentication, task management, and fetching quotes.
-
-Controllers manage incoming requests from the client, validate them, and determine the appropriate methods to call. Gateways facilitate database interactions through CRUD operations, while models handle complex business logic and validation processes. To ensure optimal performance and prevent abuse, the system implements a Redis-based rate limiter, controlling the frequency of requests and maintaining a smooth user experience.
+The backend is a RESTful API written in pure PHP using OOP principles, following an MVC architecture mirroring the client. It handles JWT authentication, rate limiting with Redis, and secure session/token flow. Redis is used to implement IP and device ID rate limits, as well as rotation detection, effectively blocking most brute force attempts and abuse. The database is a secure, normalized MySQL instance that is completely separated from the API and communicates via encrypted SSL.
 
 For a complete list of endpoints and usage details, see the [full API documentation](./api.md).
 
