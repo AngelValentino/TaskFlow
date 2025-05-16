@@ -157,9 +157,10 @@ Middleware functions act as a bridge between the incoming request and the contro
 - **CORS Middleware:** Handles Cross-Origin Resource Sharing (CORS) by setting appropriate headers and allowing preflight requests, ensuring smooth API communication with the client.
 - **Maintenance Mode:** Checks for the existence of a maintenance flag and responds with a 503 Service Unavailable if the application is under maintenance.
 
-### Routes
+### Routing and Controller Mapping
 
-The API has several routes defined using the router service. Each route is associated with a specific controller action:
+The API uses a simple vanilla router to determine which API request to process and which controller method to handle it. Each route corresponds to a specific controller action:
+
 - `/register`: Registers a new user.
 - `/login`: Logs a user in and generates JWT tokens.
 - `/logout`: Logs a user out.
