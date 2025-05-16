@@ -183,7 +183,7 @@ Token-based authentication ensures that only users with valid tokens can access 
 
 ## Custom JWT Authentication System
 
-This backend uses a lightweight, custom implementation of JWT (JSON Web Token) encoding and decoding for stateless authentication, built in PHP. The JWT handling is implemented via the `JWTCodec` and `Auth` service classes.
+This backend uses a lightweight, custom implementation of JWT (JSON Web Token) encoding and decoding for stateless authentication, built in PHP. The JWT handling is implemented via the `JWTCodec` and `Auth` service classes. The codec is based on the implementation by Dave Hollingworth, adapted to fit the specific needs of this project.
 
 ### JWT Structure
 
