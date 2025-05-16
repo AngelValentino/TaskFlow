@@ -3,7 +3,8 @@
   "short_name": "TaskFlow",
   "description": "Your go-to app for effortless productivity.",
   "start_url": "/",
-  "display": "browser", 
+  "display": "browser",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "assets/icons/app-icon-72x72.png",
