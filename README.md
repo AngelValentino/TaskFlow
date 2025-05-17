@@ -8,7 +8,7 @@
 
 The frontend is bundled with Webpack and Babel while interacting with a secure RESTful API built in pure PHP, also following object oriented MVC design. The API is protected with JWT authentication and configured to handle CORS for secure cross-origin requests. Access control is enforced using Redis based rate limiting, while data persistence is managed separately with MySQL to ensure reliable storage. The interface is clean, accessible, and intuitive, supporting task management, reminders, and progress tracking. All designed with simplicity and usability in mind.
 
-The source code and summarized documentation for the secure RESTful API can be found in the [TaskFlow API repository](https://github.com/AngelValentino/taskflow-api).
+The source code and summarized documentation for the RESTful API can be found in the [TaskFlow API repository](https://github.com/AngelValentino/taskflow-api).
 
 ### 📱 Progressive Web App (PWA) Support
 
