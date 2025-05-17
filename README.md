@@ -261,7 +261,7 @@ Full architecture, API details, database design, and core components are availab
 
 ## 🌱 TaskFlow: Evolution, Features & Limitations
 
-### **From Portfolio to Scalable Solution**
+### From Portfolio to Scalable Solution
 
 - **Started as a portfolio project** but evolved into a full-fledged productivity app.
 - **Goal**: Simplify digital productivity with a task-focused experience.
