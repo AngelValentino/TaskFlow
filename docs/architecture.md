@@ -115,7 +115,7 @@ The backend API relies on a set of services to handle authentication, error mana
 - **ErrorHandler**: Manages error handling and logging to the server. Capturing exceptions and ensuring appropriate error responses are sent to users while maintaining detailed logs for auditing purposes.
 - **InitApiUtils**: Provides utility functions to initialize and manage API components, including database connections, device authentication, rate-limiting, and origin validation based on environment configurations.
 - **JWTCodec**: Responsible for encoding and decoding JWT tokens, ensuring secure token creation and validation using HMAC with the HS256 algorithm.
-**Mailer**: Sends email notifications, including password reset requests, password change confirmations, and welcome emails. It uses PHPMailer alongside SendGrid on port 2525 for secure email delivery. Currently, it operates on a free tier, which limits usage to 100 emails per day, making it the app's only bottleneck.
+**Mailer**: Sends email notifications, including password reset requests, password change confirmations, and welcome emails. It uses PHPMailer alongside Mailgun on port 2525 for secure email delivery. Currently, it operates on a free tier, which limits usage to 100 emails per day, making it the app's only bottleneck.
 - **RateLimiter**: Manages request frequency, ensuring that rate limits are not exceeded to prevent abuse. It handles both device and IP rotation detection.
 - **Responder**: Centralizes response logic for various HTTP status codes and messages, providing consistent and structured responses to API clients for success or error scenarios.
 
@@ -183,7 +183,7 @@ Token-based authentication ensures that only users with valid tokens can access 
 
 ## Custom JWT Authentication System
 
-This backend uses a lightweight, custom implementation of JWT (JSON Web Token) encoding and decoding for stateless authentication, built in PHP. The JWT handling is implemented via the `JWTCodec` and `Auth` service classes. The codec is based on the implementation by Dave Hollingworth, adapted to fit the specific needs of this project.
+This backend uses a lightweight, custom implementation of JWT (JSON Web Token), built in PHP. The JWT handling is implemented via the `JWTCodec` and `Auth` service classes. The codec is based on the implementation by Dave Hollingworth, adapted to fit the specific needs of this project.
 
 ### JWT Structure
 

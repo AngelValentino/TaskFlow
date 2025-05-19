@@ -10,7 +10,7 @@ This design document outlines the structure and role of the MySQL database used 
 
 Under the hood, TaskFlow is supported by a well structured MySQL database that manages core entities such as users, tasks, quotes, and activity logs. It also includes security mechanisms like JWT based authentication and refresh token tracking. The backend API is hosted on a Linux server, and the database is deployed on a separate, dedicated MySQL instance, ensuring better performance, modularity, and long term maintainability.
 
-The only current limitation is the email tier, which relies on a free SendGrid plan subject to 100 emails per day. Aside from that, the infrastructure is built to last, with scalability and production-readiness in mind.
+The only current limitation is the email tier, which relies on a free Mailgun plan subject to 100 emails per day. Aside from that, the infrastructure is built to last, with scalability and production-readiness in mind.
 
 - **Users:** Contains information about each user, including their username, email, and password.
 
@@ -27,7 +27,7 @@ requesting the API for display or use.
 
 The following elements are **out of scope** for the current application iteration and attached database:
 
-- **External integrations:** No integration with third-party platforms or services, except for using SendGrid to send emails via port 2525.
+- **External integrations:** No integration with third-party platforms or services, except for using Mailgun to send emails via port 2525.
 
 - **Monetization or advertising:** The database does not support payment processing, monetization features, or advertising. The platform is completely free to use and non-intrusive.
 
@@ -131,4 +131,4 @@ I strongly believe that further and extended optimization should not be implemen
 
 ## Limitations
 
-TaskFlow started as a portfolio project and, while currently limited by the SendGrid email subscription, is ready for use as a proper application. The app is built with a modular architecture, including a separate MySQL database and an API hosted on a Linux server. The app supports transactional emails, such as account registration and password recovery. The system is designed to scale, enabling straightforward expansions and the addition of new features as required.
+TaskFlow started as a portfolio project and, while currently limited by the Mailgun email subscription, is ready for use as a proper application. The app is built with a modular architecture, including a separate MySQL database and an API hosted on a Linux server. The app supports transactional emails, such as account registration and password recovery. The system is designed to scale, enabling straightforward expansions and the addition of new features as required.

@@ -269,7 +269,7 @@ Full architecture, API details, database design, and core components are availab
 
 ### Current Limitations
 
-TaskFlow began as a portfolio project and, while ready for use as a full-fledged application, is currently limited by the SendGrid free tier, which restricts email sending to 100 emails per day. 
+TaskFlow began as a portfolio project and, while ready for use as a full-fledged application, is currently limited by the Mailgun free tier, which restricts email sending to 100 emails per day. 
 
 ### Accessibility (a11y)
 
