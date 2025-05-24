@@ -259,7 +259,7 @@ Full architecture, API details, database design, and core components are availab
 
 <br>
 
-## 🌱 TaskFlow: Evolution, Features & Limitations
+## 🌱 TaskFlow: Evolution, Features and Limitations
 
 ### From Portfolio to Scalable Solution
 
@@ -279,7 +279,7 @@ TaskFlow began as a portfolio project and, while ready for use as a full-fledged
 - **Semantic HTML**: The app utilizes semantic HTML elements, not only for SEO benefits but also to improve the user experience, making it easier for assistive technology to interpret the content structure correctly.
 - **Colorblind-Friendly**: The app’s theme handler offers multiple color schemes to cater to different preferences. However, I'm aware that it may not work well for users with colorblindness. Future updates will focus on adding color schemes that are more accessible and better aligned with accessibility standards.
 
-### Architecture
+### Architecture Overview
 
 - **Scalable Architecture**: The app is built with a modular design, including a dedicated MySQL database and an API hosted on a secure Linux server.
 - **Transactional Emails**: TaskFlow supports key transactional emails such as account registration and password recovery, though the free tier limits email volume.
