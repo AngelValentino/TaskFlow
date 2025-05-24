@@ -22,7 +22,7 @@ This project draws inspiration from several sources that helped shape its develo
 - The **API and JWT structure** was inspired by *APIs in PHP: From Basic to Advanced* by Dave Hollingworth. His channel and documentation also helped me configure Composer.
 - The **vanilla SPA (Single Page Application) design** was inspired by *Build a Single Page Application with JavaScript (No Frameworks)* by dcode. While the final router is completely different from his, I learned about the vanilla SPA concept from him.
 - The overall project, including its **UI and UX**, was designed mostly by me. However, the **quote machine UI** design was inspired by a project from FreeCodeCamp.
-- Several **YouTube tutorials** and **forums** provided valuable insights, from technical documentation to server security and deployment. Special thanks to Net Ninja, an exceptional web development teacher on YouTube. Most of my knowledge in HTML, CSS, and JavaScript comes from his tutorials. His clear explanations were my starting point, and his content kept me motivated and helped me push through when I was just beginning.
+- Several **YouTube tutorials**, **forums**, and online documentation, such as **W3Schools** and **MDN**, provided valuable insights, covering everything from technical documentation to modern accessibility, security, and deployment practices.
 
 <br>
 
