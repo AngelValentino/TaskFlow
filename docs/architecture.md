@@ -11,6 +11,8 @@ Simple high-level flow of interaction illustrated below:
 
 ## Frontend (SPA) Architecture
 
+![Fronted project structure diagram](./assets/images/frontend-project-structure-diagram.jpg)
+
 The frontend is a vanilla JavaScript SPA (Single Page Application) with custom logic for routing and UI component handling. To authenticate requests with the backend, the frontend sends a Bearer token with each API request. This token ensures the user is authenticated, allowing the backend to process the request and return the appropriate JSON response.
 
 ### Using Views with custom vanilla SPA MVC Architecture
@@ -99,6 +101,8 @@ While the client ensures clean data is sent to the server, the backend implement
 <br>
 
 ## Backend API Architecture
+
+![Fronted project structure diagram](./assets/images/backend-project-structure-diagram.jpg)
 
 The backend is a RESTful API written in pure PHP using OOP principles, following an MVC architecture mirroring the client. It handles JWT authentication, rate limiting with Redis, and secure refresh token flow. Redis is used to implement IP and device ID rate limits, as well as rotation detection, effectively blocking most brute force attempts and abuse. The database is a secure, normalized MySQL instance that is completely separated from the API and communicates via encrypted SSL.
 
