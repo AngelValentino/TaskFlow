@@ -4,7 +4,7 @@ export default class ConfirmDeleteAllTasksModal {
   static getHtml() {
     return ConfirmModal.getHtml(
       {
-        description: 'Are you sure that you want to delete all of your tasks?',
+        description: 'Are you sure you want to delete all of your tasks?',
         isDeleteAllTasksModal: true
       }
     );
