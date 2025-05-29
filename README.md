@@ -263,13 +263,15 @@ Full architecture, API details, database design, and core components are availab
 
 ### From Portfolio to Scalable Solution
 
-- **Started as a portfolio project** but evolved into a full-fledged productivity app.
-- **Goal**: Simplify digital productivity with a task-focused experience.
-- **Crafted with care**: Every aspect of TaskFlow, from frontend to backend, was thoughtfully developed to follow best practices, emphasizing security and user-focused design.
+TaskFlow began as a portfolio project and grew into a full productivity app. Its goal is to make digital work simpler with a task-focused design. Built with care, the app follows best practices and focuses on security and user experience.
 
 ### Current Limitations
 
-TaskFlow began as a portfolio project and, while ready for use as a full-fledged application, is currently limited by the Mailgun free tier, which restricts email sending to 100 emails per day. 
+TaskFlow began as a portfolio project and, while it's fully functional and production-ready, it currently faces a few limitations:
+
+- **Email Sending Limit:** The app relies on the Mailgun free tier, which restricts email delivery to **100 emails per day**. This may affect notification-heavy use cases unless upgraded to a paid plan.
+
+- **Request Cancellation:** The app uses asynchronous API calls and allows clients to abort requests. However, the backend still processes those requests. Using WebSockets could enable real-time cancellation detection, but at the cost of added complexity.
 
 ### Accessibility (a11y)
 
@@ -290,13 +292,11 @@ TaskFlow began as a portfolio project and, while ready for use as a full-fledged
 
 ### Security First
 
-- TaskFlow is designed with **strong security measures** to protect user data.
-- However, **no app is completely secure**. Ongoing vigilance and improvements are always necessary due to the evolving nature of cybersecurity.
+TaskFlow is designed with strong security measures to protect user data. However, no app is completely secure, and ongoing vigilance and improvements are essential due to the constantly evolving nature of cybersecurity.
 
 ### Built for Growth
 
-- **Modular design** ensures the app can scale with increasing user needs.
-- **TaskFlow is more than just a task manager**. It is a showcase of clean architecture, efficient UX design, and scalable backend practices.
+TaskFlow features a modular design that allows it to scale as user needs grow. It is more than just a productivity application, it showcases clean architecture, efficient user experience design, and scalable backend practices.
 
 <br>
 
