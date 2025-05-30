@@ -255,7 +255,7 @@ Full architecture, API details, database design, and core components are availab
 - [api.md](./docs/api.md) – REST API endpoints and usage.
 - [design.md](./docs/design.md) – App scope and database schema and rationale.
 
-[Walkthrough Video]() – Overview of Project Goals, Key Challenges, and Key Takeaways
+[Walkthrough Video](https://youtu.be/qJKPE3M1CkU) – Overview of Project Goals, Key Challenges, and Key Takeaways
 
 <br>
 
