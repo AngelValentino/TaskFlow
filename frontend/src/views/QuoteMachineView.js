@@ -38,7 +38,7 @@ export default class QuoteMachineView {
     // Set the href attribute for the Twitter share button with the quote data
     this.lms.twitterShareButton.href = `https://twitter.com/intent/tweet?hashtags=quotes,inspirational,success&text=${encodedFullQuote}`;
     // Set the href attribute for the Tumblr share button with the quote data
-    this.lms.tumblrShareButton.href = `https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes&caption=${encodedAuthor}&content=${encodedQuote}&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button`;
+    this.lms.tumblrShareButton.href = `https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,inspirational,success&caption=${encodedAuthor}&content=${encodedQuote}&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button`;
   }
 
   renderQuote(quote) {
