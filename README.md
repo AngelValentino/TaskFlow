@@ -37,6 +37,7 @@ This project draws inspiration from several sources that helped shape its develo
 - 📱 **Responsive, Dynamic Interface Across All Devices:** The app is fully responsive, dynamically adjusting to desktops, tablets, mobiles, smartwatches, and any other device, with media queries and styled using pure vanilla CSS.
 - 🌍 **Accessibility Focus:** Designed with inclusivity in mind, the app emphasizes accessibility to ensure it can be used by everyone. While the broad range of themes may pose minor challenges for some colorblind users, future updates aim to introduce a dedicated colorblind-friendly theme pack.  
 - ⚡ **Optimized Performance:** Achieved a full score in Google’s Lighthouse audit under standard conditions, ensuring top-tier performance, accessibility, best practices, and SEO. Performance may slightly vary (e.g., 97–99) when logged in or on mobile due to dynamic content and runtime features.
+- 🏷️ **404 Page:** Custom-built not found page for handling invalid routes, providing a smooth and user-friendly experience even when users land on non-existent URLs.
 - 🏗️ **Robust Object-Oriented MVC Architecture:** Both the client-side SPA and the backend API are built using a modular, object-oriented MVC design, ensuring clean separation of concerns, maintainability, and scalability across the entire stack.
 
 ### 📊 Audit and Security Scores
