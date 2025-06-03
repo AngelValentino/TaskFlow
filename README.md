@@ -39,6 +39,7 @@ This project draws inspiration from several sources that helped shape its develo
 - ⚡ **Optimized Performance:** Achieved a full score in Google’s Lighthouse audit under standard conditions, ensuring top-tier performance, accessibility, best practices, and SEO. Performance may slightly vary (e.g., 97–99) when logged in or on mobile due to dynamic content and runtime features.
 - 🏷️ **404 Page:** Custom-built not found page for handling invalid routes, providing a smooth and user-friendly experience even when users land on non-existent URLs.
 - 🏗️ **Robust Object-Oriented MVC Architecture:** Both the client-side SPA and the backend API are built using a modular, object-oriented MVC design, ensuring clean separation of concerns, maintainability, and scalability across the entire stack.
+- 🧩 **Reusable Components:** Key components such as modals and prompts are designed to be reusable across multiple views.
 
 ### 📊 Audit and Security Scores
 
